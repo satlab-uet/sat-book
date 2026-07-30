@@ -348,11 +348,10 @@ miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bà
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Ba góc nhìn bổ sung khi đánh giá một phép mã hóa SAT.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Góc nhìn</th><th>Đơn vị chính</th><th>Bằng chứng mạnh</th><th>Rủi ro khi đứng riêng</th></tr></thead>
+            <thead><tr><th>Góc nhìn</th><th>Đơn vị chính</th><th>Bằng chứng mạnh</th><th>Rủi ro khi đứng riêng</th></tr></thead>
             <tbody><tr><td>SAT/CDCL</td><td>Literal và mệnh đề</td><td>Xung đột, mệnh đề học được, chứng minh</td><td>Bỏ qua ngữ nghĩa miền</td></tr><tr><td>CP/CSP</td><td>Biến, miền, giá trị hỗ trợ</td><td>Nhất quán và lọc miền</td><td>Không dự báo hết việc học mệnh đề</td></tr><tr><td>Tối ưu</td><td>Cận và hàm mục tiêu</td><td>Khoảng cận, cận dưới, giá trị tối ưu</td><td>Mô hình Boolean có thể quá yếu</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <h3 class="reader-h2">Từ quyết định đến tối ưu</h3>
 <p>Bài toán SAT hỏi liệu một công thức Boolean có phép gán thỏa hay không
 <span class="cite">(Cook, 1971; 2009)</span>. Trong ứng dụng tối ưu, ta
@@ -564,11 +563,10 @@ thức của cận cần xét. Với giả định, ta vật hóa các giả đ�
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Vật chứng cần có cho các mức kết luận.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.22\textwidth}YY@{}}
-<p>Kết luận</th><th>Vật chứng</th><th>Bộ kiểm tra độc lập</th></tr></thead>
+            <thead><tr><th>Kết luận</th><th>Vật chứng</th><th>Bộ kiểm tra độc lập</th></tr></thead>
             <tbody><tr><td>Khả thi tại \(B\)</td><td>Mô hình/nghiệm chứng</td><td>Kiểm ràng buộc và chi phí miền</td></tr><tr><td>Vô nghiệm tại \(B\)</td><td>Chứng minh mệnh đề</td><td>Bộ kiểm chứng trên đúng CNF</td></tr><tr><td>Tối ưu \(B^\star\)</td><td>Nghiệm tại \(B^\star\) và chứng cứ cận dưới</td><td>Bộ kiểm nghiệm và bộ kiểm chứng cận</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <h3 class="reader-h2">Dây chuyền triển khai</h3>
 <p>\begin{summarybox}
 <ol class="reader-list"><li>Đọc bài toán đầu vào và chuẩn hóa miền.</li><li>Tính cận dưới và cận trên.</li><li>Sinh biến, ánh xạ và CNF cơ sở.</li><li>Chạy SAT/MaxSAT theo một quy trình tìm cận.</li><li>Giải mã mô hình sau mỗi lần SAT.</li><li>Kiểm nghiệm và hàm mục tiêu bằng bộ kiểm tra độc lập.</li><li>Lưu nghiệm cùng chứng cứ cận dưới ở cận cuối.</li></ol>
@@ -671,11 +669,10 @@ là kiến trúc được dùng lại trong Chương 7, 9--11.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Các họ biểu diễn miền hữu hạn.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.18\textwidth}YYY@{}}
-<p>Họ</th><th>Literal tự nhiên</th><th>Phù hợp</th><th>Điểm phải kiểm tra</th></tr></thead>
+            <thead><tr><th>Họ</th><th>Literal tự nhiên</th><th>Phù hợp</th><th>Điểm phải kiểm tra</th></tr></thead>
             <tbody><tr><td>Trực tiếp</td><td>\(v=a\)</td><td>Bảng cấm, miền nhỏ</td><td>Đúng-một và nhiều cặp xung đột</td></tr><tr><td>Hỗ trợ</td><td>“\(v=a\) có hỗ trợ”</td><td>Ràng buộc nhị phân dạng bảng</td><td>Độ dài mệnh đề hỗ trợ</td></tr><tr><td>Thứ tự</td><td>\(v\ge t\)</td><td>Cận, khoảng, hiệu</td><td>Miền rộng và liên kết với biến giá trị</td></tr><tr><td>Lôgarit</td><td>Bit của giá trị</td><td>Miền lớn, mạch số học</td><td>Giá trị ngoài miền, sức lan truyền</td></tr><tr><td>Lai</td><td>Giá trị + ngưỡng/quan hệ</td><td>Nhiều kiểu ràng buộc</td><td>Chi phí và chiều liên kết</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>\begin{figure}[tb]
 \centering</p>
 <p>\caption{Hai từ vựng Boolean cho biến \(v\in\set{1,2,3,4}\).}</p>
@@ -701,11 +698,10 @@ của chuỗi.
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Ba mức đặc tả của literal ngưỡng.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.22\textwidth}YY@{}}
-<p>Đặc tả</th><th>Công thức</th><th>Cách sử dụng</th></tr></thead>
+            <thead><tr><th>Đặc tả</th><th>Công thức</th><th>Cách sử dụng</th></tr></thead>
             <tbody><tr><td>Điều kiện đủ</td><td>\(r_{i,j}\rightarrow S_i\ge j\)</td><td>\(r=1\) chứng minh đạt ngưỡng</td></tr><tr><td>Điều kiện cần</td><td>\(S_i\ge j\rightarrow r_{i,j}\)</td><td>\(r=0\) chứng minh chưa đạt ngưỡng</td></tr><tr><td>Tương đương</td><td>\(r_{i,j}\leftrightarrow(S_i\ge j)\)</td><td>Cả hai cực tính đều có ngữ nghĩa</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Một mô-đun nối dùng \(\neg r_{i,j}\) như mệnh đề “tổng dưới \(j\)”
 phải có chiều cần. Nếu bộ đếm chỉ cung cấp chiều đủ, bộ nối đó không đúng
 dù khi đứng riêng hai công thức vẫn có thể <em>đồng khả thỏa</em>
@@ -818,11 +814,10 @@ của Chương 5.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Ma trận phát biểu--bằng chứng cho một phép mã hóa SAT.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.24\textwidth}YY@{}}
-<p>Phát biểu</th><th>Bằng chứng lý thuyết</th><th>Bằng chứng thực nghiệm</th></tr></thead>
+            <thead><tr><th>Phát biểu</th><th>Bằng chứng lý thuyết</th><th>Bằng chứng thực nghiệm</th></tr></thead>
             <tbody><tr><td>Mã hóa đúng</td><td>Chứng minh hai chiều</td><td>Kiểm thử vét cạn/vi sai trên miền nhỏ</td></tr><tr><td>Mã hóa nhỏ hơn</td><td>Công thức đếm</td><td>Kích thước CNF thực tế</td></tr><tr><td>Lan truyền mạnh hơn</td><td>Bổ đề UP/PC/GAC</td><td>Bộ đếm lan truyền/xung đột</td></tr><tr><td>Nhanh hơn</td><td>Phân tích cơ chế</td><td>Bộ kiểm chuẩn, nhiều hạt giống, hồ sơ hiệu năng</td></tr><tr><td>Chứng nhận tối ưu</td><td>Định lý về cận</td><td>Nghiệm và chứng minh ở hai cận kề</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Ma trận đưa mỗi ý tưởng vào đúng loại đóng góp: định lý, thiết kế cấu trúc hay
 quan sát thực nghiệm.</p>
 <h3 class="reader-h2">Một quy trình đánh giá phép mã hóa</h3>
@@ -927,11 +922,10 @@ này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: So sánh các bộ mã hóa AMO cơ bản.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.19\textwidth}YYY@{}}
-<p>Phép mã hóa AMO</th><th>Biến phụ</th><th>Mệnh đề</th><th>Điểm mạnh</th></tr></thead>
+            <thead><tr><th>Phép mã hóa AMO</th><th>Biến phụ</th><th>Mệnh đề</th><th>Điểm mạnh</th></tr></thead>
             <tbody><tr><td>Từng cặp</td><td>\(0\)</td><td>\(O(n^2)\)</td><td>Nhị phân, đơn giản</td></tr><tr><td>Tuần tự</td><td>\(O(n)\)</td><td>\(O(n)\)</td><td>Lan truyền theo tiền tố</td></tr><tr><td>Tích</td><td>\(O(\sqrt n)\)</td><td>\(O(n)\)</td><td>Cân bằng hai chiều</td></tr><tr><td>Chỉ huy</td><td>\(O(n/g)\)</td><td>Phụ thuộc nhóm \(g\)</td><td>Cục bộ, dễ kết hợp</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <h3 class="reader-h2">Bộ đếm tuần tự cho AMK</h3>
 <p>Đặt
 \[
@@ -1090,11 +1084,10 @@ một bộ chọn ra quyết định.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Nhóm đặc trưng để lựa chọn bộ mã hóa theo bài toán thử.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.22\textwidth}YY@{}}
-<p>Nhóm đặc trưng</th><th>Ví dụ</th><th>Tác động tiềm năng</th></tr></thead>
+            <thead><tr><th>Nhóm đặc trưng</th><th>Ví dụ</th><th>Tác động tiềm năng</th></tr></thead>
             <tbody><tr><td>Kích thước</td><td>\(n,k,B\), số hạng tử</td><td>Loại bộ mã hóa chắc chắn quá lớn</td></tr><tr><td>Trọng số</td><td>Giá trị lớn nhất, ước chung lớn nhất, số tổng phân biệt</td><td>Không gian trạng thái BDD/GT</td></tr><tr><td>Cấu trúc</td><td>Nhóm AMO, hệ số lặp</td><td>Khả năng nén trạng thái</td></tr><tr><td>Giao diện</td><td>Số cận, thêm đầu vào, vật hóa</td><td>Giải tăng dần và kết hợp mô-đun</td></tr><tr><td>Mô hình</td><td>Mật độ, đối xứng, đồ thị ràng buộc</td><td>Tương tác với học mệnh đề</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Bộ chọn không loại bỏ nhu cầu chứng minh tính đúng: nó chỉ chọn giữa các
 mô-đun đã được kiểm chứng. Việc đánh giá cũng phải tách các họ dùng để huấn
 luyện khỏi các họ dùng để kiểm thử; nếu không, bộ chọn có thể chỉ nhận dạng tên
@@ -1103,11 +1096,10 @@ bộ kiểm chuẩn thay vì học cấu trúc của phép mã hóa.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Gợi ý lựa chọn bộ mã hóa ràng buộc đếm/PB.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.26\textwidth}YY@{}}
-<p>Tình huống</th><th>Lựa chọn khởi đầu</th><th>Lý do</th></tr></thead>
+            <thead><tr><th>Tình huống</th><th>Lựa chọn khởi đầu</th><th>Lý do</th></tr></thead>
             <tbody><tr><td>AMO, \(n\) nhỏ</td><td>Từng cặp</td><td>Không biến phụ, mệnh đề nhị phân</td></tr><tr><td>AMO/AMK, \(k\) nhỏ</td><td>Tuần tự</td><td>\(O(nk)\), lan truyền theo tiền tố</td></tr><tr><td>Nhiều ngưỡng</td><td>Cây tổng/mạng đếm</td><td>Tái sử dụng đầu ra</td></tr><tr><td>Đúng \(K\)</td><td>Một vectơ đầu ra chung</td><td>Không lặp AMK/ALK</td></tr><tr><td>PB có trọng số, ít trạng thái</td><td>BDD</td><td>Hợp nhất trạng thái tổng</td></tr><tr><td>PB có trọng số tổng quát</td><td>PBLib/kết hợp</td><td>Chọn theo bài toán thử</td></tr><tr><td>PB có nhóm AMO</td><td>Bộ mã hóa PB(AMO)</td><td>Không vật hóa trạng thái bất khả</td></tr><tr><td>Cận thay đổi tăng dần</td><td>Cây tổng/đầu ra thứ tự</td><td>Giao diện cận ổn định</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ mã hóa trên phân
 phối bài toán mục tiêu; Chương 5--6 phát triển các bộ đếm khi nhiều
 ràng buộc chia sẻ cấu trúc.</p>
@@ -1397,8 +1389,8 @@ tái lập độc lập.</p>
         trung bình trên các bài đã giải.</li><li>Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.</li></ol></p>
             
             <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/fig_ch04.webp" alt="Hình 4.1 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)" loading="lazy">
-              <div class="reader-figure-caption">Hình 4.1 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)</div>
+              <img src="./assets/images/diagrams/fig_ch04.webp" alt="Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)" loading="lazy">
+              <div class="reader-figure-caption">Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)</div>
             </div>
             
           </div>
@@ -1458,11 +1450,10 @@ những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ h�
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Các cách tái sử dụng trạng thái trong ràng buộc cửa sổ.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.19\textwidth}YYY@{}}
-<p>Họ</th><th>Trạng thái dùng chung</th><th>Điểm mạnh</th><th>Chi phí/rủi ro</th></tr></thead>
+            <thead><tr><th>Họ</th><th>Trạng thái dùng chung</th><th>Điểm mạnh</th><th>Chi phí/rủi ro</th></tr></thead>
             <tbody><tr><td>Mỗi cửa sổ</td><td>Không hoặc ít</td><td>Đơn giản, dùng bộ mã hóa sẵn</td><td>Lặp trạng thái phụ</td></tr><tr><td>Tổng tiền tố</td><td>Tổng từ đầu chuỗi</td><td>Mọi cửa sổ là hiệu hai tiền tố</td><td>Miền tổng toàn cục</td></tr><tr><td>Ôtômát</td><td>Hậu tố/lịch sử</td><td>Xử lý mẫu phức tạp</td><td>Bùng nổ trạng thái theo \(w\)</td></tr><tr><td>Luồng</td><td>Nút và cung</td><td>Lọc toàn cục</td><td>Bộ lan truyền/phép mã hóa phức tạp</td></tr><tr><td>Bộ đếm theo khối</td><td>Tiền tố/hậu tố trong khối</td><td>Cục bộ và tái sử dụng có kiểm soát</td><td>Cần chọn phân hoạch</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Bộ đếm dùng chung theo khối của chương này nằm giữa hai cực. Nó không tạo một
 trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ đếm độc lập cho
 từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
@@ -1785,11 +1776,10 @@ hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngư�
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Các hướng biểu diễn ràng buộc đúng \(K\).</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.19\textwidth}YYY@{}}
-<p>Họ</th><th>Trạng thái</th><th>Giao diện EXK</th><th>Đặc trưng</th></tr></thead>
+            <thead><tr><th>Họ</th><th>Trạng thái</th><th>Giao diện EXK</th><th>Đặc trưng</th></tr></thead>
             <tbody><tr><td>Hai AMK</td><td>Hai bộ đếm</td><td>Hai cận tách</td><td>Dễ ghép nhưng có thể lặp trạng thái</td></tr><tr><td>Tuần tự</td><td>Tổng tiền tố</td><td>Chống tràn + đạt \(K\)</td><td>Tốt khi \(K\) nhỏ</td></tr><tr><td>Cây tổng</td><td>Tổng cây con</td><td>\(o_K\land\neg o_{K+1}\)</td><td>Dùng lại nhiều cận</td></tr><tr><td>Mạng</td><td>Vị trí đã sắp</td><td>Hai đầu ra kề nhau</td><td>Cấu trúc đều, độ sâu thấp</td></tr><tr><td>BDD</td><td>\((i,s)\)</td><td>Chấp nhận trạng thái \(K\)</td><td>Hợp nhất trạng thái theo tổng</td></tr><tr><td>NSC</td><td>Ngưỡng tiền tố khả đạt</td><td>Biên trên + dưới</td><td>Cắt vùng tam giác bất khả</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Các cận dưới cho AMO và những khảo cứu về ràng buộc đếm đặt số biến bên cạnh
 số mệnh đề, literal và mức lan truyền
 <span class="cite">(Kučera et al., 2019; Bailleux, 2010)</span>. NSC giữ bậc \(O(nK)\), giảm
@@ -2119,11 +2109,10 @@ phát hiện trên CNF tìm phần đối xứng còn sót.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Bốn cấp khai thác đối xứng.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Cấp</th><th>Đầu vào</th><th>Lợi thế</th><th>Hạn chế</th></tr></thead>
+            <thead><tr><th>Cấp</th><th>Đầu vào</th><th>Lợi thế</th><th>Hạn chế</th></tr></thead>
             <tbody><tr><td>Mô hình</td><td>Đối tượng và phép đổi tên</td><td>Ràng buộc ngắn, có chứng minh miền</td><td>Cần tri thức bài toán</td></tr><tr><td>CNF tĩnh</td><td>Đồ thị công thức</td><td>Tự động, dùng cho mô hình bất kỳ</td><td>Biến phụ có thể che đối xứng</td></tr><tr><td>Động</td><td>Trạng thái tìm kiếm</td><td>Khai thác đối xứng còn lại</td><td>Chi phí tích hợp bộ giải</td></tr><tr><td>Chuẩn hóa</td><td>Toàn quỹ đạo</td><td>Có thể giữ một đại diện</td><td>Ràng buộc lớn/lan truyền sâu</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Các lớp ràng buộc phá đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
 đổi nhóm tự đẳng cấu của đồ thị; bộ phá đối xứng tự động vì thế chạy trên công
 thức đã có mệnh đề đơn vị và liên kết biểu diễn. Mỗi lớp bảo toàn ít nhất một
@@ -2433,8 +2422,8 @@ chính kiến trúc này cho bốn họ bài toán.</p>
   để ràng buộc đó hợp lệ.</li></ol></p>
             
             <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/fig_ch07.webp" alt="Hình 7.1 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)" loading="lazy">
-              <div class="reader-figure-caption">Hình 7.1 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)</div>
+              <img src="./assets/images/diagrams/fig_ch07.webp" alt="Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)" loading="lazy">
+              <div class="reader-figure-caption">Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)</div>
             </div>
             
           </div>
@@ -2478,11 +2467,10 @@ trong lập lịch nhân viên thành các mệnh đề mềm
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Các mô hình giải chính xác cho bài toán thời gian.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.18\textwidth}YYY@{}}
-<p>Mô hình</th><th>Trạng thái thời gian</th><th>Cơ chế tài nguyên</th><th>Cận chủ đạo</th></tr></thead>
+            <thead><tr><th>Mô hình</th><th>Trạng thái thời gian</th><th>Cơ chế tài nguyên</th><th>Cận chủ đạo</th></tr></thead>
             <tbody><tr><td>SAT theo mốc thời gian</td><td>Mốc rời rạc</td><td>Xung đột/ràng buộc đếm</td><td>UNSAT theo chân trời</td></tr><tr><td>SAT thứ tự</td><td>Ngưỡng thời gian</td><td>Quan hệ + cận dịch chuyển</td><td>Học mệnh đề</td></tr><tr><td>MaxSAT/PB</td><td>Như SAT + literal chi phí</td><td>Cứng/mềm hoặc PB</td><td>Lõi/cận chi phí</td></tr><tr><td>SMT</td><td>Biến nguyên/thực</td><td>Phép tuyển + lý thuyết</td><td>Lan truyền lý thuyết</td></tr><tr><td>CP/LCG</td><td>Miền và khoảng</td><td>Bộ lan truyền toàn cục</td><td>Lọc miền + mệnh đề</td></tr><tr><td>MIP</td><td>Biến nhị phân/liên tục</td><td>Bất đẳng thức tuyến tính</td><td>Thư giãn quy hoạch tuyến tính</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Vì vậy, một phép mã hóa lập lịch được đánh giá trên cả kích thước, sức lan
 truyền và biểu diễn đối chứng tương ứng: SAT theo mốc thời gian so với MIP mở
 rộng theo thời gian; SAT thứ tự so với lôgic sai phân/SMT; bộ đếm chuỗi dùng
@@ -2703,11 +2691,10 @@ hệ kéo theo giữa các ngưỡng.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Bốn giao diện tối ưu cho công suất đỉnh.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.23\textwidth}YY@{}}
-<p>Cơ chế</th><th>Cách thay cận</th><th>Thành phần cần giữ cố định</th></tr></thead>
+            <thead><tr><th>Cơ chế</th><th>Cách thay cận</th><th>Thành phần cần giữ cố định</th></tr></thead>
             <tbody><tr><td>Chặn bằng mệnh đề</td><td>Cấm mọi đỉnh không tốt hơn nghiệm đương nhiệm</td><td>Ngữ nghĩa của biến đỉnh</td></tr><tr><td>Tinh chỉnh PB</td><td>Siết \(\sum_iw_iA_{i\tau}\le B\) tại mọi \(\tau\)</td><td>Phép mã hóa giả Boolean</td></tr><tr><td>MaxSAT có trọng số</td><td>Đưa mức đỉnh vào mệnh đề mềm</td><td>Ánh xạ chi phí với giá trị \(P\)</td></tr><tr><td>Biến chỉ báo thứ tự</td><td>Kích hoạt cận bằng các giả định</td><td>Mệnh đề cơ sở và chuỗi thứ tự</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Biến chỉ báo thứ tự phù hợp với giải tăng dần: bộ giải được dựng một lần ở cận
 trên, sau mỗi nghiệm chỉ thay các giả định hoặc thêm mệnh đề chặn. Trong nghiên
 cứu của \textcite{kieu2025power}, phép mã hóa tuần tự gọn kết hợp giải tăng dần
@@ -2832,8 +2819,8 @@ một kiến trúc kết hợp.</p>
         cận dưới và lịch giải mã cho cận trên.</li></ol></p>
             
             <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/fig_ch08.webp" alt="Hình 8.2 · Cửa sổ ALSC tái sử dụng trong lập lịch" loading="lazy">
-              <div class="reader-figure-caption">Hình 8.2 · Cửa sổ ALSC tái sử dụng trong lập lịch</div>
+              <img src="./assets/images/diagrams/fig_ch08.webp" alt="Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch" loading="lazy">
+              <div class="reader-figure-caption">Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch</div>
             </div>
             
           </div>
@@ -2889,11 +2876,10 @@ kết hợp cận, quan hệ trội và nhánh--cận chuyên dụng
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Các biểu diễn chính xác cho đóng gói hai chiều.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Biểu diễn</th><th>Quy mô theo</th><th>Lan truyền tự nhiên</th><th>Phù hợp khi</th></tr></thead>
+            <thead><tr><th>Biểu diễn</th><th>Quy mô theo</th><th>Lan truyền tự nhiên</th><th>Phù hợp khi</th></tr></thead>
             <tbody><tr><td>Chiếm chỗ</td><td>Diện tích lưới</td><td>Xung đột ô</td><td>Khung chứa nhỏ/rất rời rạc</td></tr><tr><td>Vị trí đặt</td><td>Số vị trí khả dĩ</td><td>Đồ thị xung đột</td><td>Miền đã nén mạnh</td></tr><tr><td>Tọa độ--thứ tự</td><td>Tổng độ rộng miền</td><td>Cận và quan hệ tách</td><td>Miền nguyên vừa</td></tr><tr><td>CP toàn cục</td><td>Số vật + bộ lan truyền</td><td>Không chồng lấn/tích lũy</td><td>Cận hình học mạnh</td></tr><tr><td>MIP/phủ tập</td><td>Biến/cột vị trí</td><td>Thư giãn và nhát cắt</td><td>Cận LP hữu ích</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Ba trục tạo nên đóng góp SAT cho đóng gói là nén miền tọa độ, làm mạnh lan
 truyền không chồng lấn và tái sử dụng mệnh đề đã học giữa các cận. Kiến trúc
 mới được nhận diện qua thay đổi có thể đo trên ít nhất một trong ba trục này.</p>
@@ -3036,11 +3022,10 @@ vì mọi số nguyên từ \(0\) đến \(W-w_i\).</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Ba chế độ tối ưu chiều cao bằng SAT/MaxSAT.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.23\textwidth}YY@{}}
-<p>Chế độ</th><th>Cấu trúc</th><th>Đặc điểm</th></tr></thead>
+            <thead><tr><th>Chế độ</th><th>Cấu trúc</th><th>Đặc điểm</th></tr></thead>
             <tbody><tr><td>SAT độc lập</td><td>Dựng lại \(\Phi(H)\) ở mỗi cận</td><td>Đơn giản, mỗi cận có một CNF riêng</td></tr><tr><td>SAT tăng dần</td><td>Miền lớn cố định, kích hoạt \(H\) bằng các giả định</td><td>Giữ mệnh đề đã học giữa các cận</td></tr><tr><td>MaxSAT có trọng số</td><td>Chiều cao được biểu diễn bằng mệnh đề mềm</td><td>Không cần vòng tìm kiếm ngoài</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Mã hóa SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
 quan hệ vị trí và tái sử dụng mệnh đề đã học
 <span class="cite">(Soh et al., 2010)</span>. Vì vậy nghiên cứu tình huống của nhóm được định vị
@@ -3219,20 +3204,18 @@ và nguồn gốc bộ kiểm chuẩn cần dùng làm đối chứng
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Bốn họ bài toán khoảng cách nhãn.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Họ</th><th>Phép gán</th><th>Cận miền tự nhiên</th><th>Đối chứng chính xác</th></tr></thead>
+            <thead><tr><th>Họ</th><th>Phép gán</th><th>Cận miền tự nhiên</th><th>Đối chứng chính xác</th></tr></thead>
             <tbody><tr><td>Bandwidth</td><td>Hoán vị</td><td>Cận bố trí/bậc</td><td>DP, B\</td><td>B, MIP</td></tr><tr><td>Antibandwidth</td><td>Hoán vị</td><td>Cận ổn định/số sắc</td><td>MIP, CP, SAT</td></tr><tr><td>BCP</td><td>Một màu/đỉnh</td><td>Cận đồ thị con đầy đủ và tô màu</td><td>MIP, CP, SAT</td></tr><tr><td>BMCP</td><td>Nhiều màu/đỉnh</td><td>Cận ô màu/nhu cầu</td><td>MIP, tìm kiếm cục bộ, SAT</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <h3 class="reader-h2">Phân loại trước khi mã hóa</h3>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.24\textwidth}YYY@{}}
-<p>Bài toán</th><th>Nghiệm</th><th>Ràng buộc</th><th>Mục tiêu</th></tr></thead>
+            <thead><tr><th>Bài toán</th><th>Nghiệm</th><th>Ràng buộc</th><th>Mục tiêu</th></tr></thead>
             <tbody><tr><td>Antibandwidth</td><td>Hoán vị \(1,\ldots,n\)</td><td>\(\card{f(u)-f(v)}\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Antibandwidth tuần hoàn</td><td>Hoán vị trên vòng</td><td>\(D_c(f(u),f(v))\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Tô màu theo bandwidth</td><td>Một màu mỗi đỉnh</td><td>\(\card{c(u)-c(v)}\ge d_{uv}\)</td><td>Tối thiểu độ trải</td></tr><tr><td>Tô đa màu theo bandwidth</td><td>\(w(u)\) màu mỗi đỉnh</td><td>Khoảng cách nội/ngoại đỉnh</td><td>Tối thiểu màu lớn nhất</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Với ABP và CABP, nhãn là một hoán vị nên ma trận gán cần
 \(\ExactlyOne\) theo cả hàng và cột. Với BCP, hai đỉnh không kề nhau có thể
 dùng cùng màu; chỉ hàng cần \(\ExactlyOne\). Với BMCP, một đỉnh có nhiều ô
@@ -3385,11 +3368,10 @@ họ:</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Sáu họ mã hóa cho tô màu theo bandwidth.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.14\textwidth}p{.31\textwidth}Y@{}}
-<p>Họ</th><th>Biến</th><th>Cơ chế khoảng cách</th></tr></thead>
+            <thead><tr><th>Họ</th><th>Biến</th><th>Cơ chế khoảng cách</th></tr></thead>
             <tbody><tr><td>1G</td><td>\(g_{u,j}\iff c(u)\ge j\)</td><td>Một chuỗi thứ tự hướng lớn hơn</td></tr><tr><td>1L</td><td>\(l_{u,j}\iff c(u)\le j\)</td><td>Một chuỗi thứ tự hướng nhỏ hơn</td></tr><tr><td>2G</td><td>Giá trị đúng \(x_{u,j}\) và ngưỡng \(g_{u,j}\)</td><td>Giá trị chính xác kích hoạt hai biên khoảng cấm</td></tr><tr><td>2L</td><td>Giá trị đúng \(x_{u,j}\) và ngưỡng \(l_{u,j}\)</td><td>Như 2G với hướng thứ tự đảo</td></tr><tr><td>X</td><td>Biến khối</td><td>Chia sẻ cấu trúc khoảng cách theo khối</td></tr><tr><td>\(X_a\)</td><td>Khối và phép trừ phụ</td><td>Tái sử dụng hiệu/khoảng qua biến phụ</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <h4 class="reader-h3">Khoảng cấm bằng hai biên</h4>
 <p>Giả sử \(x_{u,a}=1\). Khi đó màu của \(v\) phải nằm ngoài
 \[
@@ -3516,8 +3498,8 @@ lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những
         trên hai họ mã hóa BCP.</li></ol></p>
             
             <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/fig_ch10.webp" alt="Hình 10.1 · Cặp nhãn bị cấm và bài toán Antibandwidth" loading="lazy">
-              <div class="reader-figure-caption">Hình 10.1 · Cặp nhãn bị cấm và bài toán Antibandwidth</div>
+              <img src="./assets/images/diagrams/fig_ch10.webp" alt="Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth" loading="lazy">
+              <div class="reader-figure-caption">Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth</div>
             </div>
             
           </div>
@@ -3562,11 +3544,10 @@ luận cận dưới khác nhau.</p>
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: Ba lớp bài toán gán nhãn và tần số.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Lớp</th><th>Miền</th><th>Ràng buộc</th><th>Hàm mục tiêu điển hình</th></tr></thead>
+            <thead><tr><th>Lớp</th><th>Miền</th><th>Ràng buộc</th><th>Hàm mục tiêu điển hình</th></tr></thead>
             <tbody><tr><td>Gán nhãn radio</td><td>Liên tục \([1,B]\)</td><td>Từ khoảng cách đồ thị</td><td>Độ trải/nhãn lớn nhất nhỏ nhất</td></tr><tr><td>Đơn ánh an toàn \(k\)</td><td>Liên tục \([1,B]\)</td><td>Khác nhau + khoảng cách cạnh</td><td>Nhãn lớn nhất nhỏ nhất</td></tr><tr><td>FAP</td><td>Rời rạc theo máy phát</td><td>Phân cách nhiễu</td><td>Độ trải, số giá trị hoặc chi phí</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Các công trình của nhóm trong chương được dùng để minh họa ba phép chuyển:
 xung đột từng cặp sang biên khoảng; miền liên tục sang miền rời rạc; và cận độ
 trải sang bộ đếm giá trị phân biệt. Ba phép chuyển này kết nối hệ phân loại FAP
@@ -3875,11 +3856,10 @@ ba mô-đun: lọc miền, nén khoảng cấm và đếm giá trị phân biệ
 <div class="reader-table-wrapper">
           <div class="reader-table-caption">Bảng: So sánh cấu trúc Radio \(k\), \(k\)-Safe và MO-FAP.</div>
           <table class="reader-table">
-            <thead><tr><th>>{}p{.2\textwidth}YYY@{}}
-<p>Đặc trưng</th><th>Radio \(k\)</th><th>\(k\)-Safe</th><th>MO-FAP</th></tr></thead>
+            <thead><tr><th>Đặc trưng</th><th>Radio \(k\)</th><th>\(k\)-Safe</th><th>MO-FAP</th></tr></thead>
             <tbody><tr><td>Miền</td><td>\([1,B]\) liên tục</td><td>\([1,B]\) liên tục</td><td>\(D_v\) rời rạc</td></tr><tr><td>Khoảng cấm</td><td>Từ khoảng cách đồ thị</td><td>\(k\) trên cạnh</td><td>Từ nhiễu</td></tr><tr><td>Cặp bị ràng buộc</td><td>Mọi cặp có \(\Delta>0\)</td><td>Cạnh và tính đơn ánh</td><td>Cạnh ràng buộc</td></tr><tr><td>Hàm mục tiêu</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Số giá trị khác nhau nhỏ nhất</td></tr><tr><td>Lớp mục tiêu</td><td>Cận độ trải</td><td>Cận độ trải</td><td>Bộ đếm giá trị phân biệt</td></tr></tbody>
           </table>
-        </div></p>
+        </div>
 <p>Ba bài toán dùng chung mô-đun khả thi ở mức khoảng, nhưng lớp hàm mục tiêu khác
 nhau. Radio và \(k\)-safe thay cận trên của nhãn. MO-FAP giữ các
 giá trị số cố định và tối thiểu số giá trị được kích hoạt. Đây là lý do không
@@ -3921,8 +3901,8 @@ vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
         literal biên của POSE.</li></ol></p>
             
             <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/fig_ch11.webp" alt="Hình 11.2 · Gán nhãn radio khảthi và nén khoảng cấm" loading="lazy">
-              <div class="reader-figure-caption">Hình 11.2 · Gán nhãn radio khảthi và nén khoảng cấm</div>
+              <img src="./assets/images/diagrams/fig_ch11.webp" alt="Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm" loading="lazy">
+              <div class="reader-figure-caption">Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm</div>
             </div>
             
           </div>

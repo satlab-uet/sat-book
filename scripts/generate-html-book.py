@@ -24,14 +24,14 @@ CHAPTER_FILES = [
 FIGURE_MAP = {
     "ch01": ("fig_ch01.webp", "Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT"),
     "ch03": ("fig_ch03.webp", "Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)"),
-    "ch04": ("fig_ch04.webp", "Hình 4.1 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)"),
+    "ch04": ("fig_ch04.webp", "Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)"),
     "ch05": ("fig_ch05.webp", "Hình 5.3 · Bộ đếm dùng chung (Shared Counter)"),
     "ch06": ("fig_ch06.webp", "Hình 6.2 · Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)"),
-    "ch07": ("fig_ch07.webp", "Hình 7.1 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)"),
-    "ch08": ("fig_ch08.webp", "Hình 8.2 · Cửa sổ ALSC tái sử dụng trong lập lịch"),
+    "ch07": ("fig_ch07.webp", "Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)"),
+    "ch08": ("fig_ch08.webp", "Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch"),
     "ch09": ("fig_ch09.webp", "Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D"),
-    "ch10": ("fig_ch10.webp", "Hình 10.1 · Cặp nhãn bị cấm và bài toán Antibandwidth"),
-    "ch11": ("fig_ch11.webp", "Hình 11.2 · Gán nhãn radio khảthi và nén khoảng cấm"),
+    "ch10": ("fig_ch10.webp", "Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth"),
+    "ch11": ("fig_ch11.webp", "Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm"),
 }
 
 BIB_MAP = {}
@@ -97,13 +97,22 @@ def parse_tables(text: str) -> str:
             caption_text = clean_inline(cap_match.group(1))
             caption_html = f'<div class="reader-table-caption">Bảng: {caption_text}</div>'
             
-        # Extract tabularx/tabular
-        tab_match = re.search(r'\\begin\{(?:tabularx|tabular)\}(?:\{[^}]+\})*(.*?)\\end\{(?:tabularx|tabular)\}', block, re.DOTALL)
+        # Extract tabularx/tabular content
+        tab_match = re.search(r'\\begin\{(?:tabularx|tabular)\}(.*?)\\end\{(?:tabularx|tabular)\}', block, re.DOTALL)
         if not tab_match:
             return ""
             
-        tab_content = tab_match.group(1)
-        # Remove LaTeX table rules
+        tab_content = tab_match.group(1).strip()
+        
+        # Strip preamble up to \toprule or \hline if present
+        if r'\toprule' in tab_content:
+            tab_content = tab_content.split(r'\toprule', 1)[1]
+        elif r'\hline' in tab_content:
+            tab_content = tab_content.split(r'\hline', 1)[1]
+        else:
+            # Strip leading argument braces {...}
+            tab_content = re.sub(r'^(?:\{[^{}]*\}|\s+)+', '', tab_content).strip()
+            
         tab_content = re.sub(r'\\(top|mid|bottom)rule', '', tab_content)
         tab_content = re.sub(r'\\label\{[^}]+\}', '', tab_content)
         
@@ -135,7 +144,6 @@ def parse_tables(text: str) -> str:
         '''
         return table_html
 
-    # Match \begin{center} ... \end{center}
     text = re.sub(r'\\begin\{center\}(.*?)\\end\{center\}', replace_center_table, text, flags=re.DOTALL)
     return text
 
@@ -211,14 +219,14 @@ def clean_latex_document(text: str) -> str:
     # Convert math delimiters for KaTeX
     text = re.sub(r'\\\[(.*?)\\\]', r'\[\1\]', text, flags=re.DOTALL)
     
-    # Paragraphs: split by double newlines, but preserve existing HTML tags
+    # Paragraphs: split by double newlines, wrap non-block items in <p>
     paragraphs = []
     blocks = re.split(r'\n\s*\n', text)
     for b in blocks:
         b = b.strip()
         if not b:
             continue
-        if b.startswith('<h3') or b.startswith('<h4') or b.startswith('<div') or b.startswith('<ol') or b.startswith('<ul') or b.startswith('<table'):
+        if any(b.startswith(tag) for tag in ['<h2', '<h3', '<h4', '<div', '<ol', '<ul', '<table']):
             paragraphs.append(b)
         else:
             paragraphs.append(f'<p>{b}</p>')
