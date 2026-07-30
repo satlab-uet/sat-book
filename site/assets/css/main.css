@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Chuyên khảo Biểu diễn SAT tối ưu - Premium Academic Design System
+   Chuyên khảo Biểu diễn SAT tối ưu - World-Class Academic Design System
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -21,7 +21,6 @@
   
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
-  --bg-subtle: #f1f5f9;
   --border-color: #e2e8f0;
   
   /* Typography */
@@ -30,7 +29,7 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   
   /* Layout */
-  --container-max: 1040px;
+  --container-max: 1080px;
   --header-height: 72px;
   
   /* Elevation */
@@ -49,7 +48,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + 20px);
+  scroll-padding-top: calc(var(--header-height) + 24px);
 }
 
 body {
@@ -98,13 +97,14 @@ a:hover {
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-decoration: none;
 }
 
 .brand-logo-img {
-  height: 38px;
+  height: 36px;
   width: auto;
+  max-width: 160px;
   object-fit: contain;
   display: block;
 }
@@ -207,7 +207,7 @@ a:hover {
   background: var(--bg-page);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  padding: 16px 20px;
+  padding: 18px 22px;
   margin-bottom: 28px;
 }
 
@@ -273,44 +273,45 @@ a:hover {
 }
 
 .cover-wrapper {
-  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .book-cover-img {
   width: 100%;
+  max-width: 280px;
+  height: auto;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-cover);
-  transition: transform 0.3s ease;
-}
-
-.cover-wrapper:hover .book-cover-img {
-  transform: translateY(-3px);
+  display: block;
+  object-fit: contain;
 }
 
 /* Sections */
 .section {
-  padding: 56px 0;
+  padding: 64px 0;
   border-bottom: 1px solid var(--border-color);
 }
 
 .section-header {
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .section-title {
   font-family: var(--font-serif);
-  font-size: 1.75rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   color: var(--color-ink-900);
   letter-spacing: -0.01em;
 }
 
 .section-subtitle {
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   color: var(--color-ink-600);
   margin: 0;
-  max-width: 780px;
+  max-width: 800px;
   line-height: 1.65;
 }
 
@@ -319,8 +320,8 @@ a:hover {
   background: var(--bg-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  padding: 28px;
-  margin-bottom: 28px;
+  padding: 32px;
+  margin-bottom: 32px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -332,11 +333,11 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.18rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--color-brand-primary);
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
   border-bottom: 2px solid var(--color-brand-light);
 }
 
@@ -345,7 +346,7 @@ a:hover {
   font-weight: 700;
   color: var(--color-brand-primary);
   background: var(--color-brand-light);
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
 }
 
@@ -357,10 +358,10 @@ a:hover {
 
 .toc-item {
   display: grid;
-  grid-template-columns: 88px 1fr;
-  padding: 16px 0;
+  grid-template-columns: 92px 1fr;
+  padding: 18px 0;
   border-bottom: 1px solid var(--border-color);
-  gap: 16px;
+  gap: 18px;
 }
 
 .toc-item:last-child {
@@ -395,62 +396,68 @@ a:hover {
 
 .toc-content-title {
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   color: var(--color-ink-900);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .toc-content-desc {
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   color: var(--color-ink-600);
   line-height: 1.6;
 }
 
-/* Technical Figures */
+/* Technical Figures Showcase */
 .figures-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
 .figure-card {
-  background: var(--bg-surface);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
 
 .figure-img-box {
   padding: 24px;
-  background: #f8fafc;
-  display: grid;
-  place-items: center;
+  background: #ffffff;
   border-bottom: 1px solid var(--border-color);
-  min-height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
 }
 
 .figure-img-box img {
-  max-height: 190px;
-  width: auto;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
   object-fit: contain;
+  display: block;
 }
 
 .figure-info {
-  padding: 18px 20px;
+  padding: 20px 22px;
+  background: #f8fafc;
 }
 
 .figure-title {
   font-weight: 700;
-  font-size: 0.96rem;
+  font-size: 0.98rem;
   color: var(--color-ink-900);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .figure-desc {
-  font-size: 0.91rem;
+  font-size: 0.92rem;
   color: var(--color-ink-600);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Citation Block */
@@ -458,31 +465,31 @@ a:hover {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 32px;
   box-shadow: var(--shadow-sm);
 }
 
 .cite-text-block {
-  font-size: 1rem;
+  font-size: 1.02rem;
   color: var(--color-ink-800);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   padding-left: 16px;
   border-left: 3px solid var(--color-brand-primary);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .code-terminal {
   background: #0f172a;
   border-radius: var(--radius-md);
-  padding: 18px 20px;
+  padding: 20px 24px;
   overflow-x: auto;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .code-terminal pre {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: #cbd5e1;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -498,7 +505,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: var(--radius-md);
   background: var(--color-ink-800);
   color: #ffffff;
@@ -521,7 +528,7 @@ a:hover {
 
 /* Footer */
 .site-footer {
-  padding: 40px 0;
+  padding: 48px 0;
   background: #ffffff;
   border-top: 1px solid var(--border-color);
   color: var(--color-ink-500);
@@ -540,9 +547,10 @@ a:hover {
 }
 
 .footer-logo {
-  height: 32px;
+  height: 34px;
   width: auto;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  display: block;
 }
 
 @media (max-width: 840px) {

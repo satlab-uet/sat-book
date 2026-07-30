@@ -72,7 +72,7 @@ def render_cover(pdf_path: Path, output_dir: Path) -> Image.Image:
                 "-singlefile",
                 "-png",
                 "-r",
-                "180",
+                "300",
                 str(pdf_path),
                 str(output_prefix),
             ],
@@ -85,7 +85,7 @@ def render_cover(pdf_path: Path, output_dir: Path) -> Image.Image:
     cover.save(
         output_dir / "book-cover.webp",
         format="WEBP",
-        quality=88,
+        quality=95,
         method=6,
     )
     return cover
