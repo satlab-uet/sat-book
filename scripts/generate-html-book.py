@@ -80,7 +80,7 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\texttt\{([^}]+)\}', r'<code>\1</code>', text)
     text = re.sub(r'\\textsc\{([^}]+)\}', r'<span class="small-caps">\1</span>', text)
     
-    # Custom TeX Macros
+    # Custom TeX Macros outside math
     text = re.sub(r'\\UNSAT\b', 'UNSAT', text)
     text = re.sub(r'\\SAT\b', 'SAT', text)
     text = re.sub(r'\\OPT\b', 'OPT', text)
@@ -102,7 +102,6 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\endfirsthead\b', '', text)
     text = re.sub(r'\\endhead\b', '', text)
     text = re.sub(r'\\small\b', '', text)
-    text = re.sub(r'\\minipage\{[^}]*\}', '', text)
     
     # References & Equations
     text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
@@ -329,15 +328,6 @@ def parse_headings(text: str) -> str:
     text = re.sub(r'\\paragraph\*?\{([^}]+)\}', r'<strong>\1</strong>', text)
     return text
 
-def parse_math_blocks(text: str) -> str:
-    def wrap_equation(m):
-        body = m.group(1).strip()
-        return f'\\[\n{body}\n\\]'
-
-    text = re.sub(r'\\begin\{equation\}(.*?)\\end\{equation\}', wrap_equation, text, flags=re.DOTALL)
-    text = re.sub(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}', wrap_equation, text, flags=re.DOTALL)
-    return text
-
 def clean_latex_document(text: str) -> str:
     # Comments & Index & Labels
     text = re.sub(r'(?<!\\)%.*', '', text)
@@ -345,6 +335,37 @@ def clean_latex_document(text: str) -> str:
     text = re.sub(r'\\label\{[^}]+\}', '', text)
     text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     
+    # ------------------------------------------------------------------
+    # STEP 1: MATH PROTECTION PHASE
+    # Extract all KaTeX math blocks and protect HTML special characters <, >
+    # ------------------------------------------------------------------
+    math_store: list[str] = []
+
+    def protect_display_math(m):
+        idx = len(math_store)
+        content = m.group(1).strip()
+        # Escape < and > so browser HTML parser does not treat them as tags
+        safe_content = content.replace("<", "&lt;").replace(">", "&gt;")
+        math_store.append(f"\\[\n{safe_content}\n\\]")
+        return f"\n___MATH_BLOCK_{idx}___\n"
+
+    def protect_inline_math(m):
+        idx = len(math_store)
+        content = m.group(1).strip()
+        safe_content = content.replace("<", "&lt;").replace(">", "&gt;")
+        math_store.append(f"\\({safe_content}\\)")
+        return f"___MATH_BLOCK_{idx}___"
+
+    # Convert equation / align* environments to display math
+    text = re.sub(r'\\begin\{(?:equation|align\*?)\}(.*?)\\end\{(?:equation|align\*?)\}', protect_display_math, text, flags=re.DOTALL)
+    # Convert \[ ... \] display math
+    text = re.sub(r'\\\[(.*?)\\\]', protect_display_math, text, flags=re.DOTALL)
+    # Convert \( ... \) inline math
+    text = re.sub(r'\\\((.*?)\\\)', protect_inline_math, text, flags=re.DOTALL)
+
+    # ------------------------------------------------------------------
+    # STEP 2: HTML & STRUCTURAL PARSING PHASE
+    # ------------------------------------------------------------------
     # Remove TikZ environments if raw
     text = re.sub(r'\\begin\{tikzpicture\}(.*?)\\end\{tikzpicture\}', '', text, flags=re.DOTALL)
     
@@ -352,9 +373,6 @@ def clean_latex_document(text: str) -> str:
     text = re.sub(r'\\chapterlead\{((?:[^{}]|\{[^{}]*\})*)\}', r'<div class="chapter-lead">\1</div>', text)
     text = re.sub(r'\\chapter\{([^}]+)\}', '', text)
     text = parse_headings(text)
-    
-    # Math environments (equation, align*)
-    text = parse_math_blocks(text)
     
     # Custom Callouts & Theorems
     text = parse_callouts(text)
@@ -377,12 +395,21 @@ def clean_latex_document(text: str) -> str:
         b = b.strip()
         if not b:
             continue
-        if any(b.startswith(tag) for tag in ['<h2', '<h3', '<h4', '<div', '<ol', '<ul', '<dl', '<table', '\\[']):
+        if any(b.startswith(tag) for tag in ['<h2', '<h3', '<h4', '<div', '<ol', '<ul', '<dl', '<table', '___MATH_BLOCK_']):
             paragraphs.append(b)
         else:
             paragraphs.append(f'<p>{b}</p>')
             
-    return "\n".join(paragraphs)
+    result = "\n".join(paragraphs)
+
+    # ------------------------------------------------------------------
+    # STEP 3: MATH RESTORATION PHASE
+    # Re-insert protected math blocks
+    # ------------------------------------------------------------------
+    for idx, math_html in enumerate(math_store):
+        result = result.replace(f"___MATH_BLOCK_{idx}___", math_html)
+
+    return result
 
 def build_reader_html(repo_root: Path):
     load_bib_entries(repo_root)
@@ -445,8 +472,24 @@ def build_reader_html(repo_root: Path):
     <!-- KaTeX for Math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-      onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {{
+        if (typeof renderMathInElement === "function") {{
+          renderMathInElement(document.body, {{
+            delimiters: [
+              {{left: "$$", right: "$$", display: true}},
+              {{left: "\\[", right: "\\]", display: true}},
+              {{left: "\\(", right: "\\)", display: false}},
+              {{left: "$", right: "$", display: false}}
+            ],
+            ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+            throwOnError: false
+          }});
+        }}
+      }});
+    </script>
 
     <style>
       .reader-layout {{

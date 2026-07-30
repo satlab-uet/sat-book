@@ -14,8 +14,24 @@
     <!-- KaTeX for Math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-      onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof renderMathInElement === "function") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "\[", right: "\]", display: true},
+              {left: "\(", right: "\)", display: false},
+              {left: "$", right: "$", display: false}
+            ],
+            ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+            throwOnError: false
+          });
+        }
+      });
+    </script>
 
     <style>
       .reader-layout {
@@ -469,20 +485,20 @@ miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bà
 <h3 class="reader-h2">Từ quyết định đến tối ưu</h3>
 <p>Bài toán SAT hỏi liệu một công thức Boolean có phép gán thỏa hay không
 <span class="cite">(Cook, 1971; 2009)</span>. Trong ứng dụng tối ưu, ta
-thường bắt đầu bằng một họ bài toán quyết định phụ thuộc cận \(B\):
+thường bắt đầu bằng một họ bài toán quyết định phụ thuộc cận \(B\):</p>
 \[
-  P(B): 
+P(B):\quad
   \text{tồn tại nghiệm khả thi }s\text{ sao cho }f(s)\le B?
 \]
-Với mục tiêu cực tiểu,
+<p>Với mục tiêu cực tiểu,</p>
 \[
-  P(B)=SAT\Longrightarrow P(B')=SAT
-   \forall B'\ge B.
+P(B)=\SAT\Longrightarrow P(B')=\SAT
+  \quad\forall B'\ge B.
 \]
-Tính đơn điệu cho phép tìm nghiệm tối ưu trên đoạn \([LB,UB]\):
+<p>Tính đơn điệu cho phép tìm nghiệm tối ưu trên đoạn \([LB,UB]\):</p>
 \[
-  OPT=\min\{B\mid P(B)=SAT\}.
-\]</p>
+\OPT=\min\set{B\mid P(B)=\SAT}.
+\]
 <p>Tìm kiếm tuyến tính từ cận trên thích hợp khi đã có nghiệm tốt và các cận kề
 nhau chia sẻ nhiều cấu trúc. Tìm kiếm nhị phân giảm số lần gọi bộ giải nhưng
 nhảy cận xa hơn. Với SAT tăng dần, công thức cơ sở được giữ nguyên; cận được
@@ -499,40 +515,41 @@ trạng thái đối với cận thuộc về thuật toán bao ngoài.</div>
               <div class="callout-body">Giả sử \(P(B)\) hỏi liệu có lịch với thời điểm hoàn tất toàn lịch không quá \(B\), và ta biết
 \(LB=4,UB=9\). Tìm kiếm nhị phân thử \(B=6\) và nhận UNSAT, nên mọi cận
 \(B\le6\) đều bị loại. Thử tiếp \(B=8\) và nhận một lịch khả thi, nên
-\(UB\leftarrow8\). Cuối cùng \(P(7)=SAT\), cho
+\(UB\leftarrow8\). Cuối cùng \(P(7)=\SAT\), cho
 \[
-  P(6)=UNSAT,  P(7)=SAT,  OPT=7.
+P(6)=\UNSAT,\qquad P(7)=\SAT,\qquad \OPT=7.
 \]
-Mô hình thỏa ở cận \(7\) là chứng cứ cận trên; chứng minh UNSAT của \(P(6)\)
+<p>Mô hình thỏa ở cận \(7\) là chứng cứ cận trên; chứng minh UNSAT của \(P(6)\)
 là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị tối ưu \(7\).</div>
-            </div>
+            </div></p>
 <div class="reader-inline-caption"><em>Hình: Tính đơn điệu của bài toán quyết định theo cận \(B\).</em></div>
 <h3 class="reader-h2">CNF và biến phụ</h3>
 <h4 class="reader-h3">Mệnh đề, literal và mô hình thỏa</h4>
 <p>Một <em>literal</em> là biến \(x\) hoặc phủ định \(\neg x\) của biến đó. Một
 <em>mệnh đề</em> (clause) là phép tuyển các literal; công thức CNF là phép hội
-của các mệnh đề:
+của các mệnh đề:</p>
 \[
-  F=\bigwedge_{i=1}^{m}C_i,</p>
-<p>C_i=\bigvee_{j=1}^{r_i}\ell_{ij}.
+F=\bigwedge_{i=1}^{m}C_i,
+  \qquad
+  C_i=\bigvee_{j=1}^{r_i}\ell_{ij}.
 \]
-Một mệnh đề được thỏa khi có ít nhất một literal đúng. Mệnh đề đơn vị có đúng
+<p>Một mệnh đề được thỏa khi có ít nhất một literal đúng. Mệnh đề đơn vị có đúng
 một literal; mệnh đề nhị phân thường biểu diễn phép kéo theo hoặc xung đột cục
 bộ.</p>
 <h4 class="reader-h3">Tseitin transformation</h4>
-<p>Biến phụ cho phép thay một biểu thức con bằng một tên ngắn. Với
+<p>Biến phụ cho phép thay một biểu thức con bằng một tên ngắn. Với</p>
 \[
-  z\leftrightarrow(x\land y),
+z\leftrightarrow(x\land y),
 \]
-CNF tương đương là
+<p>CNF tương đương là</p>
 \[
-  (\neg z\lor x)
+(\neg z\lor x)
   \land
   (\neg z\lor y)
   \land
   (z\lor\neg x\lor\neg y).
 \]
-Phép Tseitin giữ kích thước tuyến tính theo mạch Boolean
+<p>Phép Tseitin giữ kích thước tuyến tính theo mạch Boolean
 <span class="cite">(Tseitin, 1983)</span>. Ba mệnh đề trên tạo một <em>đặc tả ngữ nghĩa</em>
 (contract): \(z\) đúng khi và chỉ khi cả \(x,y\) đúng. Nếu mô-đun sau chỉ dùng chiều
 \(z\rightarrow x\land y\), có thể bỏ chiều ngược; nhưng khi đó \(z\) không còn
@@ -564,10 +581,10 @@ lập luận quy nạp theo số biến chưa gán cho tính đầy đủ của 
 <div class="reader-algorithm-box">
           <div class="algo-header">⚙️ <strong>Khung DPLL cơ sở</strong></div>
           <div class="algo-body"><strong>DPLL(\(F,\alpha\))</strong>
-<ol class="reader-list"><li>Lặp lan truyền đơn vị trên \(F\) dưới phép gán \(\alpha\).</li><li>Nếu có mệnh đề rỗng, trả \(UNSAT\); nếu mọi mệnh đề đã thỏa, trả
-  \(SAT\) và \(\alpha\).</li><li>Chọn một biến chưa gán \(x\). Gọi
-  \(<strong>DPLL</strong>(F,\alpha\cup\{x=1\})\); nếu nhận \(SAT\), trả mô hình đó.</li><li>Trả kết quả của
-  \(<strong>DPLL</strong>(F,\alpha\cup\{x=0\})\).</li></ol></div>
+<ol class="reader-list"><li>Lặp lan truyền đơn vị trên \(F\) dưới phép gán \(\alpha\).</li><li>Nếu có mệnh đề rỗng, trả \(\UNSAT\); nếu mọi mệnh đề đã thỏa, trả
+  \(\SAT\) và \(\alpha\).</li><li>Chọn một biến chưa gán \(x\). Gọi
+  \(\textbf{DPLL}(F,\alpha\cup\set{x=1})\); nếu nhận \(\SAT\), trả mô hình đó.</li><li>Trả kết quả của
+  \(\textbf{DPLL}(F,\alpha\cup\set{x=0})\).</li></ol></div>
         </div>
 <p>DPLL cơ sở quay lui theo thứ tự quyết định và không lưu một mô tả tổng quát
 của nhánh đã thất bại. CDCL giữ bộ khung quyết định--lan truyền--xung đột nhưng
@@ -593,32 +610,32 @@ bộ giải học mâu thuẫn có tính khái quát.</p>
 <p>Một bộ giải tăng dần giữ các mệnh đề đã học qua nhiều lời gọi. Có hai cơ chế
 chính.</p>
 <p><strong>Bổ sung mệnh đề đơn điệu.</strong>
-Công thức cơ sở \(F_0\) được mở rộng
+Công thức cơ sở \(F_0\) được mở rộng</p>
 \[
-  F_0\subseteq F_1\subseteq\cdots\subseteq F_t.
+F_0\subseteq F_1\subseteq\cdots\subseteq F_t.
 \]
-Đây là dạng tự nhiên cho tối ưu từ trên xuống: sau một mô hình có giá trị
+<p>Đây là dạng tự nhiên cho tối ưu từ trên xuống: sau một mô hình có giá trị
 \(\beta\), thêm mệnh đề buộc hàm mục tiêu tốt hơn.</p>
 <p><strong>Giả định.</strong>
 Một tập literal \(A_t\) chỉ có hiệu lực trong lần gọi \(t\). Các mệnh đề cơ sở
 vẫn giữ nguyên; giả định cũ được thu hồi khi lời gọi kết thúc. Literal kích
-hoạt \(a_B\) cho phép viết
+hoạt \(a_B\) cho phép viết</p>
 \[
-  a_B\rightarrow \operatorname{Bound}(B)
+a_B\rightarrow \operatorname{Bound}(B)
 \]
-và bật cận bằng giả định \(a_B\).</p>
+<p>và bật cận bằng giả định \(a_B\).</p>
 <p>Mệnh đề học được hợp lệ khi bộ giải suy ra nó theo đúng quy trình giả định.
 Công thức cơ sở, literal kích hoạt và thứ tự gọi là
 một giao diện duy nhất.</p>
 <h3 class="reader-h2">MaxSAT</h3>
 <p>MaxSAT bộ phận (Partial MaxSAT) chia công thức thành mệnh đề cứng \(H\) và
 mệnh đề mềm \(S\). Mệnh đề cứng phải được thỏa; hàm mục tiêu tối thiểu số hoặc
-tổng trọng số của các mệnh đề mềm bị vi phạm:
+tổng trọng số của các mệnh đề mềm bị vi phạm:</p>
 \[
-  \min_{\alpha\models H}
+\min_{\alpha\models H}
   \sum_{C\in S}w_C[\alpha\not\models C].
 \]
-MaxSAT phù hợp khi mục tiêu có dạng tổng các quyết định Boolean, chẳng hạn số
+<p>MaxSAT phù hợp khi mục tiêu có dạng tổng các quyết định Boolean, chẳng hạn số
 thùng được dùng, số ràng buộc mềm bị vi phạm hoặc tổng mức phạt
 <span class="cite">(Li et al., 2009; Ansótegui et al., 2013)</span>.</p>
 <p>Một cách giải MaxSAT là chuyển hàm mục tiêu thành chuỗi bài toán SAT với cận chi phí
@@ -644,15 +661,15 @@ có còn hợp lệ sau lần cập nhật không.</p>
               <div class="callout-body">Giả sử \(u_j=1\) khi tài nguyên \(j\) được sử dụng. Các ràng buộc gán bảo đảm mỗi tác
 vụ chọn đúng một tài nguyên và
 \[
-  x_{ij}\rightarrow u_j.
+x_{ij}\rightarrow u_j.
 \]
-Cách SAT theo cận thêm
+<p>Cách SAT theo cận thêm</p>
 \[
-  \sum_ju_j\le B.
+\sum_ju_j\le B.
 \]
-Cách MaxSAT giữ các mệnh đề cứng và đặt các mệnh đề mềm \(\neg u_j\) có trọng số
+<p>Cách MaxSAT giữ các mệnh đề cứng và đặt các mệnh đề mềm \(\neg u_j\) có trọng số
 \(1\). Hai mô hình dùng chung các mô-đun gán và xung đột.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Giải mã, ghi chứng minh và chứng nhận</h3>
 <p>Mô hình thỏa của bộ giải chứa cả biến chính và biến phụ. Bộ giải mã chỉ đọc
 biến chính để tạo nghiệm miền. Bộ kiểm tra sau đó xác minh:
@@ -722,20 +739,20 @@ phương, chi phí tích hợp và bằng chứng thực nghiệm.</div>
           </div>
         </div>
 <h3 class="reader-h2">Phép mã hóa là một quan hệ có giao diện</h3>
-<p>Cho ràng buộc \(\mathcal C\) trên tập biến chính \(X\), tập biến phụ \(Y\) và
+<p>Cho ràng buộc \(\mathcal C\) trên tập biến chính \(X\), tập biến phụ \(Y\) và</p>
 \[
-  F=\operatorname{Enc}(\mathcal C;X,Y).
+F=\operatorname{Enc}(\mathcal C;X,Y).
 \]
-Tiêu chuẩn cơ bản là tương đương theo phép chiếu:
+<p>Tiêu chuẩn cơ bản là tương đương theo phép chiếu:</p>
 \[
-  F\equiv_X\mathcal C
+F\equiv_X\mathcal C
   \iff
-  \forall\alpha_X: 
+  \forall\alpha_X:\quad
   \alpha_X\models\mathcal C
   \Longleftrightarrow
   \exists\beta_Y:\ \alpha_X\cup\beta_Y\models F.
 \]
-Hai chiều có tên riêng:
+<p>Hai chiều có tên riêng:
 <ul class="reader-list"><li><strong>tính đúng</strong> (soundness): mọi mô hình thỏa của \(F\) chiếu thành
         nghiệm của \(\mathcal C\);</li><li><strong>tính đầy đủ</strong> (completeness): mọi nghiệm của \(\mathcal C\) mở
         rộng được thành mô hình thỏa của \(F\).</li></ul></p>
@@ -755,7 +772,7 @@ mọi phép gán trên \(X\), nên tương đương theo phép chiếu. <span cl
         </div>
 <h3 class="reader-h2">Hệ phân loại theo cách biểu diễn miền</h3>
 <p>Trước khi so hai bộ mã hóa, cần xác định chúng có cùng “từ vựng Boolean” hay
-không. Với biến miền hữu hạn \(v\in D=\{d_1,\ldots,d_m\}\), bốn họ thường
+không. Với biến miền hữu hạn \(v\in D=\set{d_1,\ldots,d_m}\), bốn họ thường
 gặp là:
 <dl class="reader-dl"><dt><strong>Mã hóa trực tiếp (direct encoding)</strong></dt><dd>\(x_{v,a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
   hai giá trị được viết trực tiếp.</dd><dt><strong>Mã hóa hỗ trợ (support encoding)</strong></dt><dd>Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
@@ -776,24 +793,24 @@ là kiến trúc được dùng lại trong Chương 7, 9--11.</p>
             <tbody><tr><td>Trực tiếp</td><td>\(v=a\)</td><td>Bảng cấm, miền nhỏ</td><td>Đúng-một và nhiều cặp xung đột</td></tr><tr><td>Hỗ trợ</td><td>“\(v=a\) có hỗ trợ”</td><td>Ràng buộc nhị phân dạng bảng</td><td>Độ dài mệnh đề hỗ trợ</td></tr><tr><td>Thứ tự</td><td>\(v\ge t\)</td><td>Cận, khoảng, hiệu</td><td>Miền rộng và liên kết với biến giá trị</td></tr><tr><td>Lôgarit</td><td>Bit của giá trị</td><td>Miền lớn, mạch số học</td><td>Giá trị ngoài miền, sức lan truyền</td></tr><tr><td>Lai</td><td>Giá trị + ngưỡng/quan hệ</td><td>Nhiều kiểu ràng buộc</td><td>Chi phí và chiều liên kết</td></tr></tbody>
           </table>
         </div>
-<div class="reader-inline-caption"><em>Hình: Hai từ vựng Boolean cho biến \(v\in\{1,2,3,4</em></div>
+<div class="reader-inline-caption"><em>Hình: Hai từ vựng Boolean cho biến \(v\in\set{1,2,3,4}\).</em></div>
 <div class="reader-callout worked-example">
               <div class="callout-header"><strong>một bất đẳng thức trong mã hóa trực tiếp và thứ tự</strong></div>
-              <div class="callout-body">Cho \(u,v\in\{0,\ldots,4\\}\) và \(u+2\le v\). Mã hóa trực tiếp cấm từng cặp
-\((a,b)\) với \(a+2>b\):
+              <div class="callout-body">Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Mã hóa trực tiếp cấm từng cặp
+\((a,b)\) với \(a+2&gt;b\):
 \[
-  \neg x_{u,a}\lor\neg x_{v,b}.
+\neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Mã hóa thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
+<p>Mã hóa thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề</p>
 \[
-  \neg o_{u,t}\lor o_{v,t+2},
-    t=1,2.
+\neg o_{u,t}\lor o_{v,t+2},
+  \qquad t=1,2.
 \]
-Nếu một ràng buộc khác suy \(u\ge2\), UP đặt \(o_{u,2}=1\), rồi suy
+<p>Nếu một ràng buộc khác suy \(u\ge2\), UP đặt \(o_{u,2}=1\), rồi suy
 \(o_{v,4}=1\), tức \(v\ge4\). Một mệnh đề thứ tự đã thay toàn bộ các cặp trực tiếp
 có \(u\ge2,v\le3\). Đổi lại, giá trị chính xác của \(v\) chỉ xuất hiện qua điểm chuyển
 của chuỗi.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Đặc tả ngữ nghĩa của biến phụ</h3>
 <p>Một thanh ghi \(r_{i,j}\) có thể được định nghĩa theo ba mức:</p>
 <div class="reader-table-wrapper">
@@ -815,14 +832,14 @@ phải có mệnh đề liên kết tương ứng.</div>
             </div>
 <div class="reader-inline-caption"><em>Hình: Đặc tả của literal phụ quyết định cách các mô-đun khác được sử dụng nó.</em></div>
 <h3 class="reader-h2">Đo kích thước</h3>
-<p>Bốn đại lượng nền tảng là:
+<p>Bốn đại lượng nền tảng là:</p>
 \[
-  n_v=|Y|, 
-  n_c=|F|, 
-  n_\ell=\sum_{C\in F}\card C, 
+n_v=\card{Y},\qquad
+  n_c=\card{F},\qquad
+  n_\ell=\sum_{C\in F}\card C,\qquad
   w_{\max}=\max_{C\in F}\card C.
 \]
-Ngoài độ lớn tiệm cận, cần xem phân bố mệnh đề nhị phân/tam phân, số lần xuất
+<p>Ngoài độ lớn tiệm cận, cần xem phân bố mệnh đề nhị phân/tam phân, số lần xuất
 hiện của biến và bộ nhớ của bộ sinh. Với kỹ thuật hai literal được theo dõi,
 tổng số literal thường gần chi phí bộ nhớ hơn số mệnh đề.</p>
 <p>Một công thức đóng về \(n_v,n_c\) phải chỉ rõ:
@@ -853,13 +870,13 @@ thay đổi; phát biểu về GAC vì thế cũng được xác định lại t
               <div class="callout-header"><strong>Ví dụ minh họa (AMO từng cặp)</strong></div>
               <div class="callout-body">Với
 \[
-  \operatorname{AMO}(x_1,\ldots,x_n)=
-  \bigwedge_{i<j}(\neg x_i\lor\neg x_j),
+\operatorname{AMO}(x_1,\ldots,x_n)=
+  \bigwedge_{i&lt;j}(\neg x_i\lor\neg x_j),
 \]
-nếu \(x_i=1\), UP lập tức suy \(\neg x_j\) cho mọi \(j\ne i\). Nếu hai biến
+<p>nếu \(x_i=1\), UP lập tức suy \(\neg x_j\) cho mọi \(j\ne i\). Nếu hai biến
 đúng, UP tạo xung đột. AMO từng cặp vì thế có lan truyền rất trực tiếp trên
 biến chính, đổi lại \(O(n^2)\) mệnh đề.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Cận dưới kích thước và mặt Pareto</h3>
 <p>Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép mã hóa. Với AMO, các
 cận dưới đã biết cho thấy một phép mã hóa đầy đủ lan truyền cần số mệnh đề
@@ -890,14 +907,14 @@ của từng thiết kế trên mặt Pareto này.</div>
 hoặc số lần lan truyền/xung đột; kết luận cuối cùng cần bộ kiểm chuẩn có kiểm
 soát.</p>
 <h3 class="reader-h2">Tính mô-đun và mã hóa lại có cấu trúc</h3>
-<p>Một mô-đun mã hóa tốt có bốn thành phần:
+<p>Một mô-đun mã hóa tốt có bốn thành phần:</p>
 \[
-  <code>variables</code>
-  +<code>clauses</code>
-  +<code>decoder</code>
-  +<code>contract</code>.
+\texttt{variables}
+  +\texttt{clauses}
+  +\texttt{decoder}
+  +\texttt{contract}.
 \]
-Khi nhiều ràng buộc chia sẻ biểu thức con, mã hóa lại có cấu trúc tạo biến phụ
+<p>Khi nhiều ràng buộc chia sẻ biểu thức con, mã hóa lại có cấu trúc tạo biến phụ
 cho phần chung thay vì Tseitin hóa từng công thức riêng
 <span class="cite">(Haberlandt et al., 2023)</span>. Lợi ích xuất hiện khi mô-đun thực sự được dùng
 chung trong CNF và bên sử dụng đọc đúng đặc tả.</p>
@@ -966,45 +983,47 @@ một bộ giải cụ thể <span class="cite">(Bailleux, 2010)</span>. Một b
 tốt; cây tổng lại thuận lợi khi cận thay đổi. Không có quan hệ thứ tự tuyến
 tính giữa ba lựa chọn đó.</p>
 <h3 class="reader-h2">Các dạng ràng buộc</h3>
-<p>Với \(X=\{x_1,\ldots,x_n\}\):
+<p>Với \(X=\set{x_1,\ldots,x_n}\):</p>
 \[
-  \operatorname{AMK}(X,k):  \sum_{i=1}^{n}x_i\le k,
+\operatorname{AMK}(X,k):\quad \sum_{i=1}^{n}x_i\le k,
 \]
 \[
-  \operatorname{ALK}(X,k):  \sum_{i=1}^{n}x_i\ge k,
+\operatorname{ALK}(X,k):\quad \sum_{i=1}^{n}x_i\ge k,
 \]
 \[
-  \operatorname{EXK}(X,k):  \sum_{i=1}^{n}x_i=k.
+\operatorname{EXK}(X,k):\quad \sum_{i=1}^{n}x_i=k.
 \]
-AMO là AMK với \(k=1\); ALO là một mệnh đề dài
+<p>AMO là AMK với \(k=1\); ALO là một mệnh đề dài
 \(x_1\lor\cdots\lor x_n\); EXO là AMO kết hợp ALO.</p>
-<p>Đối ngẫu hữu ích:
+<p>Đối ngẫu hữu ích:</p>
 \[
-  \sum_i x_i\ge k
+\sum_i x_i\ge k
   \iff
   \sum_i(1-x_i)\le n-k.
 \]
-Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
+<p>Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
 mã hóa trực tiếp ALK và mã hóa AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.</p>
 <h3 class="reader-h2">Ràng buộc nhiều nhất một (AMO)</h3>
 <h4 class="reader-h3">Mã hóa từng cặp</h4>
-<p>Mã hóa từng cặp sinh
+<p>Mã hóa từng cặp sinh</p>
 \[
-  \neg x_i\lor\neg x_j
-   \forall i<j.
+\neg x_i\lor\neg x_j
+  \qquad\forall i&lt;j.
 \]
-Nó không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
+<p>Nó không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
 tiếp. Đây là lựa chọn tốt khi miền nhỏ.</p>
 <h4 class="reader-h3">Mã hóa tuần tự</h4>
 <p>Đặt \(s_i=1\) khi ít nhất một trong \(x_1,\ldots,x_i\) đúng. Một biến thể
-mã hóa AMO tuần tự dùng:
+mã hóa AMO tuần tự dùng:</p>
 \[
-  \neg x_i\lor s_i,</p>
-<p>\neg s_{i-1}\lor s_i,</p>
-<p>\neg x_i\lor\neg s_{i-1}.
+\neg x_i\lor s_i,
+  \qquad
+  \neg s_{i-1}\lor s_i,
+  \qquad
+  \neg x_i\lor\neg s_{i-1}.
 \]
-Mệnh đề cuối cấm \(x_i\) khi tiền tố trước đó đã có một giá trị đúng. Kích thước
+<p>Mệnh đề cuối cấm \(x_i\) khi tiền tố trước đó đã có một giá trị đúng. Kích thước
 tuyến tính theo \(n\) <span class="cite">(Sinz, 2005)</span>.</p>
 <h4 class="reader-h3">Mã hóa tích và mã hóa chỉ huy</h4>
 <p>Mã hóa tích (<em>product encoding</em>) đặt biến vào ma trận rồi dùng AMO theo
@@ -1020,81 +1039,50 @@ này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc
           </table>
         </div>
 <h3 class="reader-h2">Bộ đếm tuần tự cho AMK</h3>
-<p>Đặt
+<p>Đặt</p>
 \[
-  s_{i,j}=1
+s_{i,j}=1
   \iff
   \sum_{q=1}^{i}x_q\ge j,
-    1\le j\le k.
+  \qquad 1\le j\le k.
 \]
-Bộ đếm cập nhật theo hệ thức truy hồi
+<p>Bộ đếm cập nhật theo hệ thức truy hồi</p>
 \[
-  s_{i,j}
+s_{i,j}
   \leftrightarrow
   s_{i-1,j}\lor(x_i\land s_{i-1,j-1}),
 \]
-với \(s_{i,0}=\top\). Cận AMK cấm trạng thái tràn:
+<p>với \(s_{i,0}=\top\). Cận AMK cấm trạng thái tràn:</p>
 \[
-  \neg x_i\lor\neg s_{i-1,k}.
+\neg x_i\lor\neg s_{i-1,k}.
 \]
-Số thanh ghi và mệnh đề là \(O(nk)\). Với \(k\) nhỏ, bộ đếm tạo các quan hệ
+<p>Số thanh ghi và mệnh đề là \(O(nk)\). Với \(k\) nhỏ, bộ đếm tạo các quan hệ
 kéo theo cục bộ và cho phép đọc nhiều ngưỡng tiền tố
 <span class="cite">(Sinz, 2005)</span>.</p>
 <div class="reader-callout proposition-box">
               <div class="callout-header"><strong>Mệnh đề (Ngữ nghĩa của bộ đếm)</strong></div>
               <div class="callout-body">Nếu các hệ thức truy hồi được mã hóa hai chiều thì, với mọi \(i,j\),
 \[
-  s_{i,j}=1\iff\sum_{q=1}^{i}x_q\ge j.
+s_{i,j}=1\iff\sum_{q=1}^{i}x_q\ge j.
 \]</div>
             </div>
 <div class="reader-proof">
           <em>Chứng minh.</em> Quy nạp theo \(i\). Tiền tố \(i\) đạt \(j\) khi tiền tố \(i-1\) đã đạt \(j\),
 hoặc \(x_i=1\) và tiền tố trước đạt \(j-1\). Đây chính là hệ thức truy hồi. <span class="proof-qedsymbol">■</span>
         </div>
-<div class="reader-inline-caption"><em>Hình: Lưới trạng thái của bộ đếm tuần tự cho \(n=5,k=2\). Mũi tên liền
-truyền ngưỡng; mũi tên đứt đưa đầu vào mới vào hệ thức truy hồi.</em></div>
-<div class="reader-callout worked-example">
-              <div class="callout-header"><strong>AMK với năm đầu vào và cận hai</strong></div>
-              <div class="callout-body">Xét \(x_1+\cdots+x_5\le2\). Sau khi \(x_1=x_3=1\), bộ đếm suy ra
-\[
-  s_{3,2}=1.
-\]
-Mệnh đề chống tràn tại \(i=4\),
-\[
-  \neg x_4\lor\neg s_{3,2},
-\]
-trở thành mệnh đề đơn vị và suy ra \(\neg x_4\). Tương tự, tính đơn điệu của
-tiền tố đưa \(s_{3,2}\) đến \(s_{4,2}\), rồi mệnh đề chống tràn tại \(i=5\)
-suy ra \(\neg x_5\). Bộ đếm không cần đợi đầu vào đúng thứ ba mới báo xung đột; nó
-loại mọi vị trí còn lại ngay khi cận đã đầy.</div>
-            </div>
-<h3 class="reader-h2">Cây tổng</h3>
-<p>Cây tổng xây dựng một cây nhị phân. Mỗi nút trả về một vectơ đơn phân
-\[
-  o_j=1\iff \text{tổng trong cây con}\ge j.
-\]
-Khi ghép hai nút con có đầu ra \(a,b\), nút cha \(r\) thỏa
-\[
-  a_p\land b_q\rightarrow r_{p+q}.
-\]
-Chiều ngược bảo đảm đặc tả đầy đủ nếu các đầu ra được dùng bên ngoài. Cận
-\(\sum x_i\le k\) chỉ cần \(\neg o_{k+1}\).</p>
-<p>Cây tổng là lựa chọn tự nhiên khi:
-<ul class="reader-list"><li>cần nhiều ngưỡng trên cùng một tập biến;</li><li>cận được thay đổi tăng dần;</li><li>cần ràng buộc đúng \(K\) bằng \(o_k\land\neg o_{k+1}\).</li></ul>
-Cây tổng cân bằng tạo tính cục bộ theo cây; kích thước có thể được cắt ở
-\(k+1\) thay vì giữ toàn bộ tổng <span class="cite">(Bailleux & Boufkhad, 2003)</span>.</p>
 <div class="reader-inline-caption"><em>Hình: Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.</em></div>
 <h3 class="reader-h2">Mạng đếm</h3>
-<p>Mạng sắp xếp sắp các đầu vào Boolean thành các đầu ra đơn phân:
+<p>Mạng sắp xếp sắp các đầu vào Boolean thành các đầu ra đơn phân:</p>
 \[
-  o_1\ge o_2\ge\cdots\ge o_n,</p>
-<p>o_j=1\iff\sum_i x_i\ge j.
+o_1\ge o_2\ge\cdots\ge o_n,
+  \qquad
+  o_j=1\iff\sum_i x_i\ge j.
 \]
-Bộ so sánh
+<p>Bộ so sánh</p>
 \[
-  (a,b)\mapsto(a\lor b,\ a\land b)
+(a,b)\mapsto(a\lor b,\ a\land b)
 \]
-được Tseitin hóa. Cận AMK là \(\neg o_{k+1}\). Mạng có cấu trúc đều, độ sâu
+<p>được Tseitin hóa. Cận AMK là \(\neg o_{k+1}\). Mạng có cấu trúc đều, độ sâu
 đa lôgarit và thuận lợi cho lan truyền song song
 <span class="cite">(Batcher, 1968; Asín et al., 2011)</span>.</p>
 <p>So với bộ đếm tuần tự, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
@@ -1111,11 +1099,11 @@ mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành ph
 Nhược điểm là kích thước phụ thuộc thứ tự biến và số trạng thái tổng khác nhau.</p>
 <h3 class="reader-h2">Ràng buộc đúng \(K\) và đầu ra dùng chung</h3>
 <p>EXK có thể viết thành AMK và ALK, nhưng dựng hai bộ đếm độc lập sẽ lặp trạng
-thái. Nếu bộ mã hóa trả về các đầu ra đơn phân \(o_j\), chỉ cần
+thái. Nếu bộ mã hóa trả về các đầu ra đơn phân \(o_j\), chỉ cần</p>
 \[
-  o_k\land\neg o_{k+1}.
+o_k\land\neg o_{k+1}.
 \]
-Bộ đếm tuần tự cũng có thể dùng chung thanh ghi: biên \(s_{n,k}\) bảo đảm ít
+<p>Bộ đếm tuần tự cũng có thể dùng chung thanh ghi: biên \(s_{n,k}\) bảo đảm ít
 nhất \(k\), còn các mệnh đề chống tràn bảo đảm nhiều nhất \(k\).</p>
 <div class="reader-callout key-idea">
               <div class="callout-header"><strong>Định nghĩa một lần, đọc nhiều cận</strong></div>
@@ -1124,12 +1112,12 @@ có thể phục vụ AMK, ALK, EXK và vòng giải tăng dần. Đây là bư�
 mô-đun được phát triển ở Phần II.</div>
             </div>
 <h3 class="reader-h2">Pseudo-Boolean có trọng số</h3>
-<p>Ràng buộc tổng quát
+<p>Ràng buộc tổng quát</p>
 \[
-  \sum_{i=1}^{n}a_ix_i\le B,
-    a_i\in\mathbb Z_{\ge0},
+\sum_{i=1}^{n}a_ix_i\le B,
+  \qquad a_i\in\mathbb Z_{\ge0},
 \]
-không còn là cardinality khi trọng số khác nhau. Các hướng chính gồm:
+<p>không còn là cardinality khi trọng số khác nhau. Các hướng chính gồm:
 <ul class="reader-list"><li>mã hóa bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;</li><li>BDD cho các trạng thái tổng có thể đạt;</li><li>cây tổng tổng quát gom và cắt các tổng;</li><li>phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;</li><li>thư viện kết hợp như PBLib chọn bộ mã hóa theo cấu trúc
         <span class="cite">(Eén & Sörensson, 2006; Philipp & Reimer, 2015)</span>.</li></ul></p>
 <p>Nếu hàm mục tiêu thay cận nhiều lần, các đầu ra hoặc giao diện kích hoạt quan
@@ -1137,11 +1125,11 @@ trọng hơn vài phần trăm kích thước ở một cận duy nhất.</p>
 <h4 class="reader-h3">Cây tổng tổng quát</h4>
 <p>Cây tổng tổng quát (<em>generalized totalizer</em>) thay vectơ đơn phân liên tiếp
 bằng tập các tổng có thể đạt tại mỗi nút. Khi ghép hai nút có tập tổng \(A,B\),
-nút cha giữ các giá trị
+nút cha giữ các giá trị</p>
 \[
-  \min(a+b,B+1),  a\in A,\ b\in B,
+\min(a+b,B+1),\qquad a\in A,\ b\in B,
 \]
-trong đó \(B+1\) gom mọi trạng thái tràn. Phép mã hóa đặc biệt hiệu quả khi
+<p>trong đó \(B+1\) gom mọi trạng thái tràn. Phép mã hóa đặc biệt hiệu quả khi
 trọng số có cấu trúc và số tổng phân biệt sau phép cắt nhỏ hơn tổng số học thô
 <span class="cite">(Joshi et al., 2015)</span>. Hình dạng cây không còn là chi tiết vô hại: hai cách
 ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.</p>
@@ -1225,16 +1213,16 @@ lan truyền, bộ giải, đặc trưng hay cấu trúc của bài toán thử.
 <h3 class="reader-h2">Thực nghiệm là một phép đo có mô hình</h3>
 <p>Một bảng thời gian chạy không tự nói bộ mã hóa nào tốt hơn. Quan sát được tạo
 bởi cả
-chuỗi
+chuỗi</p>
 \[
-  \text{bài toán thử}
+\text{bài toán thử}
   \rightarrow\text{mô hình}
   \rightarrow\text{bộ mã hóa}
   \rightarrow\text{bộ tiền xử lý}
   \rightarrow\text{cấu hình bộ giải}
   \rightarrow\text{phần cứng}.
 \]
-Thay bất kỳ mắt xích nào cũng có thể đổi thứ hạng. Vì vậy kết luận cần nêu rõ
+<p>Thay bất kỳ mắt xích nào cũng có thể đổi thứ hạng. Vì vậy kết luận cần nêu rõ
 <em>quần thể</em> (<em>population</em>) mà nó hướng đến: một họ bài toán thử, một
 miền tham số, một bộ giải hay một danh mục bộ giải. Cần phân biệt
 <em>hiệu lực nội tại</em> (<em>internal validity</em>)---hiệu ứng thật sự do yếu tố
@@ -1261,9 +1249,9 @@ Trong trường hợp đó, dùng cấu hình
 \(\text{phép mã hóa}\times\text{đặc trưng}\) làm đơn vị so sánh.</div>
             </div>
 <h3 class="reader-h2">Ma trận thiết kế</h3>
-<p>Một ma trận điển hình gồm:
+<p>Một ma trận điển hình gồm:</p>
 \[
-  \text{bộ mã hóa}
+\text{bộ mã hóa}
   \times
   \text{bộ giải}
   \times
@@ -1273,7 +1261,7 @@ Trong trường hợp đó, dùng cấu hình
   \times
   \text{hạt giống}.
 \]
-Không nhất thiết chạy tích Descartes đầy đủ. Có thể dùng hai giai đoạn:
+<p>Không nhất thiết chạy tích Descartes đầy đủ. Có thể dùng hai giai đoạn:
 <ol class="reader-list"><li><strong>sàng lọc</strong>: chọn vài bộ giải đại diện và miền tham số rộng;</li><li><strong>xác nhận</strong>: giữ các cấu hình có triển vọng, tăng số bài toán
         thử và số hạt giống.</li></ol></p>
 <p>Mọi cấu hình phải dùng cùng ngữ nghĩa và bộ kiểm tra. Nếu một bộ mã hóa có tiền
@@ -1300,24 +1288,24 @@ quan quá mức. Một quy trình đơn giản:
 hai tập.</p>
 <h3 class="reader-h2">Các thước đo</h3>
 <h4 class="reader-h3">Kích thước và xây dựng</h4>
-<p>Ghi ít nhất:
+<p>Ghi ít nhất:</p>
 \[
-  n_v,  n_c,  n_\ell, 
-  \#\text{binary}, 
-  \#\text{ternary}, 
-  t_{\text{encode}}, 
+n_v,\quad n_c,\quad n_\ell,\quad
+  \#\text{binary},\quad
+  \#\text{ternary},\quad
+  t_{\text{encode}},\quad
   \text{bộ nhớ cực đại}.
 \]
-Thời gian của bộ giải nên đo từ sau khi dựng công thức; đồng thời báo thời gian
+<p>Thời gian của bộ giải nên đo từ sau khi dựng công thức; đồng thời báo thời gian
 toàn trình nếu bộ sinh công thức chiếm một phần đáng kể.</p>
 <h4 class="reader-h3">Quá trình tìm kiếm</h4>
 <p>Số quyết định, lượt lan truyền, xung đột, lần khởi động lại và mệnh đề đã học
-giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:
+giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:</p>
 \[
-  \text{lượt lan truyền/xung đột}, 
-  \text{xung đột/giây}, 
+\text{lượt lan truyền/xung đột},\qquad
+  \text{xung đột/giây},\qquad
   \text{bộ nhớ/biến}.
-\]</p>
+\]
 <h4 class="reader-h3">Thời gian chạy có kiểm duyệt</h4>
 <p>Khi một lần chạy hết thời hạn, ta chỉ biết thời gian cần thiết lớn hơn giới hạn;
 dữ liệu như vậy được gọi là <em>kiểm duyệt phải</em> (<em>right-censored</em>).
@@ -1325,18 +1313,18 @@ Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và
 bằng một trong các cách:
 <ul class="reader-list"><li>số bài giải được tại một giới hạn thời gian cố định;</li><li>PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;</li><li>biểu đồ xương rồng (<em>cactus plot</em>);</li><li>hồ sơ hiệu năng (<em>performance profile</em>);</li><li>thời gian đạt mục tiêu cho bài toán tối ưu.</li></ul></p>
 <p>Hồ sơ hiệu năng của Dolan--Moré chuẩn hóa thời gian chạy theo cấu hình tốt nhất
-trên từng bài toán thử. Với tỷ số
+trên từng bài toán thử. Với tỷ số</p>
 \[
-  r_{p,s}=
+r_{p,s}=
   \frac{t_{p,s}}{\min_{s'}t_{p,s'}},
 \]
-đường
+<p>đường</p>
 \[
-  \rho_s(\tau)=
+\rho_s(\tau)=
   \frac{1}{|P|}
-  |\{p\in P\mid r_{p,s\|\le\tau}}
+  \card{\set{p\in P\mid r_{p,s}\le\tau}}
 \]
-cho biết tỷ lệ bài mà cấu hình \(s\) nằm trong hệ số \(\tau\) so với tốt nhất
+<p>cho biết tỷ lệ bài mà cấu hình \(s\) nằm trong hệ số \(\tau\) so với tốt nhất
 <span class="cite">(Dolan & Moré, 2002)</span>. Giá trị tại \(\tau=1\) đo số lần thắng; phần
 đuôi đo độ bền. Bài hết thời hạn phải được gán một tỷ số lớn nhất nhất quán và
 được mô tả rõ.</p>
@@ -1355,23 +1343,24 @@ hình hết thời hạn sớm. Vì vậy không xếp hạng bằng một cột
 \text{Mới}&1&10&20
 \end{array}
 \]
-Đối chứng nhanh hơn trên \(p_2\), nhưng chỉ giải \(2/3\) bài; cấu hình mới giải
-cả ba. Nếu PAR-2 gán \(60\) giây cho lần chạy hết thời hạn:
+<p>Đối chứng nhanh hơn trên \(p_2\), nhưng chỉ giải \(2/3\) bài; cấu hình mới giải
+cả ba. Nếu PAR-2 gán \(60\) giây cho lần chạy hết thời hạn:</p>
 \[
-  \operatorname{PAR2}(\text{Đối chứng})=\frac{2+5+60}{3}=22.33,
-<p>\operatorname{PAR2}(\text{Mới})=\frac{1+10+20}{3}=10.33.
+\operatorname{PAR2}(\text{Đối chứng})=\frac{2+5+60}{3}=22.33,
+  \qquad
+  \operatorname{PAR2}(\text{Mới})=\frac{1+10+20}{3}=10.33.
 \]
-Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây và cấu hình mới
+<p>Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây và cấu hình mới
 \(10.33\) giây, từ đó tạo kết luận ngược vì đã bỏ chính bài khó nhất.</div>
             </div></p>
 <div class="reader-inline-caption"><em>Hình: Hồ sơ hiệu năng dạng bậc thang: phần trái cho số lần thắng, phần đuôi
 cho độ bền so với cấu hình tốt nhất trên từng bài toán thử.</em></div>
 <h4 class="reader-h3">Biểu đồ xương rồng và biểu đồ phân tán</h4>
-<p>Với một cấu hình \(s\), sắp tăng thời gian của các bài đã giải:
+<p>Với một cấu hình \(s\), sắp tăng thời gian của các bài đã giải:</p>
 \[
-  t_{(1),s}\le t_{(2),s}\le\cdots\le t_{(q_s),s}.
+t_{(1),s}\le t_{(2),s}\le\cdots\le t_{(q_s),s}.
 \]
-Biểu đồ xương rồng đặt số bài đã giải \(j\) trên trục ngang và
+<p>Biểu đồ xương rồng đặt số bài đã giải \(j\) trên trục ngang và
 \(t_{(j),s}\) trên trục dọc. Đường đi xa hơn sang phải biểu thị độ bền; đường
 thấp hơn biểu thị giải nhanh hơn ở cùng số bài đã giải. Đường dừng ở \(q_s\),
 nên các bài hết thời hạn không bị âm thầm loại khỏi kết luận.</p>
@@ -1389,10 +1378,10 @@ chạy hết thời hạn của một cấu hình.</em></div>
 <p>Các bài toán SAT cần tìm một nghiệm chứng; các bài toán UNSAT cần đóng toàn bộ
 không gian tìm kiếm. Một phép mã hóa có thể mạnh ở SAT nhưng yếu ở UNSAT hoặc
 ngược lại.
-Bảng kết quả nên tách:
+Bảng kết quả nên tách:</p>
 \[
-  \#SAT,  \#UNSAT,  t_{SAT},  t_{UNSAT}.
-\]</p>
+\#SAT,\quad \#UNSAT,\quad t_{SAT},\quad t_{UNSAT}.
+\]
 <p>Trong tối ưu, các lần gọi bộ giải gần giá trị tối ưu thường có cả hai trạng
 thái: mô hình tại cận khả thi và UNSAT tại cận tốt hơn. Vì thế, hồ sơ theo
 toàn bộ dãy cận chứa nhiều thông tin hơn thời gian chạy cuối cùng.</p>
@@ -1420,15 +1409,15 @@ và khoảng cách tối ưu theo thời gian.</p>
 <p>Một kết luận toàn cục dễ che mất điểm chuyển ưu thế. Bộ đếm tuần tự có thể tốt
 khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; mã hóa thứ tự
 có thể thắng khi các khoảng cấm rộng. Vì vậy, trước khi vẽ kết quả, cần xác
-định trước các tầng theo đặc trưng có ý nghĩa thuật toán:
+định trước các tầng theo đặc trưng có ý nghĩa thuật toán:</p>
 \[
-  \frac{k}{n}, 
-  \text{độ chồng lấn cửa sổ}, 
-  \text{độ rộng miền}, 
-  \text{mật độ ràng buộc}, 
+\frac{k}{n},\quad
+  \text{độ chồng lấn cửa sổ},\quad
+  \text{độ rộng miền},\quad
+  \text{mật độ ràng buộc},\quad
   \text{quy mô đối xứng}.
 \]
-Sau đó dùng bản đồ nhiệt hoặc bảng theo tầng để tìm <em>miền ưu thế</em> thay vì
+<p>Sau đó dùng bản đồ nhiệt hoặc bảng theo tầng để tìm <em>miền ưu thế</em> thay vì
 chỉ tìm “người thắng”. Cách phân tích này cũng cung cấp dữ liệu cho bộ chọn
 phép mã hóa ở Chương 3.</p>
 <h3 class="reader-h2">Kiểm đúng trước khi đo nhanh</h3>
@@ -1530,97 +1519,98 @@ trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ �
 từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
 nghĩa của từng cửa sổ.</p>
 <h3 class="reader-h2">Họ ràng buộc cửa sổ</h3>
-<p>Cho chuỗi
+<p>Cho chuỗi</p>
 \[
-  \Omega=\langle x_1,\ldots,x_n\rangle.
+\Omega=\langle x_1,\ldots,x_n\rangle.
 \]
-Cửa sổ độ rộng \(w\) bắt đầu tại \(i\):
+<p>Cửa sổ độ rộng \(w\) bắt đầu tại \(i\):</p>
 \[
-  W_i(w)=\langle x_i,\ldots,x_{i+w-1}\rangle.
+W_i(w)=\langle x_i,\ldots,x_{i+w-1}\rangle.
 \]
-AMK bậc thang là họ
+<p>AMK bậc thang là họ</p>
 \[
-  \sum_{x\in W_i(w)}x\le k
-    i=1,\ldots,n-w+1.
+\sum_{x\in W_i(w)}x\le k
+  \qquad i=1,\ldots,n-w+1.
 \]
-Các ràng buộc chuỗi tổng quát cho phép cả cận dưới và cận trên:
+<p>Các ràng buộc chuỗi tổng quát cho phép cả cận dưới và cận trên:</p>
 \[
-  \ell\le
+\ell\le
   \sum_{x\in W_i(w)}x
   \le u.
-\]</p>
-<p>Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thước xấp xỉ
-\[
-  O((n-w+1)wk).
 \]
-Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
-Mục tiêu của phép mã hóa dùng chung là đưa chi phí về gần
+<p>Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thước xấp xỉ</p>
 \[
-  O(nk)
+O((n-w+1)wk).
 \]
-hoặc \(O(nk+n_c)\), với \(n_c\) là số bộ nối.</p>
+<p>Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
+Mục tiêu của phép mã hóa dùng chung là đưa chi phí về gần</p>
+\[
+O(nk)
+\]
+<p>hoặc \(O(nk+n_c)\), với \(n_c\) là số bộ nối.</p>
 <div class="reader-inline-caption"><em>Hình: Ba cửa sổ độ rộng \(4\) chỉ dịch một vị trí: cửa sổ kề nhau giữ lại
 ba trong bốn biến. Xây lại một bộ đếm cho từng hàng sẽ lặp phần giao này.</em></div>
 <h3 class="reader-h2">Phân hoạch thành khối</h3>
-<p>Chia chuỗi thành các khối liên tiếp
+<p>Chia chuỗi thành các khối liên tiếp</p>
 \[
-  B_1,B_2,\ldots,B_m,</p>
-<p>\Omega=B_1\cdot B_2\cdots B_m.
+B_1,B_2,\ldots,B_m,
+  \qquad
+  \Omega=B_1\cdot B_2\cdots B_m.
 \]
-Trong mỗi khối, xây hai họ biến ngưỡng:
+<p>Trong mỗi khối, xây hai họ biến ngưỡng:</p>
 \[
-  F^b_{i,q}=1
+F^b_{i,q}=1
   \iff
   \sum_{j=1}^{i}B_b[j]\ge q,
 \]
 \[
-  R^b_{i,q}=1
+R^b_{i,q}=1
   \iff
-  \sum_{j=i}^{|B_b|}B_b[j]\ge q.
+  \sum_{j=i}^{\card{B_b}}B_b[j]\ge q.
 \]
 \(F\) đếm tiền tố từ trái sang phải; \(R\) đếm hậu tố từ phải sang trái. Một
 cửa sổ cắt biên giữa \(B_b,B_{b+1}\) là hợp của một hậu tố bên trái và một
 tiền tố bên phải. Số literal đúng trong cửa sổ được đọc từ \(R^b\) và
-\(F^{b+1}\).</p>
+\(F^{b+1}\).
 <div class="reader-inline-caption"><em>Hình: Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
 của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.</em></div>
 <div class="reader-callout example-box">
               <div class="callout-header"><strong>Ví dụ minh họa</strong></div>
               <div class="callout-body">Giả sử cửa sổ gồm hậu tố \(A\) của khối trái và tiền tố \(B\) của khối phải.
 Đặt \(T(S,q)\) là literal “\(\sum_{x\in S}x\ge q\)”, với hai quy ước biên
-\(T(S,q)=\top\) khi \(q\le 0\) và \(T(S,q)=\bot\) khi \(q>|S|\).
+\(T(S,q)=\top\) khi \(q\le 0\) và \(T(S,q)=\bot\) khi \(q&gt;\card{S}\).
 Điều kiện at-most-\(k\) tương đương với việc không tồn tại
-\(q\in\{0,\ldots,k+1\}\) sao cho
+\(q\in\set{0,\ldots,k+1}\) sao cho
 \[
-  \sum_{x\in A}x\ge q
-   \text{và} 
+\sum_{x\in A}x\ge q
+  \quad\text{và}\quad
   \sum_{x\in B}x\ge k+1-q.
 \]
-Bộ nối vì thế chứa
+<p>Bộ nối vì thế chứa</p>
 \[
-  \neg T(A,q)
+\neg T(A,q)
   \lor
   \neg T(B,k+1-q),
-    q=0,\ldots,k+1.
+  \qquad q=0,\ldots,k+1.
 \]
-Hai giá trị biên \(q=0\) và \(q=k+1\) không phải chi tiết hình thức: chúng
+<p>Hai giá trị biên \(q=0\) và \(q=k+1\) không phải chi tiết hình thức: chúng
 phát hiện trường hợp toàn bộ \(k+1\) giá trị đúng nằm ở chỉ một phía của biên.</div>
-            </div>
+            </div></p>
 <div class="reader-callout worked-example">
               <div class="callout-header"><strong>Đọc một cửa sổ qua hai thanh ghi</strong></div>
               <div class="callout-body">Lấy \(n=8,w=4,k=2\), chia
 \(B_1=(x_1,\ldots,x_4)\), \(B_2=(x_5,\ldots,x_8)\), và xét
 \[
-  x=(1,0,1,0\mid 1,0,0,1).
+x=(1,0,1,0\mid 1,0,0,1).
 \]
-Cửa sổ \(W_3=(x_3,x_4\mid x_5,x_6)=(1,0\mid1,0)\) có tổng \(2\).
+<p>Cửa sổ \(W_3=(x_3,x_4\mid x_5,x_6)=(1,0\mid1,0)\) có tổng \(2\).
 Hậu tố trái đạt ngưỡng \(1\) nhưng không đạt \(2\):
 \(R^1_{3,1}=1,R^1_{3,2}=0\). Tiền tố phải cũng có
 \(F^2_{2,1}=1,F^2_{2,2}=0\). Với \(k=2\), bốn bộ nối ứng với
 \(q=0,1,2,3\) cấm các cặp ngưỡng
 \((\top,F_3),(R_1,F_2),(R_2,F_1),(R_3,\top)\).
 Tất cả đều thỏa: hai mệnh đề biên xác nhận mỗi phía riêng lẻ không đạt \(3\),
-còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).
+còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).</p>
 <p>Nếu đổi \(x_6\) thành \(1\), tiền tố phải đạt ngưỡng \(2\). Khi đó
 \(\neg R^1_{3,1}\lor\neg F^2_{2,2}\) sai, phát hiện ngay tổng cửa sổ bằng
 \(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; nó chỉ ghép hai
@@ -1630,9 +1620,9 @@ chứng cứ ngưỡng.</div>
 <p>Bộ đếm cục bộ không biết cửa sổ nào sẽ đọc nó. Nó chỉ cung cấp đặc tả của các
 literal ngưỡng. Bộ nối biết cách một ràng buộc cắt biên và chọn các ngưỡng cần
 ghép.</p>
-<p>Với at-least-\(k\):
+<p>Với at-least-\(k\):</p>
 \[
-  \sum_{x\in A\cup B}x\ge k
+\sum_{x\in A\cup B}x\ge k
 \iff
   \bigwedge_{q=1}^{k}
   \left[
@@ -1641,10 +1631,10 @@ ghép.</p>
     \left(\sum_{x\in B}x\ge k-q+1\right)
   \right].
 \]
-Nếu thanh ghi có đặc tả tương đương, mỗi ngoặc vuông trở thành
+<p>Nếu thanh ghi có đặc tả tương đương, mỗi ngoặc vuông trở thành</p>
 \[
-  R^b_{a,q}\lor F^{b+1}_{c,k-q+1}.
-\]</p>
+R^b_{a,q}\lor F^{b+1}_{c,k-q+1}.
+\]
 <div class="reader-callout design-rule">
               <div class="callout-header"><strong>Bên cung cấp và bên sử dụng</strong></div>
               <div class="callout-body">Bộ đếm là bên cung cấp literal ngưỡng; bộ nối là bên sử dụng. Đặc tả hai
@@ -1678,22 +1668,22 @@ cạnh tranh trên 24 đồ thị kiểm chuẩn, đặc biệt ở các bài to
 lặp cửa sổ trở nên rõ rệt.</div>
             </div>
 <h3 class="reader-h2">Mở rộng sang Ladder AMK</h3>
-<p>Khi \(k>1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng bộ đếm tuần tự:
+<p>Khi \(k&gt;1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng bộ đếm tuần tự:</p>
 \[
-  F^b_{i,q}
+F^b_{i,q}
   \leftrightarrow
   F^b_{i-1,q}\lor
   (B_b[i]\land F^b_{i-1,q-1}),
 \]
-và hệ thức truy hồi đối xứng cho \(R^b\).</p>
-<p>Bộ nối cho cận trên cấm mọi cặp ngưỡng có tổng \(k+1\):
+<p>và hệ thức truy hồi đối xứng cho \(R^b\).</p>
+<p>Bộ nối cho cận trên cấm mọi cặp ngưỡng có tổng \(k+1\):</p>
 \[
-  \neg T(A,q)
+\neg T(A,q)
   \lor
   \neg T(B,k+1-q),
-    q=0,\ldots,k+1.
+  \qquad q=0,\ldots,k+1.
 \]
-Vì thế các thanh ghi thực phải được xây đến ngưỡng \(k+1\), trừ những mức có
+<p>Vì thế các thanh ghi thực phải được xây đến ngưỡng \(k+1\), trừ những mức có
 thể giản lược thành \(\top\) hoặc \(\bot\) theo kích thước phần cửa sổ.
 Nếu một cửa sổ đi qua nhiều hơn một biên, có hai lựa chọn:
 <ol class="reader-list"><li>tăng độ rộng khối để mỗi cửa sổ cắt nhiều nhất một biên;</li><li>xây bộ nối nhiều ngôi hoặc một bộ đếm trung gian trên tổng của các khối.</li></ol>
@@ -1719,17 +1709,17 @@ nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đ�
               <div class="callout-header"><strong>Định lý (Tính đúng của phép mã hóa cửa sổ dùng chung)</strong></div>
               <div class="callout-body">Giả sử:
 <ol class="reader-list"><li>các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;</li><li>mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;</li><li>mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;</li><li>với cửa sổ \(A\cup B\) cắt biên, phép mã hóa chứa đủ các mệnh đề
-  \[
-    \neg T(A,q)\lor\neg T(B,k+1-q),
-      q=0,\ldots,k+1.
-  \]</li></ol>
+\[
+\neg T(A,q)\lor\neg T(B,k+1-q),
+    \qquad q=0,\ldots,k+1.
+\]</li></ol>
 Khi đó CNF tương đương theo phép chiếu với họ staircase AMK.</div>
             </div>
 <div class="reader-proof">
           <em>Chứng minh.</em> Để chứng minh tính đúng, xét một cửa sổ. Nếu nằm trong khối, bộ đếm cục bộ loại mọi tổng
 vượt \(k\). Nếu cắt biên, đặt \(a=\sum_{x\in A}x\),
 \(b=\sum_{x\in B}x\). Khi \(a+b\ge k+1\), chọn
-\(q=\min\{a,k+1\}\). Ta có \(T(A,q)=1\); nếu \(q<k+1\) thì
+\(q=\min\{a,k+1\}\). Ta có \(T(A,q)=1\); nếu \(q&lt;k+1\) thì
 \(b\ge k+1-a=k+1-q\), còn nếu \(q=k+1\) thì ngưỡng bên phải bằng \(0\)
 và đúng theo quy ước. Bộ nối tương ứng bị vi phạm.
 <p>Để chứng minh tính đầy đủ, lấy một chuỗi thỏa mọi cửa sổ và gán các thanh ghi
@@ -1745,11 +1735,11 @@ và cửa sổ cắt một biên. Với cửa sổ đi qua ba khối trở lên,
 nhiều hơn hai thành phần.
 Có thể ghép tuần tự các khối bằng một bộ đếm trung gian, hoặc dùng một cây ghép
 có đầu ra bị cắt ở \(k+1\). Với các tổng bộ phận
-\(S_1,\ldots,S_r\), bất biến cần giữ là
+\(S_1,\ldots,S_r\), bất biến cần giữ là</p>
 \[
-  U_{j,q}\iff \min\!\left(k+1,\sum_{h=1}^{j}S_h\right)\ge q .
+U_{j,q}\iff \min\!\left(k+1,\sum_{h=1}^{j}S_h\right)\ge q .
 \]
-Sau lần ghép cuối, mệnh đề \(\neg U_{r,k+1}\) đóng AMK. Chi phí tăng theo số
+<p>Sau lần ghép cuối, mệnh đề \(\neg U_{r,k+1}\) đóng AMK. Chi phí tăng theo số
 khối mà từng cửa sổ chạm tới; một cây ghép riêng cho mỗi cửa sổ làm giảm tỷ
 lệ trạng thái dùng chung. Điều kiện “mỗi cửa sổ cắt nhiều nhất một biên” do
 đó là tiêu chí phân hoạch, còn bộ đếm ghép là phương án cho phân hoạch tổng
@@ -1764,11 +1754,11 @@ một siêu tham số cấu trúc.</p>
 sổ là một khoảng, chi phí của một biên bằng số ràng buộc cắt biên nhân với số
 ngưỡng cần nối.</p>
 <h3 class="reader-h2">Triển khai</h3>
-<p>Một giao diện lập trình (API) cho mô-đun có thể là:
+<p>Một giao diện lập trình (API) cho mô-đun có thể là:</p>
 \[
-  <code>SharedCounter(sequence, partition, maxThreshold)</code>
+\texttt{SharedCounter(sequence, partition, maxThreshold)}
 \]
-và trả về:
+<p>và trả về:
 <ul class="reader-list"><li>các literal ngưỡng tiền tố/hậu tố;</li><li>hàm <code>prefix(block,pos,q)</code>;</li><li>hàm <code>suffix(block,pos,q)</code>;</li><li>ánh xạ thanh ghi để gỡ lỗi và kiểm tra nội bộ.</li></ul>
 Sau đó <code>addAtMostWindow(i,w,k)</code> chỉ sinh các bộ nối. Nhiều mô-đun sử
 dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục tiêu.</p>
@@ -1828,14 +1818,14 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
           </div>
         </div>
 <h3 class="reader-h2">Ràng buộc đúng \(K\) trong không gian thiết kế</h3>
-<p>Ràng buộc đúng \(K\) (<em>Exactly-\(K\)</em>) có nhiều cách phân rã đúng:
+<p>Ràng buộc đúng \(K\) (<em>Exactly-\(K\)</em>) có nhiều cách phân rã đúng:</p>
 \[
-  \sum X=K
+\sum X=K
   \iff
   \left(\sum X\le K\right)\land
   \left(\sum X\ge K\right),
 \]
-nhưng hai vế không nhất thiết phải dùng hai bộ mã hóa độc lập. Một vectơ đơn
+<p>nhưng hai vế không nhất thiết phải dùng hai bộ mã hóa độc lập. Một vectơ đơn
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
 trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
@@ -1854,35 +1844,36 @@ một phần xác định của bảng và thay cách đóng biên Exactly-\(K\)
 lõi là một <em>không gian trạng thái gọn hơn trong họ tuần tự</em>; vị trí trên
 mặt Pareto được đo bằng số mệnh đề, số literal và sức lan truyền.</p>
 <h3 class="reader-h2">Từ bảng chữ nhật đến miền trạng thái khả đạt</h3>
-<p>Xét dãy Boolean \(X=\langle x_1,\ldots,x_n\rangle\) và ràng buộc
+<p>Xét dãy Boolean \(X=\langle x_1,\ldots,x_n\rangle\) và ràng buộc</p>
 \[
-  \sum_{i=1}^{n}x_i=k.
+\sum_{i=1}^{n}x_i=k.
 \]
-Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
-\(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j>i\) vì thế không
+<p>Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
+\(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j&gt;i\) vì thế không
 mang trạng thái hợp lệ.</p>
-<p>Bộ đếm tuần tự mới (<em>New Sequential Counter</em>, NSC) dùng thanh ghi tam giác
+<p>Bộ đếm tuần tự mới (<em>New Sequential Counter</em>, NSC) dùng thanh ghi tam giác</p>
 \[
-  R_{i,j}=1
-   \Longleftrightarrow 
-  \sum_{q=1}^{i}x_q\ge j,</p>
-<p>\begin{matrix}
+R_{i,j}=1
+  \quad\Longleftrightarrow\quad
+  \sum_{q=1}^{i}x_q\ge j,
+  \qquad
+  \begin{matrix}
     1\le i\le n-1,\\[-1mm]
     1\le j\le \min(i,k).
   \end{matrix}
 \]
-Chỉ \(n-1\) tiền tố được vật hóa; biến \(x_n\) được xử lý trong điều kiện cuối.
-Với \(n>k\), số biến phụ là
+<p>Chỉ \(n-1\) tiền tố được vật hóa; biến \(x_n\) được xử lý trong điều kiện cuối.
+Với \(n&gt;k\), số biến phụ là</p>
 \[
-  \sum_{i=1}^{n-1}\min(i,k)
+\sum_{i=1}^{n-1}\min(i,k)
   =
   k(n-1)-\frac{k(k-1)}{2}.
 \]
-So với bảng chữ nhật \(k(n-1)\), phần tiết kiệm chính xác là
+<p>So với bảng chữ nhật \(k(n-1)\), phần tiết kiệm chính xác là
 \(k(k-1)/2\) biến. Bậc tiệm cận được giữ nguyên, còn hệ số hữu hạn giảm đúng các
 trạng thái bất khả mà bộ giải phải duy trì.</p>
 <div class="reader-inline-caption"><em>Hình: Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
-tạo ba ô bất khả \(R_{1,2</em></div>
+tạo ba ô bất khả \(R_{1,2},R_{1,3},R_{2,3}\).</em></div>
 <div class="reader-callout key-idea">
               <div class="callout-header"><strong>“Thích nghi” ở đây có nghĩa gì?</strong></div>
               <div class="callout-body">Độ rộng hàng \(i\) là \(\min(i,k)\), được quyết định bởi số trạng thái có thể
@@ -1890,32 +1881,35 @@ tạo ba ô bất khả \(R_{1,2</em></div>
 được xác định trước khi bộ giải chạy.</div>
             </div>
 <h3 class="reader-h2">Đặc tả ngữ nghĩa và hệ thức truy hồi</h3>
-<p>Dùng hai quy ước biên
+<p>Dùng hai quy ước biên</p>
 \[
-  R_{i,0}\equiv\top,</p>
-<p>R_{0,j}\equiv\bot (j\ge1).
+R_{i,0}\equiv\top,
+  \qquad
+  R_{0,j}\equiv\bot\quad(j\ge1).
 \]
-Khi đó mọi ô hợp lệ tuân theo
+<p>Khi đó mọi ô hợp lệ tuân theo</p>
 \[
 R_{i,j}
   \;\longleftrightarrow\;
   R_{i-1,j}\lor
   \bigl(x_i\land R_{i-1,j-1}\bigr).
 \]
-Vế phải mô tả đúng hai cách để tiền tố mới đạt ngưỡng \(j\): tiền tố cũ đã đạt
+<p>Vế phải mô tả đúng hai cách để tiền tố mới đạt ngưỡng \(j\): tiền tố cũ đã đạt
 ngưỡng, hoặc \(x_i=1\) và tiền tố cũ đã đạt \(j-1\).</p>
 <p>Trong CNF, hệ thức truy hồi được phân rã thành các quan hệ kéo theo theo hai chiều. Phần
-tiến gồm
+tiến gồm</p>
 \[
-  R_{i-1,j}\rightarrow R_{i,j},</p>
-<p>(x_i\land R_{i-1,j-1})\rightarrow R_{i,j}.
+R_{i-1,j}\rightarrow R_{i,j},
+  \qquad
+  (x_i\land R_{i-1,j-1})\rightarrow R_{i,j}.
 \]
-Phần lùi gồm
+<p>Phần lùi gồm</p>
 \[
-  (\neg x_i\land\neg R_{i-1,j})\rightarrow\neg R_{i,j},</p>
-<p>\neg R_{i-1,j-1}\rightarrow\neg R_{i,j}.
+(\neg x_i\land\neg R_{i-1,j})\rightarrow\neg R_{i,j},
+  \qquad
+  \neg R_{i-1,j-1}\rightarrow\neg R_{i,j}.
 \]
-Sau khi thay các hằng biên và bỏ literal thừa, ta thu được các mệnh đề hai hoặc
+<p>Sau khi thay các hằng biên và bỏ literal thừa, ta thu được các mệnh đề hai hoặc
 ba literal. Cách sinh mệnh đề trực tiếp theo miền tam giác tránh tạo biến rồi
 giao cho bộ tiền xử lý xóa đi.</p>
 <div class="reader-callout design-rule">
@@ -1925,17 +1919,17 @@ khác, hệ thức truy hồi phải bảo đảm đặc tả hai chiều. Chỉ
 tiến không đủ để diễn giải \(\neg R_{i,j}\) là “tiền tố chưa đạt \(j\)”.</div>
             </div>
 <h3 class="reader-h2">Đóng ràng buộc đúng \(K\)</h3>
-<p>Phần nhiều nhất \(k\) cấm một đầu vào mới làm tràn bộ đếm:
+<p>Phần nhiều nhất \(k\) cấm một đầu vào mới làm tràn bộ đếm:</p>
 \[
 x_i\rightarrow\neg R_{i-1,k},
-    i=k+1,\ldots,n.
+  \qquad i=k+1,\ldots,n.
 \]
-Phần ít nhất \(k\) yêu cầu tổng cuối đạt ngưỡng \(k\):
+<p>Phần ít nhất \(k\) yêu cầu tổng cuối đạt ngưỡng \(k\):</p>
 \[
 R_{n-1,k}\lor
   \bigl(x_n\land R_{n-1,k-1}\bigr).
 \]
-Biểu thức (xem mục eq:nsc-lower) được phân phối thành CNF trước khi xuất. Khi
+<p>Biểu thức (xem mục eq:nsc-lower) được phân phối thành CNF trước khi xuất. Khi
 \(k=1\), \(R_{n-1,0}\equiv\top\); khi \(k=n\), có thể đơn giản hóa toàn bộ
 ràng buộc thành các mệnh đề đơn vị \(x_i\).</p>
 <div class="reader-callout theorem-box">
@@ -1947,13 +1941,13 @@ ràng buộc thành các mệnh đề đơn vị \(x_i\).</p>
 <div class="reader-proof">
           <em>Chứng minh.</em> Hệ thức truy hồi và các hằng biên cho, bằng quy nạp theo \(i\),
 \[
-  R_{i,j}=1
+R_{i,j}=1
   \Longleftrightarrow
   \sum_{q=1}^{i}x_q\ge j.
 \]
-Nếu có hơn \(k\) đầu vào đúng, xét đầu vào đúng thứ \(k+1\), ký hiệu \(x_i\).
+<p>Nếu có hơn \(k\) đầu vào đúng, xét đầu vào đúng thứ \(k+1\), ký hiệu \(x_i\).
 Ngay trước nó, \(R_{i-1,k}=1\), trái với
-(xem mục eq:nsc-overflow). Do đó tổng không vượt \(k\).
+(xem mục eq:nsc-overflow). Do đó tổng không vượt \(k\).</p>
 <p>Ngược lại, (xem mục eq:nsc-lower) chỉ đúng khi \(k\) đầu vào đầu tiên đã xuất hiện
 trong \(n-1\) vị trí đầu, hoặc \(x_n=1\) và tiền tố trước đó chứa ít nhất
 \(k-1\) đầu vào đúng. Vì vậy tổng ít nhất \(k\). Hai cận cho tổng đúng bằng
@@ -1964,25 +1958,23 @@ thật thỏa hệ thức truy hồi và cả hai điều kiện biên. <span cl
               <div class="callout-header"><strong>Exactly-\(3\) trên sáu biến</strong></div>
               <div class="callout-body">Với \(n=6,k=3\), NSC tạo
 \[
-  \min(1,3)+\min(2,3)+\cdots+\min(5,3)=12
+\min(1,3)+\min(2,3)+\cdots+\min(5,3)=12
 \]
-biến thanh ghi, thay vì \(5\cdot3=15\) ô của bảng chữ nhật. Xét
+<p>biến thanh ghi, thay vì \(5\cdot3=15\) ô của bảng chữ nhật. Xét</p>
 \[
-  x=(1,0,1,0,0,1).
+x=(1,0,1,0,0,1).
 \]
-Sau năm biến, tổng tiền tố bằng \(2\), nên
+<p>Sau năm biến, tổng tiền tố bằng \(2\), nên</p>
 \[
-  (R_{5,1},R_{5,2},R_{5,3})=(1,1,0).
+(R_{5,1},R_{5,2},R_{5,3})=(1,1,0).
 \]
-Điều kiện cuối
-\(
-R_{5,3}\lor(x_6\land R_{5,2})
-\)
+<p>Điều kiện cuối
+\(R_{5,3}\lor(x_6\land R_{5,2})\)
 đúng chính vì \(x_6=1\) và tiền tố đã đạt ngưỡng \(2\). Nếu đặt thêm
 \(x_5=1\), ta có \(R_{5,3}=1\); mệnh đề chống tràn
 \(x_6\rightarrow\neg R_{5,3}\) lập tức buộc \(x_6=0\). Hai tình huống này
 minh họa lần lượt biên dưới và biên trên của cùng một thanh ghi.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Lan truyền nhìn từ hai biên</h3>
 <p>Bộ đếm hữu ích vì các cận xuất hiện sớm trong tìm kiếm. Hai tình huống quan
 trọng có thể kiểm tra trực tiếp:</p>
@@ -1994,23 +1986,23 @@ trọng có thể kiểm tra trực tiếp:</p>
 phần còn lại”. Chúng nên được kiểm tra bằng phép thử đơn vị trên mọi phép gán
 bộ phận nhỏ, thay vì suy luận hiệu quả chỉ từ số biến hoặc số mệnh đề.</p>
 <h3 class="reader-h2">Dùng một thanh ghi cho nhiều giao diện</h3>
-<p>Khi thanh ghi đã có đặc tả ngưỡng, nhiều ràng buộc có thể đọc cùng một mô-đun:
+<p>Khi thanh ghi đã có đặc tả ngưỡng, nhiều ràng buộc có thể đọc cùng một mô-đun:</p>
 \[
-  \sum X\le k
-   \Longrightarrow 
+\sum X\le k
+  \quad\Longrightarrow\quad
   \text{các mệnh đề chống tràn},
 \]
 \[
-  \sum X\ge k
-   \Longrightarrow 
+\sum X\ge k
+  \quad\Longrightarrow\quad
   \text{đầu ra đạt ngưỡng cuối},
 \]
 \[
-  \sum X=k
-   \Longrightarrow 
+\sum X=k
+  \quad\Longrightarrow\quad
   \text{kết hợp hai giao diện trên}.
 \]
-Nếu cần nhiều cận \(k_1<k_2<\cdots\), bộ đếm nên được tạo đến ngưỡng lớn nhất
+<p>Nếu cần nhiều cận \(k_1&lt;k_2&lt;\cdots\), bộ đếm nên được tạo đến ngưỡng lớn nhất
 rồi cung cấp các đầu ra nhỏ hơn. Cách này tránh xây hai mạng đếm độc lập cho
 ràng buộc và hàm mục tiêu.</p>
 <h3 class="reader-h2">Nghiên cứu tình huống ngắn: xếp nhóm chơi golf</h3>
@@ -2028,15 +2020,15 @@ trọng: bỏ một chỉ số không mang nghĩa thường tạo lợi ích l�
 mệnh đề trong chính bộ mã hóa ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
 khi phần biểu diễn đối tượng đã được chuẩn hóa.</p>
 <p>Một bài toán thử \(g\)-\(p\)-\(w\) có \(n=gp\) người chơi, \(g\) nhóm mỗi tuần,
-mỗi nhóm có \(p\) người và \(w\) tuần. Biến ba chỉ số
+mỗi nhóm có \(p\) người và \(w\) tuần. Biến ba chỉ số</p>
 \[
-  G_{i,r,t}=1
-   \Longleftrightarrow 
+G_{i,r,t}=1
+  \quad\Longleftrightarrow\quad
   \text{người chơi \(i\) thuộc nhóm \(r\) ở tuần \(t\)}
 \]
-loại bỏ chỉ số vị trí bên trong nhóm, bởi thứ tự các thành viên trong một nhóm
+<p>loại bỏ chỉ số vị trí bên trong nhóm, bởi thứ tự các thành viên trong một nhóm
 không mang ý nghĩa.</p>
-<p>Mô hình gồm ba họ ràng buộc:
+<p>Mô hình gồm ba họ ràng buộc:</p>
 \[
 &\sum_{r=1}^{g}G_{i,r,t}=1
     &&\text{với mọi người chơi \(i\), tuần \(t\)},\\
@@ -2044,9 +2036,9 @@ không mang ý nghĩa.</p>
     &&\text{với mọi nhóm \(r\), tuần \(t\)},\\
   &\neg G_{i,r,t}\lor\neg G_{j,r,t}\lor
     \neg G_{i,s,u}\lor\neg G_{j,s,u}
-    &&\text{với \(i<j,\ t<u\)}.
+    &&\text{với \(i&lt;j,\ t&lt;u\)}.
 \]
-Họ thứ ba cấm một cặp người chơi gặp nhau ở cả nhóm \(r\), tuần \(t\) và nhóm
+<p>Họ thứ ba cấm một cặp người chơi gặp nhau ở cả nhóm \(r\), tuần \(t\) và nhóm
 \(s\), tuần \(u\). NSC được dùng ở họ thứ hai; mỗi cặp nhóm--tuần có một
 bộ đếm tam giác riêng <span class="cite">(Kieu et al., 2026)</span>.</p>
 <p>Hai phép chuẩn hóa rẻ được thêm vào mô hình. Tuần đầu được cố định thành các
@@ -2073,7 +2065,7 @@ nhóm, đồng thời phân tầng theo \(p\), \(g\), \(w\) và tách các bài 
 <h3 class="reader-h2">Cài đặt và kiểm thử</h3>
 <p>Một bộ sinh NSC nên nhận dãy literal, cận \(k\) và chế độ
 <code>AMK</code>/<code>ALK</code>/<code>EXK</code>. Bảng ánh xạ
-\((i,j)\mapsto<code>varID</code>\) chỉ chứa ô hợp lệ. Ba lớp kiểm thử là đủ để bắt
+\((i,j)\mapsto\texttt{varID}\) chỉ chứa ô hợp lệ. Ba lớp kiểm thử là đủ để bắt
 phần lớn lỗi biên:</p>
 <ol class="reader-list"><li>liệt kê toàn bộ vectơ đầu vào khi \(n\le8\) và so sánh với tổng thật;</li><li>với mỗi vectơ hợp lệ, kiểm tra có tồn tại phần mở rộng cho biến \(R\);</li><li>với mỗi phép gán bộ phận, so sánh literal đầu vào mà lan truyền đơn vị
   suy ra với các hệ quả trực tiếp của hai cận.</li></ol>
@@ -2084,7 +2076,7 @@ quy ước hằng biên và phạm vi chỉ số thường gây lỗi nhất.</p
           <div class="algo-body"><strong>Đầu vào:</strong> các literal \(x_1,\ldots,x_n\) và \(0\le k\le n\).\\
 <strong>Đầu ra:</strong> CNF và ánh xạ ngữ nghĩa của các thanh ghi.
 <ol class="reader-list"><li>Xử lý trực tiếp \(k=0\) bằng \(\bigwedge_i\neg x_i\) và \(k=n\)
-  bằng \(\bigwedge_i x_i\). Nếu \(k>n/2\), có thể thay
+  bằng \(\bigwedge_i x_i\). Nếu \(k&gt;n/2\), có thể thay
   \(y_i=\neg x_i\) và đếm Exactly-\((n-k)\).</li><li>Chỉ cấp phát \(R_{i,j}\) với \(1\le i\le n-1\) và
   \(1\le j\le\min(i,k)\); ghi ánh xạ
   \(R_{i,j}\leftrightarrow[\sum_{q=1}^{i}x_q\ge j]\).</li><li>Với từng ô hợp lệ, phân rã tương đương
@@ -2094,12 +2086,12 @@ quy ước hằng biên và phạm vi chỉ số thường gây lỗi nhất.</p
         </div>
 <h3 class="reader-h2">Miền lựa chọn của NSC</h3>
 <p>NSC loại chính xác \(k(k-1)/2\) ô so với bảng chữ nhật, nên tỷ lệ tiết kiệm
-biến chỉ là
+biến chỉ là</p>
 \[
-  \frac{k(k-1)/2}{k(n-1)}
+\frac{k(k-1)/2}{k(n-1)}
   =\frac{k-1}{2(n-1)}.
 \]
-Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); hằng số của ánh xạ
+<p>Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); hằng số của ánh xạ
 và các mệnh đề hai chiều có thể quan trọng hơn phần tam giác bị bỏ. Với
 \(k\) gần \(n\), đếm các literal bù \(\neg x_i\) đến \(n-k\) thường gọn hơn.
 Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, cây tổng và
@@ -2183,18 +2175,18 @@ lớp lên hiệu năng
 <h3 class="reader-h2">Đối xứng như tác động lên nghiệm</h3>
 <p>Gọi \(S\) là tập nghiệm khả thi và \(\Gamma\) là một nhóm các phép biến đổi
 bảo toàn tính khả thi và giá trị mục tiêu. Hai nghiệm \(s,s'\in S\) tương
-đương khi tồn tại \(\gamma\in\Gamma\) sao cho \(s'=\gamma(s)\). Tập
+đương khi tồn tại \(\gamma\in\Gamma\) sao cho \(s'=\gamma(s)\). Tập</p>
 \[
-  \operatorname{Orb}(s)=\{\gamma(s)\suchthat\gamma\in\Gamma\}
+\operatorname{Orb}(s)=\set{\gamma(s)\suchthat\gamma\in\Gamma}
 \]
-là quỹ đạo của \(s\).</p>
+<p>là quỹ đạo của \(s\).</p>
 <p>Phá đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
-đại diện:
+đại diện:</p>
 \[
-  \forall s\in S, 
+\forall s\in S,\qquad
   \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
 \]
-Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
+<p>Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
 phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố mã hóa
 một dạng chuẩn hoàn chỉnh <span class="cite">(Walsh, 2006; Gent et al., 2006)</span>.</p>
 <div class="reader-inline-caption"><em>Hình: Một quỹ đạo gồm bốn cách biểu diễn tương đương. Ràng buộc phá đối
@@ -2211,32 +2203,32 @@ loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác đị
 nhóm, mỗi nhóm \(p\) người tạo thêm \(p!\) cách biểu diễn cùng một tập.
 Trong bài toán đóng gói, biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
 giải một hình chữ nhật; biến tọa độ và hướng đặt biểu diễn hình học trực tiếp hơn.</p>
-<p>Nguyên tắc chung là:
+<p>Nguyên tắc chung là:</p>
 \[
-  \text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
+\text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
 \]
-Sau bước chọn biến, các ràng buộc phá đối xứng xử lý nhóm đối xứng còn lại.
+<p>Sau bước chọn biến, các ràng buộc phá đối xứng xử lý nhóm đối xứng còn lại.
 Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá đối xứng tiếp tục
 giảm số mô hình.</p>
 <h3 class="reader-h2">Bốn mẫu phá đối xứng</h3>
 <h4 class="reader-h3">Cố định một lát chuẩn</h4>
 <p>Khi các lớp thời gian hoặc tài nguyên hoán vị tự do, có thể cố định lát đầu.
-Với Social Golfer, tuần đầu được chuẩn hóa:
+Với Social Golfer, tuần đầu được chuẩn hóa:</p>
 \[
-  G_{i,r,1}=1
-   \text{khi} 
-  (r-1)p<i\le rp.
+G_{i,r,1}=1
+  \quad\text{khi}\quad
+  (r-1)p&lt;i\le rp.
 \]
-Mọi lịch khả thi có thể đổi tên người chơi và nhóm để thỏa cách sắp này. Những
+<p>Mọi lịch khả thi có thể đổi tên người chơi và nhóm để thỏa cách sắp này. Những
 Các mệnh đề đơn vị đó loại một phần lớn quỹ đạo mà hầu như không tăng chi phí giải
 <span class="cite">(Kieu et al., 2026)</span>.</p>
 <h4 class="reader-h3">Tiền tố sử dụng và thứ tự ưu tiên giá trị</h4>
 <p>Giả sử \(u_b\) cho biết khung chứa \(b\) được dùng. Vì tên các khung chứa có thể hoán vị,
-áp đặt
+áp đặt</p>
 \[
-  u_{b+1}\rightarrow u_b.
+u_{b+1}\rightarrow u_b.
 \]
-Các khung chứa được dùng tạo thành một tiền tố. Với các giá trị đối xứng, thứ
+<p>Các khung chứa được dùng tạo thành một tiền tố. Với các giá trị đối xứng, thứ
 tự ưu tiên giá trị yêu cầu lần xuất hiện đầu của giá trị nhỏ hơn đứng trước lần
 xuất hiện đầu của giá trị lớn hơn. Hai mẫu này cùng chọn thứ tự theo “lần sử
 dụng đầu”, nhưng tiền tố sử dụng chỉ cần một dãy Boolean nên thường rẻ hơn.</p>
@@ -2248,14 +2240,15 @@ nghiệm đều có một nghiệm cùng giá trị mục tiêu thỏa
 \(u_{b+1}\rightarrow u_b\).</div>
             </div>
 <div class="reader-proof">
-          <em>Chứng minh.</em> Cho \(U=\{b:u_b=1\}\) và \(q=|U|\). Chọn một song ánh
-\(\pi:U\to\{1,\ldots,q\}\), rồi mở rộng \(\pi\) thành một hoán vị trên toàn
+          <em>Chứng minh.</em> Cho \(U=\set{b:u_b=1}\) và \(q=\card{U}\). Chọn một song ánh
+\(\pi:U\to\set{1,\ldots,q}\), rồi mở rộng \(\pi\) thành một hoán vị trên toàn
 bộ tập khung chứa. Định nghĩa
 \[
-  a'_{i,\pi(b)}=a_{ib},
-<p>u'_{\pi(b)}=u_b .
+a'_{i,\pi(b)}=a_{ib},
+  \qquad
+  u'_{\pi(b)}=u_b .
 \]
-Mọi biến thuộc bản thân vật \(i\), như tọa độ, phép quay hay kích thước, được
+<p>Mọi biến thuộc bản thân vật \(i\), như tọa độ, phép quay hay kích thước, được
 giữ nguyên. Vì sức chứa và các ràng buộc gán được phát biểu đồng nhất cho mọi
 khung, đổi tên theo \(\pi\) bảo toàn tính khả thi; vì hàm mục tiêu không đọc
 chỉ số khung, giá trị mục tiêu cũng không đổi. Trong nghiệm mới,
@@ -2266,28 +2259,28 @@ chỉ số khung, giá trị mục tiêu cũng không đổi. Trong nghiệm m�
 miền khác nhau thì hoán vị tùy ý không còn là đối xứng. Khi đó chỉ được áp
 dụng tiền tố trong từng lớp khung chứa thật sự đồng nhất.</p>
 <h4 class="reader-h3">Lex-leader</h4>
-<p>Với hai vector đại diện các đối tượng hoán vị được,
+<p>Với hai vector đại diện các đối tượng hoán vị được,</p>
 \[
-  A=\langle a_1,\ldots,a_m\rangle, 
+A=\langle a_1,\ldots,a_m\rangle,\qquad
   B=\langle b_1,\ldots,b_m\rangle,
 \]
-ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép mã hóa dùng
-các biến bằng nhau trên tiền tố \(e_i\):
+<p>ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép mã hóa dùng
+các biến bằng nhau trên tiền tố \(e_i\):</p>
 \[
-  e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
-    e_0=\top,
+e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
+  \qquad e_0=\top,
 \]
-và cấm \(e_{i-1}\land a_i\land\neg b_i\). Ràng buộc dẫn đầu theo thứ tự từ
+<p>và cấm \(e_{i-1}\land a_i\land\neg b_i\). Ràng buộc dẫn đầu theo thứ tự từ
 điển (<em>lex-leader</em>) mạnh hơn tiền tố sử dụng nhưng tạo thêm một chuỗi biến
 phụ cho mỗi cặp được so sánh.</p>
 <h4 class="reader-h3">Neo hình học và phản xạ</h4>
 <p>Với khung chứa hình chữ nhật, các phép phản xạ hoặc quay toàn bố cục có thể bảo
 toàn nghiệm. Một vật chuẩn---thường là vật lớn nhất theo diện tích rồi theo
-cạnh dài---được neo vào nửa trái hoặc một góc chuẩn:
+cạnh dài---được neo vào nửa trái hoặc một góc chuẩn:</p>
 \[
-  2x_a+w_a\le W.
+2x_a+w_a\le W.
 \]
-Điều kiện phải khớp với nhóm đối xứng thật. Nếu khung chứa, miền quay hoặc hàm
+<p>Điều kiện phải khớp với nhóm đối xứng thật. Nếu khung chứa, miền quay hoặc hàm
 mục tiêu không bất biến qua phản xạ thì ràng buộc này không hợp lệ.</p>
 <div class="reader-callout key-idea">
               <div class="callout-header"><strong>Ràng buộc mạnh nhất không mặc nhiên là tốt nhất</strong></div>
@@ -2298,20 +2291,20 @@ chỉ trên số mô hình bị
 loại.</div>
             </div>
 <h3 class="reader-h2">Biến quan hệ cho các phép tuyển</h3>
-<p>Nhiều bài toán có ràng buộc dạng
+<p>Nhiều bài toán có ràng buộc dạng</p>
 \[
-  A\lor B\lor C\lor D.
+A\lor B\lor C\lor D.
 \]
-Trong đóng gói, hai hình \(i,j\) không chồng lấn khi ít nhất một quan hệ đúng:
+<p>Trong đóng gói, hai hình \(i,j\) không chồng lấn khi ít nhất một quan hệ đúng:</p>
 \[
-  L_{ij}\lor L_{ji}\lor B_{ij}\lor B_{ji},
+L_{ij}\lor L_{ji}\lor B_{ij}\lor B_{ji},
 \]
-trong đó \(L_{ij}\) nghĩa là \(i\) nằm trái \(j\), còn \(B_{ij}\) nghĩa là
-\(i\) nằm dưới \(j\). Trong lập lịch, hai tác vụ dùng cùng tài nguyên cần
+<p>trong đó \(L_{ij}\) nghĩa là \(i\) nằm trái \(j\), còn \(B_{ij}\) nghĩa là
+\(i\) nằm dưới \(j\). Trong lập lịch, hai tác vụ dùng cùng tài nguyên cần</p>
 \[
-  P_{ij}\lor P_{ji},
+P_{ij}\lor P_{ji},
 \]
-với \(P_{ij}\) nghĩa là \(i\) kết thúc trước khi \(j\) bắt đầu.</p>
+<p>với \(P_{ij}\) nghĩa là \(i\) kết thúc trước khi \(j\) bắt đầu.</p>
 <p>Biến quan hệ đóng vai trò biến chứng cho một nhánh của phép tuyển. Chúng rút
 ràng buộc toàn cục thành các mệnh đề cục bộ quanh cặp đối tượng. Khi một quan
 hệ được chọn, nó kích hoạt một quan hệ kéo theo trên tọa độ hoặc thời gian; khi
@@ -2321,42 +2314,42 @@ miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giả
 hóa hỗ trợ. Nó không chọn toàn bộ giá trị của hai biến; nó chọn một
 <em>lớp</em> cặp giá trị,
 chẳng hạn “trái”, “dưới” hoặc “trước”. Mỗi lớp sau đó được liên kết sang
-các literal biên của miền. Đây là một phép phân tích thành nhân tử:
+các literal biên của miền. Đây là một phép phân tích thành nhân tử:</p>
 \[
-  \text{bảng cặp giá trị hợp lệ}
+\text{bảng cặp giá trị hợp lệ}
   =
   \bigcup_{q\in Q}\text{lớp hỗ trợ}(q).
 \]
-Nếu \(|Q|\) nhỏ và mỗi lớp được mô tả bằng vài bất đẳng thức, các biến quan hệ
+<p>Nếu \(|Q|\) nhỏ và mỗi lớp được mô tả bằng vài bất đẳng thức, các biến quan hệ
 nén một bảng cấm lớn. Nếu các lớp chồng lấn quá nhiều hoặc không
 có mô tả ngắn, biến quan hệ chỉ thêm một tầng trung gian.</p>
 <div class="reader-inline-caption"><em>Hình: Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
 Một literal quan hệ làm biến chứng cho cả một lớp cặp tọa độ.</em></div>
 <h3 class="reader-h2">Mã hóa thứ tự và các literal so sánh</h3>
-<p>Cho biến nguyên \(z\in\{0,\ldots,U\}\). Mã hóa thứ tự dùng
+<p>Cho biến nguyên \(z\in\{0,\ldots,U\}\). Mã hóa thứ tự dùng</p>
 \[
-  o_{z,t}=1
-   \Longleftrightarrow 
+o_{z,t}=1
+  \quad\Longleftrightarrow\quad
   z\ge t,
-    t=1,\ldots,U.
+  \qquad t=1,\ldots,U.
 \]
-Tính đơn điệu được mã hóa bởi
+<p>Tính đơn điệu được mã hóa bởi</p>
 \[
-  o_{z,t+1}\rightarrow o_{z,t}.
+o_{z,t+1}\rightarrow o_{z,t}.
 \]
-Một cận \(z\ge a\) là mệnh đề đơn vị \(o_{z,a}\); cận \(z\le b\) là
-\(\neg o_{z,b+1}\). Phép so sánh dịch chuyển
+<p>Một cận \(z\ge a\) là mệnh đề đơn vị \(o_{z,a}\); cận \(z\le b\) là
+\(\neg o_{z,b+1}\). Phép so sánh dịch chuyển</p>
 \[
-  x_i+w_i\le x_j
+x_i+w_i\le x_j
 \]
-trở thành các mệnh đề cấm mọi cặp ngưỡng mâu thuẫn. Khi \(w_i\) là hằng, cấu
+<p>trở thành các mệnh đề cấm mọi cặp ngưỡng mâu thuẫn. Khi \(w_i\) là hằng, cấu
 trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán đóng gói
 <span class="cite">(Soh et al., 2010; Kieu et al., 2025; Kieu et al., 2025)</span>.</p>
-<p>Với lập lịch, cùng kỹ thuật biểu diễn
+<p>Với lập lịch, cùng kỹ thuật biểu diễn</p>
 \[
-  s_i+p_i\le s_j.
+s_i+p_i\le s_j.
 \]
-Nhờ vậy, biến quan hệ \(P_{ij}\) có thể liên kết trực tiếp với các literal thứ
+<p>Nhờ vậy, biến quan hệ \(P_{ij}\) có thể liên kết trực tiếp với các literal thứ
 tự của \(s_i,s_j\), thay vì tạo một mạch cộng tổng quát
 <span class="cite">(Kieu & To, 2025)</span>.</p>
 <div class="reader-callout worked-example">
@@ -2364,24 +2357,24 @@ tự của \(s_i,s_j\), thay vì tạo một mạch cộng tổng quát
               <div class="callout-body">Cho \(z\in\{0,1,2,3,4\}\). Mã hóa trực tiếp có \(d_a\Leftrightarrow(z=a)\);
 mã hóa thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
 \[
-  d_a\leftrightarrow o_a\land\neg o_{a+1},
-    o_0\equiv\top,  o_5\equiv\bot.
+d_a\leftrightarrow o_a\land\neg o_{a+1},
+  \qquad o_0\equiv\top,\quad o_5\equiv\bot.
 \]
-Nếu bộ giải suy ra \(o_3=1,o_4=0\), các mệnh đề liên kết buộc \(d_3=1\), rồi
+<p>Nếu bộ giải suy ra \(o_3=1,o_4=0\), các mệnh đề liên kết buộc \(d_3=1\), rồi
 ràng buộc đúng một trên \(d_0,\ldots,d_4\) loại mọi giá trị khác. Theo chiều
 ngược, \(d_2=1\) buộc \(o_1=o_2=1\) và \(o_3=o_4=0\), khiến các ràng buộc cận
 đọc được ngay \(z=2\). Ví dụ này cho thấy lợi ích của liên kết hai chiều không
 nằm ở số mô hình mà ở đường truyền suy luận giữa hai giao diện.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Liên kết một chiều hay hai chiều</h3>
 <p>Giả sử \(q\) là biến quan hệ và \(\Phi\) là công thức miền gốc biểu diễn quan
-hệ đó. Có ba mức liên kết:
+hệ đó. Có ba mức liên kết:</p>
 \[
-  q\rightarrow\Phi, 
-  \Phi\rightarrow q, 
+q\rightarrow\Phi,\qquad
+  \Phi\rightarrow q,\qquad
   q\leftrightarrow\Phi.
 \]
-Chiều đầu đủ cho tính đúng nếu \(q\) chỉ được dùng làm biến chứng được chọn:
+<p>Chiều đầu đủ cho tính đúng nếu \(q\) chỉ được dùng làm biến chứng được chọn:
 bộ giải không thể đặt \(q=1\) khi quan hệ hình học sai. Chiều ngược giúp miền
 tọa độ suy ra \(q\); liên kết hai chiều cho phép lan truyền qua cả hai biểu
 diễn.</p>
@@ -2395,18 +2388,19 @@ diễn.</p>
               <div class="callout-header"><strong>Ví dụ minh họa</strong></div>
               <div class="callout-body">Với hai tác vụ cùng máy, đặt \(P_{ij}\lor P_{ji}\). Hai mệnh đề liên kết
 \[
-  P_{ij}\rightarrow(s_i+p_i\le s_j),
-<p>P_{ji}\rightarrow(s_j+p_j\le s_i)
+P_{ij}\rightarrow(s_i+p_i\le s_j),
+  \qquad
+  P_{ji}\rightarrow(s_j+p_j\le s_i)
 \]
-đã bảo đảm chúng không chồng lấn. Nếu quan hệ trước--sau từ một ràng buộc khác cho
+<p>đã bảo đảm chúng không chồng lấn. Nếu quan hệ trước--sau từ một ràng buộc khác cho
 biết \(s_i+p_i\le s_j\), chiều ngược
 \((s_i+p_i\le s_j)\rightarrow P_{ij}\) có thể truyền quan hệ này sang các
 mô-đun khác.</div>
             </div></p>
 <h4 class="reader-h3">Lan truyền qua vòng liên kết</h4>
-<p>Phép mã hóa kết hợp tạo một vòng suy luận:
+<p>Phép mã hóa kết hợp tạo một vòng suy luận:</p>
 \[
-  \text{lựa chọn chính xác}
+\text{lựa chọn chính xác}
   \rightarrow
   \text{các ngưỡng}
   \rightarrow
@@ -2414,7 +2408,7 @@ mô-đun khác.</div>
   \rightarrow
   \text{ngưỡng của biến khác}.
 \]
-Mỗi chiều liên kết đóng một đường suy luận trong vòng trên. Phép đánh giá bắt
+<p>Mỗi chiều liên kết đóng một đường suy luận trong vòng trên. Phép đánh giá bắt
 đầu bằng danh sách các suy luận miền mong muốn, sau đó tìm tập chiều tối thiểu
 tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán bộ phận và lan truyền
 đơn vị như trong Chương 2.</p>
@@ -2425,29 +2419,29 @@ vì chỉ thay một biểu thức xuất hiện một lần
 <div class="reader-inline-caption"><em>Hình: Vòng liên kết trong phép mã hóa kết hợp. Thiếu một chiều có thể làm
 đứt một đường lan truyền đơn vị dù công thức vẫn đúng theo phép chiếu.</em></div>
 <h3 class="reader-h2">Phép quay và kích thước có điều kiện</h3>
-<p>Khi vật \(i\) được phép quay, biến \(\rho_i\) chọn hướng đặt:
+<p>Khi vật \(i\) được phép quay, biến \(\rho_i\) chọn hướng đặt:</p>
 \[
-  (w_i(\rho_i),h_i(\rho_i))
+(w_i(\rho_i),h_i(\rho_i))
   =
   \begin{cases}
     (w_i,h_i),&\rho_i=0,\\
     (h_i,w_i),&\rho_i=1.
   \end{cases}
 \]
-Các literal quan hệ được dùng chung cho hai hướng đặt và được liên kết với phép
+<p>Các literal quan hệ được dùng chung cho hai hướng đặt và được liên kết với phép
 so sánh dịch chuyển dưới điều kiện gác \(\rho_i,\rho_j\). Ví dụ, \(L_{ij}\)
 sinh bốn họ mệnh đề, mỗi họ ứng với một tổ hợp hướng đặt còn hợp lệ. Các tổ
 hợp không vừa khung chứa bị loại bằng mệnh đề đơn vị hoặc mệnh đề nhị phân
 trước khi sinh quan hệ cặp.</p>
-<p>Cách tổ chức này tách ba tầng:
+<p>Cách tổ chức này tách ba tầng:</p>
 \[
-  \text{hướng đặt}
+\text{hướng đặt}
   \longrightarrow
   \text{kích thước hiệu dụng}
   \longrightarrow
   \text{quan hệ không chồng lấn}.
 \]
-Nó cũng cho phép tái sử dụng cùng biến \(\rho_i\) trong cận miền, quy tắc trội
+<p>Nó cũng cho phép tái sử dụng cùng biến \(\rho_i\) trong cận miền, quy tắc trội
 và bộ giải mã.</p>
 <h3 class="reader-h2">Đồ thị xung đột và tính địa phương</h3>
 <p>Đồ thị xung đột \(H=(V,E)\) chọn chính xác các cặp cần biến quan hệ:
@@ -2551,58 +2545,60 @@ chiều hoặc một phép giải mã chứng minh được.</div>
             </div>
 <h3 class="reader-h2">Lập lịch không ngắt trên các tài nguyên đồng nhất</h3>
 <h4 class="reader-h3">Mô hình</h4>
-<p>Cho tập tác vụ \(J=\{1,\ldots,n\}\) và \(m\) tài nguyên đồng nhất. Tác vụ
+<p>Cho tập tác vụ \(J=\set{1,\ldots,n}\) và \(m\) tài nguyên đồng nhất. Tác vụ
 \(i\) có thời điểm sẵn sàng \(r_i\), thời lượng \(e_i\) và hạn hoàn tất
-\(d_i\). Thời điểm bắt đầu thuộc miền
+\(d_i\). Thời điểm bắt đầu thuộc miền</p>
 \[
-  T_i=\{r_i,r_i+1,\ldots,d_i-e_i\}.
+T_i=\set{r_i,r_i+1,\ldots,d_i-e_i}.
 \]
-Nếu \(s_i\in T_i\), tác vụ chiếm tài nguyên trong nửa khoảng
+<p>Nếu \(s_i\in T_i\), tác vụ chiếm tài nguyên trong nửa khoảng
 \([s_i,s_i+e_i)\). Hai tác vụ được gán cùng tài nguyên không được có hai khoảng
 giao nhau.</p>
-<p>Một mô hình gọn dùng hai họ biến:
+<p>Một mô hình gọn dùng hai họ biến:</p>
 \[
-  y_{ij}=1 \iff i\text{ được gán cho tài nguyên }j,</p>
-<p>z_{it}=1 \iff i\text{ hoạt động tại }t .
+y_{ij}=1 \iff i\text{ được gán cho tài nguyên }j,
+  \qquad
+  z_{it}=1 \iff i\text{ hoạt động tại }t .
 \]
-Với mỗi tác vụ, các biến \(y_{ij}\) thỏa
+<p>Với mỗi tác vụ, các biến \(y_{ij}\) thỏa</p>
 \[
-  ExactlyOne(y_{i1},\ldots,y_{im}).
+\ExactlyOne(y_{i1},\ldots,y_{im}).
 \]
-Xung đột tài nguyên tại mốc \(t\) được loại bởi
+<p>Xung đột tài nguyên tại mốc \(t\) được loại bởi</p>
 \[
-  \neg z_{it}\lor \neg y_{ij}\lor
+\neg z_{it}\lor \neg y_{ij}\lor
   \neg z_{i't}\lor \neg y_{i'j},
-    i<i'.
+  \qquad i&lt;i'.
 \]
-Mệnh đề này là một xung đột có điều kiện: nó chỉ hoạt động khi hai tác vụ cùng
+<p>Mệnh đề này là một xung đột có điều kiện: nó chỉ hoạt động khi hai tác vụ cùng
 chọn tài nguyên \(j\).</p>
 <h4 class="reader-h3">Từ ràng buộc đếm đến một khối liên tục</h4>
-<p>Điều kiện
+<p>Điều kiện</p>
 \[
-  \sum_t z_{it}=e_i
+\sum_t z_{it}=e_i
 \]
-chỉ bảo đảm đủ số mốc hoạt động; nó không ngăn các mốc bị tách thành nhiều
-đoạn. Tính không ngắt (<em>non-preemption</em>) đòi hỏi mạnh hơn:
+<p>chỉ bảo đảm đủ số mốc hoạt động; nó không ngăn các mốc bị tách thành nhiều
+đoạn. Tính không ngắt (<em>non-preemption</em>) đòi hỏi mạnh hơn:</p>
 \[
-  z_{it}=1 \iff s_i\le t<s_i+e_i .
-\]</p>
+z_{it}=1 \iff s_i\le t&lt;s_i+e_i .
+\]
 <p>Mã hóa trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
-\(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng
+\(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng</p>
 \[
-  ExactlyOne\bigl(b_{is}:s\in T_i\bigr).
+\ExactlyOne\bigl(b_{is}:s\in T_i\bigr).
 \]
-Trong CNF, phần ít nhất một là mệnh đề
+<p>Trong CNF, phần ít nhất một là mệnh đề
 \(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng mã hóa từng
 cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
-dùng
+dùng</p>
 \[
-  b_{is}\rightarrow z_{it}
-   \text{với }s\le t<s+e_i,</p>
-<p>b_{is}\rightarrow \neg z_{it}
-   \text{ở ngoài khoảng.}
+b_{is}\rightarrow z_{it}
+  \quad\text{với }s\le t&lt;s+e_i,
+  \qquad
+  b_{is}\rightarrow \neg z_{it}
+  \quad\text{ở ngoài khoảng.}
 \]
-Cách này dễ hiểu nhưng lặp lại nhiều literal cho các thời điểm bắt đầu lân cận.
+<p>Cách này dễ hiểu nhưng lặp lại nhiều literal cho các thời điểm bắt đầu lân cận.
 Phép mã hóa gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa “tất
 cả bằng 0” hoặc “tất cả bằng 1”. Hai thời điểm bắt đầu kế tiếp chia sẻ gần
 như toàn bộ cấu trúc; khác biệt của chúng chỉ nằm ở hai biên của khối.</p>
@@ -2620,22 +2616,22 @@ khác. Chiều ngược lại, từ một khoảng hợp lệ, đặt biến b�
 gán các biến tiền tố/hậu tố theo định nghĩa của chúng. Mọi mệnh đề của mô-đun
 đều được thỏa. <span class="proof-qedsymbol">■</span>
         </div>
-<div class="reader-inline-caption"><em>Hình: Ràng buộc đếm \(\sum_tz_{it</em></div>
+<div class="reader-inline-caption"><em>Hình: Ràng buộc đếm \(\sum_tz_{it}=3\) không phân biệt một khối liên tục với
+ba mốc rời; tính không ngắt phải mã hóa vị trí bắt đầu và hai biên khối.</em></div>
 <div class="reader-callout worked-example">
               <div class="callout-header"><strong>Ba tác vụ trên hai máy</strong></div>
               <div class="callout-body">Cho \(J_1=(r=0,e=3,d=6)\), \(J_2=(0,2,5)\), \(J_3=(1,2,6)\).
 Một lịch hợp lệ là
 \[
-  M_1:\ J_1[0,3)\ \ J_3[3,5),
-<p>M_2:\ J_2[0,2).
+M_1:\ J_1[0,3)\ \ J_3[3,5),
+  \qquad
+  M_2:\ J_2[0,2).
 \]
-Với \(t=1\), \(z_{1,1}=z_{2,1}=1\) nhưng hai tác vụ dùng máy khác nhau nên
+<p>Với \(t=1\), \(z_{1,1}=z_{2,1}=1\) nhưng hai tác vụ dùng máy khác nhau nên
 mệnh đề xung đột có điều kiện vẫn thỏa. Nếu đổi \(y_{2,2}\) thành \(y_{2,1}\),
 mệnh đề tại \(t=1,j=1\) trở thành
-\(
-\neg z_{1,1}\lor\neg y_{1,1}\lor
-\neg z_{2,1}\lor\neg y_{2,1}
-\)
+\(\neg z_{1,1}\lor\neg y_{1,1}\lor
+\neg z_{2,1}\lor\neg y_{2,1}\)
 và bị vi phạm. Ví dụ tách rõ hai lớp: \(z\) nói khi nào tác vụ chạy, \(y\)
 nói nó chạy ở đâu.</div>
             </div></p>
@@ -2648,18 +2644,18 @@ ngầm suy từ một ràng buộc đếm.</p>
 <h3 class="reader-h2">Ràng buộc chuỗi trong lập lịch điều dưỡng</h3>
 <h4 class="reader-h3">Cửa sổ trượt</h4>
 <p>Với dãy Boolean \(\Omega=(x_1,\ldots,x_n)\), một ràng buộc chuỗi cận dưới yêu
-cầu mọi cửa sổ độ rộng \(w\) chứa ít nhất \(k\) giá trị đúng:
+cầu mọi cửa sổ độ rộng \(w\) chứa ít nhất \(k\) giá trị đúng:</p>
 \[
-  \operatorname{ALSC}(\Omega,w,k)=
+\operatorname{ALSC}(\Omega,w,k)=
   \bigwedge_{i=0}^{n-w}
   \left(\sum_{j=i+1}^{i+w}x_j\ge k\right).
 \]
-Nếu mã hóa từng cửa sổ bằng một phép mã hóa ràng buộc đếm độc lập, hai cửa sổ
+<p>Nếu mã hóa từng cửa sổ bằng một phép mã hóa ràng buộc đếm độc lập, hai cửa sổ
 kề nhau chia sẻ \(w-1\) biến gốc nhưng không chia sẻ biến phụ. Cấu trúc chuỗi
 vì thế đặt ra bài toán <em>tái sử dụng biểu thức con</em>.</p>
-<p>Chia một cửa sổ thành hai phần \(A\) và \(B\). Ta có
+<p>Chia một cửa sổ thành hai phần \(A\) và \(B\). Ta có</p>
 \[
-  \sum_{x\in A\cup B}x\ge k
+\sum_{x\in A\cup B}x\ge k
   \iff
   \bigwedge_{q=1}^{k}
   \left[
@@ -2668,7 +2664,7 @@ vì thế đặt ra bài toán <em>tái sử dụng biểu thức con</em>.</p>
     \left(\sum_{x\in B}x\ge k-q+1\right)
   \right].
 \]
-Mỗi mệnh đề ngưỡng trong ngoặc được biểu diễn bởi một thanh ghi dùng chung.
+<p>Mỗi mệnh đề ngưỡng trong ngoặc được biểu diễn bởi một thanh ghi dùng chung.
 Khi cửa sổ trượt sang phải, phần lớn thanh ghi vẫn còn nguyên.</p>
 <div class="reader-callout example-box">
               <div class="callout-header"><strong>Ví dụ minh họa</strong></div>
@@ -2677,24 +2673,24 @@ Khi cửa sổ trượt sang phải, phần lớn thanh ghi vẫn còn nguyên.<
 \(R_{A,q}\) mang nghĩa “\(A\) có ít nhất \(q\) giá trị đúng”, bộ nối chỉ
 cần
 \[
-  (R_{A,1}\lor R_{B,2})
+(R_{A,1}\lor R_{B,2})
   \land
   (R_{A,2}\lor R_{B,1}).
 \]
-Các thanh ghi của \(B\) tiếp tục được dùng trong cửa sổ kế tiếp.</div>
-            </div>
+<p>Các thanh ghi của \(B\) tiếp tục được dùng trong cửa sổ kế tiếp.</div>
+            </div></p>
 <div class="reader-inline-caption"><em>Hình: Ba cửa sổ ALSC \((w=4,k=2)\) trên bảy ngày. Mỗi cửa sổ kề nhau chỉ
 thay một ngày, nên các ngưỡng ở phần giao có thể dùng lại.</em></div>
 <h4 class="reader-h3">Đưa vào mô hình phân ca</h4>
 <p>Đặt \(x_{ids}=1\) khi điều dưỡng \(i\) làm loại ca \(s\) ở ngày \(d\). Mỗi cặp
 \((i,d)\) nhận đúng một trạng thái. Những quy tắc như “trong mọi \(w\) ngày có
-ít nhất \(k\) ngày nghỉ” trở thành ALSC; quy tắc at-most được đối ngẫu:
+ít nhất \(k\) ngày nghỉ” trở thành ALSC; quy tắc at-most được đối ngẫu:</p>
 \[
-  \sum_{j=1}^{w}x_j\le q
+\sum_{j=1}^{w}x_j\le q
   \iff
   \sum_{j=1}^{w}(1-x_j)\ge w-q.
 \]
-Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận dưới cho cả hai hướng.</p>
+<p>Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận dưới cho cả hai hướng.</p>
 <p>Trong một mô hình phân ca đầy đủ, ràng buộc chuỗi chỉ là một lớp. Lớp độ phủ
 bảo đảm số nhân viên mỗi ca; ràng buộc hợp đồng giới hạn tổng giờ và số cuối
 tuần; ưu tiên tạo các chi phí mềm. Phép mã hóa cửa sổ dùng chung tác động trực
@@ -2714,23 +2710,26 @@ các cửa sổ chồng lấn.</div>
 <h4 class="reader-h3">Mô hình đỉnh công suất</h4>
 <p>Trong SALBP-3PM, tác vụ \(i\) có thời lượng \(t_i\), công suất \(w_i\), được gán
 vào một trạm và bắt đầu trong chu kỳ dài \(c\). Nếu \(A_{i\tau}\) biểu diễn
-“tác vụ \(i\) đang hoạt động tại \(\tau\)”, tổng công suất là
+“tác vụ \(i\) đang hoạt động tại \(\tau\)”, tổng công suất là</p>
 \[
-  W(\tau)=\sum_i w_iA_{i\tau},</p>
-<p>P=\max_{\tau=0}^{c-1}W(\tau).
+W(\tau)=\sum_i w_iA_{i\tau},
+  \qquad
+  P=\max_{\tau=0}^{c-1}W(\tau).
 \]
-Mục tiêu là tối thiểu hóa \(P\).</p>
-<p>Các biến trực tiếp cho quyết định gán và bắt đầu thuận tiện cho phép giải mã:
+<p>Mục tiêu là tối thiểu hóa \(P\).</p>
+<p>Các biến trực tiếp cho quyết định gán và bắt đầu thuận tiện cho phép giải mã:</p>
 \[
-  X_{ik}=1 \iff i\text{ ở trạm }k,</p>
-<p>S_{it}=1 \iff i\text{ bắt đầu tại }t.
+X_{ik}=1 \iff i\text{ ở trạm }k,
+  \qquad
+  S_{it}=1 \iff i\text{ bắt đầu tại }t.
 \]
-Các biến thứ tự cung cấp lớp lan truyền:
+<p>Các biến thứ tự cung cấp lớp lan truyền:</p>
 \[
-  R_{ik}=1 \iff \text{trạm}(i)\le k,</p>
-<p>T_{it}=1 \iff \text{bắt đầu}(i)\le t.
+R_{ik}=1 \iff \text{trạm}(i)\le k,
+  \qquad
+  T_{it}=1 \iff \text{bắt đầu}(i)\le t.
 \]
-Giá trị chính xác xuất hiện tại điểm chuyển của chuỗi thứ tự. Nhờ vậy, ràng
+<p>Giá trị chính xác xuất hiện tại điểm chuyển của chuỗi thứ tự. Nhờ vậy, ràng
 buộc AMO về phép gán giảm từ dạng từng cặp bậc hai xuống một chuỗi tuyến tính;
 quan hệ trước--sau giữa trạm hoặc giữa mốc thời gian cũng được viết bằng quan
 hệ kéo theo giữa các ngưỡng.</p>
@@ -2758,11 +2757,11 @@ hơn và thí nghiệm bóc tách rõ hơn.</div>
 <h3 class="reader-h2">Điều chỉnh lịch tàu bằng MaxSAT--DDD</h3>
 <h4 class="reader-h3">Tại sao cần rời rạc hóa động</h4>
 <p>Với tàu \(i\) và tài nguyên \(r\) trên tuyến cố định, đặt \(t^{i,r}\) là thời
-điểm tàu đi vào tài nguyên. Quan hệ trước--sau trên đường đi có dạng
+điểm tàu đi vào tài nguyên. Quan hệ trước--sau trên đường đi có dạng</p>
 \[
-  t^{i,q}\ge t^{i,r}+\ell_i^r,
+t^{i,q}\ge t^{i,r}+\ell_i^r,
 \]
-trong khi hai tàu dùng chung tài nguyên phải chọn một trong hai thứ tự an toàn.
+<p>trong khi hai tàu dùng chung tài nguyên phải chọn một trong hai thứ tự an toàn.
 Nếu dựng toàn bộ miền thời gian đến chân trời \(H\), số biến theo mốc thời gian có thể
 rất lớn.</p>
 <p>Khám phá rời rạc hóa động (<em>Dynamic Discretization Discovery</em>, DDD) khởi
@@ -2788,7 +2787,7 @@ vào SAT, thay vì chỉ thay phép mã hóa của một ràng buộc.</p>
 <ol class="reader-list"><li>Với vòng \(r\), sinh hoặc cập nhật mô hình hạn chế trên
   \(\Lambda^r\), giải tối ưu và ghi cận dưới \(L_r\).</li><li>Nếu mô hình hạn chế vô nghiệm và là một phép thư giãn hợp lệ của mô hình
   đầy đủ, kết luận mô hình đầy đủ vô nghiệm.</li><li>Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
-  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), nó phải trả một
+  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r&lt;U_r\), nó phải trả một
   chứng cứ \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
   hàm mục tiêu.</li><li>Nếu có lịch khả thi và \(U_r=L_r\), trả lịch cùng hai cận bằng nhau.</li><li>Nếu chưa hội tụ, bước tinh chỉnh phải chọn ít nhất một mốc trong
   \(\Lambda^\star\setminus\Lambda^r\) được chứng cứ \(C_r\) yêu cầu; đặt
@@ -2800,14 +2799,14 @@ vào SAT, thay vì chỉ thay phép mã hóa của một ràng buộc.</p>
 cho một cận dưới hợp lệ; (iii) bộ kiểm tra đúng; và (iv) mỗi vòng chưa kết thúc
 thêm ít nhất một mốc mới từ \(\Lambda^\star\). Khi đó
 Thuật toán~(xem hình alg:maxsat-ddd) kết thúc sau không quá
-\(|\Lambda^\star\setminus\Lambda^0|+1\) lần giải mô hình hạn chế và chỉ
+\(\card{\Lambda^\star\setminus\Lambda^0}+1\) lần giải mô hình hạn chế và chỉ
 trả nghiệm tối ưu hoặc kết luận vô nghiệm đúng.</div>
             </div>
 <div class="reader-proof">
           <em>Chứng minh.</em> Do chuỗi
 \(\Lambda^0\subsetneq\Lambda^1\subsetneq\cdots\subseteq\Lambda^\star\)
 tăng nghiêm ngặt trong một tập hữu hạn, số lần tinh chỉnh bị chặn bởi
-\(|\Lambda^\star\setminus\Lambda^0|\). Nếu thuật toán dừng với
+\(\card{\Lambda^\star\setminus\Lambda^0}\). Nếu thuật toán dừng với
 \(U_r=L_r\), \(L_r\) là cận dưới cho giá trị tối ưu đầy đủ còn \(U_r\) là chi
 phí của một nghiệm đầy đủ được bộ kiểm tra xác nhận, nên cả hai bằng giá trị
 tối ưu. Nếu đến \(\Lambda^\star\), mô hình hạn chế chính là mô hình đầy đủ; bộ giải quyết định
@@ -2926,31 +2925,32 @@ mới được nhận diện qua thay đổi có thể đo trên ít nhất mộ
 <h3 class="reader-h2">Mô hình hình học rời rạc</h3>
 <p>Mỗi vật \(i\) là hình chữ nhật kích thước \(w_i\times h_i\). Tọa độ
 \((x_i,y_i)\) chỉ góc trái dưới. Khi cho phép quay \(90^\circ\), biến
-\(\rho_i\) xác định kích thước hiệu dụng
+\(\rho_i\) xác định kích thước hiệu dụng</p>
 \[
-  (\widehat w_i,\widehat h_i)=
+(\widehat w_i,\widehat h_i)=
   \begin{cases}
     (w_i,h_i), & \rho_i=0,\\
     (h_i,w_i), & \rho_i=1.
   \end{cases}
 \]
-Trong khung chứa \(W\times H\), điều kiện nằm gọn là
+<p>Trong khung chứa \(W\times H\), điều kiện nằm gọn là</p>
 \[
-  0\le x_i\le W-\widehat w_i,</p>
-<p>0\le y_i\le H-\widehat h_i.
-\]</p>
-<p>Hai vật \(i\) và \(j\) không giao nhau khi ít nhất một trong bốn quan hệ đúng:
+0\le x_i\le W-\widehat w_i,
+  \qquad
+  0\le y_i\le H-\widehat h_i.
+\]
+<p>Hai vật \(i\) và \(j\) không giao nhau khi ít nhất một trong bốn quan hệ đúng:</p>
 \[
-  x_i+\widehat w_i\le x_j, 
-  x_j+\widehat w_j\le x_i, 
-  y_i+\widehat h_i\le y_j, 
+x_i+\widehat w_i\le x_j,\quad
+  x_j+\widehat w_j\le x_i,\quad
+  y_i+\widehat h_i\le y_j,\quad
   y_j+\widehat h_j\le y_i.
 \]
-Ta dùng các biến chứng \(l_{ij}\) và \(u_{ij}\):
+<p>Ta dùng các biến chứng \(l_{ij}\) và \(u_{ij}\):</p>
 \[
-  l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji},
+l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji},
 \]
-với quan hệ kéo theo từ từng biến chứng sang bất đẳng thức tương ứng. Các biến
+<p>với quan hệ kéo theo từ từng biến chứng sang bất đẳng thức tương ứng. Các biến
 chứng không cần loại trừ lẫn nhau: một vật có thể vừa ở bên trái vừa ở dưới vật
 khác.</p>
 <div class="reader-callout design-rule">
@@ -2963,55 +2963,56 @@ dấu \(\le\) cho phép hai vật chạm cạnh. Quy ước này phải được
 thứ tự và quan hệ vị trí được dùng trong SAT cho đóng gói; cách tổ chức quan hệ
 này tiếp nối mô hình đóng gói dải của <span class="cite">(Soh et al., 2010)</span>.</p>
 <div class="reader-inline-caption"><em>Hình: Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
-\(x_A+w_A=x_B=3\), nên biến chứng \(l_{AB</em></div>
+\(x_A+w_A=x_B=3\), nên biến chứng \(l_{AB}\) có thể nhận giá trị đúng.</em></div>
 <div class="reader-callout worked-example">
               <div class="callout-header"><strong>Từ một cặp hình đến literal quan hệ</strong></div>
               <div class="callout-body">Trong (xem mục fig:packing-layout), \(A\) có \((x_A,y_A)=(0,0)\),
 \((w_A,h_A)=(3,2)\); \(B\) có \((x_B,y_B)=(3,0)\),
 \((w_B,h_B)=(2,4)\). Bốn bất đẳng thức tách là
 \[
-  0+3\le3,  3+2\le0,  0+2\le0,  0+4\le0.
+0+3\le3,\quad 3+2\le0,\quad 0+2\le0,\quad 0+4\le0.
 \]
-Chỉ bất đẳng thức đầu đúng, nên \(l_{AB}=1\) là biến chứng tự nhiên. Nếu ép
+<p>Chỉ bất đẳng thức đầu đúng, nên \(l_{AB}=1\) là biến chứng tự nhiên. Nếu ép
 \(x_B\le2\), miền tọa độ làm \(x_A+w_A\le x_B\) bất khả và mệnh đề liên kết
 buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn một hướng khác
 hoặc chứng minh cặp hình không thể cùng một bố trí.</div>
-            </div>
+            </div></p>
 <h3 class="reader-h2">Mã hóa thứ tự cho tọa độ</h3>
 <h4 class="reader-h3">Ngữ nghĩa</h4>
-<p>Với \(e\) trong miền ngang, đặt
+<p>Với \(e\) trong miền ngang, đặt</p>
 \[
-  p^x_{i,e}=1 \iff x_i\le e.
+p^x_{i,e}=1 \iff x_i\le e.
 \]
-Tương tự, \(p^y_{i,f}=1\iff y_i\le f\). Chuỗi phải đơn điệu:
+<p>Tương tự, \(p^y_{i,f}=1\iff y_i\le f\). Chuỗi phải đơn điệu:</p>
 \[
-  p^x_{i,e}\rightarrow p^x_{i,e+1},</p>
-<p>p^y_{i,f}\rightarrow p^y_{i,f+1}.
+p^x_{i,e}\rightarrow p^x_{i,e+1},
+  \qquad
+  p^y_{i,f}\rightarrow p^y_{i,f+1}.
 \]
-Giá trị tọa độ được xác định bởi điểm chuyển đầu tiên từ sai sang đúng. Một
-bất đẳng thức như \(x_i+a\le x_j\) trở thành quan hệ kéo theo giữa hai ngưỡng:
+<p>Giá trị tọa độ được xác định bởi điểm chuyển đầu tiên từ sai sang đúng. Một
+bất đẳng thức như \(x_i+a\le x_j\) trở thành quan hệ kéo theo giữa hai ngưỡng:</p>
 \[
-  p^x_{i,e}\ \text{và}\ p^x_{j,e+a-1}
+p^x_{i,e}\ \text{và}\ p^x_{j,e+a-1}
 \]
-được nối theo hướng phù hợp với ngữ nghĩa \(\le\). Lợi ích là một literal
+<p>được nối theo hướng phù hợp với ngữ nghĩa \(\le\). Lợi ích là một literal
 ngưỡng đại diện cho cả nửa miền, thay vì liệt kê từng cặp tọa độ.</p>
 <h4 class="reader-h3">Hướng đặt và liên kết biểu diễn</h4>
-<p>Khi kích thước phụ thuộc \(\rho_i\), quan hệ kéo theo
+<p>Khi kích thước phụ thuộc \(\rho_i\), quan hệ kéo theo</p>
 \[
-  l_{ij}\rightarrow x_i+\widehat w_i\le x_j
+l_{ij}\rightarrow x_i+\widehat w_i\le x_j
 \]
-được tách theo các hướng đặt của \(i\) và \(j\). Các trường hợp không thể nằm
+<p>được tách theo các hướng đặt của \(i\) và \(j\). Các trường hợp không thể nằm
 gọn được loại ở bước tiền xử lý. Với vật vuông, đặt
 \(\rho_i=0\) để bỏ đối xứng quay.</p>
-<p>Khi \(l_{ij}\) đóng vai trò biến chứng cho phép tuyển, mô-đun cần chiều
+<p>Khi \(l_{ij}\) đóng vai trò biến chứng cho phép tuyển, mô-đun cần chiều</p>
 \[
-  l_{ij}\rightarrow x_i+\widehat w_i\le x_j.
+l_{ij}\rightarrow x_i+\widehat w_i\le x_j.
 \]
-Chiều ngược
+<p>Chiều ngược</p>
 \[
-  x_i+\widehat w_i\le x_j\rightarrow l_{ij}
+x_i+\widehat w_i\le x_j\rightarrow l_{ij}
 \]
-có thể được bổ sung khi literal quan hệ cần đặc tả hai chiều. Bộ giải mã đọc
+<p>có thể được bổ sung khi literal quan hệ cần đặc tả hai chiều. Bộ giải mã đọc
 trực tiếp tọa độ và hướng đặt, nhờ đó bộ kiểm tra độc lập với lựa chọn liên kết.</p>
 <div class="reader-callout proposition-box">
               <div class="callout-header"><strong>Mệnh đề (Tính đúng của mô-đun không chồng lấn)</strong></div>
@@ -3027,27 +3028,27 @@ thất hai hình chữ nhật rời nhau. <span class="proof-qedsymbol">■</spa
 <h3 class="reader-h2">Bài toán đóng gói dải hai chiều</h3>
 <h4 class="reader-h3">Từ tối ưu chiều cao sang kiểm tra tính khả thi</h4>
 <p>Dải có chiều rộng cố định \(W\), còn chiều cao \(H\) cần tối thiểu hóa. Với
-mỗi \(H\), dựng công thức
+mỗi \(H\), dựng công thức</p>
 \[
-  \Phi_{\mathrm{SPP}}(H)
+\Phi_{\mathrm{SPP}}(H)
   \iff
   \text{tồn tại bố trí trong }W\times H.
 \]
-Tính đơn điệu cho phép tìm kiếm trên cận:
+<p>Tính đơn điệu cho phép tìm kiếm trên cận:</p>
 \[
-  \Phi_{\mathrm{SPP}}(H)=SAT
+\Phi_{\mathrm{SPP}}(H)=\SAT
   \Longrightarrow
-  \Phi_{\mathrm{SPP}}(H')=SAT
-   \forall H'\ge H.
+  \Phi_{\mathrm{SPP}}(H')=\SAT
+  \quad\forall H'\ge H.
 \]
-Cận dưới cơ bản là
+<p>Cận dưới cơ bản là</p>
 \[
-  LB=\max\left\{
+LB=\max\left\{
     \max_i \min(h_i,w_i),
     \left\lceil\frac{\sum_iw_ih_i}{W}\right\rceil
   \right\},
 \]
-trong đó hạng đầu phải điều chỉnh theo hướng đặt thực sự vừa khung. Cận trên
+<p>trong đó hạng đầu phải điều chỉnh theo hướng đặt thực sự vừa khung. Cận trên
 đến từ một phép đặt theo kinh nghiệm.</p>
 <p>Chỉ cận diện tích hiếm khi đủ sát. Các phương pháp chính xác còn dùng hàm khả
 thi đối ngẫu, phép chiếu một chiều, tính không tương thích và tọa độ tổng tập
@@ -3093,21 +3094,21 @@ Ghép \(k\) khung thành một dải \(W\times kH\). Tọa độ \(y_i\) đồng
 đường biên \(qH\).</p>
 <p><strong>Không xếp chồng.</strong>
 Dùng biến \(a_{ib}=1\) khi vật \(i\) nằm trong khung \(b\), và tọa độ cục bộ
-trong từng khung. Ta có
+trong từng khung. Ta có</p>
 \[
-  ExactlyOne(a_{i1},\ldots,a_{ik}).
+\ExactlyOne(a_{i1},\ldots,a_{ik}).
 \]
-Điều kiện không chồng lấn của cặp \(i,j\) trong khung \(b\) được gác bởi:
+<p>Điều kiện không chồng lấn của cặp \(i,j\) trong khung \(b\) được gác bởi:</p>
 \[
-  (a_{ib}\land a_{jb})
+(a_{ib}\land a_{jb})
   \rightarrow
   (l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji}).
 \]
-Biến sử dụng \(q_b\) nối với phép gán bằng \(a_{ib}\rightarrow q_b\).
-Đối xứng giữa các khung được giảm bằng
+<p>Biến sử dụng \(q_b\) nối với phép gán bằng \(a_{ib}\rightarrow q_b\).
+Đối xứng giữa các khung được giảm bằng</p>
 \[
-  q_{b+1}\rightarrow q_b.
-\]</p>
+q_{b+1}\rightarrow q_b.
+\]
 <p>Các khung đã dùng tạo thành một tiền tố, vì thế hàm mục tiêu \(\sum_bq_b\)
 đúng bằng số khung. Có thể thêm phép gán chuẩn cho một số vật đầu, nhưng mọi
 ràng buộc đối xứng phải dựa trên phép hoán vị các khung đồng nhất, không dựa
@@ -3135,11 +3136,11 @@ nhu cầu \(d_t\). Bài toán tối thiểu hóa số tấm. Nếu tạo từng 
 phép gán và không chồng lấn giống bài toán đóng gói vào khung. Nếu gộp theo
 loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.</p>
 <p>Với một cận \(K\), công thức khả thi hỏi liệu có thể đáp ứng đủ nhu cầu trên
-\(K\) tấm. Hàm mục tiêu là
+\(K\) tấm. Hàm mục tiêu là</p>
 \[
-  \min\{K\mid \Phi_{\mathrm{CSP\}}(K)\text{ là SAT}}.
+\min\set{K\mid \Phi_{\mathrm{CSP}}(K)\text{ là SAT}}.
 \]
-Đối xứng xuất hiện ở hai tầng: các tấm đồng nhất và các bản sao cùng loại. Một
+<p>Đối xứng xuất hiện ở hai tầng: các tấm đồng nhất và các bản sao cùng loại. Một
 cách phá đối xứng bền vững là buộc biến sử dụng tấm theo tiền tố và buộc chỉ
 số tấm của các bản sao cùng loại không giảm.</p>
 <h4 class="reader-h3">SAT và MaxSAT</h4>
@@ -3149,13 +3150,13 @@ tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
 lấn; chúng chỉ khác ở lớp hàm mục tiêu.</p>
 <p><span class="cite">(Kieu et al., 2026)</span> cho thấy phép mã hóa gọn với tọa độ thứ tự và đối
 xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
-thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun
+thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun</p>
 \[
-  <code>Assignment</code>
-  +<code>OrderCoordinate</code>
-  +<code>ConditionalNonOverlap</code>
-  +<code>UsageCounter</code>.
-\]</p>
+\texttt{Assignment}
+  +\texttt{OrderCoordinate}
+  +\texttt{ConditionalNonOverlap}
+  +\texttt{UsageCounter}.
+\]
 <h3 class="reader-h2">Giảm miền và đối xứng</h3>
 <p>Trước khi sinh CNF, bốn phép rút gọn thường có hiệu quả trực tiếp:
 <ol class="reader-list"><li>loại hướng đặt không vừa khung;</li><li>thu hẹp \(x_i\le W-\widehat w_i\) và
@@ -3260,12 +3261,12 @@ và nguồn gốc bộ kiểm chuẩn cần dùng làm đối chứng
           <div class="reader-table-caption">Bảng: Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.</div>
           <table class="reader-table">
             <thead><tr><th>Bài toán</th><th>Nghiệm</th><th>Ràng buộc</th><th>Mục tiêu</th></tr></thead>
-            <tbody><tr><td>Antibandwidth</td><td>Hoán vị \(1,\ldots,n\)</td><td>\(|f(u)-f(v)|\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Antibandwidth tuần hoàn</td><td>Hoán vị trên vòng</td><td>\(D_c(f(u),f(v))\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Tô màu theo bandwidth</td><td>Một màu mỗi đỉnh</td><td>\(|c(u)-c(v)|\ge d_{uv}\)</td><td>Tối thiểu độ trải</td></tr><tr><td>Tô đa màu theo bandwidth</td><td>\(w(u)\) màu mỗi đỉnh</td><td>Khoảng cách nội/ngoại đỉnh</td><td>Tối thiểu màu lớn nhất</td></tr></tbody>
+            <tbody><tr><td>Antibandwidth</td><td>Hoán vị \(1,\ldots,n\)</td><td>\(\card{f(u)-f(v)}\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Antibandwidth tuần hoàn</td><td>Hoán vị trên vòng</td><td>\(D_c(f(u),f(v))\ge k\)</td><td>Tối đa \(k\)</td></tr><tr><td>Tô màu theo bandwidth</td><td>Một màu mỗi đỉnh</td><td>\(\card{c(u)-c(v)}\ge d_{uv}\)</td><td>Tối thiểu độ trải</td></tr><tr><td>Tô đa màu theo bandwidth</td><td>\(w(u)\) màu mỗi đỉnh</td><td>Khoảng cách nội/ngoại đỉnh</td><td>Tối thiểu màu lớn nhất</td></tr></tbody>
           </table>
         </div>
 <p>Với ABP và CABP, nhãn là một hoán vị nên ma trận gán cần
-\(ExactlyOne\) theo cả hàng và cột. Với BCP, hai đỉnh không kề nhau có thể
-dùng cùng màu; chỉ hàng cần \(ExactlyOne\). Với BMCP, một đỉnh có nhiều ô
+\(\ExactlyOne\) theo cả hàng và cột. Với BCP, hai đỉnh không kề nhau có thể
+dùng cùng màu; chỉ hàng cần \(\ExactlyOne\). Với BMCP, một đỉnh có nhiều ô
 màu; thứ tự các ô là một phần của mô hình.</p>
 <div class="reader-callout design-rule">
               <div class="callout-header"><strong>Kiểm tra ngữ nghĩa trước AMO</strong></div>
@@ -3276,54 +3277,55 @@ ràng buộc khoảng cách.</div>
 <h3 class="reader-h2">Antibandwidth và cửa sổ staircase</h3>
 <h4 class="reader-h3">Cận và phương pháp chính xác ngoài SAT</h4>
 <p>Với đồ thị liên thông, các cận trên ABP có thể lấy từ số đỉnh/cạnh, bậc, số ổn
-định \(\alpha(G)\) và số sắc \(\chi(G)\). Chẳng hạn
+định \(\alpha(G)\) và số sắc \(\chi(G)\). Chẳng hạn</p>
 \[
-  AB(G)\le \alpha(G),</p>
-<p>AB(G)\le
+AB(G)\le \alpha(G),
+  \qquad
+  AB(G)\le
   \left\lfloor\frac{n-1}{\chi(G)-1}\right\rfloor.
 \]
-Tính chính xác \(\alpha,\chi\) cũng khó, nhưng một cận trên cho
+<p>Tính chính xác \(\alpha,\chi\) cũng khó, nhưng một cận trên cho
 \(\alpha\) hoặc cận dưới cho \(\chi\) vẫn có thể tạo cận hợp lệ. Các mô hình
 MIP, nhánh--cắt và CP đã cải thiện đáng kể chứng nhận trên bộ Harwell--Boeing
 <span class="cite">(Sinnl, 2021)</span>. Do đó một nghiên cứu SAT trên cùng bộ kiểm
 chuẩn cần báo cùng cận đầu vào và so cả giá trị nghiệm lẫn khoảng cách chứng
 minh, không chỉ số bài toán có mô hình.</p>
 <h4 class="reader-h3">Tính khả thi ở cận \(k\)</h4>
-<p>Cho đồ thị \(G=(V,E)\), \(|V|=n\). Biến
+<p>Cho đồ thị \(G=(V,E)\), \(\card{V}=n\). Biến</p>
 \[
-  x_{v,\ell}=1\iff f(v)=\ell
+x_{v,\ell}=1\iff f(v)=\ell
 \]
-mô tả một hoán vị:
+<p>mô tả một hoán vị:</p>
 \[
-  ExactlyOne(x_{v,1},\ldots,x_{v,n})
-   \forall v,
+\ExactlyOne(x_{v,1},\ldots,x_{v,n})
+  \quad\forall v,
 \]
 \[
-  ExactlyOne(x_{1,\ell},\ldots,x_{n,\ell})
-   \forall\ell.
+\ExactlyOne(x_{1,\ell},\ldots,x_{n,\ell})
+  \quad\forall\ell.
 \]
-Với một cận \(k\), mỗi cạnh \((u,v)\) cấm hai nhãn cách nhau dưới \(k\):
+<p>Với một cận \(k\), mỗi cạnh \((u,v)\) cấm hai nhãn cách nhau dưới \(k\):</p>
 \[
-  \neg x_{u,a}\lor\neg x_{v,b},
-    |a-b|<k.
-\]</p>
+\neg x_{u,a}\lor\neg x_{v,b},
+  \qquad \card{a-b}&lt;k.
+\]
 <p>Một cách nhìn khác cố định vị trí \(a\) của \(u\). Khi đó \(v\) không được
-nằm trong cửa sổ
+nằm trong cửa sổ</p>
 \[
-  [a-k+1,a+k-1]\cap[1,n].
+[a-k+1,a+k-1]\cap[1,n].
 \]
-Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu mã hóa
+<p>Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu mã hóa
 từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.</p>
 <div class="reader-inline-caption"><em>Hình: Ở trái, nhãn \((2,4,1,3)\) cho \(P_4\) đạt antibandwidth \(2\).
 Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh.</em></div>
 <h4 class="reader-h3">Thang bộ đếm tuần tự</h4>
 <p>SCL chia dãy biến thành các khối, xây bộ đếm tuần tự trong mỗi khối rồi nối
-trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:
+trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:</p>
 \[
-  s_{i,j}=1\iff
+s_{i,j}=1\iff
   \sum_{q=1}^{i}x_q\ge j.
 \]
-Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
+<p>Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
 \(k=1\), đây là phép mã hóa cho AMO bậc thang; với AMK, bộ đếm giữ nhiều mức
 \(j=1,\ldots,k\).</p>
 <div class="reader-callout proposition-box">
@@ -3348,16 +3350,16 @@ CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chi�
 cần mã hóa, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.</p>
 <h3 class="reader-h2">Antibandwidth tuần hoàn</h3>
 <h4 class="reader-h3">Khoảng cách vòng</h4>
-<p>Trong CABP, nhãn nằm trên vòng \(C_n\):
+<p>Trong CABP, nhãn nằm trên vòng \(C_n\):</p>
 \[
-  D_c(a,b)=\min\{|a-b|,\,n-|a-b|\}.
+D_c(a,b)=\min\{\card{a-b},\,n-\card{a-b}\}.
 \]
-Với cận \(k\), một cạnh cấm cửa sổ vòng bán kính \(k-1\). Cửa sổ có thể vắt
-qua điểm cắt nên dùng chỉ số môđun:
+<p>Với cận \(k\), một cạnh cấm cửa sổ vòng bán kính \(k-1\). Cửa sổ có thể vắt
+qua điểm cắt nên dùng chỉ số môđun:</p>
 \[
-  W(a,k)=\{a-k+1,\ldots,a+k-1\}\pmod n.
+W(a,k)=\set{a-k+1,\ldots,a+k-1}\pmod n.
 \]
-Xung đột theo nhãn chính xác vẫn đúng nhưng số mệnh đề lớn. Cửa sổ vòng tạo
+<p>Xung đột theo nhãn chính xác vẫn đúng nhưng số mệnh đề lớn. Cửa sổ vòng tạo
 AMO tuần hoàn, có thể mã hóa bằng cách cắt vòng tại một vị trí neo rồi nối hai
 đầu bằng bộ nối.</p>
 <div class="reader-inline-caption"><em>Hình: Cửa sổ cấm trên vòng \(C_8\) với tâm \(1\) và \(k=3\). Hai nhánh
@@ -3366,12 +3368,13 @@ AMO tuần hoàn, có thể mã hóa bằng cách cắt vòng tại một vị t
 <p>CABP bất biến dưới phép quay và phản xạ của nhãn. Ta có thể cố định một đỉnh
 đại diện tại nhãn \(1\), rồi chọn hướng chuẩn cho một đỉnh thứ hai. Đây là phá
 đối xứng ở cấp hoán vị; nó độc lập với SCL dùng cho các cửa sổ khoảng cách.</p>
-<p>Tìm nghiệm tối ưu theo cận tăng:
+<p>Tìm nghiệm tối ưu theo cận tăng:</p>
 \[
-  F(k)=SAT \Longrightarrow F(k-1)=SAT,</p>
-<p>F(k)=UNSAT \Longrightarrow F(k+1)=UNSAT.
+F(k)=\SAT \Longrightarrow F(k-1)=\SAT,
+  \qquad
+  F(k)=\UNSAT \Longrightarrow F(k+1)=\UNSAT.
 \]
-Một nghiệm tại \(k^\star\) và UNSAT tại \(k^\star+1\) chứng nhận tối ưu.</p>
+<p>Một nghiệm tại \(k^\star\) và UNSAT tại \(k^\star+1\) chứng nhận tối ưu.</p>
 <div class="reader-callout result-box">
               <div class="callout-header"><strong>CABP và bộ kiểm chuẩn</strong></div>
               <div class="callout-body">Bản tiền công bố <span class="cite">(Truong & To, 2026)</span> xây dựng các phép mã hóa SAT cho CABP
@@ -3395,16 +3398,16 @@ giá trị xung đột thành hai biên; biến khối tạo các đại diện 
 đây khảo sát có hệ thống trục biểu diễn đó và kết nối với các cận lý thuyết đồ
 thị đã nêu.</p>
 <h4 class="reader-h3">Mô hình và sáu họ mã hóa</h4>
-<p>BCP cho đồ thị có trọng số cạnh \(d_{uv}>0\). Mỗi đỉnh nhận màu
-\(c(u)\in[1,H]\) và
+<p>BCP cho đồ thị có trọng số cạnh \(d_{uv}&gt;0\). Mỗi đỉnh nhận màu
+\(c(u)\in[1,H]\) và</p>
 \[
-  |c(u)-c(v)|\ge d_{uv}
-   \forall uv\in E.
+\card{c(u)-c(v)}\ge d_{uv}
+  \quad\forall uv\in E.
 \]
-Mục tiêu là tối thiểu
+<p>Mục tiêu là tối thiểu</p>
 \[
-  \chi_B(G)=\min_c\max_{u\in V}c(u).
-\]</p>
+\chi_B(G)=\min_c\max_{u\in V}c(u).
+\]
 <p>Nghiên cứu hệ thống của <span class="cite">(Nguyen et al., 2026)</span> tổ chức không gian thiết kế thành sáu
 họ:</p>
 <div class="reader-table-wrapper">
@@ -3415,20 +3418,20 @@ họ:</p>
           </table>
         </div>
 <h4 class="reader-h3">Khoảng cấm bằng hai biên</h4>
-<p>Giả sử \(x_{u,a}=1\). Khi đó màu của \(v\) phải nằm ngoài
+<p>Giả sử \(x_{u,a}=1\). Khi đó màu của \(v\) phải nằm ngoài</p>
 \[
-  [a-d_{uv}+1,\;a+d_{uv}-1].
+[a-d_{uv}+1,\;a+d_{uv}-1].
 \]
-Với ngữ nghĩa \(g_{v,t}=1\iff c(v)\ge t\), điều kiện được viết bằng một mệnh đề
-biên:
+<p>Với ngữ nghĩa \(g_{v,t}=1\iff c(v)\ge t\), điều kiện được viết bằng một mệnh đề
+biên:</p>
 \[
-  \neg x_{u,a}
+\neg x_{u,a}
   \lor
   \neg g_{v,a-d_{uv}+1}
   \lor
   g_{v,a+d_{uv}}.
 \]
-Hai literal cuối lần lượt nói \(c(v)<a-d_{uv}+1\) hoặc
+<p>Hai literal cuối lần lượt nói \(c(v)&lt;a-d_{uv}+1\) hoặc
 \(c(v)\ge a+d_{uv}\). Số mệnh đề không còn phụ thuộc vào độ rộng khoảng cấm;
 mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.</p>
 <p>Mã hóa theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
@@ -3438,17 +3441,17 @@ toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc k
               <div class="callout-header"><strong>Một khoảng cấm được nén thành hai biên</strong></div>
               <div class="callout-body">Cho \(H=7\), \(x_{u,4}=1\) và \(d_{uv}=2\). Đỉnh \(v\) không được nhận
 \[
-  [4-2+1,\,4+2-1]=[3,5].
+[4-2+1,\,4+2-1]=[3,5].
 \]
-Với \(g_{v,t}\Leftrightarrow c(v)\ge t\), chỉ cần mệnh đề
+<p>Với \(g_{v,t}\Leftrightarrow c(v)\ge t\), chỉ cần mệnh đề</p>
 \[
-  \neg x_{u,4}\lor\neg g_{v,3}\lor g_{v,6}.
+\neg x_{u,4}\lor\neg g_{v,3}\lor g_{v,6}.
 \]
-Khi \(x_{u,4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
+<p>Khi \(x_{u,4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
 \(c(v)\le2\) hoặc \(c(v)\ge6\). Mã hóa trực tiếp từng cặp phải cấm riêng
 \((4,3),(4,4),(4,5)\); mã hóa theo biên giữ số mệnh đề không đổi khi khoảng
 cấm rộng hơn, miễn tập cấm vẫn là một khoảng.</div>
-            </div>
+            </div></p>
 <div class="reader-callout result-box">
               <div class="callout-header"><strong>Hiệu ứng tương tác</strong></div>
               <div class="callout-body">Trên tập GEOM và MS-CAP của <span class="cite">(Nguyen et al., 2026)</span>, cấu hình theo khối giải
@@ -3461,19 +3464,19 @@ mã hóa. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
 <h3 class="reader-h2">Tô đa màu theo bandwidth</h3>
 <h4 class="reader-h3">Mô hình ô màu và giảm miền</h4>
 <p>BMCP gán cho đỉnh \(u\) một tập \(w(u)\) màu. Viết chúng thành các ô có thứ
-tự
+tự</p>
 \[
-  c(u)_1<c(u)_2<\cdots<c(u)_{w(u)}.
+c(u)_1&lt;c(u)_2&lt;\cdots&lt;c(u)_{w(u)}.
 \]
-Hai ô cùng đỉnh cách nhau ít nhất \(d(u,u)\); hai ô ở hai đỉnh kề nhau cách ít
-nhất \(d(u,v)\). Với cận màu lớn nhất \(k\), miền ô được siết:
+<p>Hai ô cùng đỉnh cách nhau ít nhất \(d(u,u)\); hai ô ở hai đỉnh kề nhau cách ít
+nhất \(d(u,v)\). Với cận màu lớn nhất \(k\), miền ô được siết:</p>
 \[
-  LB_{u,i}=1+(i-1)d(u,u),
+LB_{u,i}=1+(i-1)d(u,u),
 \]
 \[
-  UB_{u,i}=k-(w(u)-i)d(u,u).
+UB_{u,i}=k-(w(u)-i)d(u,u).
 \]
-Thứ tự ô loại đối xứng hoán vị màu bên trong một đỉnh và đồng thời tạo lan
+<p>Thứ tự ô loại đối xứng hoán vị màu bên trong một đỉnh và đồng thời tạo lan
 truyền cận.</p>
 <p>Mô hình ô là một phép mở rộng miền, trong khi mô hình tần số là một mô hình
 tập. Hai cách có đối xứng và cận dưới khác nhau. Trong mô hình ô, thứ tự nội bộ
@@ -3489,16 +3492,16 @@ Biến \(x_{u,i,m}\) nói ô \(i\) bằng \(m\). Mỗi ô có ràng buộc đún
 cặp ô vi phạm khoảng cách bị cấm trực tiếp.</p>
 <p><strong>Mã hóa theo thứ tự (OBE).</strong>
 Thêm \(g_{u,i,m}=1\iff c(u)_i\ge m\). Giá trị chính xác tại một ô kích hoạt
-hai biên khoảng cấm của ô ở đỉnh khác:
+hai biên khoảng cấm của ô ở đỉnh khác:</p>
 \[
-  x_{u,i,m}\rightarrow
+x_{u,i,m}\rightarrow
   \left(
     g_{v,j,m+d(u,v)}
     \lor
     \neg g_{v,j,m-d(u,v)+1}
   \right).
 \]
-Số mệnh đề xung đột giảm một bậc theo miền màu so với SBE từng cặp.</p>
+<p>Số mệnh đề xung đột giảm một bậc theo miền màu so với SBE từng cặp.</p>
 <div class="reader-callout proposition-box">
               <div class="callout-header"><strong>Mệnh đề (Đúng đắn của OBE)</strong></div>
               <div class="callout-body">Nếu liên kết giá trị chính xác--thứ tự xác định cùng một giá trị cho mỗi ô,
@@ -3600,26 +3603,26 @@ trải sang bộ đếm giá trị phân biệt. Ba phép chuyển này kết n�
 và gán nhãn đồ thị với các mô-đun SAT có thể dùng lại.</p>
 <h3 class="reader-h2">Bổ đề khoảng cấm</h3>
 <p>Cho \(x_{u,a}=1\) khi đối tượng \(u\) nhận giá trị \(a\). Với đối tượng \(v\),
-đặt
+đặt</p>
 \[
-  g_{v,t}=1\iff f(v)\ge t.
+g_{v,t}=1\iff f(v)\ge t.
 \]
-Giả sử lựa chọn \(a\) cấm khoảng \([L(a),U(a)]\) cho \(v\). Điều kiện hợp lệ
-là
+<p>Giả sử lựa chọn \(a\) cấm khoảng \([L(a),U(a)]\) cho \(v\). Điều kiện hợp lệ
+là</p>
 \[
-  f(v)<L(a)
-   \lor 
-  f(v)>U(a).
+f(v)&lt;L(a)
+  \quad\lor\quad
+  f(v)&gt;U(a).
 \]
-Trên miền nguyên liên tục, nó trở thành
+<p>Trên miền nguyên liên tục, nó trở thành</p>
 \[
-  \neg x_{u,a}
+\neg x_{u,a}
   \lor
   \neg g_{v,L(a)}
   \lor
   g_{v,U(a)+1}.
   \tag{11.1}
-\]</p>
+\]
 <div class="reader-callout lemma-box">
               <div class="callout-header"><strong>Bổ đề (Mệnh đề biên)</strong></div>
               <div class="callout-body">Giả sử chuỗi thứ tự \(g_{v,t}\) đúng với ngữ nghĩa
@@ -3629,35 +3632,35 @@ Trên miền nguyên liên tục, nó trở thành
             </div>
 <div class="reader-proof">
           <em>Chứng minh.</em> Nếu \(x_{u,a}=1\), literal đầu sai. Literal
-\(\neg g_{v,L(a)}\) đúng khi \(f(v)<L(a)\); literal
+\(\neg g_{v,L(a)}\) đúng khi \(f(v)&lt;L(a)\); literal
 \(g_{v,U(a)+1}\) đúng khi \(f(v)\ge U(a)+1\). Phép
 tuyển vì thế tương đương với điều kiện nằm ngoài khoảng. <span class="proof-qedsymbol">■</span>
         </div>
 <p>Trên miền rời rạc \(D_v\), không thể dùng trực tiếp chỉ số \(L,U\). Ta thay
-chúng bằng hai biên theo giá trị:
+chúng bằng hai biên theo giá trị:</p>
 \[
-  \lambda_v(a)=\min\{q\mid D_{v,q\}\ge L(a)},
+\lambda_v(a)=\min\set{q\mid D_{v,q}\ge L(a)},
 \]
 \[
-  \rho_v(a)=\min\{q\mid D_{v,q\}>U(a)}.
+\rho_v(a)=\min\set{q\mid D_{v,q}&gt;U(a)}.
 \]
-Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
+<p>Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.</p>
 <h4 class="reader-h3">Quan hệ với mã hóa hỗ trợ</h4>
 <p>Trong mã hóa trực tiếp/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
-trong các giá trị còn hỗ trợ:
+trong các giá trị còn hỗ trợ:</p>
 \[
-  \neg x_{u,a}
+\neg x_{u,a}
   \lor
   \bigvee_{b\in D_v:\ b\notin[L(a),U(a)]}x_{v,b}.
 \]
-Mệnh đề biên nén phép tuyển này thành hai ngưỡng khi tập hỗ trợ là hợp của một
+<p>Mệnh đề biên nén phép tuyển này thành hai ngưỡng khi tập hỗ trợ là hợp của một
 tiền tố và một hậu tố. Nó không phải một mẹo riêng của radio/FAP; đó là phép
 phân tích mệnh đề hỗ trợ dựa trên tính lồi của tập cấm. Nếu tập cấm có nhiều
 khoảng rời nhau, cần nhiều cặp biên hoặc một
 biểu diễn BDD/MDD khác.</p>
 <div class="reader-inline-caption"><em>Hình: Một khoảng cấm liên tục được nén thành hai literal biên:
-\(\neg g_{v,4</em></div>
+\(\neg g_{v,4}\lor g_{v,7}\).</em></div>
 <p>Phép so sánh lan truyền theo dõi đường suy luận của từng biểu diễn. Mệnh đề hỗ
 trợ trực tiếp loại giá trị chính xác; mệnh đề biên suy qua chuỗi thứ tự và liên
 kết giá trị chính xác--thứ tự. Hai phép mã hóa đạt cùng mức cắt tỉa khi đặc tả của các
@@ -3674,18 +3677,19 @@ gán nhãn an toàn \(k\) và MO-FAP khác nhau ở hàm này, không khác nhau
 <h4 class="reader-h3">Mô hình</h4>
 <p>Cho đồ thị liên thông \(G=(V,E)\), khoảng cách đường đi ngắn nhất \(d(u,v)\) và
 tham số \(k\). Phép gán nhãn radio \(k\) là ánh xạ
-\(f:V\to\mathbb{Z}_{>0}\) thỏa
+\(f:V\to\mathbb{Z}_{&gt;0}\) thỏa</p>
 \[
-  |f(u)-f(v)|
+\card{f(u)-f(v)}
   \ge
-  \Delta_{uv},</p>
-<p>\Delta_{uv}=k+1-d(u,v),
+  \Delta_{uv},
+  \qquad
+  \Delta_{uv}=k+1-d(u,v),
 \]
-cho mọi cặp có \(\Delta_{uv}>0\). Mục tiêu là tối thiểu màu lớn nhất
+<p>cho mọi cặp có \(\Delta_{uv}&gt;0\). Mục tiêu là tối thiểu màu lớn nhất</p>
 \[
-  \min\max_{v\in V}f(v).
+\min\max_{v\in V}f(v).
 \]
-Trong bài toán gán nhãn radio chuẩn, người ta thường xét
+<p>Trong bài toán gán nhãn radio chuẩn, người ta thường xét
 \(k=\operatorname{diam}(G)\).</p>
 <p>Khoảng cách đồ thị tạo một đồ thị ràng buộc dày hơn đồ thị gốc: mọi cặp có
 \(d(u,v)\le k\) đều bị ràng buộc, với mức phân cách giảm khi khoảng cách đồ
@@ -3696,47 +3700,47 @@ kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép mã 
 <div class="reader-inline-caption"><em>Hình: Một phép gán nhãn radio \(3\) khả thi cho \(P_4\). Hai đỉnh kề nhau
 cần chênh ít nhất \(3\), cặp cách hai cạnh cần \(2\), và hai đầu mút cần \(1\).</em></div>
 <h4 class="reader-h3">SAT trực tiếp</h4>
-<p>Với một cận trên \(B\), đặt
+<p>Với một cận trên \(B\), đặt</p>
 \[
-  x_{v,\ell}=1\iff f(v)=\ell,
-    \ell\in[1,B].
+x_{v,\ell}=1\iff f(v)=\ell,
+  \qquad \ell\in[1,B].
 \]
-Mỗi đỉnh nhận đúng một nhãn. Với cặp \(u,v\), mọi cặp nhãn
-\((a,b)\) có \(|a-b|<\Delta_{uv}\) tạo xung đột
+<p>Mỗi đỉnh nhận đúng một nhãn. Với cặp \(u,v\), mọi cặp nhãn
+\((a,b)\) có \(\card{a-b}&lt;\Delta_{uv}\) tạo xung đột</p>
 \[
-  \neg x_{u,a}\lor\neg x_{v,b}.
+\neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Mã hóa trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+<p>Mã hóa trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
 khoảng cấm.</p>
 <h4 class="reader-h3">SAT thứ tự</h4>
-<p>Thêm
+<p>Thêm</p>
 \[
-  g_{v,\ell}=1\iff f(v)\ge\ell.
+g_{v,\ell}=1\iff f(v)\ge\ell.
 \]
-Biến chính xác được xác định tại điểm chuyển:
+<p>Biến chính xác được xác định tại điểm chuyển:</p>
 \[
-  x_{v,\ell}\iff
+x_{v,\ell}\iff
   g_{v,\ell}\land\neg g_{v,\ell+1}.
 \]
-Nếu \(u\) nhận \(a\), \(v\) không được nhận nhãn trong
-\([a-\Delta_{uv}+1,a+\Delta_{uv}-1]\). Mệnh đề biên là
+<p>Nếu \(u\) nhận \(a\), \(v\) không được nhận nhãn trong
+\([a-\Delta_{uv}+1,a+\Delta_{uv}-1]\). Mệnh đề biên là</p>
 \[
-  \neg x_{u,a}
+\neg x_{u,a}
   \lor
   \neg g_{v,a-\Delta_{uv}+1}
   \lor
   g_{v,a+\Delta_{uv}},
 \]
-sau khi bỏ các literal nằm ngoài miền. Số mệnh đề khoảng cách trở thành tuyến tính
+<p>sau khi bỏ các literal nằm ngoài miền. Số mệnh đề khoảng cách trở thành tuyến tính
 theo \(B\) cho mỗi cặp đỉnh, thay vì phụ thuộc thêm vào \(\Delta_{uv}\).</p>
 <h4 class="reader-h3">Tối thiểu hóa độ trải theo cách tăng dần</h4>
 <p>Bộ giải được dựng một lần ở cận trên \(B\). Sau khi tìm mô hình có giá trị lớn
-nhất \(\beta\), thêm
+nhất \(\beta\), thêm</p>
 \[
-  \neg g_{v,\beta}
-   \forall v
+\neg g_{v,\beta}
+  \qquad\forall v
 \]
-để buộc mọi nhãn không vượt quá \(\beta-1\). Vòng lặp nhảy theo nghiệm đương
+<p>để buộc mọi nhãn không vượt quá \(\beta-1\). Vòng lặp nhảy theo nghiệm đương
 nhiệm thật, không cần giảm từng đơn vị. Nếu lần gọi ở \(\beta-1\) trả UNSAT,
 mô hình tại \(\beta\) cùng cận dưới này chứng nhận tối ưu.</p>
 <p>Đối xứng có thể khai thác theo tự đẳng cấu của đồ thị. Với chu trình \(C_n\),
@@ -3752,18 +3756,18 @@ chặn.</div>
             </div>
 <h3 class="reader-h2">Gán nhãn an toàn \(k\) chính xác</h3>
 <h4 class="reader-h3">Mô hình được sử dụng</h4>
-<p>Trong mô hình của <span class="cite">(Thanh et al., 2026)</span>, nhãn
+<p>Trong mô hình của <span class="cite">(Thanh et al., 2026)</span>, nhãn</p>
 \[
-  L:V\rightarrow\{1,\ldots,B\}
+L:V\rightarrow\set{1,\ldots,B}
 \]
-thỏa hai điều kiện:
+<p>thỏa hai điều kiện:</p>
 \[
-  L_u\ne L_v  \forall u\ne v,
+L_u\ne L_v \qquad\forall u\ne v,
 \]
 \[
-  |L_u-L_v|\ge k  \forall uv\in E.
+\card{L_u-L_v}\ge k \qquad\forall uv\in E.
 \]
-Mục tiêu là tối thiểu \(\max_vL_v\). Điều kiện đầu là tính đơn ánh toàn cục:
+<p>Mục tiêu là tối thiểu \(\max_vL_v\). Điều kiện đầu là tính đơn ánh toàn cục:
 mỗi nhãn được dùng nhiều nhất một lần.</p>
 <div class="reader-callout design-rule">
               <div class="callout-header"><strong>Quy ước của chương</strong></div>
@@ -3782,11 +3786,11 @@ hoạt hai biên của khoảng \([j-k+1,j+k-1]\).</p>
 \(X_{v,j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.</p>
 <p>FE và RE có cùng tập phép gán nhãn nhưng có thể dẫn bộ giải đi theo các nhánh
-khác nhau. Đối xứng phản xạ
+khác nhau. Đối xứng phản xạ</p>
 \[
-  L'_v=S+1-L_v
+L'_v=S+1-L_v
 \]
-giữ mọi khoảng cách và tính đơn ánh trên miền \([1,S]\). Có thể chọn một đỉnh
+<p>giữ mọi khoảng cách và tính đơn ánh trên miền \([1,S]\). Có thể chọn một đỉnh
 đại diện và đặt nó ở nửa dưới miền để giữ một đại diện của cặp phản xạ.</p>
 <div class="reader-callout result-box">
               <div class="callout-header"><strong>So sánh ba phép mã hóa</strong></div>
@@ -3797,16 +3801,16 @@ hướng FE/RE tạo khác biệt nhỏ hơn lựa chọn trực tiếp/thứ t�
             </div>
 <h3 class="reader-h2">Phân bổ tần số với số giá trị nhỏ nhất</h3>
 <h4 class="reader-h3">Miền rời rạc và hàm mục tiêu</h4>
-<p>Mỗi máy phát \(v\) có miền tần số đã sắp
+<p>Mỗi máy phát \(v\) có miền tần số đã sắp</p>
 \[
-  D_v=\{D_{v,1\}<D_{v,2}<\cdots<D_{v,m_v}}.
+D_v=\set{D_{v,1}&lt;D_{v,2}&lt;\cdots&lt;D_{v,m_v}}.
 \]
-Các cạnh mang khoảng cách nhiễu; một số máy phát có giá trị gán trước. Hàm mục
-tiêu không phải tần số lớn nhất mà là số giá trị phân biệt được dùng:
+<p>Các cạnh mang khoảng cách nhiễu; một số máy phát có giá trị gán trước. Hàm mục
+tiêu không phải tần số lớn nhất mà là số giá trị phân biệt được dùng:</p>
 \[
-  \min|\{f_v\mid v\in V\|}.
+\min\card{\set{f_v\mid v\in V}}.
 \]
-Do miền có lỗ và khác nhau giữa các máy phát, khoảng cấm phải được
+<p>Do miền có lỗ và khác nhau giữa các máy phát, khoảng cấm phải được
 tính theo giá trị thực của tần số rồi ánh xạ về chỉ số miền.</p>
 <p>Trong hệ phân loại FAP, đây là mô hình số giá trị nhỏ nhất: hai nghiệm dùng cùng
 số giá trị phân biệt có cùng giá trị mục tiêu dù độ trải khác nhau. Do đó chuỗi
@@ -3818,23 +3822,23 @@ lỗi mô hình phổ biến.</p>
               <div class="callout-body">Xét ba máy phát có miền chứa \(\{1,4,7\}\), và không có cạnh nhiễu giữa máy
 phát thứ hai với thứ ba. Hai phương án
 \[
-  f=(1,4,7),  f'=(1,7,7)
+f=(1,4,7),\qquad f'=(1,7,7)
 \]
-đều có tần số lớn nhất \(7\), nhưng lần lượt dùng \(3\) và \(2\) giá trị phân
+<p>đều có tần số lớn nhất \(7\), nhưng lần lượt dùng \(3\) và \(2\) giá trị phân
 biệt. Tối thiểu hóa độ trải xem chúng ngang nhau; FAP số giá trị nhỏ nhất ưu
 tiên \(f'\). Vì vậy biến hàm mục tiêu phải là \(A_1,A_4,A_7\), không phải chỉ
 một ngưỡng “tần số lớn nhất không vượt \(7\)”.</div>
-            </div>
+            </div></p>
 <h4 class="reader-h3">Tiền xử lý nhất quán cung</h4>
 <p>Với cặp \((v,w)\), một giá trị \(a\in D_v\) phải có ít nhất một giá trị hỗ trợ
 \(b\in D_w\) thỏa khoảng cách yêu cầu. Nếu không có, \(a\) bị loại. Quá trình
-lặp đến điểm bất động:
+lặp đến điểm bất động:</p>
 \[
-  D_v\leftarrow
-  \{a\in D_v\mid
-    \exists b\in D_w:|a-b\|\ge d_{vw}}
+D_v\leftarrow
+  \set{a\in D_v\mid
+    \exists b\in D_w:\card{a-b}\ge d_{vw}}
 \]
-cho mọi cung ràng buộc. Tiền xử lý này không thay giá trị tối ưu vì chỉ loại giá
+<p>cho mọi cung ràng buộc. Tiền xử lý này không thay giá trị tối ưu vì chỉ loại giá
 trị không thể xuất hiện trong bất kỳ nghiệm khả thi nào.</p>
 <p>Đây là AC-3 trên các ràng buộc phân cách nhị phân. Độ mạnh của nó giới hạn ở
 hỗ trợ từng cạnh: một giá trị có thể có hỗ trợ riêng trên mọi đỉnh kề nhưng
@@ -3844,48 +3848,48 @@ thời gian AC riêng; không gán toàn bộ mức giảm thời gian chạy ch
 <h4 class="reader-h3">DSE và POSE</h4>
 <p>Mã hóa SAT trực tiếp dùng \(x_{v,q}=1\iff f_v=D_{v,q}\), ràng buộc đúng một
 theo máy phát và xung đột từng cặp cho các cặp giá trị vi phạm.</p>
-<p>Mã hóa SAT thứ tự bộ phận thêm
+<p>Mã hóa SAT thứ tự bộ phận thêm</p>
 \[
-  g_{v,q}=1\iff
+g_{v,q}=1\iff
   \text{chỉ số tần số của }v\text{ không nhỏ hơn }q.
 \]
-Nếu \(x_{v,q}=1\), tần số \(D_{v,q}\) tạo khoảng cấm
+<p>Nếu \(x_{v,q}=1\), tần số \(D_{v,q}\) tạo khoảng cấm
 \([D_{v,q}-d+1,D_{v,q}+d-1]\) trong miền \(D_w\). Hai biên
-\(\lambda_w,\rho_w\) của miền rời rạc được đưa vào mệnh đề biên
+\(\lambda_w,\rho_w\) của miền rời rạc được đưa vào mệnh đề biên</p>
 \[
-  \neg x_{v,q}
+\neg x_{v,q}
   \lor
   \neg g_{w,\lambda_w(q)}
   \lor
   g_{w,\rho_w(q)}.
 \]
-POSE vì thế loại sự phụ thuộc vào số giá trị nằm bên trong khoảng cấm.</p>
+<p>POSE vì thế loại sự phụ thuộc vào số giá trị nằm bên trong khoảng cấm.</p>
 <div class="reader-inline-caption"><em>Hình: Ánh xạ khoảng giá trị \([4,10]\) vào hai biên của miền rời rạc
-\(D_w=\{2,5,8,11\</em></div>
+\(D_w=\{2,5,8,11\}\).</em></div>
 <div class="reader-callout worked-example">
               <div class="callout-header"><strong>Mệnh đề biên trên miền có lỗ</strong></div>
               <div class="callout-body">Với các miền trong (xem mục fig:fap-discrete-boundaries), chọn giá trị thứ ba của
 \(D_v\), tức \(x_{v,3}=1\) và \(f_v=7\). Khoảng cách \(d=4\) cấm
 \([4,10]\) ở \(D_w\). Mệnh đề POSE là
 \[
-  \neg x_{v,3}\lor\neg g_{w,2}\lor g_{w,4}.
+\neg x_{v,3}\lor\neg g_{w,2}\lor g_{w,4}.
 \]
-Khi \(x_{v,3}=1\), \(\neg g_{w,2}\) cho phép chỉ số \(1\) (tần số \(2\));
+<p>Khi \(x_{v,3}=1\), \(\neg g_{w,2}\) cho phép chỉ số \(1\) (tần số \(2\));
 \(g_{w,4}\) cho phép chỉ số \(4\) (tần số \(11\)). Hai giá trị \(5,8\) nằm
 giữa bị loại mà không cần hai mệnh đề xung đột riêng.</div>
-            </div>
+            </div></p>
 <h4 class="reader-h3">Đếm số tần số phân biệt</h4>
-<p>Với mỗi giá trị tần số toàn cục \(a\), tạo biến
+<p>Với mỗi giá trị tần số toàn cục \(a\), tạo biến</p>
 \[
-  A_a=1\iff
+A_a=1\iff
   \exists v:\ f_v=a.
 \]
-Liên kết \(x_{v,q}\rightarrow A_{D_{v,q}}\) bảo đảm mọi tần số được dùng đều
-được đánh dấu. Hàm mục tiêu trở thành một ràng buộc đếm:
+<p>Liên kết \(x_{v,q}\rightarrow A_{D_{v,q}}\) bảo đảm mọi tần số được dùng đều
+được đánh dấu. Hàm mục tiêu trở thành một ràng buộc đếm:</p>
 \[
-  \min\sum_aA_a.
+\min\sum_aA_a.
 \]
-Bộ đếm tuần tự tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
+<p>Bộ đếm tuần tự tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
 dùng \(q\) tần số, lần gọi kế tiếp kích hoạt cận \(q-1\) bằng các giả định. Lần
 UNSAT tại \(q-1\) cùng mô hình tại \(q\) chứng nhận tối ưu.</p>
 <div class="reader-callout result-box">
@@ -3901,7 +3905,7 @@ ba mô-đun: lọc miền, nén khoảng cấm và đếm giá trị phân biệ
           <div class="reader-table-caption">Bảng: So sánh cấu trúc Radio \(k\), \(k\)-Safe và MO-FAP.</div>
           <table class="reader-table">
             <thead><tr><th>Đặc trưng</th><th>Radio \(k\)</th><th>\(k\)-Safe</th><th>MO-FAP</th></tr></thead>
-            <tbody><tr><td>Miền</td><td>\([1,B]\) liên tục</td><td>\([1,B]\) liên tục</td><td>\(D_v\) rời rạc</td></tr><tr><td>Khoảng cấm</td><td>Từ khoảng cách đồ thị</td><td>\(k\) trên cạnh</td><td>Từ nhiễu</td></tr><tr><td>Cặp bị ràng buộc</td><td>Mọi cặp có \(\Delta>0\)</td><td>Cạnh và tính đơn ánh</td><td>Cạnh ràng buộc</td></tr><tr><td>Hàm mục tiêu</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Số giá trị khác nhau nhỏ nhất</td></tr><tr><td>Lớp mục tiêu</td><td>Cận độ trải</td><td>Cận độ trải</td><td>Bộ đếm giá trị phân biệt</td></tr></tbody>
+            <tbody><tr><td>Miền</td><td>\([1,B]\) liên tục</td><td>\([1,B]\) liên tục</td><td>\(D_v\) rời rạc</td></tr><tr><td>Khoảng cấm</td><td>Từ khoảng cách đồ thị</td><td>\(k\) trên cạnh</td><td>Từ nhiễu</td></tr><tr><td>Cặp bị ràng buộc</td><td>Mọi cặp có \(\Delta&gt;0\)</td><td>Cạnh và tính đơn ánh</td><td>Cạnh ràng buộc</td></tr><tr><td>Hàm mục tiêu</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Nhãn lớn nhất nhỏ nhất</td><td>Số giá trị khác nhau nhỏ nhất</td></tr><tr><td>Lớp mục tiêu</td><td>Cận độ trải</td><td>Cận độ trải</td><td>Bộ đếm giá trị phân biệt</td></tr></tbody>
           </table>
         </div>
 <p>Ba bài toán dùng chung mô-đun khả thi ở mức khoảng, nhưng lớp hàm mục tiêu khác
@@ -3926,7 +3930,7 @@ khoảng \([LB,UB]\).</p>
 <h3 class="reader-h2">Bộ kiểm tra và chứng nhận</h3>
 <p>Bộ kiểm tra khả thi đọc trực tiếp nghiệm:
 <ul class="reader-list"><li>radio: kiểm miền, đường đi ngắn nhất cho mọi cặp và mọi
-        \(\Delta_{uv}>0\);</li><li>\(k\)-safe: kiểm miền, tính đơn ánh và phân cách trên cạnh;</li><li>MO-FAP: kiểm \(f_v\in D_v\), giá trị gán trước, mọi ràng buộc
+        \(\Delta_{uv}&gt;0\);</li><li>\(k\)-safe: kiểm miền, tính đơn ánh và phân cách trên cạnh;</li><li>MO-FAP: kiểm \(f_v\in D_v\), giá trị gán trước, mọi ràng buộc
         và số tần số phân biệt.</li></ul>
 Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
 phép mã hóa.</p>
@@ -3942,7 +3946,7 @@ vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
         khoảng; bộ đếm tuần tự đếm số giá trị được dùng.</li></ol></div>
             </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Chứng minh (xem mục lem:boundary) khi khoảng chạm một biên của miền.</li><li>Với \(D_v=\{10,30,40\}\) và khoảng \([15,35]\), xác định hai
+<ol class="reader-list"><li>Chứng minh (xem mục lem:boundary) khi khoảng chạm một biên của miền.</li><li>Với \(D_v=\set{10,30,40}\) và khoảng \([15,35]\), xác định hai
         literal biên của POSE.</li></ol>
             
             <div class="reader-figure-card">
