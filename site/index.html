@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#172a3a">
+    <meta name="color-scheme" content="light">
+    <meta
+      name="description"
+      content="Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT cho các bài toán tối ưu hóa tổ hợp."
+    >
+    <meta
+      name="author"
+      content="Tô Văn Khánh; Kiều Văn Tuyên; Trương Xuân Hiếu; Vũ Thanh Hương; Đào Xuân Nghĩa; Nguyễn Kim Trung Đức"
+    >
+
+    <link rel="canonical" href="https://satlab-uet.github.io/sat-book/">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="stylesheet" href="./assets/css/main.css">
+
+    <meta property="og:type" content="book">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:site_name" content="SATLab UET">
+    <meta property="og:title" content="Biểu diễn SAT tối ưu">
+    <meta
+      property="og:description"
+      content="Khảo cứu nền tảng, nguyên lý thiết kế và các nghiên cứu tình huống trong tối ưu tổ hợp."
+    >
+    <meta property="og:url" content="https://satlab-uet.github.io/sat-book/">
+    <meta
+      property="og:image"
+      content="https://satlab-uet.github.io/sat-book/assets/images/og-card.png"
+    >
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Bìa và tiêu đề sách Biểu diễn SAT tối ưu">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Biểu diễn SAT tối ưu">
+    <meta
+      name="twitter:description"
+      content="Chuyên khảo về phép mã hóa SAT cho các bài toán tối ưu hóa tổ hợp."
+    >
+    <meta
+      name="twitter:image"
+      content="https://satlab-uet.github.io/sat-book/assets/images/og-card.png"
+    >
+
+    <title>Biểu diễn SAT tối ưu | SATLab UET</title>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": "Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp",
+        "inLanguage": "vi",
+        "datePublished": "2026-07-30",
+        "bookFormat": "https://schema.org/EBook",
+        "numberOfPages": 106,
+        "version": "1.0.0",
+        "url": "https://satlab-uet.github.io/sat-book/",
+        "image": "https://satlab-uet.github.io/sat-book/assets/images/book-cover.webp",
+        "author": [
+          {"@type": "Person", "name": "Tô Văn Khánh"},
+          {"@type": "Person", "name": "Kiều Văn Tuyên"},
+          {"@type": "Person", "name": "Trương Xuân Hiếu"},
+          {"@type": "Person", "name": "Vũ Thanh Hương"},
+          {"@type": "Person", "name": "Đào Xuân Nghĩa"},
+          {"@type": "Person", "name": "Nguyễn Kim Trung Đức"}
+        ]
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#noi-dung-chinh">Chuyển đến nội dung chính</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./" aria-label="Trang chủ SAT Book">
+          <span class="brand-mark" aria-hidden="true">SAT</span>
+          <span>
+            <strong>SATLab</strong>
+            <small>UET</small>
+          </span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Điều hướng chính">
+          <a href="#gioi-thieu">Giới thiệu</a>
+          <a href="#muc-luc">Mục lục</a>
+          <a href="#dinh-dang">Định dạng</a>
+          <a href="#trich-dan">Trích dẫn</a>
+          <a
+            class="nav-source"
+            href="https://github.com/satlab-uet/sat-book"
+            target="_blank"
+            rel="noreferrer"
+          >Mã nguồn <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="noi-dung-chinh">
+      <section class="hero" aria-labelledby="book-title">
+        <div class="hero-accent" aria-hidden="true"></div>
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Chuyên khảo · Phiên bản 1.0.0</p>
+            <h1 id="book-title">
+              <span>Biểu diễn SAT tối ưu</span>
+              <small>cho các bài toán tối ưu hóa tổ hợp</small>
+            </h1>
+            <p class="hero-deck">
+              Từ nền tảng logic đến những kiến trúc mã hóa có thể chứng minh,
+              tái sử dụng và đánh giá thực nghiệm.
+            </p>
+
+            <p class="authors">
+              Tô Văn Khánh <span aria-hidden="true">·</span>
+              Kiều Văn Tuyên <span aria-hidden="true">·</span>
+              Trương Xuân Hiếu <span aria-hidden="true">·</span>
+              Vũ Thanh Hương <span aria-hidden="true">·</span>
+              Đào Xuân Nghĩa <span aria-hidden="true">·</span>
+              Nguyễn Kim Trung Đức
+            </p>
+
+            <div class="hero-actions" role="group" aria-label="Đọc và tải sách">
+              <a class="button button-primary" href="./downloads/sat-book.pdf">
+                <span aria-hidden="true">↗</span>
+                Đọc PDF
+              </a>
+              <a
+                class="button button-secondary"
+                href="./downloads/sat-book-v1.0.0.pdf"
+                download
+              >
+                <span aria-hidden="true">↓</span>
+                Tải bản 1.0.0
+              </a>
+            </div>
+
+            <div
+              class="format-status"
+              role="group"
+              aria-label="Tình trạng các định dạng"
+            >
+              <span><i class="status-ready" aria-hidden="true"></i> PDF bản chuẩn</span>
+              <span><i class="status-progress" aria-hidden="true"></i> HTML đang phát triển</span>
+            </div>
+          </div>
+
+          <figure class="cover-wrap">
+            <div class="cover-shadow" aria-hidden="true"></div>
+            <img
+              class="book-cover"
+              src="./assets/images/book-cover.webp"
+              width="720"
+              height="1018"
+              alt="Bìa sách Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp"
+            >
+            <figcaption>Bản hiệu chỉnh sau phản biện · 30/07/2026</figcaption>
+          </figure>
+        </div>
+
+        <ul class="shell stat-strip">
+          <li><strong>106</strong><span>trang A4</span></li>
+          <li><strong>3</strong><span>phần chuyên đề</span></li>
+          <li><strong>11 + 1</strong><span>chương và kết luận</span></li>
+          <li><strong>38</strong><span>hình kỹ thuật</span></li>
+          <li><strong>79</strong><span>tài liệu được trích dẫn</span></li>
+        </ul>
+      </section>
+
+      <section id="gioi-thieu" class="section section-intro">
+        <div class="shell intro-grid">
+          <div>
+            <p class="section-kicker">Về cuốn sách</p>
+            <h2>Mã hóa không chỉ là chuyển đổi công thức</h2>
+          </div>
+          <div class="intro-copy">
+            <p class="lead">
+              Hai công thức cùng biểu diễn một ràng buộc có thể khác nhau đáng
+              kể về kích thước, khả năng lan truyền đơn vị, cấu trúc mệnh đề và
+              mức độ phù hợp với giải tăng dần.
+            </p>
+            <p>
+              Cuốn sách đặt phép mã hóa SAT ở trung tâm của thuật toán giải
+              chính xác. Mỗi chương lần lượt trả lời bốn câu hỏi: phép mã hóa có
+              đúng không, trạng thái nào được biểu diễn và chia sẻ, bộ giải nhìn
+              thấy cấu trúc gì, và kết quả tối ưu được chứng nhận thế nào.
+            </p>
+          </div>
+        </div>
+
+        <div class="shell principle-grid">
+          <article>
+            <span class="principle-number">01</span>
+            <h3>Đúng về ngữ nghĩa</h3>
+            <p>
+              Bắt đầu từ tương đương theo phép chiếu, tính đầy đủ và những điều
+              kiện cần để nghiệm SAT phản ánh đúng bài toán gốc.
+            </p>
+          </article>
+          <article>
+            <span class="principle-number">02</span>
+            <h3>Mạnh về suy luận</h3>
+            <p>
+              So sánh các phép mã hóa bằng khả năng lan truyền, cấu trúc mệnh đề
+              và giao diện ghép mô-đun, không chỉ bằng số biến và mệnh đề.
+            </p>
+          </article>
+          <article>
+            <span class="principle-number">03</span>
+            <h3>Kiểm chứng bằng thực nghiệm</h3>
+            <p>
+              Kết nối thiết kế mã hóa với bộ kiểm chuẩn, cấu hình solver, hồ sơ
+              hiệu năng và cách diễn giải bằng chứng tối ưu.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="muc-luc" class="section section-toc" aria-labelledby="toc-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Cấu trúc nội dung</p>
+              <h2 id="toc-title">Ba phần, một lộ trình liên tục</h2>
+            </div>
+            <p>
+              Người mới có thể đọc Chương 1–4 rồi chọn một miền ứng dụng; người
+              thiết kế ràng buộc có thể đi trực tiếp từ Phần I sang Phần II.
+            </p>
+          </div>
+
+          <div class="toc-parts">
+            <article class="toc-part">
+              <header>
+                <span>Phần I</span>
+                <h3>Nền tảng và tiêu chí thiết kế</h3>
+              </header>
+              <ol>
+                <li><span>01</span>SAT và MaxSAT như một nền tảng giải chính xác</li>
+                <li><span>02</span>Thế nào là một phép mã hóa SAT tốt?</li>
+                <li><span>03</span>Bộ công cụ ràng buộc đếm và giả Boolean</li>
+                <li><span>04</span>Thiết kế thực nghiệm cho phép mã hóa SAT</li>
+              </ol>
+            </article>
+
+            <article class="toc-part">
+              <header>
+                <span>Phần II</span>
+                <h3>Tái sử dụng cấu trúc trong phép mã hóa SAT</h3>
+              </header>
+              <ol start="5">
+                <li><span>05</span>Bộ đếm dùng chung cho các cửa sổ chồng lấn</li>
+                <li><span>06</span>Thanh ghi đếm thích nghi cho ràng buộc đúng K</li>
+                <li><span>07</span>Đối xứng, biến quan hệ và liên kết biểu diễn</li>
+              </ol>
+            </article>
+
+            <article class="toc-part">
+              <header>
+                <span>Phần III</span>
+                <h3>Các họ bài toán tối ưu tổ hợp</h3>
+              </header>
+              <ol start="8">
+                <li><span>08</span>Lập lịch và cân bằng dây chuyền</li>
+                <li><span>09</span>Đóng gói và cắt hai chiều</li>
+                <li><span>10</span>Bandwidth, antibandwidth và tô đa màu</li>
+                <li><span>11</span>Gán nhãn và phân bổ tần số</li>
+                <li class="toc-conclusion"><span>12</span>Kết luận và chương trình nghiên cứu</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="dinh-dang" class="section section-formats" aria-labelledby="formats-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Định dạng xuất bản</p>
+              <h2 id="formats-title">Một nguồn LaTeX, nhiều cách đọc</h2>
+            </div>
+            <p>
+              PDF giữ bố cục học thuật chuẩn. HTML sẽ ưu tiên khả năng co giãn,
+              tìm kiếm, đọc trên thiết bị nhỏ và công nghệ hỗ trợ.
+            </p>
+          </div>
+
+          <div class="format-grid">
+            <article class="format-card format-stable">
+              <div class="format-card-top">
+                <span class="format-icon" aria-hidden="true">PDF</span>
+                <span class="pill pill-ready">Bản chuẩn</span>
+              </div>
+              <h3>Ấn bản giữ nguyên bố cục</h3>
+              <p>
+                106 trang A4 với mục lục liên kết, công thức, hình TikZ vector,
+                thư mục tài liệu tham khảo và chỉ mục.
+              </p>
+              <div class="format-links">
+                <a href="./downloads/sat-book.pdf">Đọc trực tuyến <span aria-hidden="true">→</span></a>
+                <a href="./downloads/SHA256SUMS">Kiểm tra SHA-256</a>
+              </div>
+            </article>
+
+            <article class="format-card format-experimental">
+              <div class="format-card-top">
+                <span class="format-icon format-icon-html" aria-hidden="true">HTML</span>
+                <span class="pill pill-progress">Đang phát triển</span>
+              </div>
+              <h3>Ấn bản có cấu trúc và co giãn</h3>
+              <p>
+                Bản HTML sẽ được chuyển trực tiếp từ nguồn LaTeX và chỉ công bố
+                sau khi công thức, tham chiếu, bảng, hộp nội dung và hình TikZ
+                vượt qua kiểm tra theo từng chương.
+              </p>
+              <p class="format-note">
+                Thử nghiệm tự động hiện tại chưa đạt chất lượng xuất bản; PDF
+                vẫn là bản tham chiếu chính thức.
+              </p>
+            </article>
+          </div>
+
+          <aside class="method-note">
+            <strong>Vì sao chưa phát hành HTML ngay?</strong>
+            <p>
+              Nguồn sách dùng KOMA-Script, macro riêng, <code>tcolorbox</code>
+              và nhiều hình TikZ. Các bộ chuyển đổi cần một lớp ánh xạ ngữ nghĩa
+              dành riêng cho <code>satbook.sty</code>; công khai kết quả chuyển
+              đổi thô có thể làm sai công thức hoặc mất hình.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="trich-dan" class="section section-citation" aria-labelledby="citation-title">
+        <div class="shell citation-grid">
+          <div>
+            <p class="section-kicker">Trích dẫn</p>
+            <h2 id="citation-title">Ghi nhận đúng phiên bản</h2>
+            <p>
+              Khi sử dụng nội dung của sách, vui lòng ghi đủ sáu tác giả, tên
+              sách, năm và phiên bản.
+            </p>
+          </div>
+
+          <div class="citation-card">
+            <p id="citation-text">
+              Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương,
+              Đào Xuân Nghĩa và Nguyễn Kim Trung Đức (2026).
+              <em>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</em>.
+              Phiên bản 1.0.0.
+            </p>
+            <button class="copy-button" type="button" data-copy-target="citation-text">
+              Sao chép trích dẫn
+            </button>
+            <a
+              href="https://github.com/satlab-uet/sat-book/blob/main/CITATION.cff"
+              target="_blank"
+              rel="noreferrer"
+            >Xem CITATION.cff <span aria-hidden="true">↗</span></a>
+            <p class="copy-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-source" aria-labelledby="source-title">
+        <div class="shell source-panel">
+          <div>
+            <p class="section-kicker">Nguồn công khai để kiểm chứng</p>
+            <h2 id="source-title">Mã nguồn LaTeX và quy trình build tái lập</h2>
+            <p>
+              Repository lưu mã nguồn từng chương, tài liệu tham khảo, style
+              của sách và các kiểm tra PDF. Tệp build trung gian không được đưa
+              vào lịch sử Git.
+            </p>
+          </div>
+          <div class="source-actions">
+            <a
+              class="button button-light"
+              href="https://github.com/satlab-uet/sat-book"
+              target="_blank"
+              rel="noreferrer"
+            >Xem repository <span aria-hidden="true">↗</span></a>
+            <a
+              class="text-link-light"
+              href="https://github.com/satlab-uet/sat-book/issues"
+              target="_blank"
+              rel="noreferrer"
+            >Báo lỗi nội dung</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <strong>Biểu diễn SAT tối ưu</strong>
+          <p>Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT.</p>
+        </div>
+        <div>
+          <p>Phiên bản 1.0.0 · 30/07/2026</p>
+          <p>© 2026 các tác giả. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./assets/js/main.js" defer></script>
+  </body>
+</html>

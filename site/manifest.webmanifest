@@ -1,0 +1,17 @@
+{
+  "name": "Biểu diễn SAT tối ưu",
+  "short_name": "SAT Book",
+  "description": "Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT.",
+  "lang": "vi",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f1f6fa",
+  "theme_color": "#172a3a",
+  "icons": [
+    {
+      "src": "./assets/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

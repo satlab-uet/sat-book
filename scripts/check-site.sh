@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+script_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
+site_output="${repo_root}/_site"
+
+required_files=(
+  "index.html"
+  "404.html"
+  "robots.txt"
+  "sitemap.xml"
+  "manifest.webmanifest"
+  "assets/css/main.css"
+  "assets/js/main.js"
+  "assets/images/book-cover.webp"
+  "assets/images/og-card.png"
+  "downloads/sat-book.pdf"
+  "downloads/sat-book-v1.0.0.pdf"
+  "downloads/SHA256SUMS"
+  ".nojekyll"
+)
+
+for relative_path in "${required_files[@]}"; do
+  if [[ ! -e "${site_output}/${relative_path}" ]]; then
+    printf 'Missing site output: %s\n' "${relative_path}" >&2
+    exit 1
+  fi
+done
+
+python3 "${script_dir}/check-site.py" "${site_output}"
+"${script_dir}/check-pdf.sh" "${site_output}/downloads/sat-book.pdf"
+
+if rg -n 'href="/(?!sat-book)|src="/(?!sat-book)' \
+  "${site_output}" --glob '*.html' --pcre2; then
+  printf '%s\n' 'Found a root-relative link outside /sat-book/.' >&2
+  exit 1
+fi
+
+if rg -n '\{\{[^}]+\}\}|TODO|PLACEHOLDER' "${site_output}" \
+  --glob '*.html' --glob '*.css' --glob '*.js'; then
+  printf '%s\n' 'Found an unresolved site placeholder.' >&2
+  exit 1
+fi
+
+printf '%s\n' 'Static site validation completed successfully.'

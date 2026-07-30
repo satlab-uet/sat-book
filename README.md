@@ -78,6 +78,31 @@ Biên dịch và kiểm tra:
 make check
 ```
 
+Tạo website tĩnh kèm PDF:
+
+```sh
+make site
+```
+
+Tạo lại bìa web, ảnh chia sẻ mạng xã hội và biểu tượng từ trang đầu PDF:
+
+```sh
+make site-assets
+```
+
+Tạo và kiểm tra cả website:
+
+```sh
+make check-site
+```
+
+Website đầu ra nằm trong `_site/`. Mọi đường dẫn nội bộ sử dụng cấu trúc tương
+thích với GitHub Pages tại `/sat-book/`.
+
+Lệnh `make site-assets` cần thêm Python 3, Pillow và Poppler. Các tài nguyên đã
+sinh được lưu trong `site/assets/images/`, vì vậy bước đóng gói `make site`
+không phụ thuộc vào Pillow.
+
 Xóa toàn bộ kết quả build:
 
 ```sh
@@ -86,6 +111,13 @@ make clean
 
 Quá trình build ghi tất cả tệp trung gian vào `build/`; mã nguồn trong
 `book/` không bị trộn với tệp sinh tự động.
+
+## Định dạng HTML
+
+Website hiện cung cấp PDF là bản tham chiếu chính thức. Bản HTML toàn văn đang
+được phát triển trực tiếp từ nguồn LaTeX. Các thử nghiệm tự động với TeX4ht và
+LaTeXML cho thấy cần bổ sung ánh xạ riêng cho `satbook.sty`, KOMA-Script,
+`tcolorbox` và TikZ trước khi kết quả đủ tin cậy để công bố.
 
 ## Trích dẫn
 
