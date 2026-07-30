@@ -6,67 +6,88 @@
 \hypersetup{pageanchor=false}
 
 %%==========================================================
-%% TITLE PAGE — Springer "Algorithms & Combinatorics" style
+%% TITLE PAGE — Standard UET - VNU Monograph Style
 %%==========================================================
 \begin{titlepage}
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
-  %--- Full dark background ---
+  %--- Background fill ---
   \fill[Ink] (current page.south west) rectangle (current page.north east);
-  %--- Blue vertical left-margin bar ---
-  \fill[Blue]
-    (current page.north west)
-    rectangle ([xshift=20mm]current page.south west);
-  %--- Gold rule below series label ---
-  \draw[Gold,line width=1.4pt]
-    ([xshift=28mm,yshift=-36mm]current page.north west) --
-    ([xshift=-22mm,yshift=-36mm]current page.north east);
-  %--- Gold rule above author block ---
-  \draw[Gold,line width=1.4pt]
-    ([xshift=28mm,yshift=52mm]current page.south west) --
-    ([xshift=-22mm,yshift=52mm]current page.south east);
+  
+  %--- Header top band accent ---
+  \fill[Blue] (current page.north west) rectangle ([yshift=-32mm]current page.north east);
+  \draw[Gold,line width=1.5pt] ([yshift=-32mm]current page.north west) -- ([yshift=-32mm]current page.north east);
+
+  %--- Category banner strip ---
+  \fill[Teal!90!Ink] ([yshift=-72mm]current page.north west) rectangle ([yshift=-85mm]current page.north east);
+
+  %--- Bottom footer band accent ---
+  \fill[Blue!80!Ink] (current page.south west) rectangle ([yshift=24mm]current page.south east);
+  \draw[Gold,line width=1.2pt] ([yshift=24mm]current page.south west) -- ([yshift=24mm]current page.south east);
 \end{tikzpicture}
 
-\vspace*{18mm}
-{\sffamily\bfseries\fontsize{11}{14}\selectfont\color{Gold}%
- SÁCH CHUYÊN KHẢO\enspace·\enspace KHOA HỌC MÁY TÍNH\par}
+%--- Top Header: VNU / UET Institution & Authors ---
+\vspace*{-4mm}
+\begin{minipage}[t]{0.45\textwidth}
+  {\sffamily\bfseries\fontsize{9}{12}\selectfont\color{white}%
+  ĐẠI HỌC QUỐC GIA HÀ NỘI\par
+  TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
+\end{minipage}%
+\begin{minipage}[t]{0.55\textwidth}
+  \raggedleft
+  {\sffamily\bfseries\fontsize{9.5}{13}\selectfont\color{Gold}%
+  TÔ VĂN KHÁNH \enspace·\enspace KIỀU VĂN TUYÊN\par
+  TRƯƠNG XUÂN HIẾU \enspace·\enspace VŨ THANH HƯƠNG\par
+  ĐÀO XUÂN NGHĨA \enspace·\enspace NGUYỄN KIM TRUNG ĐỨC\par}
+\end{minipage}
+
+\vspace{38mm}
+
+%--- Spaced Category Banner Text ---
+\begin{center}
+  {\sffamily\bfseries\fontsize{13}{16}\selectfont\color{white}%
+  S \enspace Á \enspace C \enspace H \qquad C \enspace H \enspace U \enspace Y \enspace Ê \enspace N \qquad K \enspace H \enspace Ả \enspace O\par}
+\end{center}
+
+\vspace{18mm}
+
+%--- Main Title: Large Bold Gold/Yellow Text ---
+\begin{center}
+  {\sffamily\bfseries\fontsize{38}{44}\selectfont\color{Gold}%
+  BIỂU DIỄN SAT TỐI ƯU\par}
+  \vspace{8mm}
+  {\sffamily\bfseries\fontsize{18}{24}\selectfont\color{white}%
+  CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP\par}
+\end{center}
 
 \vspace{22mm}
 
-{\sffamily\bfseries\fontsize{44}{50}\selectfont\color{white}%
- BIỂU DIỄN SAT TỐI ƯU\par}
-
-\vspace{10mm}
-
-{\sffamily\bfseries\fontsize{20}{26}\selectfont\color{white}%
- CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP\par}
-
-\vspace{30mm}
-
-{\sffamily\fontsize{12.5}{20}\selectfont\color{white}%
- {\color{Gold}\rule{10mm}{0.8pt}}\enspace
- Khảo cứu nền tảng và các họ mã hóa SAT\par\vspace{8pt}%
- {\color{Gold}\rule{10mm}{0.8pt}}\enspace
- Nguyên lý thiết kế và tái sử dụng cấu trúc\par\vspace{8pt}%
- {\color{Gold}\rule{10mm}{0.8pt}}\enspace
- Nghiên cứu tình huống trong tối ưu tổ hợp\par}
+%--- Summary / Topics ---
+\begin{center}
+  \begin{minipage}{0.85\textwidth}
+    {\sffamily\fontsize{11.5}{18}\selectfont\color{white!95!Ink}%
+    \centering
+    ■\enspace Khảo cứu nền tảng và các họ mã hóa SAT\par\vspace{5pt}
+    ■\enspace Nguyên lý thiết kế và tái sử dụng cấu trúc\par\vspace{5pt}
+    ■\enspace Nghiên cứu tình huống trong tối ưu tổ hợp\par}
+  \end{minipage}
+\end{center}
 
 \vfill
 
-{\sffamily\bfseries\fontsize{13.5}{19}\selectfont\color{white}%
- Tô Văn Khánh\enspace·\enspace
- Kiều Văn Tuyên\enspace·\enspace
- Trương Xuân Hiếu\par}
-\vspace{4pt}
-{\sffamily\fontsize{11.5}{16}\selectfont\color{white}%
- Vũ Thanh Hương\enspace·\enspace
- Đào Xuân Nghĩa\enspace·\enspace
- Nguyễn Kim Trung Đức\par}
+%--- Bottom Footer: Tủ sách & Nhà xuất bản ĐHQGHN ---
+\begin{minipage}[b]{0.45\textwidth}
+  {\sffamily\bfseries\fontsize{8.5}{11}\selectfont\color{Gold}%
+  TỦ SÁCH KHOA HỌC - SATLAB\par
+  \color{white!80!Ink}\fontseries{m}\selectfont MS: SAT-VNU-2026\par}
+\end{minipage}%
+\begin{minipage}[b]{0.55\textwidth}
+  \raggedleft
+  {\sffamily\bfseries\fontsize{10}{13}\selectfont\color{white}%
+  NHÀ XUẤT BẢN ĐẠI HỌC QUỐC GIA HÀ NỘI\par}
+\end{minipage}
 
-\vspace{10mm}
-{\sffamily\bfseries\fontsize{11}{14}\selectfont\color{Gold}%
- SATLAB\enspace·\enspace 2026\par}
-\vspace{16mm}
+\vspace{-2mm}
 
 \end{titlepage}
 \hypersetup{pageanchor=true}

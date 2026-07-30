@@ -519,8 +519,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <script>
       window.MathJax = {
         tex: {
-          inlineMath: [['\\\\(', '\\\\)'], ['$', '$']],
-          displayMath: [['\\\\[', '\\\\]'], ['$$', '$$']],
+          inlineMath: [['\\\\(', '\\\\)']],
+          displayMath: [['\\\\[', '\\\\]']],
           processEscapes: true,
           macros: {
             SAT: '\\\\mathrm{SAT}',
@@ -790,6 +790,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         font-variant: small-caps;
         letter-spacing: 0.05em;
       }
+
+      /* KaTeX & MathJax Font Fallback Overrides to Protect Vietnamese Diacritics */
+      .katex, .katex .text, .katex-display {
+        font-family: var(--font-sans) !important;
+      }
+      
       @media (max-width: 900px) {
         .reader-layout {
           grid-template-columns: 1fr;
@@ -859,9 +865,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           renderMathInElement(document.body, {
             delimiters: [
               {left: '\\[', right: '\\]', display: true},
-              {left: '\\(', right: '\\)', display: false},
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}
+              {left: '\\(', right: '\\)', display: false}
             ],
             throwOnError: false
           });
