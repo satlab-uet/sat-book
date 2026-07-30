@@ -1,0 +1,557 @@
+\chapter{Lập lịch và cân bằng dây chuyền}
+\chapterlead{Một phép mã hóa cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
+ba câu hỏi: quyết định nằm ở mốc nào, điều gì phải liên tục giữa các mốc, và
+cận mục tiêu được thay đổi ra sao trong quá trình giải.}
+
+\index{scheduling}\index{non-preemption}\index{Nurse Rostering}
+\index{lazy clause generation}\index{Dynamic Discretization Discovery}
+
+\flowdiagram{Miền thời gian}{Biến quyết định}{Liên tục và tài nguyên}
+  {Hàm mục tiêu}{Chứng nhận}
+
+\section{Từ SAT theo mốc thời gian đến sinh mệnh đề lười}
+
+Lập lịch là một trong những miền sớm cho thấy SAT có thể giải các bài toán
+ngoài lôgic thuần túy. Các thí nghiệm SAT về lập lịch từ thập niên 1990 đã
+dùng quyết định theo mốc thời gian và mệnh đề xung đột để so sánh với phương
+pháp tìm kiếm chuyên dụng \parencite{crawford1994scheduling}. Từ đó, văn liệu
+phát triển theo ba hướng:
+\begin{enumerate}
+  \item biên dịch toàn bộ ràng buộc gán, thời gian và tài nguyên sang SAT;
+  \item dùng MaxSAT/PB để biểu diễn mức phạt, ưu tiên hoặc số ca vi phạm;
+  \item tích hợp lan truyền miền với học mệnh đề, điển hình là sinh mệnh đề
+        lười (\emph{lazy clause generation}, LCG).
+\end{enumerate}
+
+LCG giữ biến miền và bộ lan truyền của CP, đồng thời gắn mỗi phép loại giá trị
+với một giải thích dạng mệnh đề; phân tích xung đột sau đó học trên các giải
+thích này. Trên RCPSP/max, kiến trúc đó kết hợp lan truyền lập lịch toàn cục
+với học mệnh đề \parencite{schutt2013lcg}. Ở một hướng khác, MaxSAT bộ phận có
+trọng số cho phép tách độ phủ/tính hợp lệ thành các mệnh đề cứng và ưu tiên
+trong lập lịch nhân viên thành các mệnh đề mềm
+\parencite{demirovic2019staff}.
+
+\begin{center}
+\captionof{table}{Các mô hình giải chính xác cho bài toán thời gian.}
+\label{tab:scheduling-paradigms}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.18\textwidth}YYY@{}}
+\toprule
+Mô hình & Trạng thái thời gian & Cơ chế tài nguyên & Cận chủ đạo\\
+\midrule
+SAT theo mốc thời gian & Mốc rời rạc & Xung đột/ràng buộc đếm & UNSAT theo chân trời\\
+SAT thứ tự & Ngưỡng thời gian & Quan hệ + cận dịch chuyển & Học mệnh đề\\
+MaxSAT/PB & Như SAT + literal chi phí & Cứng/mềm hoặc PB & Lõi/cận chi phí\\
+SMT & Biến nguyên/thực & Phép tuyển + lý thuyết & Lan truyền lý thuyết\\
+CP/LCG & Miền và khoảng & Bộ lan truyền toàn cục & Lọc miền + mệnh đề\\
+MIP & Biến nhị phân/liên tục & Bất đẳng thức tuyến tính & Thư giãn quy hoạch tuyến tính\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Vì vậy, một phép mã hóa lập lịch được đánh giá trên cả kích thước, sức lan
+truyền và biểu diễn đối chứng tương ứng: SAT theo mốc thời gian so với MIP mở
+rộng theo thời gian; SAT thứ tự so với lôgic sai phân/SMT; bộ đếm chuỗi dùng
+chung so với bộ lan truyền \textsc{Sequence}; và hàm mục tiêu MaxSAT so với PB
+hay hàm mục tiêu tuyến tính.
+
+\section{Kiến trúc chung của mô hình thời gian}
+
+Các bài toán trong chương có bề mặt khác nhau: phân ca điều dưỡng, xếp tác vụ
+trên các máy đồng nhất, cân bằng dây chuyền theo đỉnh công suất và điều chỉnh
+lịch tàu. Tuy nhiên, phép mã hóa của chúng đều có thể tách thành bốn lớp:
+\begin{enumerate}
+  \item \textbf{gán}: tác vụ, người hoặc chuyến tàu sử dụng tài nguyên nào;
+  \item \textbf{thời gian/thứ tự}: thời điểm bắt đầu, kết thúc hoặc thứ tự trước--sau;
+  \item \textbf{liên tục/chuỗi}: các quyết định cục bộ ghép thành một
+        khoảng hoặc một chuỗi hợp lệ;
+  \item \textbf{hàm mục tiêu}: thời điểm hoàn tất toàn lịch, đỉnh công suất,
+        độ trễ hay số vi phạm.
+\end{enumerate}
+
+Việc tách lớp không chỉ giúp trình bày. Nó cho phép thay một mô-đun mà không
+đổi ngữ nghĩa của các mô-đun còn lại. Chẳng hạn, có thể giữ nguyên biến gán
+máy và thay phép mã hóa cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
+và thay vòng lặp tối ưu bằng \SAT tăng dần hay \MaxSAT.
+
+\begin{designrule}{Nguyên tắc thiết kế}
+Mỗi biến phụ phải thuộc về một lớp rõ ràng. Nếu một biến vừa được dùng để suy
+thời điểm, vừa được diễn giải như trạng thái hoạt động, cần có liên kết hai
+chiều hoặc một phép giải mã chứng minh được.
+\end{designrule}
+
+\section{Lập lịch không ngắt trên các tài nguyên đồng nhất}
+
+\subsection{Mô hình}
+
+Cho tập tác vụ \(J=\set{1,\ldots,n}\) và \(m\) tài nguyên đồng nhất. Tác vụ
+\(i\) có thời điểm sẵn sàng \(r_i\), thời lượng \(e_i\) và hạn hoàn tất
+\(d_i\). Thời điểm bắt đầu thuộc miền
+\[
+  T_i=\set{r_i,r_i+1,\ldots,d_i-e_i}.
+\]
+Nếu \(s_i\in T_i\), tác vụ chiếm tài nguyên trong nửa khoảng
+\([s_i,s_i+e_i)\). Hai tác vụ được gán cùng tài nguyên không được có hai khoảng
+giao nhau.
+
+Một mô hình gọn dùng hai họ biến:
+\[
+  y_{ij}=1 \iff i\text{ được gán cho tài nguyên }j,
+  \qquad
+  z_{it}=1 \iff i\text{ hoạt động tại }t .
+\]
+Với mỗi tác vụ, các biến \(y_{ij}\) thỏa
+\[
+  \ExactlyOne(y_{i1},\ldots,y_{im}).
+\]
+Xung đột tài nguyên tại mốc \(t\) được loại bởi
+\[
+  \neg z_{it}\lor \neg y_{ij}\lor
+  \neg z_{i't}\lor \neg y_{i'j},
+  \qquad i<i'.
+\]
+Mệnh đề này là một xung đột có điều kiện: nó chỉ hoạt động khi hai tác vụ cùng
+chọn tài nguyên \(j\).
+
+\subsection{Từ ràng buộc đếm đến một khối liên tục}
+
+Điều kiện
+\[
+  \sum_t z_{it}=e_i
+\]
+chỉ bảo đảm đủ số mốc hoạt động; nó không ngăn các mốc bị tách thành nhiều
+đoạn. Tính không ngắt (\emph{non-preemption}) đòi hỏi mạnh hơn:
+\[
+  z_{it}=1 \iff s_i\le t<s_i+e_i .
+\]
+
+Mã hóa trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
+\(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng
+\[
+  \ExactlyOne\bigl(b_{is}:s\in T_i\bigr).
+\]
+Trong \CNF, phần ít nhất một là mệnh đề
+\(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng mã hóa từng
+cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
+dùng
+\[
+  b_{is}\rightarrow z_{it}
+  \quad\text{với }s\le t<s+e_i,
+  \qquad
+  b_{is}\rightarrow \neg z_{it}
+  \quad\text{ở ngoài khoảng.}
+\]
+Cách này dễ hiểu nhưng lặp lại nhiều literal cho các thời điểm bắt đầu lân cận.
+Phép mã hóa gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa ``tất
+cả bằng 0'' hoặc ``tất cả bằng 1''. Hai thời điểm bắt đầu kế tiếp chia sẻ gần
+như toàn bộ cấu trúc; khác biệt của chúng chỉ nằm ở hai biên của khối.
+
+\begin{proposition}[Đúng đắn của phép mã hóa theo khối]
+\label{prop:nonpreemptive-block}
+Giả sử mô-đun khối bảo đảm: (i) tồn tại đúng một vị trí bắt đầu; (ii) từ vị
+trí đó có đúng \(e_i\) giá trị liên tiếp bằng \(1\); và (iii) mọi vị trí trước
+và sau khối đều bằng \(0\). Khi đó phép gán cho các biến \(z_{it}\) tương ứng
+duy nhất với một khoảng xử lý không ngắt hợp lệ của tác vụ \(i\).
+\end{proposition}
+
+\begin{proof}
+Từ (i), chọn vị trí bắt đầu \(s_i\). Điều kiện (ii) cho
+\(z_{it}=1\) trên \([s_i,s_i+e_i)\); điều kiện (iii) loại mọi giá trị \(1\)
+khác. Chiều ngược lại, từ một khoảng hợp lệ, đặt biến bắt đầu ở đầu khoảng và
+gán các biến tiền tố/hậu tố theo định nghĩa của chúng. Mọi mệnh đề của mô-đun
+đều được thỏa.
+\end{proof}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=9mm,y=8mm]
+  \draw[->,Rule] (0,0)--(9,0) node[right,satlabel]{thời gian};
+  \foreach \t in {0,...,8}{
+    \draw[Rule] (\t,.12)--(\t,-.12);
+    \node[below,satlabel] at (\t,-.15) {\(\t\)};
+  }
+  \node[left,satlabel] at (0,1.05) {hợp lệ};
+  \draw[Blue,fill=PaleBlue,thick] (2,.55) rectangle (5,1.45);
+  \node at (3.5,1) {tác vụ \(i\), \(e_i=3\)};
+  \node[left,satlabel] at (0,2.55) {không hợp lệ};
+  \draw[Gold,fill=PaleGold,thick] (1,2.1) rectangle (2,3);
+  \draw[Gold,fill=PaleGold,thick] (4,2.1) rectangle (6,3);
+  \node[satlabel,text=Gold] at (3.5,3.35)
+    {đủ \(3\) mốc nhưng bị ngắt};
+\end{tikzpicture}
+\caption{Ràng buộc đếm \(\sum_tz_{it}=3\) không phân biệt một khối liên tục với
+ba mốc rời; tính không ngắt phải mã hóa vị trí bắt đầu và hai biên khối.}
+\label{fig:nonpreemptive-block}
+\end{figure}
+
+\begin{workedexample}{Ba tác vụ trên hai máy}
+Cho \(J_1=(r=0,e=3,d=6)\), \(J_2=(0,2,5)\), \(J_3=(1,2,6)\).
+Một lịch hợp lệ là
+\[
+  M_1:\ J_1[0,3)\ \ J_3[3,5),
+  \qquad
+  M_2:\ J_2[0,2).
+\]
+Với \(t=1\), \(z_{1,1}=z_{2,1}=1\) nhưng hai tác vụ dùng máy khác nhau nên
+mệnh đề xung đột có điều kiện vẫn thỏa. Nếu đổi \(y_{2,2}\) thành \(y_{2,1}\),
+mệnh đề tại \(t=1,j=1\) trở thành
+\(
+\neg z_{1,1}\lor\neg y_{1,1}\lor
+\neg z_{2,1}\lor\neg y_{2,1}
+\)
+và bị vi phạm. Ví dụ tách rõ hai lớp: \(z\) nói khi nào tác vụ chạy, \(y\)
+nói nó chạy ở đâu.
+\end{workedexample}
+
+Kết quả của \textcite{kieu2025scheduling} cho thấy lợi ích chính của phép mã
+hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp mã hóa theo
+khối với phá đối xứng và một phép mã hóa giả Boolean thích hợp đạt tổng thời
+gian thấp nhất trong nhiều nhóm bài toán của nghiên cứu đó. Điều cần rút ra cho
+thiết kế là: \emph{tính không ngắt nên là một mô-đun độc lập}, thay vì được
+ngầm suy từ một ràng buộc đếm.
+
+\section{Ràng buộc chuỗi trong lập lịch điều dưỡng}
+
+\subsection{Cửa sổ trượt}
+
+Với dãy Boolean \(\Omega=(x_1,\ldots,x_n)\), một ràng buộc chuỗi cận dưới yêu
+cầu mọi cửa sổ độ rộng \(w\) chứa ít nhất \(k\) giá trị đúng:
+\[
+  \operatorname{ALSC}(\Omega,w,k)=
+  \bigwedge_{i=0}^{n-w}
+  \left(\sum_{j=i+1}^{i+w}x_j\ge k\right).
+\]
+Nếu mã hóa từng cửa sổ bằng một phép mã hóa ràng buộc đếm độc lập, hai cửa sổ
+kề nhau chia sẻ \(w-1\) biến gốc nhưng không chia sẻ biến phụ. Cấu trúc chuỗi
+vì thế đặt ra bài toán \emph{tái sử dụng biểu thức con}.
+
+Chia một cửa sổ thành hai phần \(A\) và \(B\). Ta có
+\[
+  \sum_{x\in A\cup B}x\ge k
+  \iff
+  \bigwedge_{q=1}^{k}
+  \left[
+    \left(\sum_{x\in A}x\ge q\right)
+    \lor
+    \left(\sum_{x\in B}x\ge k-q+1\right)
+  \right].
+\]
+Mỗi mệnh đề ngưỡng trong ngoặc được biểu diễn bởi một thanh ghi dùng chung.
+Khi cửa sổ trượt sang phải, phần lớn thanh ghi vẫn còn nguyên.
+
+\begin{example}
+Xét \(x_3+x_4+x_5+x_6\ge2\), chia thành hai khối
+\(A=(x_3,x_4)\) và \(B=(x_5,x_6)\). Nếu
+\(R_{A,q}\) mang nghĩa ``\(A\) có ít nhất \(q\) giá trị đúng'', bộ nối chỉ
+cần
+\[
+  (R_{A,1}\lor R_{B,2})
+  \land
+  (R_{A,2}\lor R_{B,1}).
+\]
+Các thanh ghi của \(B\) tiếp tục được dùng trong cửa sổ kế tiếp.
+\end{example}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=12mm,y=7mm]
+  \foreach \d/\v in {1/1,2/0,3/1,4/0,5/1,6/0,7/1}{
+    \ifnum\v=1
+      \node[satbox,minimum width=10mm,fill=PaleTeal] (d\d) at (\d,0) {\(\v\)};
+    \else
+      \node[satbox,minimum width=10mm,fill=SoftGray] (d\d) at (\d,0) {\(\v\)};
+    \fi
+    \node[above,satlabel] at (d\d.north) {ngày \(\d\)};
+  }
+  \draw[Blue,very thick] (.55,-.75)--(4.45,-.75)
+    node[midway,below,satlabel,text=Blue]{\(W_1\): tổng \(2\)};
+  \draw[Teal,very thick] (1.55,-1.55)--(5.45,-1.55)
+    node[midway,below,satlabel,text=Teal]{\(W_2\): tổng \(2\)};
+  \draw[Gold,very thick] (2.55,-2.35)--(6.45,-2.35)
+    node[midway,below,satlabel,text=Gold]{\(W_3\): tổng \(2\)};
+\end{tikzpicture}
+\caption{Ba cửa sổ ALSC \((w=4,k=2)\) trên bảy ngày. Mỗi cửa sổ kề nhau chỉ
+thay một ngày, nên các ngưỡng ở phần giao có thể dùng lại.}
+\label{fig:nurse-alsc}
+\end{figure}
+
+\subsection{Đưa vào mô hình phân ca}
+
+Đặt \(x_{ids}=1\) khi điều dưỡng \(i\) làm loại ca \(s\) ở ngày \(d\). Mỗi cặp
+\((i,d)\) nhận đúng một trạng thái. Những quy tắc như ``trong mọi \(w\) ngày có
+ít nhất \(k\) ngày nghỉ'' trở thành ALSC; quy tắc at-most được đối ngẫu:
+\[
+  \sum_{j=1}^{w}x_j\le q
+  \iff
+  \sum_{j=1}^{w}(1-x_j)\ge w-q.
+\]
+Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận dưới cho cả hai hướng.
+
+Trong một mô hình phân ca đầy đủ, ràng buộc chuỗi chỉ là một lớp. Lớp độ phủ
+bảo đảm số nhân viên mỗi ca; ràng buộc hợp đồng giới hạn tổng giờ và số cuối
+tuần; ưu tiên tạo các chi phí mềm. Phép mã hóa cửa sổ dùng chung tác động trực
+tiếp lên lớp chuỗi, còn MaxSAT có trọng số là một lựa chọn cho hàm mục tiêu của
+toàn mô hình \parencite{demirovic2019staff}. Ma trận thiết kế tách các lớp để
+đo riêng ảnh hưởng của ALSC, độ phủ và ưu tiên.
+
+\begin{resultbox}{Kết quả tiêu biểu}
+Trên 28 bài toán lập lịch điều dưỡng (\emph{Nurse Rostering}), với quy mô đến
+120 điều dưỡng và 24 tuần,
+ALSCE giải toàn bộ tập thử trong nghiên cứu của
+\textcite{truong2025nurse}; bài toán lớn nhất được báo cáo ở mức
+\(26{,}01\) giây. Kết quả này minh họa hiệu quả của việc chia sẻ thanh ghi giữa
+các cửa sổ chồng lấn.
+\end{resultbox}
+
+\section{Cân bằng dây chuyền với đỉnh công suất}
+
+\subsection{Mô hình đỉnh công suất}
+
+Trong SALBP-3PM, tác vụ \(i\) có thời lượng \(t_i\), công suất \(w_i\), được gán
+vào một trạm và bắt đầu trong chu kỳ dài \(c\). Nếu \(A_{i\tau}\) biểu diễn
+``tác vụ \(i\) đang hoạt động tại \(\tau\)'', tổng công suất là
+\[
+  W(\tau)=\sum_i w_iA_{i\tau},
+  \qquad
+  P=\max_{\tau=0}^{c-1}W(\tau).
+\]
+Mục tiêu là tối thiểu hóa \(P\).
+
+Các biến trực tiếp cho quyết định gán và bắt đầu thuận tiện cho phép giải mã:
+\[
+  X_{ik}=1 \iff i\text{ ở trạm }k,
+  \qquad
+  S_{it}=1 \iff i\text{ bắt đầu tại }t.
+\]
+Các biến thứ tự cung cấp lớp lan truyền:
+\[
+  R_{ik}=1 \iff \text{trạm}(i)\le k,
+  \qquad
+  T_{it}=1 \iff \text{bắt đầu}(i)\le t.
+\]
+Giá trị chính xác xuất hiện tại điểm chuyển của chuỗi thứ tự. Nhờ vậy, ràng
+buộc AMO về phép gán giảm từ dạng từng cặp bậc hai xuống một chuỗi tuyến tính;
+quan hệ trước--sau giữa trạm hoặc giữa mốc thời gian cũng được viết bằng quan
+hệ kéo theo giữa các ngưỡng.
+
+\subsection{Bốn giao diện tối ưu}
+
+Cùng một phép mã hóa tính khả thi có thể kết nối với hàm mục tiêu theo bốn cách:
+\begin{center}
+\captionof{table}{Bốn giao diện tối ưu cho công suất đỉnh.}
+\label{tab:peak-interfaces}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.23\textwidth}YY@{}}
+\toprule
+Cơ chế & Cách thay cận & Thành phần cần giữ cố định\\
+\midrule
+Chặn bằng mệnh đề & Cấm mọi đỉnh không tốt hơn nghiệm đương nhiệm &
+Ngữ nghĩa của biến đỉnh\\
+Tinh chỉnh PB & Siết \(\sum_iw_iA_{i\tau}\le B\) tại mọi \(\tau\) &
+Phép mã hóa giả Boolean\\
+\MaxSAT có trọng số & Đưa mức đỉnh vào mệnh đề mềm &
+Ánh xạ chi phí với giá trị \(P\)\\
+Biến chỉ báo thứ tự & Kích hoạt cận bằng các giả định &
+Mệnh đề cơ sở và chuỗi thứ tự\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Biến chỉ báo thứ tự phù hợp với giải tăng dần: bộ giải được dựng một lần ở cận
+trên, sau mỗi nghiệm chỉ thay các giả định hoặc thêm mệnh đề chặn. Trong nghiên
+cứu của \textcite{kieu2025power}, phép mã hóa tuần tự gọn kết hợp giải tăng dần
+chứng nhận được nhiều bài toán hơn cấu hình đối chiếu trên tập 89 bài kiểm
+chuẩn; lợi ích rõ nhất ở nhóm khó.
+
+\begin{keyidea}{Tách tính khả thi khỏi tối ưu}
+Mô-đun khả thi mô tả lịch hợp lệ qua một giao diện độc lập với tìm kiếm tuyến
+tính, tìm kiếm nhị phân hay \MaxSAT. Lớp hàm mục tiêu đọc các biến đã có và
+cung cấp giao diện cận \(B\). Cách tách này làm cho chứng minh tính đúng ngắn
+hơn và thí nghiệm bóc tách rõ hơn.
+\end{keyidea}
+
+\section{Điều chỉnh lịch tàu bằng MaxSAT--DDD}
+
+\subsection{Tại sao cần rời rạc hóa động}
+
+Với tàu \(i\) và tài nguyên \(r\) trên tuyến cố định, đặt \(t^{i,r}\) là thời
+điểm tàu đi vào tài nguyên. Quan hệ trước--sau trên đường đi có dạng
+\[
+  t^{i,q}\ge t^{i,r}+\ell_i^r,
+\]
+trong khi hai tàu dùng chung tài nguyên phải chọn một trong hai thứ tự an toàn.
+Nếu dựng toàn bộ miền thời gian đến chân trời \(H\), số biến theo mốc thời gian có thể
+rất lớn.
+
+Khám phá rời rạc hóa động (\emph{Dynamic Discretization Discovery}, DDD) khởi
+đầu bằng tập mốc thưa \(\Lambda^{i,r}\). Mô hình hạn chế cho một cận dưới.
+Nghiệm được giải mã trên trục thời gian đầy đủ; nếu nó vi phạm thời gian di
+chuyển hoặc khoảng cách an toàn, chỉ các mốc liên quan mới được thêm.
+
+DDD không bắt nguồn từ SAT. Thuật toán được phát triển cho thiết kế mạng dịch
+vụ thời gian liên tục bằng cách giải lặp các mạng mở rộng thời gian một phần
+và tinh chỉnh những mốc cần thiết \parencite{boland2017ddd}. Khi chuyển ý tưởng
+sang MaxSAT, điều phải bảo toàn là \emph{tính hợp lệ của cận dưới} trong mô
+hình hạn chế và quy tắc tinh chỉnh hữu hạn; bộ giải bên trong có thể thay đổi.
+Đây là một ví dụ quan trọng của việc đưa một kiến trúc từ Nghiên cứu vận trù
+vào SAT, thay vì chỉ thay phép mã hóa của một ràng buộc.
+
+\subsection{Vòng lặp}
+
+\begin{enumerate}
+  \item Giải mô hình \MaxSAT hạn chế trên phép rời rạc hóa hiện tại.
+  \item Giải mã lịch và kiểm tra mọi quan hệ trước--sau trên đường đi, xung
+        đột tài nguyên và giá trị độ trễ.
+  \item Nếu có vi phạm, thêm các mốc cần thiết và lặp lại.
+  \item Nếu lịch khả thi và chi phí giải mã bằng giá trị tối ưu của mô hình
+        hạn chế, cận dưới gặp cận trên; nghiệm là tối ưu.
+\end{enumerate}
+
+\begin{algorithm}[H]
+\caption{Vòng lặp MaxSAT--DDD có kiểm chứng}
+\label{alg:maxsat-ddd}
+\begin{minipage}{.94\textwidth}\small
+\textbf{Đầu vào:} tập mốc hữu hạn đầy đủ \(\Lambda^\star\), phép rời rạc hóa ban đầu
+\(\Lambda^0\subseteq\Lambda^\star\), bộ giải mã–kiểm tra và hàm chi phí.\\
+\textbf{Đầu ra:} lịch tối ưu hoặc chứng nhận vô nghiệm trong miền đầy đủ.
+\begin{enumerate}
+  \item Với vòng \(r\), sinh hoặc cập nhật mô hình hạn chế trên
+  \(\Lambda^r\), giải tối ưu và ghi cận dưới \(L_r\).
+  \item Nếu mô hình hạn chế vô nghiệm và là một phép thư giãn hợp lệ của mô hình
+  đầy đủ, kết luận mô hình đầy đủ vô nghiệm.
+  \item Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
+  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), nó phải trả một
+  chứng cứ \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
+  hàm mục tiêu.
+  \item Nếu có lịch khả thi và \(U_r=L_r\), trả lịch cùng hai cận bằng nhau.
+  \item Nếu chưa hội tụ, bước tinh chỉnh phải chọn ít nhất một mốc trong
+  \(\Lambda^\star\setminus\Lambda^r\) được chứng cứ \(C_r\) yêu cầu; đặt
+  \(\Lambda^{r+1}\supsetneq\Lambda^r\) và lặp.
+\end{enumerate}
+\end{minipage}
+\end{algorithm}
+
+\begin{proposition}[Hội tụ hữu hạn của DDD]
+\label{prop:ddd-finite}
+Giả sử (i) tập mốc đầy đủ \(\Lambda^\star\) hữu hạn; (ii) mỗi mô hình hạn chế
+cho một cận dưới hợp lệ; (iii) bộ kiểm tra đúng; và (iv) mỗi vòng chưa kết thúc
+thêm ít nhất một mốc mới từ \(\Lambda^\star\). Khi đó
+Thuật toán~\ref{alg:maxsat-ddd} kết thúc sau không quá
+\(\card{\Lambda^\star\setminus\Lambda^0}+1\) lần giải mô hình hạn chế và chỉ
+trả nghiệm tối ưu hoặc kết luận vô nghiệm đúng.
+\end{proposition}
+
+\begin{proof}
+Do chuỗi
+\(\Lambda^0\subsetneq\Lambda^1\subsetneq\cdots\subseteq\Lambda^\star\)
+tăng nghiêm ngặt trong một tập hữu hạn, số lần tinh chỉnh bị chặn bởi
+\(\card{\Lambda^\star\setminus\Lambda^0}\). Nếu thuật toán dừng với
+\(U_r=L_r\), \(L_r\) là cận dưới cho giá trị tối ưu đầy đủ còn \(U_r\) là chi
+phí của một nghiệm đầy đủ được bộ kiểm tra xác nhận, nên cả hai bằng giá trị
+tối ưu. Nếu đến \(\Lambda^\star\), mô hình hạn chế chính là mô hình đầy đủ; bộ giải quyết định
+tối ưu hoặc vô nghiệm. Kết luận vô nghiệm sớm chỉ hợp lệ dưới giả thiết
+thư giãn ở (ii).
+\end{proof}
+
+\paragraph{Biên hội tụ và chiến lược tinh chỉnh.}
+Ở biên xấu nhất, DDD khôi phục toàn bộ lưới \(\Lambda^\star\). Mỗi bước tinh
+chỉnh vì thế phải thêm một mốc mới được bộ kiểm tra suy ra từ vi phạm cụ thể.
+Với miền thời gian liên tục, một đối chứng thời gian liên tục hoặc một định lý
+về tập ứng viên hữu hạn cung cấp điều kiện dừng. Ba thành phần này---mốc mới, bộ kiểm tra và
+tập mốc đầy đủ---xác định đồng thời tính đúng đắn và tốc độ hội tụ.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=10mm,y=8mm]
+  \draw[->,Rule] (0,0)--(10,0) node[right,satlabel]{thời gian};
+  \foreach \t in {0,2,5,8,10}{
+    \draw[Rule] (\t,.12)--(\t,-.12);
+    \node[below,satlabel] at (\t,-.15) {\(\t\)};
+  }
+  \node[left,satlabel] at (0,1.1) {vòng \(r\)};
+  \foreach \t in {0,5,10}
+    \node[satstate,minimum size=6mm] at (\t,1.1) {};
+  \draw[Blue,thick] (0,1.1)--(5,1.1)--(10,1.1);
+  \draw[Gold,very thick] (5,1.1)--(8,1.1)
+    node[midway,above,satlabel,text=Gold]{vi phạm được giải mã};
+  \node[left,satlabel] at (0,2.5) {vòng \(r+1\)};
+  \foreach \t in {0,5,10}
+    \node[satstate,minimum size=6mm] at (\t,2.5) {};
+  \node[satstate,satwarn,minimum size=6mm] at (8,2.5) {};
+  \draw[Teal,thick] (0,2.5)--(5,2.5)--(8,2.5)--(10,2.5);
+  \draw[satedge] (8,1.55)--(8,2.1)
+    node[midway,right,satlabel]{thêm mốc \(8\)};
+\end{tikzpicture}
+\caption{DDD chỉ thêm mốc tại nơi nghiệm của mô hình hạn chế thiếu thông tin.
+Lưới không được làm dày đồng loạt trên toàn chân trời thời gian.}
+\label{fig:ddd-refinement}
+\end{figure}
+
+Lan truyền quan hệ trước--sau có vai trò thu hẹp miền trước khi sinh \CNF. Nếu một
+lựa chọn thứ tự \(i\prec j\) kéo theo một chuỗi thời điểm tối thiểu, các mốc
+không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn phép mã hóa khác nhau
+theo kích thước miền: từng cặp cho tập rất nhỏ, tuần tự hoặc chỉ huy cho tập lớn hơn.
+
+\begin{resultbox}{Điểm rút ra từ Train MaxSAT--DDD}
+Trên các bài toán của bản thảo \textcite{kieu2026train}, hiệu quả thay đổi theo
+dạng hàm độ trễ: \MaxSAT nổi bật với chi phí bậc thang và làm tròn, còn MIP cạnh
+tranh hơn với chi phí liên tục. Giá trị thiết kế của DDD nằm ở khả năng chỉ mở
+rộng miền tại nơi nghiệm hạn chế thực sự thiếu thông tin.
+\end{resultbox}
+
+\section{Chọn SAT, SMT, CP hay MIP}
+
+Không có bộ giải thống trị mọi cấu trúc. Một quy tắc thực dụng là nhìn vào phần
+khó nhất của mô hình:
+\begin{itemize}
+  \item Chọn \SAT/\MaxSAT khi lôgic rời rạc, cửa sổ và xung đột lặp lại; có lợi
+        từ học mệnh đề và giải tăng dần.
+  \item Chọn SMT khi bất đẳng thức thời gian nguyên là lõi, còn phần Boolean
+        chỉ quyết định thứ tự hoặc chế độ \parencite{bofill2020rcpsp}.
+  \item Chọn CP khi tích lũy/không chồng lấn là ràng buộc toàn cục tự nhiên và
+        lan truyền miền có thể khai thác trực tiếp.
+  \item Chọn MIP khi hàm mục tiêu tuyến tính mạnh và phép thư giãn cung cấp cận tốt.
+\end{itemize}
+
+Phương pháp kết hợp nên được thiết kế như một phép phân công công việc: mô-đun
+nào tạo cận, mô-đun nào xử lý phép tuyển và bằng cách nào hai phía trao đổi
+thông tin. Việc chỉ gọi nhiều bộ giải trên cùng một mô hình không tự tạo ra
+một kiến trúc kết hợp.
+
+\subsection{Một cây quyết định theo cấu trúc}
+
+\begin{enumerate}
+  \item Nếu chân trời nhỏ và mỗi tác vụ có ít giá trị bắt đầu, SAT/MaxSAT theo
+        mốc thời gian là đối chứng minh bạch.
+  \item Nếu chân trời lớn nhưng các ràng buộc trước--sau/sai phân dày, thử mã
+        hóa thứ tự, SMT hoặc LCG trước khi mở toàn bộ trục thời gian.
+  \item Nếu tài nguyên tích lũy là nút thắt và có suy luận năng lượng mạnh,
+        CP/LCG có ưu thế cấu trúc mà xung đột từng cặp khó thay thế.
+  \item Nếu hàm mục tiêu/phép thư giãn tuyến tính tạo cận mạnh, MIP là đối
+        chứng bắt buộc; SAT chỉ có lợi khi phép tuyển Boolean hoặc đối xứng chi phối.
+  \item Nếu chỉ một phần nhỏ mốc thời gian quan trọng, xét DDD/tinh chỉnh và
+        chứng minh rõ tính hợp lệ của cận dưới.
+\end{enumerate}
+
+\section{Bài học thiết kế}
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Phân biệt biến thời điểm, biến hoạt động và biến thứ tự; viết phép
+        liên kết trước khi tối ưu mệnh đề.
+  \item Tính không ngắt là một ràng buộc khối, không phải chỉ là ràng buộc đếm.
+  \item Với các cửa sổ chồng lấn, hiệu quả đến từ việc chia sẻ ngưỡng hoặc
+        bộ đếm giữa các cửa sổ.
+  \item Hàm mục tiêu nên giao tiếp với mô-đun khả thi qua một giao diện cận.
+  \item Rời rạc hóa động phù hợp khi miền lớn nhưng nghiệm chỉ cần một số
+        ít mốc quan trọng.
+\end{enumerate}
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Với cùng ngữ nghĩa khối, hãy so sánh mã hóa bằng biến bắt đầu và mã hóa
+        bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.
+  \item Thiết kế một bộ đếm dùng chung cho hai ALSC có cửa sổ chồng lấn nhưng cận
+        \(k\) khác nhau.
+  \item Viết điều kiện dừng chính xác cho một vòng DDD khi chi phí hạn chế là
+        cận dưới và lịch giải mã cho cận trên.
+\end{enumerate}

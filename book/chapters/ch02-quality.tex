@@ -1,0 +1,371 @@
+\chapter{Thế nào là một phép mã hóa SAT tốt?}
+\chapterlead{Chất lượng phép mã hóa được đánh giá trên nhiều trục. Đúng đắn là
+điều kiện bắt buộc; các trục còn lại gồm kích thước, sức lan truyền, tính địa
+phương, chi phí tích hợp và bằng chứng thực nghiệm.}
+
+\index{encoding}\index{soundness}\index{completeness}
+\index{unit propagation}\index{arc consistency}\index{channeling}
+
+\flowdiagram{Tính đúng}{Kích thước}{Lan truyền}
+  {Cấu trúc bộ giải}{Thực nghiệm}
+
+\section{Phép mã hóa là một quan hệ có giao diện}
+
+Cho ràng buộc \(\mathcal C\) trên tập biến chính \(X\), tập biến phụ \(Y\) và
+\[
+  F=\operatorname{Enc}(\mathcal C;X,Y).
+\]
+Tiêu chuẩn cơ bản là tương đương theo phép chiếu:
+\[
+  F\equiv_X\mathcal C
+  \iff
+  \forall\alpha_X:\quad
+  \alpha_X\models\mathcal C
+  \Longleftrightarrow
+  \exists\beta_Y:\ \alpha_X\cup\beta_Y\models F.
+\]
+Hai chiều có tên riêng:
+\begin{itemize}
+  \item \textbf{tính đúng} (soundness): mọi mô hình thỏa của \(F\) chiếu thành
+        nghiệm của \(\mathcal C\);
+  \item \textbf{tính đầy đủ} (completeness): mọi nghiệm của \(\mathcal C\) mở
+        rộng được thành mô hình thỏa của \(F\).
+\end{itemize}
+
+Tính đúng thường được chứng minh bằng cách lấy một mô hình \CNF và giải mã.
+Tính đầy đủ thường được chứng minh bằng cách xây biến phụ từ một nghiệm miền.
+Với bộ đếm, cách xây tự nhiên là đặt thanh ghi ngưỡng đúng theo tổng tiền tố
+thật.
+
+\begin{proposition}[Mẫu chứng minh bằng phép chiếu]
+Giả sử bộ giải mã \(D\) ánh mọi mô hình thỏa của \(F\) thành nghiệm của
+\(\mathcal C\), và với mọi nghiệm \(s\) của \(\mathcal C\) tồn tại một phép gán biến phụ
+\(\beta(s)\) làm \(F\) đúng. Khi đó \(F\equiv_X\mathcal C\).
+\end{proposition}
+
+\begin{proof}
+Bộ giải mã cho tính đúng. Hàm \(\beta\) cho tính đầy đủ. Hai chiều đúng với
+mọi phép gán trên \(X\), nên tương đương theo phép chiếu.
+\end{proof}
+
+\section{Hệ phân loại theo cách biểu diễn miền}
+
+Trước khi so hai bộ mã hóa, cần xác định chúng có cùng ``từ vựng Boolean'' hay
+không. Với biến miền hữu hạn \(v\in D=\set{d_1,\ldots,d_m}\), bốn họ thường
+gặp là:
+\begin{description}[style=nextline]
+  \item[Mã hóa trực tiếp (direct encoding)]
+  \(x_{v,a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
+  hai giá trị được viết trực tiếp.
+
+  \item[Mã hóa hỗ trợ (support encoding)]
+  Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
+  kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
+  thể dài.
+
+  \item[Mã hóa thứ tự (order encoding)]
+  \(o_{v,t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
+  quan hệ trước--sau trở thành phép kéo theo giữa các ngưỡng
+  \parencite{tamura2009csp}.
+
+  \item[Mã hóa lôgarit/nhị phân (log/binary encoding)]
+  Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
+  khoảng thường không còn là một literal đơn; lan truyền miền có thể đi qua
+  mạch sâu hơn.
+\end{description}
+
+Mã hóa lai giữ hai góc nhìn, chẳng hạn biến giá trị để chọn một giá trị và biến
+thứ tự để biểu diễn một khoảng. Chi phí liên kết hai biểu diễn chỉ đáng bỏ ra
+khi góc nhìn thứ hai rút ngắn một họ ràng buộc lớn hoặc tạo suy luận mới. Đây
+là kiến trúc được dùng lại trong Chương 7, 9--11.
+
+\begin{center}
+\captionof{table}{Các họ biểu diễn miền hữu hạn.}
+\label{tab:domain-encodings}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.18\textwidth}YYY@{}}
+\toprule
+Họ & Literal tự nhiên & Phù hợp & Điểm phải kiểm tra\\
+\midrule
+Trực tiếp & \(v=a\) & Bảng cấm, miền nhỏ & Đúng-một và nhiều cặp xung đột\\
+Hỗ trợ & ``\(v=a\) có hỗ trợ'' & Ràng buộc nhị phân dạng bảng & Độ dài mệnh đề hỗ trợ\\
+Thứ tự & \(v\ge t\) & Cận, khoảng, hiệu & Miền rộng và liên kết với biến giá trị\\
+Lôgarit & Bit của giá trị & Miền lớn, mạch số học & Giá trị ngoài miền, sức lan truyền\\
+Lai & Giá trị + ngưỡng/quan hệ & Nhiều kiểu ràng buộc & Chi phí và chiều liên kết\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig]
+  \node[satlabel,anchor=west] at (0,2.1) {Trực tiếp: một literal cho từng giá trị};
+  \foreach \x/\v in {0/1,1.2/2,2.4/3,3.6/4}{
+    \node[satbox,minimum width=10mm] at (\x,1.25) {\(v=\v\)};
+  }
+  \node[satlabel,anchor=west] at (0,.35) {Thứ tự: một chuỗi ngưỡng đơn điệu};
+  \foreach \x/\v in {0/2,1.4/3,2.8/4}{
+    \node[satstate] (o\v) at (\x,-.55) {\(\ge\v\)};
+  }
+  \draw[satedge] (o4)--(o3);
+  \draw[satedge] (o3)--(o2);
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},Ink]
+    (-.5,-1.2)--(3.3,-1.2)
+    node[midway,below=5pt,satlabel]{chuyển trạng thái xác định giá trị duy nhất};
+\end{tikzpicture}
+\caption{Hai từ vựng Boolean cho biến \(v\in\set{1,2,3,4}\).}
+\label{fig:direct-order-domain}
+\end{figure}
+
+\begin{workedexample}{một bất đẳng thức trong mã hóa trực tiếp và thứ tự}
+Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Mã hóa trực tiếp cấm từng cặp
+\((a,b)\) với \(a+2>b\):
+\[
+  \neg x_{u,a}\lor\neg x_{v,b}.
+\]
+Mã hóa thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
+\[
+  \neg o_{u,t}\lor o_{v,t+2},
+  \qquad t=1,2.
+\]
+Nếu một ràng buộc khác suy \(u\ge2\), UP đặt \(o_{u,2}=1\), rồi suy
+\(o_{v,4}=1\), tức \(v\ge4\). Một mệnh đề thứ tự đã thay toàn bộ các cặp trực tiếp
+có \(u\ge2,v\le3\). Đổi lại, giá trị chính xác của \(v\) chỉ xuất hiện qua điểm chuyển
+của chuỗi.
+\end{workedexample}
+
+\section{Đặc tả ngữ nghĩa của biến phụ}
+
+Một thanh ghi \(r_{i,j}\) có thể được định nghĩa theo ba mức:
+\begin{center}
+\captionof{table}{Ba mức đặc tả của literal ngưỡng.}
+\label{tab:threshold-contracts}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.22\textwidth}YY@{}}
+\toprule
+Đặc tả & Công thức & Cách sử dụng\\
+\midrule
+Điều kiện đủ & \(r_{i,j}\rightarrow S_i\ge j\) &
+\(r=1\) chứng minh đạt ngưỡng\\
+Điều kiện cần & \(S_i\ge j\rightarrow r_{i,j}\) &
+\(r=0\) chứng minh chưa đạt ngưỡng\\
+Tương đương & \(r_{i,j}\leftrightarrow(S_i\ge j)\) &
+Cả hai cực tính đều có ngữ nghĩa\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Một mô-đun nối dùng \(\neg r_{i,j}\) như mệnh đề ``tổng dưới \(j\)''
+phải có chiều cần. Nếu bộ đếm chỉ cung cấp chiều đủ, bộ nối đó không đúng
+dù khi đứng riêng hai công thức vẫn có thể \emph{đồng khả thỏa}
+(tức cùng có nghiệm hoặc cùng vô nghiệm).
+
+\begin{designrule}{Quy tắc ghép mô-đun}
+Trước khi nối hai mô-đun, đối chiếu cực tính mà bên sử dụng cần với chiều đặc
+tả mà bên cung cấp bảo đảm. Nếu hai phía cần đọc cùng một biến theo hai cách,
+phải có mệnh đề liên kết tương ứng.
+\end{designrule}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,node distance=16mm]
+  \node[satbox] (p) {Bộ đếm\\cung cấp};
+  \node[satstate,right=of p] (r) {\(r_{i,j}\)};
+  \node[satbox,right=of r] (c1) {Mô-đun A\\đọc \(r\)};
+  \node[satbox,below=11mm of c1] (c2) {Mô-đun B\\đọc \(\neg r\)};
+  \draw[satedge] (p)--node[above,satlabel]{``tổng \(\ge j\)''}(r);
+  \draw[satedge] (r)--(c1);
+  \draw[satedge] (r)--(c2);
+  \node[satwarn,rounded corners=2pt,below=11mm of r] (w)
+    {Mô-đun B cần chiều\\
+     \(\displaystyle S_i<j\Rightarrow\neg r_{i,j}\)};
+  \draw[satdash] (w)--(c2);
+\end{tikzpicture}
+\caption{Đặc tả của literal phụ quyết định cách các mô-đun khác được sử dụng nó.}
+\label{fig:provider-client-contract}
+\end{figure}
+
+\section{Đo kích thước}
+
+Bốn đại lượng nền tảng là:
+\[
+  n_v=\card{Y},\qquad
+  n_c=\card{F},\qquad
+  n_\ell=\sum_{C\in F}\card C,\qquad
+  w_{\max}=\max_{C\in F}\card C.
+\]
+Ngoài độ lớn tiệm cận, cần xem phân bố mệnh đề nhị phân/tam phân, số lần xuất
+hiện của biến và bộ nhớ của bộ sinh. Với kỹ thuật hai literal được theo dõi,
+tổng số literal thường gần chi phí bộ nhớ hơn số mệnh đề.
+
+Một công thức đóng về \(n_v,n_c\) phải chỉ rõ:
+\begin{itemize}
+  \item miền tham số, đặc biệt \(k=0,1,n\);
+  \item thanh ghi biên nào được bỏ;
+  \item khối cuối có thể ngắn;
+  \item mệnh đề lôgic nào cần Tseitin hóa thêm.
+\end{itemize}
+
+Bộ sinh nên tự xuất thống kê và so với công thức lý thuyết trên các bài toán
+nhỏ. Đây là một kiểm thử đơn vị cho phép đếm, đồng thời phát hiện mệnh đề bị lặp hoặc
+thanh ghi vô dụng.
+
+\section{Lan truyền đơn vị}
+
+Cho phép gán bộ phận \(A\). Lan truyền đơn vị (UP) lặp việc thỏa một mệnh đề
+đơn vị cho
+đến điểm cố định hoặc xung đột. Có ba mức phát biểu thường gặp:
+
+\begin{description}[style=nextline]
+  \item[UP phát hiện vi phạm]
+  Nếu \(A\) không mở rộng được thành nghiệm của \(\mathcal C\), UP trên
+  \(F\land A\) tạo xung đột.
+
+  \item[Đầy đủ bác bỏ bằng lan truyền đơn vị (URC)]
+  Mọi phép gán làm \(F\) không thỏa được đều bị UP chứng minh bất khả thỏa
+  trên toàn bộ biến. Tính chất này thường được gọi là
+  \emph{unit-refutation completeness}.
+
+  \item[Đầy đủ lan truyền (PC)]
+  Mọi literal bị \(F\land A\) kéo theo trong phạm vi quan sát đều được UP suy
+  ra, hoặc UP chứng minh bất khả thỏa.
+\end{description}
+
+Trong một phép mã hóa miền hữu hạn, \emph{nhất quán cung tổng quát}
+(generalized arc consistency, GAC) loại mọi giá trị không còn giá trị hỗ trợ.
+Phát biểu GAC luôn đi cùng cách Boolean hóa miền và tập literal đại diện cho
+giá trị.
+
+Kết quả của Gent và Bacchus cung cấp một cầu nối chính xác: nếu literal Boolean
+đại diện trực tiếp cho việc một giá trị còn trong miền, có thể so sánh bao đóng
+của lan truyền đơn vị với bao đóng của một bộ lan truyền GAC
+\parencite{gent2002arc,bacchus2007gac}. Khi thêm liên kết biểu diễn, đổi từ mã
+hóa trực tiếp sang thứ tự hoặc chỉ giữ một chiều Tseitin, tập literal quan sát
+thay đổi; phát biểu về GAC vì thế cũng được xác định lại theo tập này.
+
+\begin{example}[AMO từng cặp]
+Với
+\[
+  \operatorname{AMO}(x_1,\ldots,x_n)=
+  \bigwedge_{i<j}(\neg x_i\lor\neg x_j),
+\]
+nếu \(x_i=1\), UP lập tức suy \(\neg x_j\) cho mọi \(j\ne i\). Nếu hai biến
+đúng, UP tạo xung đột. AMO từng cặp vì thế có lan truyền rất trực tiếp trên
+biến chính, đổi lại \(O(n^2)\) mệnh đề.
+\end{example}
+
+\section{Cận dưới kích thước và mặt Pareto}
+
+Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép mã hóa. Với AMO, các
+cận dưới đã biết cho thấy một phép mã hóa đầy đủ lan truyền cần số mệnh đề
+tuyến tính với hệ số bị chặn, kể cả khi dùng biến phụ
+\parencite{kucera2019lower}. Kết quả này dẫn đến ba nguyên tắc:
+\begin{enumerate}
+  \item xác định rõ lớp mã hóa khi phát biểu về kích thước, biến phụ và sức lan
+        truyền;
+  \item một cải tiến vài mệnh đề có thể đáng kể nếu nó tiến gần cận dưới;
+  \item so sánh kích thước phải giữ cùng tiêu chuẩn lan truyền và cùng ngữ
+        nghĩa của đầu ra.
+\end{enumerate}
+
+Các kết quả về phép phân rã \textsc{AllDifferent} và ràng buộc đếm toàn cục
+còn liên hệ yêu cầu lan truyền với cận biểu diễn của mạch đơn điệu
+\parencite{bessiere2009decompositions}. Khi một ràng buộc toàn cục có
+bộ lan truyền đạt mức nhất quán mạnh hơn phép mã hóa đa thức đang xét, phép so
+sánh tập trung vào phần suy luận được chuyển sang học mệnh đề và chi phí
+để đạt phần suy luận đó.
+
+\begin{keyidea}{Mặt Pareto của phép mã hóa}
+Một bộ mã hóa được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
+xây dựng và khả năng tăng dần. Điểm Pareto là điểm mà cải thiện thêm một trục
+sẽ đánh đổi ít nhất một trục khác. Bộ kiểm chuẩn đo vị trí thực nghiệm
+của từng thiết kế trên mặt Pareto này.
+\end{keyidea}
+
+\section{Mức độ phù hợp với bộ giải}
+
+Hai phép mã hóa có cùng tính đúng và kích thước vẫn có thể khác về:
+\begin{itemize}
+  \item \textbf{tính địa phương}: một ràng buộc cục bộ dùng các biến gần nhau
+        hay đi qua một cấu trúc toàn cục;
+  \item \textbf{độ sâu kéo theo}: số bước từ quyết định đến xung đột;
+  \item \textbf{khả năng học}: xung đột có tạo mệnh đề tái sử dụng được không;
+  \item \textbf{đối xứng}: trạng thái phụ có tạo nhiều mô hình tương đương;
+  \item \textbf{khả năng tăng dần}: đầu ra có đọc được ở nhiều cận không.
+\end{itemize}
+
+Không có một công thức giải tích đơn giản cho các thuộc tính này. Ta dùng
+đại lượng thay thế như số mệnh đề nhị phân, đồ thị kéo theo trên bài toán nhỏ,
+hoặc số lần lan truyền/xung đột; kết luận cuối cùng cần bộ kiểm chuẩn có kiểm
+soát.
+
+\section{Tính mô-đun và mã hóa lại có cấu trúc}
+
+Một mô-đun mã hóa tốt có bốn thành phần:
+\[
+  \texttt{variables}
+  +\texttt{clauses}
+  +\texttt{decoder}
+  +\texttt{contract}.
+\]
+Khi nhiều ràng buộc chia sẻ biểu thức con, mã hóa lại có cấu trúc tạo biến phụ
+cho phần chung thay vì Tseitin hóa từng công thức riêng
+\parencite{haberlandt2023aux}. Lợi ích xuất hiện khi mô-đun thực sự được dùng
+chung trong \CNF và bên sử dụng đọc đúng đặc tả.
+
+Ví dụ, nhiều cửa sổ cùng đọc ngưỡng của một tiền tố. Một bộ đếm tiền tố dùng
+chung giảm lặp; bộ nối chỉ ghép các ngưỡng ở hai biên. Đây là chủ đề trung tâm
+của Chương 5.
+
+\section{Ma trận phát biểu--bằng chứng}
+
+\begin{center}
+\captionof{table}{Ma trận phát biểu--bằng chứng cho một phép mã hóa SAT.}
+\label{tab:claim-evidence}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.24\textwidth}YY@{}}
+\toprule
+Phát biểu & Bằng chứng lý thuyết & Bằng chứng thực nghiệm\\
+\midrule
+Mã hóa đúng & Chứng minh hai chiều & Kiểm thử vét cạn/vi sai trên miền nhỏ\\
+Mã hóa nhỏ hơn & Công thức đếm & Kích thước \CNF thực tế\\
+Lan truyền mạnh hơn & Bổ đề UP/PC/GAC & Bộ đếm lan truyền/xung đột\\
+Nhanh hơn & Phân tích cơ chế & Bộ kiểm chuẩn, nhiều hạt giống, hồ sơ hiệu năng\\
+Chứng nhận tối ưu & Định lý về cận & Nghiệm và chứng minh ở hai cận kề\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Ma trận đưa mỗi ý tưởng vào đúng loại đóng góp: định lý, thiết kế cấu trúc hay
+quan sát thực nghiệm.
+
+\section{Một quy trình đánh giá phép mã hóa}
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Viết rõ ngữ nghĩa của biến chính và biến phụ.
+  \item Chứng minh tính đúng và tính đầy đủ theo phép chiếu.
+  \item Đếm biến, mệnh đề, literal và độ rộng mệnh đề theo đúng biến thể.
+  \item Phân tích một số suy luận cốt lõi của lan truyền đơn vị (UP).
+  \item Xây dựng bộ đối chiếu nhỏ (\emph{oracle}) để so sánh tập nghiệm sau phép chiếu.
+  \item Đánh giá trên bộ kiểm chuẩn theo quy trình của Chương 4.
+  \item Kiểm tra khả năng kết hợp mô-đun và giải tăng dần.
+\end{enumerate}
+\end{summarybox}
+
+\section{Bài học thiết kế}
+
+\begin{enumerate}
+  \item Tính đúng là quan hệ theo phép chiếu, không phải số mô hình của biến phụ.
+  \item Đặc tả ngữ nghĩa quyết định biến phụ có thể được tái sử dụng thế nào.
+  \item Đếm literal và cấu trúc mệnh đề quan trọng ngang với số mệnh đề.
+  \item Phát biểu về sức lan truyền phải nêu rõ phạm vi literal được quan sát.
+  \item Thời gian chạy là kết quả của tương tác giữa phép mã hóa, bộ giải và bài toán thử.
+\end{enumerate}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Cho một phép mã hóa AMO có biến phụ, viết bộ giải mã và chứng
+        minh theo phép chiếu.
+  \item Thiết kế một phép thử phân biệt đặc tả điều kiện đủ với đặc tả tương
+        đương của thanh ghi ngưỡng.
+  \item Chọn ba thước đo để giải thích vì sao một phép mã hóa lớn hơn lại chạy
+        nhanh hơn trên các bài toán thử \UNSAT.
+\end{enumerate}

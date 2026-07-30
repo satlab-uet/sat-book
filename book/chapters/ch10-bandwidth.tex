@@ -1,0 +1,483 @@
+\chapter{Bandwidth, antibandwidth và tô đa màu}
+\chapterlead{Các bài toán trong chương đều nói về khoảng cách giữa nhãn, nhưng
+không dùng chung một ngữ nghĩa: antibandwidth gán một hoán vị, tô màu theo
+bandwidth gán một màu, còn tô đa màu gán một tập màu có thứ tự.}
+
+\index{antibandwidth}\index{cyclic antibandwidth}
+\index{bandwidth coloring}\index{bandwidth multicoloring}
+\index{forbidden interval}
+
+\flowdiagram{Hoán vị hay tô màu}{Cửa sổ/thứ tự/khối}
+  {Khoảng cách}{Tìm cận}{Gán nhãn và chứng nhận}
+
+\section{Bố trí đồ thị, gán nhãn và tô màu}
+
+Từ ``bandwidth'' được dùng cho nhiều bài toán có công thức gần nhau nhưng lịch
+sử thuật toán khác nhau. Bandwidth đồ thị cổ điển tối thiểu hóa khoảng cách
+lớn nhất trên cạnh của một hoán vị đỉnh. Antibandwidth tối đa hóa khoảng cách
+nhỏ nhất. Tô màu theo bandwidth bỏ tính song ánh và cho trọng số khoảng cách
+trên cạnh; tô đa màu cho mỗi đỉnh nhiều tần số. Văn liệu gán nhãn đồ thị rộng
+hơn còn chứa hàng trăm quy tắc gán số khác nhau
+\parencite{gallian2024labeling}.
+
+Ba truyền thống giải liên quan trực tiếp:
+\begin{itemize}
+  \item \textbf{cận lý thuyết đồ thị}: bậc, số ổn định, số sắc, đồ thị con
+        đầy đủ (\emph{clique}) và cấu
+        trúc lớp đồ thị;
+  \item \textbf{phương pháp kinh nghiệm/siêu kinh nghiệm}: tìm kiếm cục bộ,
+        kiêng kỵ (\emph{tabu}), lân cận biến đổi và thứ tự kiến tạo để tìm
+        nghiệm đương nhiệm cho
+        cận trên/cận dưới;
+  \item \textbf{phương pháp chính xác}: quy hoạch động, nhánh--cận, MIP, CP và
+        SAT theo cận.
+\end{itemize}
+
+SAT giải hiệu quả bài toán quyết định ``có phép gán nhãn tại cận \(k\) không''
+và kết hợp tự nhiên với các cận lý thuyết đồ thị. Các cận thu hẹp khoảng tìm
+kiếm, tạo các giả định đầu tiên tốt hơn và đôi khi trực tiếp chứng nhận tối ưu.
+Với BCP/BMCP, khảo cứu tô màu đỉnh và các biến thể cung cấp mô hình, cận theo
+đồ thị con đầy đủ
+và nguồn gốc bộ kiểm chuẩn cần dùng làm đối chứng
+\parencite{malaguti2010coloring}.
+
+\begin{center}
+\captionof{table}{Bốn họ bài toán khoảng cách nhãn.}
+\label{tab:distance-families}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
+\toprule
+Họ & Phép gán & Cận miền tự nhiên & Đối chứng chính xác\\
+\midrule
+Bandwidth & Hoán vị & Cận bố trí/bậc & DP, B\&B, MIP\\
+Antibandwidth & Hoán vị & Cận ổn định/số sắc & MIP, CP, SAT\\
+BCP & Một màu/đỉnh & Cận đồ thị con đầy đủ và tô màu & MIP, CP, SAT\\
+BMCP & Nhiều màu/đỉnh & Cận ô màu/nhu cầu & MIP, tìm kiếm cục bộ, SAT\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Phân loại trước khi mã hóa}
+
+\begin{center}
+\captionof{table}{Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.}
+\label{tab:distance-semantics}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.24\textwidth}YYY@{}}
+\toprule
+Bài toán & Nghiệm & Ràng buộc & Mục tiêu\\
+\midrule
+Antibandwidth & Hoán vị \(1,\ldots,n\) &
+\(\card{f(u)-f(v)}\ge k\) & Tối đa \(k\)\\
+Antibandwidth tuần hoàn & Hoán vị trên vòng &
+\(D_c(f(u),f(v))\ge k\) & Tối đa \(k\)\\
+Tô màu theo bandwidth & Một màu mỗi đỉnh &
+\(\card{c(u)-c(v)}\ge d_{uv}\) & Tối thiểu độ trải\\
+Tô đa màu theo bandwidth & \(w(u)\) màu mỗi đỉnh &
+Khoảng cách nội/ngoại đỉnh & Tối thiểu màu lớn nhất\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Với ABP và CABP, nhãn là một hoán vị nên ma trận gán cần
+\(\ExactlyOne\) theo cả hàng và cột. Với BCP, hai đỉnh không kề nhau có thể
+dùng cùng màu; chỉ hàng cần \(\ExactlyOne\). Với BMCP, một đỉnh có nhiều ô
+màu; thứ tự các ô là một phần của mô hình.
+
+\begin{designrule}{Kiểm tra ngữ nghĩa trước AMO}
+Hai phép mã hóa có cùng biến \(x_{v,\ell}\) vẫn có thể mô tả hai bài toán khác
+nhau. Hãy viết phép giải mã và ràng buộc đếm theo hàng/cột trước khi thêm các
+ràng buộc khoảng cách.
+\end{designrule}
+
+\section{Antibandwidth và cửa sổ staircase}
+
+\subsection{Cận và phương pháp chính xác ngoài SAT}
+
+Với đồ thị liên thông, các cận trên ABP có thể lấy từ số đỉnh/cạnh, bậc, số ổn
+định \(\alpha(G)\) và số sắc \(\chi(G)\). Chẳng hạn
+\[
+  AB(G)\le \alpha(G),
+  \qquad
+  AB(G)\le
+  \left\lfloor\frac{n-1}{\chi(G)-1}\right\rfloor.
+\]
+Tính chính xác \(\alpha,\chi\) cũng khó, nhưng một cận trên cho
+\(\alpha\) hoặc cận dưới cho \(\chi\) vẫn có thể tạo cận hợp lệ. Các mô hình
+MIP, nhánh--cắt và CP đã cải thiện đáng kể chứng nhận trên bộ Harwell--Boeing
+\parencite{sinnl2021antibandwidth}. Do đó một nghiên cứu SAT trên cùng bộ kiểm
+chuẩn cần báo cùng cận đầu vào và so cả giá trị nghiệm lẫn khoảng cách chứng
+minh, không chỉ số bài toán có mô hình.
+
+\subsection[Tính khả thi ở cận k]{Tính khả thi ở cận \(k\)}
+
+Cho đồ thị \(G=(V,E)\), \(\card{V}=n\). Biến
+\[
+  x_{v,\ell}=1\iff f(v)=\ell
+\]
+mô tả một hoán vị:
+\[
+  \ExactlyOne(x_{v,1},\ldots,x_{v,n})
+  \quad\forall v,
+\]
+\[
+  \ExactlyOne(x_{1,\ell},\ldots,x_{n,\ell})
+  \quad\forall\ell.
+\]
+Với một cận \(k\), mỗi cạnh \((u,v)\) cấm hai nhãn cách nhau dưới \(k\):
+\[
+  \neg x_{u,a}\lor\neg x_{v,b},
+  \qquad \card{a-b}<k.
+\]
+
+Một cách nhìn khác cố định vị trí \(a\) của \(u\). Khi đó \(v\) không được
+nằm trong cửa sổ
+\[
+  [a-k+1,a+k-1]\cap[1,n].
+\]
+Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu mã hóa
+từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=8mm,y=7mm]
+  \node[satlabel] at (2.7,2.3) {một phép gán nhãn cho \(P_4\)};
+  \foreach \i/\x/\lab in {1/0/2,2/1.8/4,3/3.6/1,4/5.4/3}{
+    \node[satstate] (v\i) at (\x,1) {\(v_{\i}\)};
+    \node[below=2pt of v\i,satlabel,text=Blue] {\(f(v_{\i})=\lab\)};
+  }
+  \draw[Ink,thick] (v1)--(v2)--(v3)--(v4);
+  \node[satlabel] at (9,2.3) {cặp nhãn bị cấm khi \(k=2\)};
+  \foreach \a in {1,...,4}{
+    \node[left,satlabel] at (7.8,{1.6-.55*\a}) {\(\a\)};
+    \node[above,satlabel] at ({7.8+.55*\a},1.6) {\(\a\)};
+    \foreach \b in {1,...,4}{
+      \pgfmathtruncatemacro{\delta}{abs(\a-\b)}
+      \ifnum\delta<2
+        \draw[Gold,fill=PaleGold] ({7.8+.55*\b},{1.6-.55*\a})
+          rectangle ++(.5,-.5);
+      \else
+        \draw[Rule,fill=white] ({7.8+.55*\b},{1.6-.55*\a})
+          rectangle ++(.5,-.5);
+      \fi
+    }
+  }
+  \node[satlabel,text=Gold,align=center] at (9,-1.4)
+    {dải chéo \(|a-b|<2\)\\trở thành các mệnh đề xung đột};
+\end{tikzpicture}
+\caption{Ở trái, nhãn \((2,4,1,3)\) cho \(P_4\) đạt antibandwidth \(2\).
+Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh.}
+\label{fig:abp-path-conflicts}
+\end{figure}
+
+\subsection{Thang bộ đếm tuần tự}
+
+SCL chia dãy biến thành các khối, xây bộ đếm tuần tự trong mỗi khối rồi nối
+trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:
+\[
+  s_{i,j}=1\iff
+  \sum_{q=1}^{i}x_q\ge j.
+\]
+Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
+\(k=1\), đây là phép mã hóa cho AMO bậc thang; với \AMK, bộ đếm giữ nhiều mức
+\(j=1,\ldots,k\).
+
+\begin{proposition}[Tái sử dụng qua biên khối]
+Nếu bộ đếm trong mỗi khối đúng với mọi tiền tố cục bộ và bộ nối bảo toàn tổng
+tích lũy khi đi qua biên, thì ngưỡng của mọi cửa sổ ghép từ hậu tố khối trái
+và tiền tố khối phải đúng với số literal đúng trong cửa sổ đó.
+\end{proposition}
+
+\begin{proof}
+Tổng của cửa sổ bằng tổng trên hai phần rời nhau. Bộ đếm cục bộ biểu diễn đúng
+hai tổng; bộ nối liệt kê các cặp ngưỡng có tổng vượt cận. Vì vậy một phép gán
+vi phạm ràng buộc đếm kích hoạt ít nhất một mệnh đề nối, còn một phép gán hợp
+lệ mở rộng được bằng các giá trị đếm tiền tố thật.
+\end{proof}
+
+\textcite{truong2025scamo} cho thấy SCL giảm cả biến phụ và mệnh đề so với
+nhiều phép mã hóa không chia sẻ trên họ AMO bậc thang. Hướng \AMK được phát triển trong
+\textcite{truong2026ladderamk}; Duplex của \textcite{fazekas2020duplex} là một
+đối chiếu quan trọng theo hướng BDD hai chiều. Một cách nhìn rộng hơn về biến
+phụ có cấu trúc được thảo luận trong \textcite{haberlandt2023aux}.
+
+SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
+\CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
+cần mã hóa, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.
+
+\section{Antibandwidth tuần hoàn}
+
+\subsection{Khoảng cách vòng}
+
+Trong CABP, nhãn nằm trên vòng \(C_n\):
+\[
+  D_c(a,b)=\min\{\card{a-b},\,n-\card{a-b}\}.
+\]
+Với cận \(k\), một cạnh cấm cửa sổ vòng bán kính \(k-1\). Cửa sổ có thể vắt
+qua điểm cắt nên dùng chỉ số môđun:
+\[
+  W(a,k)=\set{a-k+1,\ldots,a+k-1}\pmod n.
+\]
+Xung đột theo nhãn chính xác vẫn đúng nhưng số mệnh đề lớn. Cửa sổ vòng tạo
+AMO tuần hoàn, có thể mã hóa bằng cách cắt vòng tại một vị trí neo rồi nối hai
+đầu bằng bộ nối.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig]
+  \foreach \a/\ang in {1/90,2/45,3/0,4/-45,5/-90,6/-135,7/180,8/135}{
+    \ifnum\a<4
+      \node[satstate,satwarn] (c\a) at (\ang:24mm) {\(\a\)};
+    \else
+      \ifnum\a>6
+        \node[satstate,satwarn] (c\a) at (\ang:24mm) {\(\a\)};
+      \else
+        \node[satstate,sattrue] (c\a) at (\ang:24mm) {\(\a\)};
+      \fi
+    \fi
+  }
+  \draw[Rule,thick] (c1)--(c2)--(c3)--(c4)--(c5)--(c6)--(c7)--(c8)--cycle;
+  \node[satlabel,align=center] at (0,0)
+    {\(W(1,3)=\{7,8,1,2,3\}\)\\vắt qua điểm cắt};
+  \draw[Gold,very thick,->] (c1) to[bend left=20] (c3);
+  \draw[Gold,very thick,->] (c1) to[bend right=20] (c7);
+\end{tikzpicture}
+\caption{Cửa sổ cấm trên vòng \(C_8\) với tâm \(1\) và \(k=3\). Hai nhánh
+\(7,8\) và \(2,3\) phải được nối khi tuyến tính hóa vòng.}
+\label{fig:cabp-cyclic-window}
+\end{figure}
+
+\subsection{Đối xứng của vòng}
+
+CABP bất biến dưới phép quay và phản xạ của nhãn. Ta có thể cố định một đỉnh
+đại diện tại nhãn \(1\), rồi chọn hướng chuẩn cho một đỉnh thứ hai. Đây là phá
+đối xứng ở cấp hoán vị; nó độc lập với SCL dùng cho các cửa sổ khoảng cách.
+
+Tìm nghiệm tối ưu theo cận tăng:
+\[
+  F(k)=\SAT \Longrightarrow F(k-1)=\SAT,
+  \qquad
+  F(k)=\UNSAT \Longrightarrow F(k+1)=\UNSAT.
+\]
+Một nghiệm tại \(k^\star\) và \UNSAT tại \(k^\star+1\) chứng nhận tối ưu.
+
+\begin{resultbox}{CABP và bộ kiểm chuẩn}
+Bản tiền công bố \textcite{truong2026cabp} xây dựng các phép mã hóa SAT cho CABP
+và khai thác cửa sổ tuần hoàn cùng đối xứng của vòng. Một tập công thức khả thi được
+chuẩn bị cho SAT Competition 2026 \parencite{truong2026competition}; về mặt
+thiết kế, giá trị của bộ này là tách bài toán tối ưu thành chuỗi bài toán
+\SAT/\UNSAT có cận \(k\) rõ ràng.
+\end{resultbox}
+
+\section{Tô màu theo bandwidth}
+
+\subsection{Quan hệ với tô màu đỉnh}
+
+Khi \(d_{uv}=1\) trên mọi cạnh, BCP trở về tô màu đỉnh theo độ trải. Khi các
+trọng số lớn hơn, một đồ thị con đầy đủ không chỉ yêu cầu các màu khác nhau mà
+còn yêu cầu một phép đóng gói một chiều của các khoảng cách. Vì vậy kích thước
+đồ thị con đầy đủ
+vẫn cho cận dưới nhưng không mô tả đủ phép tách có trọng số. Các mô hình MIP
+theo phép gán, đại diện hoặc phủ tập trong tô màu đỉnh là điểm khởi đầu; BCP
+phải bổ sung các xung đột có xét khoảng cách
+\parencite{malaguti2010coloring}.
+
+Từ góc nhìn mã hóa, biến trực tiếp mở rộng mô hình gán; biến thứ tự nén một dãy
+giá trị xung đột thành hai biên; biến khối tạo các đại diện khoảng. Sáu họ dưới
+đây khảo sát có hệ thống trục biểu diễn đó và kết nối với các cận lý thuyết đồ
+thị đã nêu.
+
+\subsection{Mô hình và sáu họ mã hóa}
+
+BCP cho đồ thị có trọng số cạnh \(d_{uv}>0\). Mỗi đỉnh nhận màu
+\(c(u)\in[1,H]\) và
+\[
+  \card{c(u)-c(v)}\ge d_{uv}
+  \quad\forall uv\in E.
+\]
+Mục tiêu là tối thiểu
+\[
+  \chi_B(G)=\min_c\max_{u\in V}c(u).
+\]
+
+Nghiên cứu hệ thống của \textcite{nguyen2026bcp} tổ chức không gian thiết kế thành sáu
+họ:
+\begin{center}
+\captionof{table}{Sáu họ mã hóa cho tô màu theo bandwidth.}
+\label{tab:bcp-encodings}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.14\textwidth}p{.31\textwidth}Y@{}}
+\toprule
+Họ & Biến & Cơ chế khoảng cách\\
+\midrule
+1G & \(g_{u,j}\iff c(u)\ge j\) & Một chuỗi thứ tự hướng lớn hơn\\
+1L & \(l_{u,j}\iff c(u)\le j\) & Một chuỗi thứ tự hướng nhỏ hơn\\
+2G & Giá trị đúng \(x_{u,j}\) và ngưỡng \(g_{u,j}\) &
+Giá trị chính xác kích hoạt hai biên khoảng cấm\\
+2L & Giá trị đúng \(x_{u,j}\) và ngưỡng \(l_{u,j}\) &
+Như 2G với hướng thứ tự đảo\\
+X & Biến khối & Chia sẻ cấu trúc khoảng cách theo khối\\
+\(X_a\) & Khối và phép trừ phụ &
+Tái sử dụng hiệu/khoảng qua biến phụ\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Khoảng cấm bằng hai biên}
+
+Giả sử \(x_{u,a}=1\). Khi đó màu của \(v\) phải nằm ngoài
+\[
+  [a-d_{uv}+1,\;a+d_{uv}-1].
+\]
+Với ngữ nghĩa \(g_{v,t}=1\iff c(v)\ge t\), điều kiện được viết bằng một mệnh đề
+biên:
+\[
+  \neg x_{u,a}
+  \lor
+  \neg g_{v,a-d_{uv}+1}
+  \lor
+  g_{v,a+d_{uv}}.
+\]
+Hai literal cuối lần lượt nói \(c(v)<a-d_{uv}+1\) hoặc
+\(c(v)\ge a+d_{uv}\). Số mệnh đề không còn phụ thuộc vào độ rộng khoảng cấm;
+mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.
+
+Mã hóa theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
+hệ giữa các đoạn. CNF có thể lớn hơn mã hóa thứ tự, nhưng lan truyền trên bài
+toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc khoảng được chia sẻ.
+
+\begin{workedexample}{Một khoảng cấm được nén thành hai biên}
+Cho \(H=7\), \(x_{u,4}=1\) và \(d_{uv}=2\). Đỉnh \(v\) không được nhận
+\[
+  [4-2+1,\,4+2-1]=[3,5].
+\]
+Với \(g_{v,t}\Leftrightarrow c(v)\ge t\), chỉ cần mệnh đề
+\[
+  \neg x_{u,4}\lor\neg g_{v,3}\lor g_{v,6}.
+\]
+Khi \(x_{u,4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
+\(c(v)\le2\) hoặc \(c(v)\ge6\). Mã hóa trực tiếp từng cặp phải cấm riêng
+\((4,3),(4,4),(4,5)\); mã hóa theo biên giữ số mệnh đề không đổi khi khoảng
+cấm rộng hơn, miễn tập cấm vẫn là một khoảng.
+\end{workedexample}
+
+\begin{resultbox}{Hiệu ứng tương tác}
+Trên tập GEOM và MS-CAP của \textcite{nguyen2026bcp}, cấu hình theo khối giải
+được các bài toán khó mà mã hóa thứ tự không hoàn tất trong cùng giới hạn.
+Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
+mã hóa. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
+\(\text{phép mã hóa}\times\text{đặc trưng}\), không chỉ so trung bình từng
+đặc trưng.
+\end{resultbox}
+
+\section{Tô đa màu theo bandwidth}
+
+\subsection{Mô hình ô màu và giảm miền}
+
+BMCP gán cho đỉnh \(u\) một tập \(w(u)\) màu. Viết chúng thành các ô có thứ
+tự
+\[
+  c(u)_1<c(u)_2<\cdots<c(u)_{w(u)}.
+\]
+Hai ô cùng đỉnh cách nhau ít nhất \(d(u,u)\); hai ô ở hai đỉnh kề nhau cách ít
+nhất \(d(u,v)\). Với cận màu lớn nhất \(k\), miền ô được siết:
+\[
+  LB_{u,i}=1+(i-1)d(u,u),
+\]
+\[
+  UB_{u,i}=k-(w(u)-i)d(u,u).
+\]
+Thứ tự ô loại đối xứng hoán vị màu bên trong một đỉnh và đồng thời tạo lan
+truyền cận.
+
+Mô hình ô là một phép mở rộng miền, trong khi mô hình tần số là một mô hình
+tập. Hai cách có đối xứng và cận dưới khác nhau. Trong mô hình ô, thứ tự nội bộ
+loại \(w(u)!\) hoán vị; trong mô hình tập, đối xứng đó không được tạo ra nhưng
+ràng buộc ``chọn đúng \(w(u)\) màu'' cần ràng buộc đếm. So sánh FE/SBE/OBE vì
+vậy phải bao gồm cả số trạng thái gán trước các mệnh đề khoảng cách.
+
+\subsection{FE, SBE và OBE}
+
+\paragraph{Mã hóa theo tần số (FE).}
+Biến \(x_{u,m}\) cho biết màu \(m\) được dùng tại \(u\). Ràng buộc đếm bảo đảm
+đúng \(w(u)\) màu; xung đột từng cặp cấm các cặp quá gần.
+
+\paragraph{Mã hóa theo ô màu (SBE).}
+Biến \(x_{u,i,m}\) nói ô \(i\) bằng \(m\). Mỗi ô có ràng buộc đúng một và các
+cặp ô vi phạm khoảng cách bị cấm trực tiếp.
+
+\paragraph{Mã hóa theo thứ tự (OBE).}
+Thêm \(g_{u,i,m}=1\iff c(u)_i\ge m\). Giá trị chính xác tại một ô kích hoạt
+hai biên khoảng cấm của ô ở đỉnh khác:
+\[
+  x_{u,i,m}\rightarrow
+  \left(
+    g_{v,j,m+d(u,v)}
+    \lor
+    \neg g_{v,j,m-d(u,v)+1}
+  \right).
+\]
+Số mệnh đề xung đột giảm một bậc theo miền màu so với SBE từng cặp.
+
+\begin{proposition}[Đúng đắn của OBE]
+Nếu liên kết giá trị chính xác--thứ tự xác định cùng một giá trị cho mỗi ô,
+chuỗi thứ tự đơn điệu và mọi giá trị chính xác kích hoạt mệnh đề khoảng cấm ở
+trên, thì mọi mô hình
+OBE giải mã thành một phép tô đa màu theo bandwidth hợp lệ.
+\end{proposition}
+
+\begin{proof}
+Ràng buộc đúng một cho mỗi ô một màu; các mệnh đề cận và thứ tự giữ các ô trong
+miền và đúng thứ tự. Với mỗi cặp ô bị ràng buộc, giá trị chính xác \(m\) của ô
+thứ nhất buộc ô thứ hai nằm dưới \(m-d+1\) hoặc từ \(m+d\) trở lên. Vì vậy
+khoảng cách tuyệt đối ít nhất \(d\).
+\end{proof}
+
+Tìm kiếm tăng dần từ trên xuống bắt đầu từ một cận trên khả thi. Sau khi tìm
+mô hình có độ trải \(s\), bộ giải cấm các màu từ \(s\) trở lên và tiếp tục.
+Lần \UNSAT đầu tiên tại \(s-1\), cùng mô hình tại \(s\), chứng nhận tối ưu.
+\textcite{nguyen2026bmcp} dùng cơ chế này để chứng minh tối ưu cho BMCP.
+
+\section{Một trừu tượng chung: giá trị chính xác và khoảng cấm}
+
+ABP, BCP và BMCP gặp cùng một mẫu:
+\begin{enumerate}
+  \item một biến chính xác chọn giá trị \(a\);
+  \item lựa chọn đó tạo một khoảng giá trị bị cấm cho đối tượng khác;
+  \item biến thứ tự nén khoảng thành hai literal biên.
+\end{enumerate}
+Khác biệt nằm ở nguồn của khoảng và số lựa chọn trong phép gán. ABP có ràng
+buộc khác nhau toàn cục; BCP không có; BMCP có nhiều ô trên một đỉnh. Vì vậy
+mô-đun \texttt{ForbiddenInterval} có thể dùng lại, còn
+\texttt{AssignmentSemantics} phải được tham số hóa theo bài toán.
+
+\section{Quy trình chính xác kết hợp}
+
+Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
+\begin{enumerate}
+  \item dùng cận lý thuyết đồ thị và phương pháp kinh nghiệm để tạo khoảng
+        \([LB,UB]\);
+  \item chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;
+  \item lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;
+  \item chọn mã hóa trực tiếp/thứ tự/khối theo hình dạng tập cấm;
+  \item giải theo quy trình cận đơn điệu và lưu nghiệm chứng;
+  \item tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh \UNSAT độc lập.
+\end{enumerate}
+
+Kiến trúc này đặt SAT trong một khung giải chính xác thay vì coi bộ giải SAT là
+toàn bộ thuật toán. Nó cũng làm rõ nơi một nghiên cứu mới đóng góp: cận, mô
+hình, phép mã hóa, quy trình tìm kiếm hay chứng nhận.
+
+\begin{summarybox}
+\textbf{Bài học trung tâm.} Chọn mã hóa trực tiếp, thứ tự hay theo khối không
+chỉ là chọn kích thước \CNF. Biến trực tiếp làm phép giải mã và xung đột cục bộ
+rõ; biến thứ tự nén bất đẳng thức và khoảng; biến khối tạo điểm chia sẻ mới cho
+lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những lớp khác nhau.
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Với ABP trên đường \(P_4\), dựng \(F(k)\) tại \(k=2\) và chỉ rõ
+        exactly-one theo hàng lẫn cột.
+  \item Dẫn xuất mệnh đề biên BCP cho ba trường hợp: khoảng nằm trong
+        miền, chạm biên trái và chạm biên phải.
+  \item Thiết kế thí nghiệm bóc tách \(2\times2\) cho giải tăng dần và đối xứng
+        trên hai họ mã hóa BCP.
+\end{enumerate}

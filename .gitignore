@@ -1,0 +1,32 @@
+# Operating-system and editor files
+.DS_Store
+*.swp
+*~
+
+# Repository build outputs
+/build/
+/_site/
+/tmp/
+
+# LaTeX generated files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.loa
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*-SAVE-ERROR
+
+# The distributable PDF is built from source and published separately.
+/book/main.pdf

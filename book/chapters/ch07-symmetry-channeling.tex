@@ -1,0 +1,486 @@
+\chapter{Đối xứng, biến quan hệ và liên kết biểu diễn}
+\chapterlead{Một phép mã hóa tốt không chỉ mô tả nghiệm; nó còn quyết định cách
+bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ. Phá đối xứng
+(\emph{symmetry breaking}) thu gọn không gian tìm kiếm, còn liên kết biểu diễn
+(\emph{channeling}) nối các góc nhìn bổ sung của cùng một quyết định.}
+
+\index{symmetry breaking}\index{lex-leader}
+\index{relation variable}\index{order encoding}\index{channeling}
+
+\flowdiagram{Quyết định gốc}{Nhóm đối xứng}{Đại diện chuẩn}
+  {Biến quan hệ}{Mệnh đề cục bộ}
+
+\section{Hai cấp đối xứng: mô hình và công thức}
+
+Một đối xứng của bài toán tác động lên đối tượng miền: đổi tên khung chứa, máy,
+nhóm, tuần, màu hoặc phản xạ hình học. Một đối xứng của \CNF là hoán vị biến
+và literal bảo toàn tập mệnh đề. Hai nhóm này liên quan nhưng không trùng nhau.
+Phép mã hóa có thể:
+\begin{itemize}
+  \item làm một đối xứng miền biến mất vì không biểu diễn chỉ số thừa;
+  \item làm một đối xứng miền trở nên khó phát hiện do biến phụ;
+  \item tạo đối xứng phụ mới giữa các trạng thái tương đương;
+  \item có đối xứng cú pháp không tương ứng với một phép biến đổi nghiệm dễ
+        diễn giải.
+\end{itemize}
+
+Các vị từ phá đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
+đạo của bài toán tìm kiếm \parencite{crawford1996symmetry}. Ở cấp \CNF, những
+hệ như Shatter xây đồ thị tô màu của công thức, tìm tự đẳng cấu rồi sinh các
+ràng buộc phá đối xứng \parencite{aloul2003shatter}. Ở cấp mô hình, người thiết
+kế đã biết ngữ nghĩa nên có thể viết ràng buộc ngắn hơn, chẳng hạn tiền tố
+khung chứa đã dùng. Hai cách bổ sung nhau: phá đối xứng miền được áp dụng trước;
+phát hiện trên \CNF tìm phần đối xứng còn sót.
+
+\begin{center}
+\captionof{table}{Bốn cấp khai thác đối xứng.}
+\label{tab:symmetry-levels}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
+\toprule
+Cấp & Đầu vào & Lợi thế & Hạn chế\\
+\midrule
+Mô hình & Đối tượng và phép đổi tên & Ràng buộc ngắn, có chứng minh miền &
+Cần tri thức bài toán\\
+\CNF tĩnh & Đồ thị công thức & Tự động, dùng cho mô hình bất kỳ &
+Biến phụ có thể che đối xứng\\
+Động & Trạng thái tìm kiếm & Khai thác đối xứng còn lại & Chi phí tích hợp bộ giải\\
+Chuẩn hóa & Toàn quỹ đạo & Có thể giữ một đại diện & Ràng buộc lớn/lan truyền sâu\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Các lớp ràng buộc phá đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
+đổi nhóm tự đẳng cấu của đồ thị; bộ phá đối xứng tự động vì thế chạy trên công
+thức đã có mệnh đề đơn vị và liên kết biểu diễn. Mỗi lớp bảo toàn ít nhất một
+đại diện của các quỹ đạo còn lại, còn thí nghiệm bóc tách đo tác động của từng
+lớp lên hiệu năng
+\parencite{gent2006symmetry}.
+
+\section{Đối xứng như tác động lên nghiệm}
+
+Gọi \(S\) là tập nghiệm khả thi và \(\Gamma\) là một nhóm các phép biến đổi
+bảo toàn tính khả thi và giá trị mục tiêu. Hai nghiệm \(s,s'\in S\) tương
+đương khi tồn tại \(\gamma\in\Gamma\) sao cho \(s'=\gamma(s)\). Tập
+\[
+  \operatorname{Orb}(s)=\set{\gamma(s)\suchthat\gamma\in\Gamma}
+\]
+là quỹ đạo của \(s\).
+
+Phá đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
+đại diện:
+\[
+  \forall s\in S,\qquad
+  \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
+\]
+Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
+phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố mã hóa
+một dạng chuẩn hoàn chỉnh \parencite{walsh2006symmetry,gent2006symmetry}.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,node distance=17mm]
+  \node[satstate,sattrue] (s1) {\(s_1\)};
+  \node[satstate,right=of s1] (s2) {\(s_2\)};
+  \node[satstate,below=of s2] (s3) {\(s_3\)};
+  \node[satstate,left=of s3] (s4) {\(s_4\)};
+  \draw[satdash] (s1)--node[above,satlabel]{đổi tên}(s2);
+  \draw[satdash] (s2)--node[right,satlabel]{phản xạ}(s3);
+  \draw[satdash] (s3)--node[below,satlabel]{đổi tên}(s4);
+  \draw[satdash] (s4)--node[left,satlabel]{phản xạ}(s1);
+  \node[draw=Teal,very thick,rounded corners=4pt,fit=(s1),inner sep=4pt,
+        label={[satlabel,text=Teal]above left:đại diện chuẩn}] {};
+  \node[draw=Rule,dashed,rounded corners=7pt,fit=(s1)(s2)(s3)(s4),
+        inner sep=8pt,label={[satlabel]below right:\(\operatorname{Orb}(s_1)\)}] {};
+\end{tikzpicture}
+\caption{Một quỹ đạo gồm bốn cách biểu diễn tương đương. Ràng buộc phá đối
+xứng hợp lệ giữ ít nhất một nút; phép chuẩn hóa mạnh hơn sẽ cố giữ đúng một nút.}
+\label{fig:symmetry-orbit}
+\end{figure}
+
+\begin{designrule}{Chứng minh theo phép biến đổi}
+Chứng minh một ràng buộc phá đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
+loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác định nhóm đối xứng và
+đại diện được bảo toàn.
+\end{designrule}
+
+\section{Loại đối xứng ngay từ lựa chọn biến}
+
+Biến chính có thể tạo hoặc loại đối xứng. Trong Social Golfer, biến
+\(G_{i,r,t}\) chỉ ghi người chơi, nhóm và tuần. Nếu thêm chỉ số vị trí trong
+nhóm, mỗi nhóm \(p\) người tạo thêm \(p!\) cách biểu diễn cùng một tập.
+Trong bài toán đóng gói, biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
+giải một hình chữ nhật; biến tọa độ và hướng đặt biểu diễn hình học trực tiếp hơn.
+
+Nguyên tắc chung là:
+\[
+  \text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
+\]
+Sau bước chọn biến, các ràng buộc phá đối xứng xử lý nhóm đối xứng còn lại.
+Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá đối xứng tiếp tục
+giảm số mô hình.
+
+\section{Bốn mẫu phá đối xứng}
+
+\subsection{Cố định một lát chuẩn}
+
+Khi các lớp thời gian hoặc tài nguyên hoán vị tự do, có thể cố định lát đầu.
+Với Social Golfer, tuần đầu được chuẩn hóa:
+\[
+  G_{i,r,1}=1
+  \quad\text{khi}\quad
+  (r-1)p<i\le rp.
+\]
+Mọi lịch khả thi có thể đổi tên người chơi và nhóm để thỏa cách sắp này. Những
+Các mệnh đề đơn vị đó loại một phần lớn quỹ đạo mà hầu như không tăng chi phí giải
+\parencite{kieu2026golfer}.
+
+\subsection{Tiền tố sử dụng và thứ tự ưu tiên giá trị}
+
+Giả sử \(u_b\) cho biết khung chứa \(b\) được dùng. Vì tên các khung chứa có thể hoán vị,
+áp đặt
+\[
+  u_{b+1}\rightarrow u_b.
+\]
+Các khung chứa được dùng tạo thành một tiền tố. Với các giá trị đối xứng, thứ
+tự ưu tiên giá trị yêu cầu lần xuất hiện đầu của giá trị nhỏ hơn đứng trước lần
+xuất hiện đầu của giá trị lớn hơn. Hai mẫu này cùng chọn thứ tự theo ``lần sử
+dụng đầu'', nhưng tiền tố sử dụng chỉ cần một dãy Boolean nên thường rẻ hơn.
+
+\begin{proposition}[Tiền tố sử dụng không làm mất lớp nghiệm]
+\label{prop:usage-prefix}
+Giả sử các khung chứa có cùng miền, cùng sức chứa và hàm mục tiêu không phụ
+thuộc vào tên khung. Với biến gán \(a_{ib}\) và biến sử dụng \(u_b\), mọi
+nghiệm đều có một nghiệm cùng giá trị mục tiêu thỏa
+\(u_{b+1}\rightarrow u_b\).
+\end{proposition}
+
+\begin{proof}
+Cho \(U=\set{b:u_b=1}\) và \(q=\card{U}\). Chọn một song ánh
+\(\pi:U\to\set{1,\ldots,q}\), rồi mở rộng \(\pi\) thành một hoán vị trên toàn
+bộ tập khung chứa. Định nghĩa
+\[
+  a'_{i,\pi(b)}=a_{ib},
+  \qquad
+  u'_{\pi(b)}=u_b .
+\]
+Mọi biến thuộc bản thân vật \(i\), như tọa độ, phép quay hay kích thước, được
+giữ nguyên. Vì sức chứa và các ràng buộc gán được phát biểu đồng nhất cho mọi
+khung, đổi tên theo \(\pi\) bảo toàn tính khả thi; vì hàm mục tiêu không đọc
+chỉ số khung, giá trị mục tiêu cũng không đổi. Trong nghiệm mới,
+\(u'_1=\cdots=u'_q=1\) và \(u'_{q+1}=\cdots=0\), nên toàn bộ implication
+\(u'_{b+1}\rightarrow u'_b\) đúng.
+\end{proof}
+
+Chứng minh trên cũng chỉ rõ điều kiện không thỏa: nếu khung chứa có sức chứa, chi phí hoặc
+miền khác nhau thì hoán vị tùy ý không còn là đối xứng. Khi đó chỉ được áp
+dụng tiền tố trong từng lớp khung chứa thật sự đồng nhất.
+
+\subsection{Lex-leader}
+
+Với hai vector đại diện các đối tượng hoán vị được,
+\[
+  A=\langle a_1,\ldots,a_m\rangle,\qquad
+  B=\langle b_1,\ldots,b_m\rangle,
+\]
+ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép mã hóa dùng
+các biến bằng nhau trên tiền tố \(e_i\):
+\[
+  e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
+  \qquad e_0=\top,
+\]
+và cấm \(e_{i-1}\land a_i\land\neg b_i\). Ràng buộc dẫn đầu theo thứ tự từ
+điển (\emph{lex-leader}) mạnh hơn tiền tố sử dụng nhưng tạo thêm một chuỗi biến
+phụ cho mỗi cặp được so sánh.
+
+\subsection{Neo hình học và phản xạ}
+
+Với khung chứa hình chữ nhật, các phép phản xạ hoặc quay toàn bố cục có thể bảo
+toàn nghiệm. Một vật chuẩn---thường là vật lớn nhất theo diện tích rồi theo
+cạnh dài---được neo vào nửa trái hoặc một góc chuẩn:
+\[
+  2x_a+w_a\le W.
+\]
+Điều kiện phải khớp với nhóm đối xứng thật. Nếu khung chứa, miền quay hoặc hàm
+mục tiêu không bất biến qua phản xạ thì ràng buộc này không hợp lệ.
+
+\begin{keyidea}{Ràng buộc mạnh nhất không mặc nhiên là tốt nhất}
+Mỗi ràng buộc phá đối xứng đổi cấu trúc mệnh đề, thứ tự quyết định và các xung
+đột học được. Nên so sánh ít nhất ba cấu hình: không phá đối xứng, ràng buộc rẻ
+và ràng buộc mạnh. Kết luận dựa trên số bài toán giải được và thời gian, không
+chỉ trên số mô hình bị
+loại.
+\end{keyidea}
+
+\section{Biến quan hệ cho các phép tuyển}
+
+Nhiều bài toán có ràng buộc dạng
+\[
+  A\lor B\lor C\lor D.
+\]
+Trong đóng gói, hai hình \(i,j\) không chồng lấn khi ít nhất một quan hệ đúng:
+\[
+  L_{ij}\lor L_{ji}\lor B_{ij}\lor B_{ji},
+\]
+trong đó \(L_{ij}\) nghĩa là \(i\) nằm trái \(j\), còn \(B_{ij}\) nghĩa là
+\(i\) nằm dưới \(j\). Trong lập lịch, hai tác vụ dùng cùng tài nguyên cần
+\[
+  P_{ij}\lor P_{ji},
+\]
+với \(P_{ij}\) nghĩa là \(i\) kết thúc trước khi \(j\) bắt đầu.
+
+Biến quan hệ đóng vai trò biến chứng cho một nhánh của phép tuyển. Chúng rút
+ràng buộc toàn cục thành các mệnh đề cục bộ quanh cặp đối tượng. Khi một quan
+hệ được chọn, nó kích hoạt một quan hệ kéo theo trên tọa độ hoặc thời gian; khi
+miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giải chọn quan hệ còn lại.
+
+\subsection{Biến quan hệ và giá trị hỗ trợ}
+
+Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa mã hóa trực tiếp và mã
+hóa hỗ trợ. Nó không chọn toàn bộ giá trị của hai biến; nó chọn một
+\emph{lớp} cặp giá trị,
+chẳng hạn ``trái'', ``dưới'' hoặc ``trước''. Mỗi lớp sau đó được liên kết sang
+các literal biên của miền. Đây là một phép phân tích thành nhân tử:
+\[
+  \text{bảng cặp giá trị hợp lệ}
+  =
+  \bigcup_{q\in Q}\text{lớp hỗ trợ}(q).
+\]
+Nếu \(|Q|\) nhỏ và mỗi lớp được mô tả bằng vài bất đẳng thức, các biến quan hệ
+nén một bảng cấm lớn. Nếu các lớp chồng lấn quá nhiều hoặc không
+có mô tả ngắn, biến quan hệ chỉ thêm một tầng trung gian.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=8mm,y=7mm]
+  \foreach \x/\y/\lab in
+    {0/2/\(L_{ij}\),5/2/\(L_{ji}\),0/-1/\(B_{ij}\),5/-1/\(B_{ji}\)}{
+    \node[satlabel] at (\x+1.6,\y+1.0) {\lab};
+  }
+  \draw[Blue,fill=PaleBlue,thick] (0,2) rectangle (1.5,2.8);
+  \node at (.75,2.4) {\(i\)};
+  \draw[Teal,fill=PaleTeal,thick] (2,2) rectangle (3.4,2.8);
+  \node at (2.7,2.4) {\(j\)};
+  \draw[Teal,fill=PaleTeal,thick] (5,2) rectangle (6.4,2.8);
+  \node at (5.7,2.4) {\(j\)};
+  \draw[Blue,fill=PaleBlue,thick] (6.9,2) rectangle (8.4,2.8);
+  \node at (7.65,2.4) {\(i\)};
+  \draw[Blue,fill=PaleBlue,thick] (.9,-1) rectangle (2.4,-.2);
+  \node at (1.65,-.6) {\(i\)};
+  \draw[Teal,fill=PaleTeal,thick] (.9,.1) rectangle (2.4,.9);
+  \node at (1.65,.5) {\(j\)};
+  \draw[Teal,fill=PaleTeal,thick] (5.9,-1) rectangle (7.4,-.2);
+  \node at (6.65,-.6) {\(j\)};
+  \draw[Blue,fill=PaleBlue,thick] (5.9,.1) rectangle (7.4,.9);
+  \node at (6.65,.5) {\(i\)};
+\end{tikzpicture}
+\caption{Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
+Một literal quan hệ làm biến chứng cho cả một lớp cặp tọa độ.}
+\label{fig:four-spatial-relations}
+\end{figure}
+
+\section{Mã hóa thứ tự và các literal so sánh}
+
+Cho biến nguyên \(z\in\{0,\ldots,U\}\). Mã hóa thứ tự dùng
+\[
+  o_{z,t}=1
+  \quad\Longleftrightarrow\quad
+  z\ge t,
+  \qquad t=1,\ldots,U.
+\]
+Tính đơn điệu được mã hóa bởi
+\[
+  o_{z,t+1}\rightarrow o_{z,t}.
+\]
+Một cận \(z\ge a\) là mệnh đề đơn vị \(o_{z,a}\); cận \(z\le b\) là
+\(\neg o_{z,b+1}\). Phép so sánh dịch chuyển
+\[
+  x_i+w_i\le x_j
+\]
+trở thành các mệnh đề cấm mọi cặp ngưỡng mâu thuẫn. Khi \(w_i\) là hằng, cấu
+trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán đóng gói
+\parencite{soh2010binpacking,kieu2025strip,kieu2025bin}.
+
+Với lập lịch, cùng kỹ thuật biểu diễn
+\[
+  s_i+p_i\le s_j.
+\]
+Nhờ vậy, biến quan hệ \(P_{ij}\) có thể liên kết trực tiếp với các literal thứ
+tự của \(s_i,s_j\), thay vì tạo một mạch cộng tổng quát
+\parencite{kieu2025scheduling}.
+
+\begin{workedexample}{Liên kết mã hóa trực tiếp--thứ tự cho một giá trị nguyên}
+Cho \(z\in\{0,1,2,3,4\}\). Mã hóa trực tiếp có \(d_a\Leftrightarrow(z=a)\);
+mã hóa thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
+\[
+  d_a\leftrightarrow o_a\land\neg o_{a+1},
+  \qquad o_0\equiv\top,\quad o_5\equiv\bot.
+\]
+Nếu bộ giải suy ra \(o_3=1,o_4=0\), các mệnh đề liên kết buộc \(d_3=1\), rồi
+ràng buộc đúng một trên \(d_0,\ldots,d_4\) loại mọi giá trị khác. Theo chiều
+ngược, \(d_2=1\) buộc \(o_1=o_2=1\) và \(o_3=o_4=0\), khiến các ràng buộc cận
+đọc được ngay \(z=2\). Ví dụ này cho thấy lợi ích của liên kết hai chiều không
+nằm ở số mô hình mà ở đường truyền suy luận giữa hai giao diện.
+\end{workedexample}
+
+\section{Liên kết một chiều hay hai chiều}
+
+Giả sử \(q\) là biến quan hệ và \(\Phi\) là công thức miền gốc biểu diễn quan
+hệ đó. Có ba mức liên kết:
+\[
+  q\rightarrow\Phi,\qquad
+  \Phi\rightarrow q,\qquad
+  q\leftrightarrow\Phi.
+\]
+Chiều đầu đủ cho tính đúng nếu \(q\) chỉ được dùng làm biến chứng được chọn:
+bộ giải không thể đặt \(q=1\) khi quan hệ hình học sai. Chiều ngược giúp miền
+tọa độ suy ra \(q\); liên kết hai chiều cho phép lan truyền qua cả hai biểu
+diễn.
+
+Lựa chọn phụ thuộc vào cách mô-đun sử dụng đọc biến:
+
+\begin{itemize}
+  \item Nếu mệnh đề \(q_1\lor\cdots\lor q_r\) yêu cầu một biến chứng và không
+  nơi nào đọc \(\neg q\), quan hệ kéo theo tiến thường đủ.
+  \item Nếu \(\neg q\) được dùng để kết luận quan hệ đối nghịch, phải có
+  đặc tả mạnh hơn.
+  \item Nếu nhiều ràng buộc và hàm mục tiêu dùng chung \(q\), quan hệ tương
+  đương giúp
+  tránh các trạng thái phụ không mang nghĩa.
+\end{itemize}
+
+\begin{example}
+Với hai tác vụ cùng máy, đặt \(P_{ij}\lor P_{ji}\). Hai mệnh đề liên kết
+\[
+  P_{ij}\rightarrow(s_i+p_i\le s_j),
+  \qquad
+  P_{ji}\rightarrow(s_j+p_j\le s_i)
+\]
+đã bảo đảm chúng không chồng lấn. Nếu quan hệ trước--sau từ một ràng buộc khác cho
+biết \(s_i+p_i\le s_j\), chiều ngược
+\((s_i+p_i\le s_j)\rightarrow P_{ij}\) có thể truyền quan hệ này sang các
+mô-đun khác.
+\end{example}
+
+\subsection{Lan truyền qua vòng liên kết}
+
+Phép mã hóa kết hợp tạo một vòng suy luận:
+\[
+  \text{lựa chọn chính xác}
+  \rightarrow
+  \text{các ngưỡng}
+  \rightarrow
+  \text{quan hệ}
+  \rightarrow
+  \text{ngưỡng của biến khác}.
+\]
+Mỗi chiều liên kết đóng một đường suy luận trong vòng trên. Phép đánh giá bắt
+đầu bằng danh sách các suy luận miền mong muốn, sau đó tìm tập chiều tối thiểu
+tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán bộ phận và lan truyền
+đơn vị như trong Chương 2.
+
+Việc giữ nhiều góc nhìn cũng liên quan đến mã hóa lại có cấu trúc: biến phụ có
+giá trị khi nó đặt tên cho một lớp hỗ trợ được nhiều ràng buộc dùng lại, thay
+vì chỉ thay một biểu thức xuất hiện một lần
+\parencite{haberlandt2023aux}.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,node distance=17mm]
+  \node[satbox] (d) {lựa chọn trực tiếp\\\(d_a\)};
+  \node[satbox,right=of d] (o) {literal thứ tự\\\(o_t\)};
+  \node[satbox,right=of o] (q) {quan hệ\\\(q\)};
+  \node[satbox,below=of o] (v) {miền của\\biến khác};
+  \draw[satedge] (d)--node[above,satlabel]{giá trị \(\to\) cận}(o);
+  \draw[satedge] (o)--node[above,satlabel]{hỗ trợ}(q);
+  \draw[satedge] (q)--node[right,satlabel]{dịch chuyển}(v);
+  \draw[satedge] (v)--node[left,satlabel]{loại cận}(d);
+  \draw[satdash,bend left=20] (o) to node[below,satlabel]{chiều ngược}(d);
+\end{tikzpicture}
+\caption{Vòng liên kết trong phép mã hóa kết hợp. Thiếu một chiều có thể làm
+đứt một đường lan truyền đơn vị dù công thức vẫn đúng theo phép chiếu.}
+\label{fig:channeling-loop}
+\end{figure}
+
+\section{Phép quay và kích thước có điều kiện}
+
+Khi vật \(i\) được phép quay, biến \(\rho_i\) chọn hướng đặt:
+\[
+  (w_i(\rho_i),h_i(\rho_i))
+  =
+  \begin{cases}
+    (w_i,h_i),&\rho_i=0,\\
+    (h_i,w_i),&\rho_i=1.
+  \end{cases}
+\]
+Các literal quan hệ được dùng chung cho hai hướng đặt và được liên kết với phép
+so sánh dịch chuyển dưới điều kiện gác \(\rho_i,\rho_j\). Ví dụ, \(L_{ij}\)
+sinh bốn họ mệnh đề, mỗi họ ứng với một tổ hợp hướng đặt còn hợp lệ. Các tổ
+hợp không vừa khung chứa bị loại bằng mệnh đề đơn vị hoặc mệnh đề nhị phân
+trước khi sinh quan hệ cặp.
+
+Cách tổ chức này tách ba tầng:
+\[
+  \text{hướng đặt}
+  \longrightarrow
+  \text{kích thước hiệu dụng}
+  \longrightarrow
+  \text{quan hệ không chồng lấn}.
+\]
+Nó cũng cho phép tái sử dụng cùng biến \(\rho_i\) trong cận miền, quy tắc trội
+và bộ giải mã.
+
+\section{Đồ thị xung đột và tính địa phương}
+
+Đồ thị xung đột \(H=(V,E)\) chọn chính xác các cặp cần biến quan hệ:
+\(\{i,j\}\in E\) khi hai đối tượng có thể cạnh tranh cùng tài nguyên, chồng
+lấn hình học hoặc vi phạm một cận cục bộ.
+
+Trong lập lịch, cạnh xuất hiện khi hai tác vụ có thể cùng dùng một tài nguyên
+và miền thời gian của chúng giao nhau. Trong đóng gói, mọi cặp vật cùng khung
+chứa là ứng viên, nhưng cận miền và quan hệ trội có thể cố định trước một số
+quan hệ. Trong phân bổ tần số, cạnh là cặp máy phát có yêu cầu khoảng cách nhãn.
+
+Thiết kế theo đồ thị đem lại hai lợi ích: kích thước tỉ lệ với số tương tác
+thật, và mệnh đề học được thường nằm quanh một lân cận nhỏ. Đây là một tiêu chí
+cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép mã hóa ``gọn''.
+
+\section{Kiến trúc kết hợp}
+
+Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:
+
+\begin{enumerate}
+  \item chọn biến chính loại các chỉ số không mang nghĩa;
+  \item tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;
+  \item tạo biến quan hệ trên đồ thị xung đột;
+  \item liên kết mỗi quan hệ với các literal miền;
+  \item thêm ràng buộc đếm hoặc bộ đếm dùng chung cho tài nguyên;
+  \item thêm các ràng buộc phá đối xứng có chứng minh quỹ đạo;
+  \item gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.
+\end{enumerate}
+
+Các nghiên cứu về lập lịch, đóng gói dải/khung chứa và Social Golfer trong
+\textcite{kieu2025thesis} cho thấy ba lựa chọn đầu---biến chính, quan hệ và
+đối xứng---quyết định cấu trúc CNF trước khi chọn bộ giải. Các chương sau dùng
+chính kiến trúc này cho bốn họ bài toán.
+
+\section{Bài học thiết kế}
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.
+  \item Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.
+  \item Biến quan hệ là biến chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
+  \item Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.
+  \item Mã hóa thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.
+  \item Đồ thị xung đột xác định nơi thật sự cần biến phụ.
+\end{enumerate}
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Chứng minh tiền tố sử dụng giữ một đại diện khi các khung chứa hoàn
+  toàn giống nhau.
+  \item Viết liên kết một chiều cho bốn quan hệ không chồng lấn của hai hình.
+  \item Cho một ràng buộc phản xạ trong bài toán đóng gói dải và nêu điều kiện
+  để ràng buộc đó hợp lệ.
+\end{enumerate}

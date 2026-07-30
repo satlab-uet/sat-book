@@ -1,0 +1,18 @@
+* text=auto
+
+*.bib  text eol=lf
+*.cff  text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.lbx  text eol=lf
+*.md   text eol=lf
+*.sh   text eol=lf
+*.sty  text eol=lf
+*.tex  text eol=lf
+Makefile text eol=lf
+
+*.jpg  binary
+*.jpeg binary
+*.pdf  binary
+*.png  binary
+*.webp binary

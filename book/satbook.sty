@@ -1,0 +1,253 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{satbook}[2026/07/30 SAT book style]
+
+\RequirePackage{fontspec}
+\RequirePackage[vietnamese]{babel}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\setmainfont{Libertinus Serif}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Inconsolatazi4}
+\RequirePackage{mathtools}
+\RequirePackage{amsthm}
+\RequirePackage{unicode-math}
+\setmathfont{Libertinus Math}
+
+\RequirePackage[a4paper,inner=26mm,outer=23mm,top=25mm,bottom=27mm,headsep=8mm]{geometry}
+\RequirePackage{microtype}
+\RequirePackage{xcolor}
+\definecolor{Ink}{HTML}{172A3A}
+\definecolor{Blue}{HTML}{1769AA}
+\definecolor{Teal}{HTML}{197278}
+\definecolor{Gold}{HTML}{B7791F}
+\definecolor{Rule}{HTML}{CBD5DC}
+\definecolor{PaleBlue}{HTML}{F1F6FA}
+\definecolor{PaleTeal}{HTML}{F0F7F6}
+\definecolor{PaleGold}{HTML}{FFF8E7}
+\definecolor{SoftGray}{HTML}{F6F7F8}
+
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{array}
+\RequirePackage{enumitem}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\usetikzlibrary{
+  arrows.meta,
+  positioning,
+  calc,
+  fit,
+  matrix,
+  shapes.geometric,
+  decorations.pathreplacing,
+  backgrounds
+}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{float}
+\RequirePackage{imakeidx}
+\RequirePackage{xspace}
+\RequirePackage{scrlayer-scrpage}
+\RequirePackage{etoolbox}
+\RequirePackage{csquotes}
+\DeclareQuoteStyle{vietnamese}{“}{”}{‘}{’}
+\RequirePackage[backend=biber,style=numeric-comp,sorting=nyt,maxbibnames=8,giveninits=true]{biblatex}
+
+\setkomafont{disposition}{\sffamily\bfseries\color{Ink}}
+\setkomafont{part}{\sffamily\bfseries\fontsize{30}{35}\selectfont\color{Ink}}
+\setkomafont{chapter}{\sffamily\bfseries\fontsize{27}{31}\selectfont\color{Ink}}
+\setkomafont{section}{\sffamily\bfseries\Large\color{Blue}}
+\setkomafont{subsection}{\sffamily\bfseries\large\color{Ink}}
+\setkomafont{subsubsection}{\sffamily\bfseries\normalsize\color{Teal}}
+\renewcommand*{\chapterformat}{%
+  \raisebox{-0.1ex}{\color{Gold}\fontsize{40}{42}\selectfont\thechapter}\hspace{0.45em}%
+}
+\renewcommand*{\partformat}{%
+  \color{Gold}\fontsize{40}{42}\selectfont PHẦN~\Roman{part}\par\vspace{.45em}%
+}
+\RedeclareSectionCommand[beforeskip=0pt,afterskip=1.2\baselineskip]{chapter}
+\RedeclareSectionCommand[beforeskip=1.5\baselineskip,afterskip=.55\baselineskip]{section}
+\RedeclareSectionCommand[beforeskip=1.15\baselineskip,afterskip=.35\baselineskip]{subsection}
+
+\clearpairofpagestyles
+\ihead{\sffamily\footnotesize\color{Ink}BIỂU DIỄN SAT TỐI ƯU}
+\ohead{\sffamily\footnotesize\color{Ink}\rightmark}
+\cfoot{\sffamily\footnotesize\color{Ink}\pagemark}
+\KOMAoptions{headsepline=0.35pt}
+\addtokomafont{headsepline}{\color{Rule}}
+\pagestyle{scrheadings}
+\renewcommand*{\chapterpagestyle}{scrheadings}
+
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0pt}
+\linespread{1.055}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.45em,itemsep=.25em,topsep=.45em}
+\setlist[enumerate]{leftmargin=1.7em,itemsep=.3em,topsep=.45em}
+\captionsetup{font=small,labelfont={bf,sf,color=Ink},textfont=it,skip=6pt}
+\renewcommand{\arraystretch}{1.2}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newtheoremstyle{satplain}
+  {.8\baselineskip}{.8\baselineskip}{\itshape}{}{\sffamily\bfseries\color{Ink}}{.}{.5em}{}
+\theoremstyle{satplain}
+\newtheorem{theorem}{Định lý}[chapter]
+\newtheorem{proposition}[theorem]{Mệnh đề}
+\newtheorem{lemma}[theorem]{Bổ đề}
+\newtheorem{corollary}[theorem]{Hệ quả}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Định nghĩa}
+\newtheorem{example}[theorem]{Ví dụ}
+
+\newfloat{algorithm}{tbp}{loa}[chapter]
+\floatname{algorithm}{Thuật toán}
+\newcommand{\listalgorithmname}{Danh sách thuật toán}
+\newcommand{\listofalgorithms}{\listof{algorithm}{\listalgorithmname}}
+\makeindex[title={Chỉ mục},columns=2,intoc]
+
+\newtcolorbox{keyidea}[1]{
+  enhanced,breakable,
+  colback=PaleBlue,colframe=Blue,
+  boxrule=0pt,leftrule=2.2pt,
+  arc=0pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
+  before skip=10pt,after skip=10pt,
+  fonttitle=\sffamily\bfseries\color{Blue},
+  title={#1}
+}
+\newtcolorbox{designrule}[1]{
+  enhanced,breakable,
+  colback=PaleTeal,colframe=Teal,
+  boxrule=0pt,leftrule=2.2pt,
+  arc=0pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
+  before skip=10pt,after skip=10pt,
+  fonttitle=\sffamily\bfseries\color{Teal},
+  title={#1}
+}
+\newtcolorbox{resultbox}[1]{
+  enhanced,
+  colback=PaleGold,colframe=Gold,
+  boxrule=.45pt,
+  arc=1.5pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
+  before skip=10pt,after skip=10pt,
+  fonttitle=\sffamily\bfseries\color{Gold},
+  title={#1}
+}
+\newtcolorbox{summarybox}{
+  enhanced,breakable,
+  colback=SoftGray,colframe=Rule,
+  boxrule=.45pt,
+  arc=1.5pt,left=11pt,right=11pt,top=9pt,bottom=9pt,
+  before skip=12pt,after skip=12pt
+}
+
+\newtcolorbox{workedexample}[1]{
+  enhanced,breakable,
+  colback=white,colframe=Gold,
+  boxrule=.6pt,
+  arc=1.5pt,left=11pt,right=11pt,top=9pt,bottom=9pt,
+  before skip=12pt,after skip=12pt,
+  fonttitle=\sffamily\bfseries\color{Gold},
+  title={Ví dụ tính tay: #1}
+}
+
+\tikzset{
+  satfig/.style={font=\sffamily\small,text=Ink},
+  satbox/.style={
+    draw=Rule,rounded corners=2pt,fill=SoftGray,
+    minimum height=8mm,minimum width=12mm,align=center
+  },
+  satstate/.style={
+    circle,draw=Blue,fill=PaleBlue,thick,
+    minimum size=8mm,inner sep=1pt,align=center
+  },
+  sataux/.style={
+    circle,draw=Teal,fill=PaleTeal,thick,
+    minimum size=7mm,inner sep=1pt,align=center
+  },
+  sattrue/.style={draw=Teal,fill=PaleTeal,thick,align=center},
+  satfalse/.style={draw=Rule,fill=SoftGray,align=center},
+  satwarn/.style={draw=Gold,fill=PaleGold,thick,align=center},
+  satedge/.style={-{Latex[length=2.1mm]},thick,draw=Teal},
+  satdash/.style={-{Latex[length=2.1mm]},thick,dashed,draw=Blue},
+  satdim/.style={{Latex[length=1.8mm]}-{Latex[length=1.8mm]},draw=Ink},
+  satlabel/.style={font=\sffamily\footnotesize,text=Ink,align=center}
+}
+
+\newcommand{\figsource}[1]{%
+  \par\smallskip{\centering\footnotesize\itshape\color{Ink}#1\par}%
+}
+
+\newcommand{\SAT}{\textsc{sat}\xspace}
+\newcommand{\UNSAT}{\textsc{unsat}\xspace}
+\newcommand{\MaxSAT}{\textsc{MaxSAT}\xspace}
+\newcommand{\CNF}{\textsc{cnf}\xspace}
+\newcommand{\AMO}{\textsc{amo}\xspace}
+\newcommand{\AMK}{\textsc{amk}\xspace}
+\newcommand{\ALO}{\textsc{alo}\xspace}
+\newcommand{\OPT}{\textsc{opt}\xspace}
+\newcommand{\BKS}{\textsc{bks}\xspace}
+\newcommand{\ie}{tức là\xspace}
+\newcommand{\eg}{chẳng hạn\xspace}
+\newcommand{\suchthat}{\;\middle|\;}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\DeclareMathOperator{\ExactlyOne}{ExactlyOne}
+\DeclareMathOperator{\AtMostOne}{AtMostOne}
+\DeclareMathOperator{\cost}{cost}
+
+\newcommand{\chapterlead}[1]{%
+  \begin{quote}
+  {\sffamily\footnotesize\bfseries\color{Blue}TÓM TẮT CHƯƠNG}\par\smallskip
+  \color{Ink}\large\itshape #1
+  \end{quote}\vspace{.4\baselineskip}%
+}
+\newcommand{\reported}{\textit{Kết quả được dẫn theo công trình nguồn.}}
+
+\newcommand{\flowdiagram}[5]{%
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[
+  node distance=5mm,
+  flowstep/.style={draw=Rule,rounded corners=2pt,fill=SoftGray,
+    minimum width=24mm,minimum height=13mm,align=center,
+    font=\sffamily\footnotesize,text=Ink},
+  arrow/.style={-{Latex[length=2.2mm]},thick,draw=Teal}
+]
+\node[flowstep] (a) {#1};
+\node[flowstep,right=of a] (b) {#2};
+\node[flowstep,right=of b] (c) {#3};
+\node[flowstep,right=of c] (d) {#4};
+\node[flowstep,right=of d] (e) {#5};
+\draw[arrow] (a) -- (b);
+\draw[arrow] (b) -- (c);
+\draw[arrow] (c) -- (d);
+\draw[arrow] (d) -- (e);
+\end{tikzpicture}
+\caption{Lộ trình lập luận của chương: từ #1, qua #2, #3 và #4, đến #5.}
+\end{figure}
+}
+
+\RequirePackage[pdfusetitle,colorlinks=true,linkcolor=Blue,citecolor=Teal,urlcolor=Blue]{hyperref}
+\RequirePackage[nameinlink,capitalise]{cleveref}
+\crefname{theorem}{định lý}{các định lý}
+\crefname{proposition}{mệnh đề}{các mệnh đề}
+\crefname{lemma}{bổ đề}{các bổ đề}
+\crefname{corollary}{hệ quả}{các hệ quả}
+\crefname{definition}{định nghĩa}{các định nghĩa}
+\crefname{example}{ví dụ}{các ví dụ}
+\crefname{equation}{công thức}{các công thức}
+\crefname{figure}{hình}{các hình}
+\crefname{table}{bảng}{các bảng}
+\crefname{section}{mục}{các mục}
+\hypersetup{
+  pdftitle={Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp},
+  pdfauthor={Tô Văn Khánh; Kiều Văn Tuyên; Trương Xuân Hiếu; Vũ Thanh Hương; Đào Xuân Nghĩa; Nguyễn Kim Trung Đức},
+  pdfsubject={Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT},
+  pdfkeywords={phép mã hóa SAT, MaxSAT, ràng buộc đếm, lập lịch, đóng gói, gán nhãn đồ thị}
+}
+
+\AtBeginBibliography{\footnotesize\raggedright}
+\renewcommand*{\bibfont}{\footnotesize}
+\setlength{\bibitemsep}{0pt}

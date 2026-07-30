@@ -1,0 +1,443 @@
+\chapter{Thanh ghi đếm thích nghi cho
+  \texorpdfstring{ràng buộc đúng \(K\)}{ràng buộc đúng K}}
+\chapterlead{Bộ đếm tuần tự thông thường dành cùng một độ rộng cho mọi
+hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể đạt tới, nhờ
+đó giữ được cấu trúc tuần tự nhưng loại bỏ phần tam giác trạng thái bất khả.}
+
+\index{exactly-k}\index{New Sequential Counter}
+\index{adaptive counter}\index{Social Golfer}
+
+\flowdiagram{Dãy Boolean}{Miền trạng thái khả đạt}{Truy hồi ngưỡng}
+  {Điều kiện biên}{Đúng \(K\)}
+
+\section{Ràng buộc đúng \texorpdfstring{\(K\)}{K} trong không gian thiết kế}
+
+Ràng buộc đúng \(K\) (\emph{Exactly-\(K\)}) có nhiều cách phân rã đúng:
+\[
+  \sum X=K
+  \iff
+  \left(\sum X\le K\right)\land
+  \left(\sum X\ge K\right),
+\]
+nhưng hai vế không nhất thiết phải dùng hai bộ mã hóa độc lập. Một vectơ đơn
+phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
+trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
+hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
+ô nào thật sự có thể đạt và cần được vật hóa?
+
+\begin{center}
+\captionof{table}{Các hướng biểu diễn ràng buộc đúng \(K\).}
+\label{tab:exactly-k-designs}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.19\textwidth}YYY@{}}
+\toprule
+Họ & Trạng thái & Giao diện EXK & Đặc trưng\\
+\midrule
+Hai AMK & Hai bộ đếm & Hai cận tách & Dễ ghép nhưng có thể lặp trạng thái\\
+Tuần tự & Tổng tiền tố & Chống tràn + đạt \(K\) & Tốt khi \(K\) nhỏ\\
+Cây tổng & Tổng cây con & \(o_K\land\neg o_{K+1}\) & Dùng lại nhiều cận\\
+Mạng & Vị trí đã sắp & Hai đầu ra kề nhau & Cấu trúc đều, độ sâu thấp\\
+BDD & \((i,s)\) & Chấp nhận trạng thái \(K\) & Hợp nhất trạng thái theo tổng\\
+NSC & Ngưỡng tiền tố khả đạt & Biên trên + dưới & Cắt vùng tam giác bất khả\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Các cận dưới cho AMO và những khảo cứu về ràng buộc đếm đặt số biến bên cạnh
+số mệnh đề, literal và mức lan truyền
+\parencite{kucera2019lower,bailleux2010survey}. NSC giữ bậc \(O(nK)\), giảm
+một phần xác định của bảng và thay cách đóng biên Exactly-\(K\). Đóng góp cốt
+lõi là một \emph{không gian trạng thái gọn hơn trong họ tuần tự}; vị trí trên
+mặt Pareto được đo bằng số mệnh đề, số literal và sức lan truyền.
+
+\section{Từ bảng chữ nhật đến miền trạng thái khả đạt}
+
+Xét dãy Boolean \(X=\langle x_1,\ldots,x_n\rangle\) và ràng buộc
+\[
+  \sum_{i=1}^{n}x_i=k.
+\]
+Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
+\(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j>i\) vì thế không
+mang trạng thái hợp lệ.
+
+Bộ đếm tuần tự mới (\emph{New Sequential Counter}, NSC) dùng thanh ghi tam giác
+\[
+  R_{i,j}=1
+  \quad\Longleftrightarrow\quad
+  \sum_{q=1}^{i}x_q\ge j,
+  \qquad
+  \begin{matrix}
+    1\le i\le n-1,\\[-1mm]
+    1\le j\le \min(i,k).
+  \end{matrix}
+\]
+Chỉ \(n-1\) tiền tố được vật hóa; biến \(x_n\) được xử lý trong điều kiện cuối.
+Với \(n>k\), số biến phụ là
+\[
+  \sum_{i=1}^{n-1}\min(i,k)
+  =
+  k(n-1)-\frac{k(k-1)}{2}.
+\]
+So với bảng chữ nhật \(k(n-1)\), phần tiết kiệm chính xác là
+\(k(k-1)/2\) biến. Bậc tiệm cận được giữ nguyên, còn hệ số hữu hạn giảm đúng các
+trạng thái bất khả mà bộ giải phải duy trì.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=7mm,y=7mm]
+  \node[satlabel] at (2.5,1.25) {bảng chữ nhật};
+  \node[satlabel] at (9.5,1.25) {miền khả đạt của NSC};
+  \foreach \i in {1,...,5}{
+    \foreach \j in {1,...,3}{
+      \draw[Rule,fill=SoftGray] (\i,-\j) rectangle ++(.82,.82);
+      \node[font=\sffamily\tiny] at (\i+.41,-\j+.41) {\(R_{\i,\j}\)};
+      \ifnum\j>\i
+        \fill[Gold!28] (\i,-\j) rectangle ++(.82,.82);
+        \draw[Gold,thick] (\i,-\j)--++(.82,.82);
+        \draw[Gold,thick] (\i+.82,-\j)--++(-.82,.82);
+      \fi
+    }
+  }
+  \foreach \i in {1,...,5}{
+    \foreach \j in {1,...,3}{
+      \ifnum\j>\i
+      \else
+        \draw[Blue,fill=PaleBlue] ({7+\i},-\j) rectangle ++(.82,.82);
+        \node[font=\sffamily\tiny] at ({7+\i+.41},-\j+.41) {\(R_{\i,\j}\)};
+      \fi
+    }
+  }
+  \node[satlabel,text=Gold,align=center] at (2.8,-4)
+    {các ô \(j>i\)\\không thể đạt};
+  \node[satlabel,text=Blue,align=center] at (10.1,-4)
+    {\(12\) ô thay vì \(15\)\\khi \(n=6,k=3\)};
+\end{tikzpicture}
+\caption{Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
+tạo ba ô bất khả \(R_{1,2},R_{1,3},R_{2,3}\).}
+\label{fig:nsc-triangular-domain}
+\end{figure}
+
+\begin{keyidea}{``Thích nghi'' ở đây có nghĩa gì?}
+Độ rộng hàng \(i\) là \(\min(i,k)\), được quyết định bởi số trạng thái có thể
+đạt sau \(i\) đầu vào. ``Thích nghi'' ở đây mô tả hình dạng tĩnh của bộ đếm,
+được xác định trước khi bộ giải chạy.
+\end{keyidea}
+
+\section{Đặc tả ngữ nghĩa và hệ thức truy hồi}
+
+Dùng hai quy ước biên
+\[
+  R_{i,0}\equiv\top,
+  \qquad
+  R_{0,j}\equiv\bot\quad(j\ge1).
+\]
+Khi đó mọi ô hợp lệ tuân theo
+\begin{equation}
+  R_{i,j}
+  \;\longleftrightarrow\;
+  R_{i-1,j}\lor
+  \bigl(x_i\land R_{i-1,j-1}\bigr).
+  \label{eq:nsc-recurrence}
+\end{equation}
+Vế phải mô tả đúng hai cách để tiền tố mới đạt ngưỡng \(j\): tiền tố cũ đã đạt
+ngưỡng, hoặc \(x_i=1\) và tiền tố cũ đã đạt \(j-1\).
+
+Trong CNF, hệ thức truy hồi được phân rã thành các quan hệ kéo theo theo hai chiều. Phần
+tiến gồm
+\[
+  R_{i-1,j}\rightarrow R_{i,j},
+  \qquad
+  (x_i\land R_{i-1,j-1})\rightarrow R_{i,j}.
+\]
+Phần lùi gồm
+\[
+  (\neg x_i\land\neg R_{i-1,j})\rightarrow\neg R_{i,j},
+  \qquad
+  \neg R_{i-1,j-1}\rightarrow\neg R_{i,j}.
+\]
+Sau khi thay các hằng biên và bỏ literal thừa, ta thu được các mệnh đề hai hoặc
+ba literal. Cách sinh mệnh đề trực tiếp theo miền tam giác tránh tạo biến rồi
+giao cho bộ tiền xử lý xóa đi.
+
+\begin{designrule}{Thanh ghi được đọc như một đại lượng ngữ nghĩa}
+Nếu \(R_{i,j}\) xuất hiện trong điều kiện biên, hàm mục tiêu hoặc một ràng buộc
+khác, hệ thức truy hồi phải bảo đảm đặc tả hai chiều. Chỉ các quan hệ kéo theo
+tiến không đủ để diễn giải \(\neg R_{i,j}\) là ``tiền tố chưa đạt \(j\)''.
+\end{designrule}
+
+\section{Đóng ràng buộc \texorpdfstring{đúng \(K\)}{đúng K}}
+
+Phần nhiều nhất \(k\) cấm một đầu vào mới làm tràn bộ đếm:
+\begin{equation}
+  x_i\rightarrow\neg R_{i-1,k},
+  \qquad i=k+1,\ldots,n.
+  \label{eq:nsc-overflow}
+\end{equation}
+Phần ít nhất \(k\) yêu cầu tổng cuối đạt ngưỡng \(k\):
+\begin{equation}
+  R_{n-1,k}\lor
+  \bigl(x_n\land R_{n-1,k-1}\bigr).
+  \label{eq:nsc-lower}
+\end{equation}
+Biểu thức \cref{eq:nsc-lower} được phân phối thành CNF trước khi xuất. Khi
+\(k=1\), \(R_{n-1,0}\equiv\top\); khi \(k=n\), có thể đơn giản hóa toàn bộ
+ràng buộc thành các mệnh đề đơn vị \(x_i\).
+
+\begin{theorem}[Đúng đắn của NSC]
+Hệ thức truy hồi \cref{eq:nsc-recurrence} cùng các điều kiện
+\cref{eq:nsc-overflow,eq:nsc-lower} tương đương theo phép chiếu với
+\(\sum_{i=1}^{n}x_i=k\).
+\end{theorem}
+
+\begin{proof}
+Hệ thức truy hồi và các hằng biên cho, bằng quy nạp theo \(i\),
+\[
+  R_{i,j}=1
+  \Longleftrightarrow
+  \sum_{q=1}^{i}x_q\ge j.
+\]
+Nếu có hơn \(k\) đầu vào đúng, xét đầu vào đúng thứ \(k+1\), ký hiệu \(x_i\).
+Ngay trước nó, \(R_{i-1,k}=1\), trái với
+\cref{eq:nsc-overflow}. Do đó tổng không vượt \(k\).
+
+Ngược lại, \cref{eq:nsc-lower} chỉ đúng khi \(k\) đầu vào đầu tiên đã xuất hiện
+trong \(n-1\) vị trí đầu, hoặc \(x_n=1\) và tiền tố trước đó chứa ít nhất
+\(k-1\) đầu vào đúng. Vì vậy tổng ít nhất \(k\). Hai cận cho tổng đúng bằng
+\(k\). Với mọi vectơ \(X\) có tổng \(k\), gán \(R_{i,j}\) theo tổng tiền tố
+thật thỏa hệ thức truy hồi và cả hai điều kiện biên.
+\end{proof}
+
+\begin{workedexample}{Exactly-\(3\) trên sáu biến}
+Với \(n=6,k=3\), NSC tạo
+\[
+  \min(1,3)+\min(2,3)+\cdots+\min(5,3)=12
+\]
+biến thanh ghi, thay vì \(5\cdot3=15\) ô của bảng chữ nhật. Xét
+\[
+  x=(1,0,1,0,0,1).
+\]
+Sau năm biến, tổng tiền tố bằng \(2\), nên
+\[
+  (R_{5,1},R_{5,2},R_{5,3})=(1,1,0).
+\]
+Điều kiện cuối
+\(
+R_{5,3}\lor(x_6\land R_{5,2})
+\)
+đúng chính vì \(x_6=1\) và tiền tố đã đạt ngưỡng \(2\). Nếu đặt thêm
+\(x_5=1\), ta có \(R_{5,3}=1\); mệnh đề chống tràn
+\(x_6\rightarrow\neg R_{5,3}\) lập tức buộc \(x_6=0\). Hai tình huống này
+minh họa lần lượt biên dưới và biên trên của cùng một thanh ghi.
+\end{workedexample}
+
+\section{Lan truyền nhìn từ hai biên}
+
+Bộ đếm hữu ích vì các cận xuất hiện sớm trong tìm kiếm. Hai tình huống quan
+trọng có thể kiểm tra trực tiếp:
+
+\begin{enumerate}
+  \item Khi đã có \(k\) đầu vào đúng trong một tiền tố, thanh ghi mức \(k\) của
+  tiền tố đó trở thành đúng. Các mệnh đề chống tràn buộc mọi đầu vào còn lại về \(0\).
+  \item Khi số vị trí có thể còn nhận giá trị \(1\) vừa đủ để đạt \(k\), điều
+  kiện cận dưới và các quan hệ kéo theo lùi lần lượt loại nhánh đặt một vị trí còn
+  lại về \(0\).
+\end{enumerate}
+
+Hai hướng lan truyền này tương ứng với hai biên ``đã đủ'' và ``phải dùng hết
+phần còn lại''. Chúng nên được kiểm tra bằng phép thử đơn vị trên mọi phép gán
+bộ phận nhỏ, thay vì suy luận hiệu quả chỉ từ số biến hoặc số mệnh đề.
+
+\section{Dùng một thanh ghi cho nhiều giao diện}
+
+Khi thanh ghi đã có đặc tả ngưỡng, nhiều ràng buộc có thể đọc cùng một mô-đun:
+\[
+  \sum X\le k
+  \quad\Longrightarrow\quad
+  \text{các mệnh đề chống tràn},
+\]
+\[
+  \sum X\ge k
+  \quad\Longrightarrow\quad
+  \text{đầu ra đạt ngưỡng cuối},
+\]
+\[
+  \sum X=k
+  \quad\Longrightarrow\quad
+  \text{kết hợp hai giao diện trên}.
+\]
+Nếu cần nhiều cận \(k_1<k_2<\cdots\), bộ đếm nên được tạo đến ngưỡng lớn nhất
+rồi cung cấp các đầu ra nhỏ hơn. Cách này tránh xây hai mạng đếm độc lập cho
+ràng buộc và hàm mục tiêu.
+
+\section{Nghiên cứu tình huống ngắn: xếp nhóm chơi golf}
+
+\subsection{Từ thiết kế tổ hợp đến mô hình SAT}
+
+Bài toán xếp nhóm người chơi golf (\emph{Social Golfer}) vừa là bài toán lập
+lịch vừa là bài toán thiết kế tổ hợp. Ba
+nguồn khó đan xen với nhau: ràng buộc đúng kích thước nhóm, cấm lặp cặp người
+chơi và một nhóm đối xứng lớn do hoán vị tuần, nhóm, người. Vì vậy, hiệu quả
+của một phép mã hóa ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
+chính và cách phá đối xứng.
+
+Các mô hình SAT trước đó từng dùng thêm chỉ số vị trí trong nhóm, sau đó được
+sửa và rút gọn bằng biến người--nhóm--tuần cùng cấu trúc bậc thang
+\parencite{triska2012golfer}. Dòng phát triển này minh họa một quy tắc quan
+trọng: bỏ một chỉ số không mang nghĩa thường tạo lợi ích lớn hơn tối ưu vài
+mệnh đề trong chính bộ mã hóa ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
+khi phần biểu diễn đối tượng đã được chuẩn hóa.
+
+Một bài toán thử \(g\)-\(p\)-\(w\) có \(n=gp\) người chơi, \(g\) nhóm mỗi tuần,
+mỗi nhóm có \(p\) người và \(w\) tuần. Biến ba chỉ số
+\[
+  G_{i,r,t}=1
+  \quad\Longleftrightarrow\quad
+  \text{người chơi \(i\) thuộc nhóm \(r\) ở tuần \(t\)}
+\]
+loại bỏ chỉ số vị trí bên trong nhóm, bởi thứ tự các thành viên trong một nhóm
+không mang ý nghĩa.
+
+Mô hình gồm ba họ ràng buộc:
+\begin{align*}
+  &\sum_{r=1}^{g}G_{i,r,t}=1
+    &&\text{với mọi người chơi \(i\), tuần \(t\)},\\
+  &\sum_{i=1}^{n}G_{i,r,t}=p
+    &&\text{với mọi nhóm \(r\), tuần \(t\)},\\
+  &\neg G_{i,r,t}\lor\neg G_{j,r,t}\lor
+    \neg G_{i,s,u}\lor\neg G_{j,s,u}
+    &&\text{với \(i<j,\ t<u\)}.
+\end{align*}
+Họ thứ ba cấm một cặp người chơi gặp nhau ở cả nhóm \(r\), tuần \(t\) và nhóm
+\(s\), tuần \(u\). NSC được dùng ở họ thứ hai; mỗi cặp nhóm--tuần có một
+bộ đếm tam giác riêng \parencite{kieu2026golfer}.
+
+Hai phép chuẩn hóa rẻ được thêm vào mô hình. Tuần đầu được cố định thành các
+khối người chơi liên tiếp; ở các tuần sau, một số người chơi neo được gán vào
+các nhóm đã định. Chúng loại các hoán vị hiển nhiên của người chơi, nhóm và
+tuần mà không thêm biến phụ.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=17mm,y=9mm]
+  \node[satlabel] at (0,1.0) {tuần};
+  \foreach \g in {1,2,3}
+    \node[satlabel] at (\g,1.0) {nhóm \(\g\)};
+  \node[satlabel] at (0,0) {\(1\)};
+  \node[satlabel] at (0,-1) {\(2\)};
+  \foreach \g/\txt in {1/{1,2},2/{3,4},3/{5,6}}{
+    \node[satbox,minimum width=15mm,fill=PaleBlue] at (\g,0) {\(\{\txt\}\)};
+  }
+  \foreach \g/\txt in {1/{1,3},2/{2,5},3/{4,6}}{
+    \node[satbox,minimum width=15mm,fill=PaleTeal] at (\g,-1) {\(\{\txt\}\)};
+  }
+  \draw[decorate,decoration={brace,amplitude=4pt},Gold,thick]
+    (3.6,.42)--(3.6,-1.42)
+    node[midway,right=5pt,satlabel,text=Gold,align=left]
+      {mỗi người đúng một nhóm/tuần;\\mỗi cặp gặp nhiều nhất một lần};
+\end{tikzpicture}
+\caption{Một lịch khả thi cho bài toán nhỏ \(3\)-\(2\)-\(2\). Mỗi ô nhóm là
+một ràng buộc đúng \(2\); tuần đầu có thể được cố định làm lát chuẩn.}
+\label{fig:social-golfer-small}
+\end{figure}
+
+\begin{resultbox}{Kết quả trên 66 bài toán Social Golfer}
+Trong thí nghiệm của \textcite{kieu2026golfer}, cấu hình dùng NSC giải được
+56/66 bài toán; các cấu hình ADDER, BDD và CARD cùng giải được 54, còn
+BINOMIAL giải được 32. NSC không luôn nhanh nhất trên từng bài toán, nhưng có
+số lần hết thời hạn thấp nhất trong so sánh này. Kết quả làm rõ lợi ích của
+việc cân bằng số biến, số mệnh đề và cấu trúc lan truyền.
+\end{resultbox}
+
+\subsection{Đọc kết quả đúng phạm vi}
+
+Nghiên cứu tình huống này hỗ trợ hai kết luận: mô hình ba chỉ số tránh đối xứng
+vị trí, và trạng thái tuần tự tam giác là một lựa chọn cạnh tranh cho ràng buộc
+EXK về kích thước nhóm trong cấu hình đã thử. Điều này không có nghĩa NSC luôn
+tốt hơn cây tổng, BDD hay mạng đếm trên mọi ràng buộc đúng \(K\). Một khảo sát
+tiếp theo có giá trị nên giữ nguyên mô hình SGP rồi chỉ thay mô-đun kích thước
+nhóm, đồng thời phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UNSAT.
+
+\section{Cài đặt và kiểm thử}
+
+Một bộ sinh NSC nên nhận dãy literal, cận \(k\) và chế độ
+\texttt{AMK}/\texttt{ALK}/\texttt{EXK}. Bảng ánh xạ
+\((i,j)\mapsto\texttt{varID}\) chỉ chứa ô hợp lệ. Ba lớp kiểm thử là đủ để bắt
+phần lớn lỗi biên:
+
+\begin{enumerate}
+  \item liệt kê toàn bộ vectơ đầu vào khi \(n\le8\) và so sánh với tổng thật;
+  \item với mỗi vectơ hợp lệ, kiểm tra có tồn tại phần mở rộng cho biến \(R\);
+  \item với mỗi phép gán bộ phận, so sánh literal đầu vào mà lan truyền đơn vị
+  suy ra với các hệ quả trực tiếp của hai cận.
+\end{enumerate}
+
+Các trường hợp \(k=0\), \(k=1\), \(k=n-1\), \(k=n\) cần được kiểm thử riêng. Đây là nơi
+quy ước hằng biên và phạm vi chỉ số thường gây lỗi nhất.
+
+\begin{algorithm}[H]
+\caption{Sinh NSC cho ràng buộc đúng \(K\)}
+\label{alg:nsc}
+\begin{minipage}{.94\textwidth}\small
+\textbf{Đầu vào:} các literal \(x_1,\ldots,x_n\) và \(0\le k\le n\).\\
+\textbf{Đầu ra:} \CNF và ánh xạ ngữ nghĩa của các thanh ghi.
+\begin{enumerate}
+  \item Xử lý trực tiếp \(k=0\) bằng \(\bigwedge_i\neg x_i\) và \(k=n\)
+  bằng \(\bigwedge_i x_i\). Nếu \(k>n/2\), có thể thay
+  \(y_i=\neg x_i\) và đếm Exactly-\((n-k)\).
+  \item Chỉ cấp phát \(R_{i,j}\) với \(1\le i\le n-1\) và
+  \(1\le j\le\min(i,k)\); ghi ánh xạ
+  \(R_{i,j}\leftrightarrow[\sum_{q=1}^{i}x_q\ge j]\).
+  \item Với từng ô hợp lệ, phân rã tương đương
+  \(R_{i,j}\leftrightarrow
+    R_{i-1,j}\lor(x_i\land R_{i-1,j-1})\),
+  thay \(R_{i,0}=\top\), \(R_{0,j}=\bot\), rồi giản lược các literal hằng.
+  \item Sinh các mệnh đề chống tràn của~\eqref{eq:nsc-overflow}.
+  \item Sinh điều kiện đạt cận dưới~\eqref{eq:nsc-lower}; trả \CNF và ánh xạ.
+\end{enumerate}
+\end{minipage}
+\end{algorithm}
+
+\section{Miền lựa chọn của NSC}
+
+NSC loại chính xác \(k(k-1)/2\) ô so với bảng chữ nhật, nên tỷ lệ tiết kiệm
+biến chỉ là
+\[
+  \frac{k(k-1)/2}{k(n-1)}
+  =\frac{k-1}{2(n-1)}.
+\]
+Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); hằng số của ánh xạ
+và các mệnh đề hai chiều có thể quan trọng hơn phần tam giác bị bỏ. Với
+\(k\) gần \(n\), đếm các literal bù \(\neg x_i\) đến \(n-k\) thường gọn hơn.
+Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, cây tổng và
+mạng đếm có đầu ra dùng chung tự nhiên hơn một NSC chuyên biệt. BDD cũng có thể
+thắng khi phép rút gọn hợp nhất được nhiều trạng thái tương đương.
+
+Bộ chọn cho ràng buộc đúng \(K\) dùng \(n\), \(\min(k,n-k)\), số cận sẽ được
+truy vấn, nhu cầu giải tăng dần và đặc tả lan truyền làm đặc trưng. NSC phù hợp
+với một cận cố định và vùng tam giác bị cắt đủ lớn; cây tổng/mạng đếm phù hợp
+khi cần dùng chung nhiều đầu ra. Kết quả Social Golfer minh họa cách các đặc
+trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán tương ứng.
+
+\section{Bài học thiết kế}
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Miền trạng thái khả đạt quyết định hình dạng bộ đếm.
+  \item Thanh ghi \(R_{i,j}\) có đặc tả ngưỡng rõ ràng, không chỉ là biến
+  Tseitin vô danh.
+  \item Ràng buộc đúng \(K\) là sự kết hợp của một biên tràn và một điều kiện đạt
+  ngưỡng cuối.
+  \item Hiệu quả cần được đọc đồng thời qua kích thước, lan truyền và hành vi
+  giải trên bài toán khó.
+  \item Social Golfer cho thấy lựa chọn biến chính và phép mã hóa ràng buộc đếm phải
+  được thiết kế cùng nhau.
+\end{enumerate}
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Vẽ miền biến \(R_{i,j}\) cho \(n=7,k=3\) và tính phần tiết kiệm so với
+  bảng chữ nhật.
+  \item Viết các mệnh đề chống tràn cho \(\sum_{i=1}^{6}x_i\le2\).
+  \item So sánh hai mô hình Social Golfer có và không có chỉ số vị trí trong
+  nhóm về số biến chính và nhóm đối xứng còn lại.
+\end{enumerate}

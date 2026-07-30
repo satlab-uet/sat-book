@@ -1,0 +1,460 @@
+\chapter{Bộ đếm dùng chung cho các cửa sổ chồng lấn}
+\chapterlead{Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
+toàn bộ biến. Mã hóa từng cửa sổ độc lập sẽ lặp trạng thái; bộ đếm dùng chung
+(\emph{shared counter}) biến phần giao đó thành một mô-đun có thể tái sử dụng.}
+
+\index{SEQUENCE constraint}\index{shared counter}
+\index{Sequential Counter Ladder}\index{Ladder AMK}
+\index{sliding window}
+
+\flowdiagram{Chuỗi Boolean}{Phân hoạch khối}{Bộ đếm cục bộ}
+  {Bộ nối}{Họ cửa sổ}
+
+\section{SEQUENCE trong văn liệu về ràng buộc}
+
+Ràng buộc cửa sổ thuộc một họ lâu đời hơn các bộ đếm dùng chung.
+\textsc{Sequence}
+yêu cầu mọi đoạn liên tiếp độ dài cố định có số biến nhận một giá trị trong
+khoảng \([\ell,u]\). Nó xuất hiện trong xếp thứ tự xe, lập lịch ca, xác định
+cỡ lô và các mô hình chuỗi. Vấn đề cốt lõi không chỉ là số literal đúng trong
+một cửa sổ, mà còn là sự phụ thuộc giữa toàn bộ các cửa sổ chồng lấn.
+
+Văn liệu đã phát triển ít nhất bốn cách nhìn:
+\begin{description}[style=nextline]
+  \item[Phân rã theo cửa sổ]
+  Tạo một ràng buộc đếm cho mỗi cửa sổ. Cách này có tính mô-đun và dễ dùng,
+  nhưng nếu các trạng thái phụ không được chia sẻ thì phần giao bị biểu diễn
+  nhiều lần.
+
+  \item[Tổng tiền tố]
+  Đặt \(S_i=\sum_{j\le i}x_j\), khi đó mỗi cửa sổ là
+  \(\ell\le S_{i+w}-S_i\le u\). Mọi cửa sổ dùng chung một dãy trạng thái tiền tố.
+
+  \item[Ôtômát/ràng buộc chính quy]
+  Trạng thái ghi đủ lịch sử cần thiết để quyết định ký hiệu tiếp theo. Một
+  ràng buộc \textsc{Regular} có thể biểu diễn việc chuỗi có thuộc một ngôn ngữ
+  hữu hạn trạng thái hay không \parencite{pesant2004regular}.
+
+  \item[Luồng hoặc đồ thị]
+  Biểu diễn các hiệu tiền tố và cận cửa sổ bằng mạng luồng, từ đó xây dựng
+  bộ lan truyền toàn cục.
+\end{description}
+
+So sánh có hệ thống các phép mã hóa \textsc{Sequence} cho thấy cách phân rã,
+ôtômát và phương pháp dựa trên tổng khác nhau rõ về kích thước và mức nhất quán
+\parencite{brand2007sequence}. Các bộ lan truyền dựa trên luồng tiếp tục khai
+thác cấu trúc toàn cục để đạt khả năng lọc mạnh \parencite{maher2008sequence};
+những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ hợp của một
+\emph{chữ ký} và một \emph{đặc trưng} cần đếm
+\parencite{monette2014sequences}.
+
+\begin{center}
+\captionof{table}{Các cách tái sử dụng trạng thái trong ràng buộc cửa sổ.}
+\label{tab:window-reuse}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.19\textwidth}YYY@{}}
+\toprule
+Họ & Trạng thái dùng chung & Điểm mạnh & Chi phí/rủi ro\\
+\midrule
+Mỗi cửa sổ & Không hoặc ít & Đơn giản, dùng bộ mã hóa sẵn & Lặp trạng thái phụ\\
+Tổng tiền tố & Tổng từ đầu chuỗi & Mọi cửa sổ là hiệu hai tiền tố & Miền tổng toàn cục\\
+Ôtômát & Hậu tố/lịch sử & Xử lý mẫu phức tạp & Bùng nổ trạng thái theo \(w\)\\
+Luồng & Nút và cung & Lọc toàn cục & Bộ lan truyền/phép mã hóa phức tạp\\
+Bộ đếm theo khối & Tiền tố/hậu tố trong khối & Cục bộ và tái sử dụng có kiểm soát &
+Cần chọn phân hoạch\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Bộ đếm dùng chung theo khối của chương này nằm giữa hai cực. Nó không tạo một
+trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ đếm độc lập cho
+từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
+nghĩa của từng cửa sổ.
+
+\section{Họ ràng buộc cửa sổ}
+
+Cho chuỗi
+\[
+  \Omega=\langle x_1,\ldots,x_n\rangle.
+\]
+Cửa sổ độ rộng \(w\) bắt đầu tại \(i\):
+\[
+  W_i(w)=\langle x_i,\ldots,x_{i+w-1}\rangle.
+\]
+AMK bậc thang là họ
+\[
+  \sum_{x\in W_i(w)}x\le k
+  \qquad i=1,\ldots,n-w+1.
+\]
+Các ràng buộc chuỗi tổng quát cho phép cả cận dưới và cận trên:
+\[
+  \ell\le
+  \sum_{x\in W_i(w)}x
+  \le u.
+\]
+
+Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thước xấp xỉ
+\[
+  O((n-w+1)wk).
+\]
+Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
+Mục tiêu của phép mã hóa dùng chung là đưa chi phí về gần
+\[
+  O(nk)
+\]
+hoặc \(O(nk+n_c)\), với \(n_c\) là số bộ nối.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=12mm,y=7mm]
+  \foreach \i in {1,...,8}{
+    \node[satbox,minimum width=10mm,minimum height=8mm] (x\i) at (\i,0)
+      {\(x_{\i}\)};
+  }
+  \draw[Blue,very thick] (0.55,-.8)--(4.45,-.8)
+    node[midway,below,satlabel,text=Blue]{\(W_1=\{x_1,\ldots,x_4\}\)};
+  \draw[Teal,very thick] (1.55,-1.65)--(5.45,-1.65)
+    node[midway,below,satlabel,text=Teal]{\(W_2=\{x_2,\ldots,x_5\}\)};
+  \draw[Gold,very thick] (2.55,-2.5)--(6.45,-2.5)
+    node[midway,below,satlabel,text=Gold]{\(W_3=\{x_3,\ldots,x_6\}\)};
+  \draw[satdim] (2.05,.72)--(4.95,.72)
+    node[midway,above,satlabel]{phần trạng thái có thể dùng lại};
+\end{tikzpicture}
+\caption{Ba cửa sổ độ rộng \(4\) chỉ dịch một vị trí: cửa sổ kề nhau giữ lại
+ba trong bốn biến. Xây lại một bộ đếm cho từng hàng sẽ lặp phần giao này.}
+\label{fig:overlapping-windows}
+\end{figure}
+
+\section{Phân hoạch thành khối}
+
+Chia chuỗi thành các khối liên tiếp
+\[
+  B_1,B_2,\ldots,B_m,
+  \qquad
+  \Omega=B_1\cdot B_2\cdots B_m.
+\]
+Trong mỗi khối, xây hai họ biến ngưỡng:
+\[
+  F^b_{i,q}=1
+  \iff
+  \sum_{j=1}^{i}B_b[j]\ge q,
+\]
+\[
+  R^b_{i,q}=1
+  \iff
+  \sum_{j=i}^{\card{B_b}}B_b[j]\ge q.
+\]
+\(F\) đếm tiền tố từ trái sang phải; \(R\) đếm hậu tố từ phải sang trái. Một
+cửa sổ cắt biên giữa \(B_b,B_{b+1}\) là hợp của một hậu tố bên trái và một
+tiền tố bên phải. Số literal đúng trong cửa sổ được đọc từ \(R^b\) và
+\(F^{b+1}\).
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=11mm,y=9mm]
+  \foreach \i in {1,...,8}{
+    \node[satbox,minimum width=9mm] (x\i) at (\i,0) {\(x_{\i}\)};
+  }
+  \node[satlabel,text=Blue] at (2.5,.75) {\(B_1\)};
+  \node[satlabel,text=Teal] at (6.5,.75) {\(B_2\)};
+  \draw[Blue,thick,rounded corners=2pt] (.55,-.48) rectangle (4.45,.48);
+  \draw[Teal,thick,rounded corners=2pt] (4.55,-.48) rectangle (8.45,.48);
+  \draw[Gold,ultra thick] (2.55,-.75)--(6.45,-.75)
+    node[midway,below,satlabel,text=Gold]{cửa sổ \(W_3=x_3,\ldots,x_6\)};
+  \node[satstate] (r) at (3,-2.25) {\(R^1\)};
+  \node[satstate] (f) at (6,-2.25) {\(F^2\)};
+  \node[satbox,fill=PaleGold,draw=Gold] (c) at (4.5,-3.55)
+    {bộ nối\\\(\neg R^1_{3,q}\lor\neg F^2_{2,k-q+1}\)};
+  \draw[satedge] (x3.south)--(r);
+  \draw[satedge] (x4.south)--(r);
+  \draw[satedge] (x5.south)--(f);
+  \draw[satedge] (x6.south)--(f);
+  \draw[satedge] (r)--(c);
+  \draw[satedge] (f)--(c);
+\end{tikzpicture}
+\caption{Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
+của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.}
+\label{fig:block-connector}
+\end{figure}
+
+\begin{example}
+Giả sử cửa sổ gồm hậu tố \(A\) của khối trái và tiền tố \(B\) của khối phải.
+Đặt \(T(S,q)\) là literal ``\(\sum_{x\in S}x\ge q\)'', với hai quy ước biên
+\(T(S,q)=\top\) khi \(q\le 0\) và \(T(S,q)=\bot\) khi \(q>\card{S}\).
+Điều kiện at-most-\(k\) tương đương với việc không tồn tại
+\(q\in\set{0,\ldots,k+1}\) sao cho
+\[
+  \sum_{x\in A}x\ge q
+  \quad\text{và}\quad
+  \sum_{x\in B}x\ge k+1-q.
+\]
+Bộ nối vì thế chứa
+\[
+  \neg T(A,q)
+  \lor
+  \neg T(B,k+1-q),
+  \qquad q=0,\ldots,k+1.
+\]
+Hai giá trị biên \(q=0\) và \(q=k+1\) không phải chi tiết hình thức: chúng
+phát hiện trường hợp toàn bộ \(k+1\) giá trị đúng nằm ở chỉ một phía của biên.
+\end{example}
+
+\begin{workedexample}{Đọc một cửa sổ qua hai thanh ghi}
+Lấy \(n=8,w=4,k=2\), chia
+\(B_1=(x_1,\ldots,x_4)\), \(B_2=(x_5,\ldots,x_8)\), và xét
+\[
+  x=(1,0,1,0\mid 1,0,0,1).
+\]
+Cửa sổ \(W_3=(x_3,x_4\mid x_5,x_6)=(1,0\mid1,0)\) có tổng \(2\).
+Hậu tố trái đạt ngưỡng \(1\) nhưng không đạt \(2\):
+\(R^1_{3,1}=1,R^1_{3,2}=0\). Tiền tố phải cũng có
+\(F^2_{2,1}=1,F^2_{2,2}=0\). Với \(k=2\), bốn bộ nối ứng với
+\(q=0,1,2,3\) cấm các cặp ngưỡng
+\((\top,F_3),(R_1,F_2),(R_2,F_1),(R_3,\top)\).
+Tất cả đều thỏa: hai mệnh đề biên xác nhận mỗi phía riêng lẻ không đạt \(3\),
+còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).
+
+Nếu đổi \(x_6\) thành \(1\), tiền tố phải đạt ngưỡng \(2\). Khi đó
+\(\neg R^1_{3,1}\lor\neg F^2_{2,2}\) sai, phát hiện ngay tổng cửa sổ bằng
+\(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; nó chỉ ghép hai
+chứng cứ ngưỡng.
+\end{workedexample}
+
+\section{Bộ nối như một giao diện}
+
+Bộ đếm cục bộ không biết cửa sổ nào sẽ đọc nó. Nó chỉ cung cấp đặc tả của các
+literal ngưỡng. Bộ nối biết cách một ràng buộc cắt biên và chọn các ngưỡng cần
+ghép.
+
+Với at-least-\(k\):
+\[
+  \sum_{x\in A\cup B}x\ge k
+\iff
+  \bigwedge_{q=1}^{k}
+  \left[
+    \left(\sum_{x\in A}x\ge q\right)
+    \lor
+    \left(\sum_{x\in B}x\ge k-q+1\right)
+  \right].
+\]
+Nếu thanh ghi có đặc tả tương đương, mỗi ngoặc vuông trở thành
+\[
+  R^b_{a,q}\lor F^{b+1}_{c,k-q+1}.
+\]
+
+\begin{designrule}{Bên cung cấp và bên sử dụng}
+Bộ đếm là bên cung cấp literal ngưỡng; bộ nối là bên sử dụng. Đặc tả hai
+chiều cần thiết khi bộ nối dùng cả thanh ghi dương và phủ định để diễn giải
+``đạt'' và ``chưa đạt'' ngưỡng.
+\end{designrule}
+
+\section{Staircase AMO và SCL}
+
+Với \(k=1\), mỗi cửa sổ thỏa AMO. Thang bộ đếm dùng chung
+(\emph{Shared Counter Ladder}, SCL) xây các trạng thái AMO/AMZ trong khối và
+nối chúng qua các biên. So với việc tạo xung đột từng cặp trong từng cửa sổ,
+SCL không lặp các cặp nằm trong phần giao.
+
+Giả sử \(m=\lceil n/w\rceil\) khối có kích thước gần \(w\). Chi phí bộ đếm cục
+bộ tuyến tính theo tổng kích thước khối, còn các bộ nối tuyến tính theo số biên và
+ngưỡng. Vì vậy kích thước toàn họ có thể giảm từ bậc hai về tuyến tính theo
+\(n\) ở các AMO bậc thang điển hình.
+
+Mã hóa Duplex dùng BDD tiến/lùi trong mỗi cửa sổ và liên kết các trạng thái
+\parencite{fazekas2020duplex}. SCL dùng trạng thái tuần tự, nhờ đó giảm số
+biến phụ và mệnh đề trong phân tích của
+\textcite{truong2025scamo}.
+
+Trong hệ phân loại trên, SCL phục vụ các tập xung đột có dạng khoảng dịch
+chuyển và phần giao lớn giữa các khoảng kề nhau. Mã hóa từng cặp và bộ đếm tuần
+tự độc lập phù hợp hơn với các tập AMO rời rạc hoặc thiếu một thứ tự tuyến tính
+ổn định. Độ chồng lấn vì thế là đặc trưng đầu tiên để chọn giữa trạng thái dùng
+chung và bộ đếm cục bộ.
+
+\begin{resultbox}{SCAMO và Anti-Bandwidth}
+Trên họ SCAMO với \(n=1000\) và độ rộng cửa sổ thay đổi,
+\textcite{truong2025scamo} báo SCL dùng ít biến và mệnh đề hơn Duplex cùng các
+phép mã hóa từng cửa sổ. Khi đưa vào bài toán Anti-Bandwidth, SCL đạt kết quả
+cạnh tranh trên 24 đồ thị kiểm chuẩn, đặc biệt ở các bài toán lớn nơi chi phí
+lặp cửa sổ trở nên rõ rệt.
+\end{resultbox}
+
+\section{Mở rộng sang Ladder AMK}
+
+Khi \(k>1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng bộ đếm tuần tự:
+\[
+  F^b_{i,q}
+  \leftrightarrow
+  F^b_{i-1,q}\lor
+  (B_b[i]\land F^b_{i-1,q-1}),
+\]
+và hệ thức truy hồi đối xứng cho \(R^b\).
+
+Bộ nối cho cận trên cấm mọi cặp ngưỡng có tổng \(k+1\):
+\[
+  \neg T(A,q)
+  \lor
+  \neg T(B,k+1-q),
+  \qquad q=0,\ldots,k+1.
+\]
+Vì thế các thanh ghi thực phải được xây đến ngưỡng \(k+1\), trừ những mức có
+thể giản lược thành \(\top\) hoặc \(\bot\) theo kích thước phần cửa sổ.
+Nếu một cửa sổ đi qua nhiều hơn một biên, có hai lựa chọn:
+\begin{enumerate}
+  \item tăng độ rộng khối để mỗi cửa sổ cắt nhiều nhất một biên;
+  \item xây bộ nối nhiều ngôi hoặc một bộ đếm trung gian trên tổng của các khối.
+\end{enumerate}
+Thiết kế thứ nhất đơn giản hơn; thiết kế thứ hai linh hoạt với nhiều width.
+
+Ladder AMK trong \textcite{truong2026ladderamk} phát triển bộ đếm tuần tự dùng
+chung cho một tập ràng buộc đếm dạng bậc thang. Giá trị cốt lõi không nằm ở
+một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho cả họ ràng buộc.
+
+\subsection{Quan hệ với tổng tiền tố và ràng buộc chuỗi tổng quát}
+
+Ladder AMK có thể được mô tả bằng ma trận liên thuộc: mỗi hàng là một ràng
+buộc, mỗi cột là một đầu vào, và các giá trị \(1\) trong mỗi hàng tạo thành
+một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Mã hóa tổng tiền tố
+dùng một trạng thái toàn cục cho mọi cột. Ladder AMK chỉ vật hóa những ngưỡng
+tiền tố/hậu tố mà các hàng thật sự đọc. Do đó tiêu chí lựa chọn không chỉ là
+\(n,k\), mà còn là độ phức tạp của hai đường biên bậc thang.
+
+Với nhiều độ rộng và nhiều cận, một ôtômát có thể nắm toàn bộ lịch sử nhưng số
+trạng thái tăng theo tổ hợp các bộ đếm đang hoạt động. Số ngưỡng dùng chung tăng
+theo số biên và mức đếm được yêu cầu. Hai hướng vì thế tạo một đánh đổi:
+ôtômát hợp nhất các ràng buộc trong trạng thái, còn Ladder AMK giữ các ràng
+buộc tách biệt nhưng dùng chung đại lượng trung gian. Đây là câu hỏi thực
+nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đề trên một cấu hình.
+
+\section{Đúng đắn}
+
+\begin{theorem}[Tính đúng của phép mã hóa cửa sổ dùng chung]
+\label{thm:shared-window-correct}
+Giả sử:
+\begin{enumerate}
+  \item các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;
+  \item mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;
+  \item mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;
+  \item với cửa sổ \(A\cup B\) cắt biên, phép mã hóa chứa đủ các mệnh đề
+  \[
+    \neg T(A,q)\lor\neg T(B,k+1-q),
+    \qquad q=0,\ldots,k+1.
+  \]
+\end{enumerate}
+Khi đó \CNF tương đương theo phép chiếu với họ staircase AMK.
+\end{theorem}
+
+\begin{proof}
+Để chứng minh tính đúng, xét một cửa sổ. Nếu nằm trong khối, bộ đếm cục bộ loại mọi tổng
+vượt \(k\). Nếu cắt biên, đặt \(a=\sum_{x\in A}x\),
+\(b=\sum_{x\in B}x\). Khi \(a+b\ge k+1\), chọn
+\(q=\min\{a,k+1\}\). Ta có \(T(A,q)=1\); nếu \(q<k+1\) thì
+\(b\ge k+1-a=k+1-q\), còn nếu \(q=k+1\) thì ngưỡng bên phải bằng \(0\)
+và đúng theo quy ước. Bộ nối tương ứng bị vi phạm.
+
+Để chứng minh tính đầy đủ, lấy một chuỗi thỏa mọi cửa sổ và gán các thanh ghi
+bằng đúng tổng tiền tố/hậu tố. Các mệnh đề của bộ đếm đều đúng. Nếu một bộ nối sai thì tồn
+tại \(q\) sao cho \(a\ge q\) và \(b\ge k+1-q\), suy ra \(a+b\ge k+1\),
+mâu thuẫn với giả thiết cửa sổ nhiều nhất \(k\). Do đó phép gán trên biến gốc
+luôn mở rộng được thành mô hình của \CNF; kết hợp với tính đúng cho tương đương
+theo phép chiếu.
+\end{proof}
+
+\subsection{Cửa sổ cắt nhiều biên}
+
+Định lý~\ref{thm:shared-window-correct} bao phủ trực tiếp cửa sổ trong một khối
+và cửa sổ cắt một biên. Với cửa sổ đi qua ba khối trở lên, tổng được ghép từ
+nhiều hơn hai thành phần.
+Có thể ghép tuần tự các khối bằng một bộ đếm trung gian, hoặc dùng một cây ghép
+có đầu ra bị cắt ở \(k+1\). Với các tổng bộ phận
+\(S_1,\ldots,S_r\), bất biến cần giữ là
+\[
+  U_{j,q}\iff \min\!\left(k+1,\sum_{h=1}^{j}S_h\right)\ge q .
+\]
+Sau lần ghép cuối, mệnh đề \(\neg U_{r,k+1}\) đóng AMK. Chi phí tăng theo số
+khối mà từng cửa sổ chạm tới; một cây ghép riêng cho mỗi cửa sổ làm giảm tỷ
+lệ trạng thái dùng chung. Điều kiện ``mỗi cửa sổ cắt nhiều nhất một biên'' do
+đó là tiêu chí phân hoạch, còn bộ đếm ghép là phương án cho phân hoạch tổng
+quát.
+
+\section{Chọn độ rộng khối}
+
+Khối nhỏ tạo nhiều biên và bộ nối nhưng bộ đếm cục bộ ngắn. Khối lớn giảm số
+biên nhưng giữ nhiều thanh ghi không được mọi cửa sổ dùng. Vì vậy độ rộng là
+một siêu tham số cấu trúc.
+
+Ba cách chọn:
+\begin{itemize}
+  \item bằng độ rộng cửa sổ khi mọi ràng buộc có cùng \(w\);
+  \item theo ước chung lớn nhất hoặc cụm của nhiều độ rộng;
+  \item phân hoạch thích nghi, đặt biên tại nơi có ít cửa sổ cắt qua.
+\end{itemize}
+
+Phân hoạch thích nghi có thể xem là bài toán tối ưu trên đồ thị khoảng: mỗi cửa
+sổ là một khoảng, chi phí của một biên bằng số ràng buộc cắt biên nhân với số
+ngưỡng cần nối.
+
+\section{Triển khai}
+
+Một giao diện lập trình (API) cho mô-đun có thể là:
+\[
+  \texttt{SharedCounter(sequence, partition, maxThreshold)}
+\]
+và trả về:
+\begin{itemize}
+  \item các literal ngưỡng tiền tố/hậu tố;
+  \item hàm \texttt{prefix(block,pos,q)};
+  \item hàm \texttt{suffix(block,pos,q)};
+  \item ánh xạ thanh ghi để gỡ lỗi và kiểm tra nội bộ.
+\end{itemize}
+Sau đó \texttt{addAtMostWindow(i,w,k)} chỉ sinh các bộ nối. Nhiều mô-đun sử
+dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục tiêu.
+
+\begin{algorithm}[H]
+\caption{Sinh AMK cửa sổ dùng chung khi mỗi cửa sổ cắt nhiều nhất một biên}
+\label{alg:shared-window}
+\begin{minipage}{.94\textwidth}\small
+\textbf{Đầu vào:} chuỗi \(x_1,\ldots,x_n\); một phân hoạch khối; tập cửa sổ
+\(\mathcal W\); cận \(k(W)\) của từng cửa sổ.\\
+\textbf{Đầu ra:} một \CNF tương đương theo phép chiếu.
+\begin{enumerate}
+  \item Trong mỗi khối, sinh các thanh ghi ngưỡng tiến/lùi đến mức lớn
+  nhất \(\max_{W\in\mathcal W}(k(W)+1)\) thật sự được đọc.
+  \item Với cửa sổ nằm trọn trong một khối, đọc bộ đếm cục bộ và cấm
+  ngưỡng \(k(W)+1\).
+  \item Với cửa sổ \(W=A\cup B\) cắt một biên, lần lượt
+  \(q=0,\ldots,k(W)+1\), sinh
+  \(\neg T(A,q)\lor\neg T(B,k(W)+1-q)\); giản lược các literal hằng.
+  \item Nếu phát hiện một cửa sổ cắt từ hai biên trở lên, dừng mô-đun này
+  và chuyển sang bộ đếm ghép; không áp dụng bộ nối hai ngôi.
+  \item Trả \CNF cùng ánh xạ từ mỗi thanh ghi về
+        \((\text{khối},\text{vị trí},q)\).
+\end{enumerate}
+\end{minipage}
+\end{algorithm}
+
+\subsection{Miền hiệu quả của bộ đếm dùng chung}
+
+Bộ đếm dùng chung đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
+nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
+nhỏ, mã hóa từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
+có thể quyết định trước khi sinh \CNF từ ba đại lượng: tổng số ngưỡng cục bộ,
+số bộ nối sau giản lược và số bước ghép của các cửa sổ nhiều biên.
+
+\section{Bài học thiết kế}
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Cửa sổ chồng lấn là tín hiệu nên dùng trạng thái chung.
+  \item Bộ đếm cục bộ cung cấp các ngưỡng; bộ nối mô tả ràng buộc.
+  \item Thanh ghi tiến và lùi tách một cửa sổ cắt biên thành hai phần.
+  \item Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ cắt biên.
+  \item Độ rộng khối cân bằng chi phí thanh ghi với chi phí bộ nối.
+\end{enumerate}
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Dựng các bộ nối cho một cửa sổ AMK với \(k=2\) cắt biên thành hai phần.
+  \item Tính số thanh ghi khi \(n=20,w=5,k=3\) và độ rộng khối bằng \(5\).
+  \item Đề xuất hàm mục tiêu cho phân hoạch thích nghi dựa trên số cửa sổ cắt biên.
+\end{enumerate}

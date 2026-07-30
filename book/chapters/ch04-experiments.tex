@@ -1,0 +1,430 @@
+\chapter{Thiết kế thực nghiệm cho phép mã hóa SAT}
+\chapterlead{Đánh giá trên bộ kiểm chuẩn không chỉ trả lời bộ mã hóa nào nhanh
+hơn. Một thực nghiệm tốt còn phải giải thích hiệu ứng đến từ kích thước, sức
+lan truyền, bộ giải, đặc trưng hay cấu trúc của bài toán thử.}
+
+\index{benchmark}\index{timeout}\index{PAR-2}
+\index{performance profile}\index{cactus plot}
+\index{virtual best solver}\index{shifted geometric mean}
+
+\flowdiagram{Câu hỏi}{Ma trận thiết kế}{Bộ kiểm chuẩn}
+  {Thước đo}{Phân tích}
+
+\section{Thực nghiệm là một phép đo có mô hình}
+
+Một bảng thời gian chạy không tự nói bộ mã hóa nào tốt hơn. Quan sát được tạo
+bởi cả
+chuỗi
+\[
+  \text{bài toán thử}
+  \rightarrow\text{mô hình}
+  \rightarrow\text{bộ mã hóa}
+  \rightarrow\text{bộ tiền xử lý}
+  \rightarrow\text{cấu hình bộ giải}
+  \rightarrow\text{phần cứng}.
+\]
+Thay bất kỳ mắt xích nào cũng có thể đổi thứ hạng. Vì vậy kết luận cần nêu rõ
+\emph{quần thể} (\emph{population}) mà nó hướng đến: một họ bài toán thử, một
+miền tham số, một bộ giải hay một danh mục bộ giải. Cần phân biệt
+\emph{hiệu lực nội tại} (\emph{internal validity})---hiệu ứng thật sự do yếu tố
+đang xét---với \emph{hiệu lực khái quát} (\emph{external validity})---hiệu ứng
+có còn giữ ngoài tập kiểm chuẩn hay không.
+
+Trong nghiên cứu phép mã hóa, ba loại bằng chứng bổ sung nhau:
+\begin{itemize}
+  \item \textbf{bằng chứng cơ chế}: công thức đếm, vết lan truyền và xung đột
+        nhỏ giải thích vì sao hiệu ứng xuất hiện;
+  \item \textbf{bằng chứng có kiểm soát}: thí nghiệm bóc tách
+        (\emph{ablation}) giữ cố định các yếu tố khác;
+  \item \textbf{bằng chứng so sánh}: đánh giá trên nhiều họ bài toán và nhiều
+        bộ giải để kiểm tra độ bền của kết luận.
+\end{itemize}
+Một kết quả có giá trị tham khảo cao cần ít nhất hai loại; thời gian chạy đơn
+lẻ chỉ là bằng chứng so sánh yếu nếu thiếu cơ chế và biến kiểm soát.
+
+\section{Bắt đầu từ một câu hỏi nhân quả}
+
+Một nghiên cứu về phép mã hóa thường có một trong bốn câu hỏi:
+\begin{enumerate}
+  \item phép mã hóa mới giảm kích thước bao nhiêu;
+  \item sức lan truyền thay đổi như thế nào;
+  \item thời gian chạy và số bài giải được thay đổi ra sao;
+  \item một mô-đun có tương tác với phá đối xứng, giải tăng dần hoặc bộ giải không.
+\end{enumerate}
+
+Câu hỏi càng rõ, ma trận thiết kế càng nhỏ. Nếu mục tiêu là đo bộ đếm dùng
+chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tìm kiếm và quy trình
+xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
+phá đối xứng, kết quả không cho biết hiệu ứng thuộc về đâu.
+
+\begin{designrule}{Đơn vị của thí nghiệm bóc tách}
+Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép mã hóa.
+Trong trường hợp đó, dùng cấu hình
+\(\text{phép mã hóa}\times\text{đặc trưng}\) làm đơn vị so sánh.
+\end{designrule}
+
+\section{Ma trận thiết kế}
+
+Một ma trận điển hình gồm:
+\[
+  \text{bộ mã hóa}
+  \times
+  \text{bộ giải}
+  \times
+  \text{đặc trưng}
+  \times
+  \text{bài toán thử}
+  \times
+  \text{hạt giống}.
+\]
+Không nhất thiết chạy tích Descartes đầy đủ. Có thể dùng hai giai đoạn:
+\begin{enumerate}
+  \item \textbf{sàng lọc}: chọn vài bộ giải đại diện và miền tham số rộng;
+  \item \textbf{xác nhận}: giữ các cấu hình có triển vọng, tăng số bài toán
+        thử và số hạt giống.
+\end{enumerate}
+
+Mọi cấu hình phải dùng cùng ngữ nghĩa và bộ kiểm tra. Nếu một bộ mã hóa có tiền
+xử lý riêng, thời gian tiền xử lý phải được tính vào tổng thời gian chạy hoặc
+được báo thành một cột riêng.
+
+\section{Bộ kiểm chuẩn và phân tầng}
+
+Một bộ kiểm chuẩn nên có siêu dữ liệu cấu trúc: số biến miền, mật độ ràng buộc,
+độ rộng cửa sổ, ngưỡng, lớp đối xứng, khoảng \(LB\)--\(UB\), hoặc các đặc trưng
+riêng của bài toán. Phân tầng theo những đặc trưng này giúp giải thích tại sao
+một phép mã hóa thắng trong một vùng.
+
+Ba nguồn bài toán thử thường dùng:
+\begin{itemize}
+  \item bài toán chuẩn từ văn liệu;
+  \item bài toán thực tế có nguồn gốc rõ ràng;
+  \item bài toán sinh tổng hợp để quét có kiểm soát một tham số.
+\end{itemize}
+
+Các bài toán sinh tổng hợp cho phép quan sát điểm chuyển theo \(n,k,w\), mật độ
+hoặc độ rộng miền; dữ liệu thực cung cấp bối cảnh sử dụng, còn bài toán chuẩn
+tạo khả năng so sánh với kết quả trước. Báo riêng ba nguồn giúp người đọc hiểu
+đúng vai trò của từng tập.
+
+\section{Tách tinh chỉnh và đánh giá}
+
+Tùy chọn bộ giải, độ rộng khối, kích thước nhóm và ngưỡng mã hóa là các siêu
+tham số. Nếu chọn chúng trên chính tập kiểm thử, thời gian chạy báo cáo sẽ lạc
+quan quá mức. Một quy trình đơn giản:
+\begin{enumerate}
+  \item chia bộ kiểm chuẩn thành tập tinh chỉnh và tập đánh giá;
+  \item khóa cấu hình sau khi tinh chỉnh;
+  \item chỉ dùng tập đánh giá cho kết luận cuối;
+  \item nếu dữ liệu ít, dùng kiểm định chéo (\emph{cross-validation}) theo họ
+        thay vì chia ngẫu nhiên từng bài toán.
+\end{enumerate}
+
+Tinh chỉnh theo họ tránh việc các biến thể gần như trùng nhau xuất hiện ở cả
+hai tập.
+
+\section{Các thước đo}
+
+\subsection{Kích thước và xây dựng}
+
+Ghi ít nhất:
+\[
+  n_v,\quad n_c,\quad n_\ell,\quad
+  \#\text{binary},\quad
+  \#\text{ternary},\quad
+  t_{\text{encode}},\quad
+  \text{bộ nhớ cực đại}.
+\]
+Thời gian của bộ giải nên đo từ sau khi dựng công thức; đồng thời báo thời gian
+toàn trình nếu bộ sinh công thức chiếm một phần đáng kể.
+
+\subsection{Quá trình tìm kiếm}
+
+Số quyết định, lượt lan truyền, xung đột, lần khởi động lại và mệnh đề đã học
+giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:
+\[
+  \text{lượt lan truyền/xung đột},\qquad
+  \text{xung đột/giây},\qquad
+  \text{bộ nhớ/biến}.
+\]
+
+\subsection{Thời gian chạy có kiểm duyệt}
+
+Khi một lần chạy hết thời hạn, ta chỉ biết thời gian cần thiết lớn hơn giới hạn;
+dữ liệu như vậy được gọi là \emph{kiểm duyệt phải} (\emph{right-censored}).
+Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và bài hết thời hạn
+bằng một trong các cách:
+\begin{itemize}
+  \item số bài giải được tại một giới hạn thời gian cố định;
+  \item PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;
+  \item biểu đồ xương rồng (\emph{cactus plot});
+  \item hồ sơ hiệu năng (\emph{performance profile});
+  \item thời gian đạt mục tiêu cho bài toán tối ưu.
+\end{itemize}
+
+Hồ sơ hiệu năng của Dolan--Moré chuẩn hóa thời gian chạy theo cấu hình tốt nhất
+trên từng bài toán thử. Với tỷ số
+\[
+  r_{p,s}=
+  \frac{t_{p,s}}{\min_{s'}t_{p,s'}},
+\]
+đường
+\[
+  \rho_s(\tau)=
+  \frac{1}{|P|}
+  \card{\set{p\in P\mid r_{p,s}\le\tau}}
+\]
+cho biết tỷ lệ bài mà cấu hình \(s\) nằm trong hệ số \(\tau\) so với tốt nhất
+\parencite{dolan2002profiles}. Giá trị tại \(\tau=1\) đo số lần thắng; phần
+đuôi đo độ bền. Bài hết thời hạn phải được gán một tỷ số lớn nhất nhất quán và
+được mô tả rõ.
+
+\begin{keyidea}{Đọc số bài giải được và thời gian chạy cùng nhau}
+Một cấu hình giải thêm các bài khó có thể có tổng thời gian chạy lớn hơn cấu
+hình hết thời hạn sớm. Vì vậy không xếp hạng bằng một cột thời gian đơn lẻ.
+\end{keyidea}
+
+\begin{workedexample}{Hết thời hạn làm thay đổi cách xếp hạng}
+Với giới hạn \(30\) giây, ta có:
+\[
+\begin{array}{c|ccc}
+ & p_1&p_2&p_3\\\hline
+\text{Đối chứng}&2&5&\text{hết hạn}\\
+\text{Mới}&1&10&20
+\end{array}
+\]
+Đối chứng nhanh hơn trên \(p_2\), nhưng chỉ giải \(2/3\) bài; cấu hình mới giải
+cả ba. Nếu PAR-2 gán \(60\) giây cho lần chạy hết thời hạn:
+\[
+  \operatorname{PAR2}(\text{Đối chứng})=\frac{2+5+60}{3}=22.33,
+  \qquad
+  \operatorname{PAR2}(\text{Mới})=\frac{1+10+20}{3}=10.33.
+\]
+Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây và cấu hình mới
+\(10.33\) giây, từ đó tạo kết luận ngược vì đã bỏ chính bài khó nhất.
+\end{workedexample}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=18mm,y=11mm]
+  \draw[->,thick,Ink] (0,0)--(5.4,0) node[right,satlabel] {\(\tau\)};
+  \draw[->,thick,Ink] (0,0)--(0,3.5) node[above,satlabel] {\(\rho_s(\tau)\)};
+  \foreach \y/\lab in {1/0.33,2/0.67,3/1.00}
+    \draw[Rule] (0,\y)--(5,\y)
+      node[left=2pt,satlabel]{\lab};
+  \draw[very thick,Blue]
+    (0.5,0)--(0.5,1)--(1.2,1)--(1.2,2)--(3.8,2)--(3.8,3)--(5,3);
+  \draw[very thick,Teal]
+    (0.5,0)--(0.5,1)--(.9,1)--(.9,2)--(1.8,2)--(1.8,3)--(5,3);
+  \node[satlabel,text=Blue] at (4.5,2.6) {Đối chứng};
+  \node[satlabel,text=Teal] at (2.5,3.25) {Mới};
+  \draw[Ink] (.5,2pt)--(.5,-2pt) node[below=3pt,satlabel]{1};
+  \draw[Ink] (1.8,2pt)--(1.8,-2pt) node[below=3pt,satlabel]{2};
+  \draw[Ink] (3.8,2pt)--(3.8,-2pt) node[below=3pt,satlabel]{4};
+\end{tikzpicture}
+\caption{Hồ sơ hiệu năng dạng bậc thang: phần trái cho số lần thắng, phần đuôi
+cho độ bền so với cấu hình tốt nhất trên từng bài toán thử.}
+\label{fig:performance-profile}
+\end{figure}
+
+\subsection{Biểu đồ xương rồng và biểu đồ phân tán}
+
+Với một cấu hình \(s\), sắp tăng thời gian của các bài đã giải:
+\[
+  t_{(1),s}\le t_{(2),s}\le\cdots\le t_{(q_s),s}.
+\]
+Biểu đồ xương rồng đặt số bài đã giải \(j\) trên trục ngang và
+\(t_{(j),s}\) trên trục dọc. Đường đi xa hơn sang phải biểu thị độ bền; đường
+thấp hơn biểu thị giải nhanh hơn ở cùng số bài đã giải. Đường dừng ở \(q_s\),
+nên các bài hết thời hạn không bị âm thầm loại khỏi kết luận.
+
+Biểu đồ phân tán dùng so sánh ghép cặp: mỗi điểm ứng với cùng một bài toán thử,
+có tọa độ \((t_{p,A},t_{p,B})\), thường trên thang lôgarit. Điểm phía trên đường chéo
+\(t_A=t_B\) nghĩa là \(A\) nhanh hơn; điểm phía dưới nghĩa là \(B\) nhanh hơn.
+Bài hết thời hạn cần được đặt ở biên \(T\) bằng ký hiệu riêng hoặc mũi tên, và
+SAT/UNSAT nên dùng dấu điểm khác nhau. Biểu đồ phân tán cho biết \emph{bài toán
+nào} tạo khác biệt; biểu đồ xương rồng cho biết \emph{toàn tập} được bao phủ
+đến đâu.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=8mm,y=8mm]
+  \begin{scope}
+    \draw[->,Ink] (0,0)--(5.2,0) node[right,satlabel]{số bài giải được};
+    \draw[->,Ink] (0,0)--(0,4.2) node[above,satlabel]{thời gian};
+    \draw[Blue,very thick] (.5,.35)--(1.3,.55)--(2.1,.9)--(2.9,1.45)--(3.7,2.4);
+    \draw[Teal,very thick] (.5,.45)--(1.3,.7)--(2.1,1.2)--(2.9,2.1)--(4.5,3.5);
+    \node[satlabel,text=Blue] at (3.55,2.05) {A};
+    \node[satlabel,text=Teal] at (4.55,3.15) {B};
+    \node[satlabel,font=\sffamily\bfseries\small] at (2.5,4.6) {Xương rồng};
+  \end{scope}
+  \begin{scope}[xshift=62mm]
+    \draw[->,Ink] (0,0)--(4.6,0) node[right,satlabel]{\(t_A\)};
+    \draw[->,Ink] (0,0)--(0,4.2) node[above,satlabel]{\(t_B\)};
+    \draw[Rule,dashed] (.25,.25)--(4,4);
+    \foreach \x/\y in {.6/1.2,1.1/.8,1.5/2.7,2.1/1.5,2.6/3.4,3.4/2.8}
+      \fill[Blue] (\x,\y) circle (2.2pt);
+    \draw[Gold,very thick] (4,2.4)--(4.35,2.4);
+    \draw[Gold,very thick] (2.1,4)--(2.1,4.35);
+    \node[satlabel,text=Blue,rotate=45] at (3.25,3.55) {\(t_A=t_B\)};
+    \node[satlabel,font=\sffamily\bfseries\small] at (2.2,4.6) {Phân tán ghép cặp};
+  \end{scope}
+\end{tikzpicture}
+\caption{Biểu đồ xương rồng (trái) giữ số bài giải được trong hình; biểu đồ
+phân tán (phải) giữ ghép cặp theo bài toán thử. Các dấu ở biên minh họa lần
+chạy hết thời hạn của một cấu hình.}
+\label{fig:cactus-scatter}
+\end{figure}
+
+\section{SAT và UNSAT là hai chế độ khác nhau}
+
+Các bài toán SAT cần tìm một nghiệm chứng; các bài toán UNSAT cần đóng toàn bộ
+không gian tìm kiếm. Một phép mã hóa có thể mạnh ở SAT nhưng yếu ở UNSAT hoặc
+ngược lại.
+Bảng kết quả nên tách:
+\[
+  \#SAT,\quad \#UNSAT,\quad t_{SAT},\quad t_{UNSAT}.
+\]
+
+Trong tối ưu, các lần gọi bộ giải gần giá trị tối ưu thường có cả hai trạng
+thái: mô hình tại cận khả thi và \UNSAT tại cận tốt hơn. Vì thế, hồ sơ theo
+toàn bộ dãy cận chứa nhiều thông tin hơn thời gian chạy cuối cùng.
+
+\section{Nhiều hạt giống và biến thiên}
+
+CDCL có yếu tố ngẫu nhiên trong phá hòa và tìm kiếm. Với bài toán khó, cần chạy
+nhiều hạt giống và báo trung vị, các phân vị hoặc khoảng tin cậy. So sánh ghép
+cặp phải dùng cùng bài toán, cùng chỉ số hạt giống và cùng giới hạn thời gian,
+bộ nhớ.
+
+Nếu bộ mã hóa là tất định nhưng bộ giải có yếu tố ngẫu nhiên, hạt giống thuộc
+về bộ giải. Nếu bộ sinh dùng thứ tự ngẫu nhiên, cần tách hạt giống của bộ sinh
+khỏi hạt giống của bộ giải.
+
+\section{So sánh ghép cặp và độ lớn hiệu ứng}
+
+Mỗi bài toán thử tạo một cặp quan sát tự nhiên giữa hai bộ mã hóa. Vì phân bố
+thời gian chạy thường lệch và có dữ liệu hết thời hạn, chỉ báo trung bình và
+một kiểm định trên các lần chạy độc lập là chưa phù hợp. Nên báo đồng thời:
+\begin{itemize}
+  \item số lần thắng/hòa/thua trên cùng bài toán và cùng hạt giống;
+  \item trung vị của lôgarit hệ số tăng tốc
+        \(\log(t_{\mathrm{base}}/t_{\mathrm{new}})\);
+  \item khoảng bất định bằng lấy mẫu lại bootstrap theo \emph{họ}, không chỉ
+        theo từng bài toán;
+  \item chênh lệch số bài giải được tại nhiều mốc thời gian.
+\end{itemize}
+
+Độ lớn hiệu ứng quan trọng hơn một giá trị \(p\) đứng riêng. Một bộ mã hóa nhanh
+hơn \(3\%\) trên hàng nghìn bài dễ nhưng làm mất năm bài khó có ý nghĩa khác
+với bộ mã hóa chỉ giảm ít trung vị nhưng mở rộng vùng giải được. Với tối ưu,
+nên so cả thời gian đạt nghiệm tốt nhất đã biết, thời gian hoàn tất chứng minh
+và khoảng cách tối ưu theo thời gian.
+
+\section{Phân tích theo vùng cấu trúc}
+
+Một kết luận toàn cục dễ che mất điểm chuyển ưu thế. Bộ đếm tuần tự có thể tốt
+khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; mã hóa thứ tự
+có thể thắng khi các khoảng cấm rộng. Vì vậy, trước khi vẽ kết quả, cần xác
+định trước các tầng theo đặc trưng có ý nghĩa thuật toán:
+\[
+  \frac{k}{n},\quad
+  \text{độ chồng lấn cửa sổ},\quad
+  \text{độ rộng miền},\quad
+  \text{mật độ ràng buộc},\quad
+  \text{quy mô đối xứng}.
+\]
+Sau đó dùng bản đồ nhiệt hoặc bảng theo tầng để tìm \emph{miền ưu thế} thay vì
+chỉ tìm ``người thắng''. Cách phân tích này cũng cung cấp dữ liệu cho bộ chọn
+phép mã hóa ở Chương 3.
+
+\section{Kiểm đúng trước khi đo nhanh}
+
+Trước khi chạy bộ kiểm chuẩn lớn:
+\begin{enumerate}
+  \item kiểm thử vét cạn trên các bài toán nhỏ;
+  \item kiểm thử vi sai giữa hai bộ mã hóa;
+  \item giải mã và kiểm tra mọi mô hình SAT dùng trong bảng;
+  \item tính lại hàm mục tiêu từ nghiệm, không đọc trực tiếp chi phí nội bộ;
+  \item giữ một số công thức \CNF và chứng minh nhỏ làm phép thử hồi quy.
+\end{enumerate}
+
+Với \(n\) nhỏ, bộ liệt kê sinh mọi phép gán cho biến chính. So sánh phép chiếu
+của các mô hình \CNF với tập nghiệm miền. Cách này phát hiện lỗi biên hiệu quả
+hơn việc chỉ chạy các bài toán kiểm chuẩn lớn.
+
+\section{Gói tái lập và khả năng truy vết}
+
+Một gói phần mềm--dữ liệu tái lập (\emph{artifact}) tối thiểu gồm:
+\begin{itemize}
+  \item mã nguồn và mã định danh bản sửa đổi chính xác;
+  \item bản kê bài toán thử và mã kiểm tra toàn vẹn;
+  \item môi trường cùng phiên bản bộ giải;
+  \item lệnh chạy và giới hạn tài nguyên;
+  \item nhật ký thô, bộ phân tích nhật ký và chương trình tạo bảng;
+  \item bộ giải mã và bộ kiểm tra.
+\end{itemize}
+Gói tái lập tạo một đường đi kiểm tra được từ phát biểu đến bằng chứng thô.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,node distance=8mm]
+  \node[satbox] (claim) {Phát biểu\\``nhanh hơn''};
+  \node[satbox,right=of claim] (table) {Bảng/biểu đồ};
+  \node[satbox,right=of table] (parsed) {Nhật ký\\đã phân tích};
+  \node[satbox,right=of parsed] (raw) {Nhật ký thô};
+  \node[satbox,right=of raw] (run) {Lệnh chạy\\+ bản sửa đổi};
+  \draw[satedge] (claim)--(table);
+  \draw[satedge] (table)--(parsed);
+  \draw[satedge] (parsed)--(raw);
+  \draw[satedge] (raw)--(run);
+  \node[satlabel,below=6mm of parsed]
+    {Mỗi mũi tên phải có chương trình, mã kiểm tra hoặc siêu dữ liệu để truy vết.};
+\end{tikzpicture}
+\caption{Chuỗi truy vết tối thiểu của một phát biểu thực nghiệm.}
+\label{fig:claim-artifact-chain}
+\end{figure}
+
+Số liệu thực nghiệm trong một khảo cứu được gắn với ba tầng bằng chứng:
+\begin{enumerate}
+  \item \textbf{được tác giả nguồn báo cáo}: giữ đúng tập bài toán thử, giới
+        hạn thời gian và cấu hình đối chứng;
+  \item \textbf{đối chiếu được từ gói tái lập}: có đủ mã nguồn, nhật ký và dữ
+        liệu để tái tạo bảng;
+  \item \textbf{được tái lập độc lập}: chạy lại bằng môi trường do người tổng
+        hợp kiểm soát.
+\end{enumerate}
+Mỗi hộp kết quả trong sách ghi công trình nguồn và phạm vi thí nghiệm; khi hồ
+sơ có gói tái lập, đường dẫn mã nguồn, nhật ký và dữ liệu được quản lý trong sổ
+nguồn. Ba tầng này tạo lộ trình nâng một kết quả đã công bố thành một kết quả
+tái lập độc lập.
+
+\section{Mẫu quy trình thực nghiệm}
+
+\begin{summarybox}
+\textbf{Câu hỏi.} Mô-đun nào được đánh giá?\\
+\textbf{Giả thuyết.} Kỳ vọng tác động lên kích thước, sức lan truyền hay thời gian chạy?\\
+\textbf{Yếu tố.} Bộ mã hóa, bộ giải, đặc trưng, họ bài toán, hạt giống.\\
+\textbf{Biến kiểm soát.} Ngữ nghĩa, bộ kiểm tra, cận, tiền xử lý, phần cứng.\\
+\textbf{Thước đo.} Kích thước, thời gian dựng, bộ đếm tìm kiếm, số bài giải được/PAR/hồ sơ.\\
+\textbf{Kiểm đúng.} Kiểm thử vét cạn, kiểm thử vi sai và bộ kiểm tra mô hình.\\
+\textbf{Đầu ra.} Nhật ký thô, biểu đồ, bảng tổng hợp và bản kê gói tái lập.
+\end{summarybox}
+
+\section{Bài học thiết kế}
+
+\begin{enumerate}
+  \item Đánh giá thực nghiệm bắt đầu từ một câu hỏi, không bắt đầu từ một bảng cấu hình.
+  \item Tách tinh chỉnh khỏi đánh giá và phân tầng theo họ bài toán.
+  \item Báo cả kích thước, bộ đếm tìm kiếm và thời gian chạy có dữ liệu hết hạn.
+  \item Tách SAT/UNSAT và dùng nhiều hạt giống ở vùng khó.
+  \item Bộ kiểm tra mô hình là điều kiện trước của mọi bảng hiệu năng.
+\end{enumerate}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Thiết kế thí nghiệm bóc tách \(2\times2\) cho bộ mã hóa và phá đối xứng.
+  \item Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
+        trung bình trên các bài đã giải.
+  \item Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.
+\end{enumerate}

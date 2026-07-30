@@ -1,0 +1,467 @@
+\chapter{Đóng gói và cắt hai chiều}
+\chapterlead{Trong đóng gói, mệnh đề không làm việc trực tiếp với hình chữ
+nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép mã hóa
+phụ thuộc vào việc chọn đúng giao diện giữa ba lớp đó.}
+
+\index{strip packing}\index{bin packing}\index{non-overlap}
+\index{rotation}\index{coordinate compression}
+
+\flowdiagram{Vật và hướng đặt}{Tọa độ thứ tự}{Quan hệ tách}
+  {Cận khung chứa}{Bố trí và chứng nhận}
+
+\section{Bản đồ các phương pháp chính xác cho đóng gói}
+
+Hai chiều tạo khó khăn khác một chiều: không chồng lấn là một phép tuyển giữa
+hai trục, còn tọa độ có nhiều giá trị đối xứng trong vùng trống. Văn liệu về
+phương pháp chính xác vì thế không xoay quanh một mô hình duy nhất. Khảo cứu
+của Iori và cộng sự phân biệt các mô hình theo vị trí đặt, vị trí tương đối,
+sinh tập/cột, lập trình ràng buộc và các kỹ thuật nhánh--cận chuyên biệt
+\parencite{iori2021packing}.
+
+Đối với SAT, ba họ biểu diễn là đối chứng trực tiếp:
+\begin{description}[style=nextline]
+  \item[Chiếm chỗ]
+  Biến cho từng ô mà vật chiếm. Không chồng lấn trở thành cục bộ nhưng số biến
+  phụ thuộc diện tích lưới; tính liên tục của một hình cần các mệnh đề liên kết.
+
+  \item[Vị trí đặt tuyệt đối]
+  Mỗi biến chọn một vị trí khả dĩ của vật. Đồ thị xung đột nối hai vị trí chồng
+  lấn; bài toán trở thành chọn đúng một vị trí cho mỗi vật. Các phương pháp vị
+  trí tuyệt đối và đóng gói hoàn hảo khai thác nén tọa độ, tổng tập con và suy
+  luận trên không gian trống
+  \parencite{huang2013rectangle}.
+
+  \item[Vị trí tương đối + tọa độ]
+  Mỗi vật có tọa độ; mỗi cặp có biến chứng trái/phải/trên/dưới. Mã hóa thứ tự
+  nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.
+\end{description}
+
+Ngoài SAT, lập trình ràng buộc dùng \textsc{NoOverlap}/diffn, các phép chiếu
+tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
+tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho đóng gói trực giao còn
+kết hợp cận, quan hệ trội và nhánh--cận chuyên dụng
+\parencite{clautiaux2007orthogonal,clautiaux2008cp}.
+
+\begin{center}
+\captionof{table}{Các biểu diễn chính xác cho đóng gói hai chiều.}
+\label{tab:packing-formulations}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
+\toprule
+Biểu diễn & Quy mô theo & Lan truyền tự nhiên & Phù hợp khi\\
+\midrule
+Chiếm chỗ & Diện tích lưới & Xung đột ô & Khung chứa nhỏ/rất rời rạc\\
+Vị trí đặt & Số vị trí khả dĩ & Đồ thị xung đột & Miền đã nén mạnh\\
+Tọa độ--thứ tự & Tổng độ rộng miền & Cận và quan hệ tách & Miền nguyên vừa\\
+CP toàn cục & Số vật + bộ lan truyền & Không chồng lấn/tích lũy & Cận hình học mạnh\\
+MIP/phủ tập & Biến/cột vị trí & Thư giãn và nhát cắt & Cận LP hữu ích\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Ba trục tạo nên đóng góp SAT cho đóng gói là nén miền tọa độ, làm mạnh lan
+truyền không chồng lấn và tái sử dụng mệnh đề đã học giữa các cận. Kiến trúc
+mới được nhận diện qua thay đổi có thể đo trên ít nhất một trong ba trục này.
+
+\section{Mô hình hình học rời rạc}
+
+Mỗi vật \(i\) là hình chữ nhật kích thước \(w_i\times h_i\). Tọa độ
+\((x_i,y_i)\) chỉ góc trái dưới. Khi cho phép quay \(90^\circ\), biến
+\(\rho_i\) xác định kích thước hiệu dụng
+\[
+  (\widehat w_i,\widehat h_i)=
+  \begin{cases}
+    (w_i,h_i), & \rho_i=0,\\
+    (h_i,w_i), & \rho_i=1.
+  \end{cases}
+\]
+Trong khung chứa \(W\times H\), điều kiện nằm gọn là
+\[
+  0\le x_i\le W-\widehat w_i,
+  \qquad
+  0\le y_i\le H-\widehat h_i.
+\]
+
+Hai vật \(i\) và \(j\) không giao nhau khi ít nhất một trong bốn quan hệ đúng:
+\[
+  x_i+\widehat w_i\le x_j,\quad
+  x_j+\widehat w_j\le x_i,\quad
+  y_i+\widehat h_i\le y_j,\quad
+  y_j+\widehat h_j\le y_i.
+\]
+Ta dùng các biến chứng \(l_{ij}\) và \(u_{ij}\):
+\[
+  l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji},
+\]
+với quan hệ kéo theo từ từng biến chứng sang bất đẳng thức tương ứng. Các biến
+chứng không cần loại trừ lẫn nhau: một vật có thể vừa ở bên trái vừa ở dưới vật
+khác.
+
+\begin{designrule}{Quy ước biên}
+Tọa độ biểu diễn cạnh của hình chữ nhật, không phải tâm hay ô đã chiếm. Vì thế
+dấu \(\le\) cho phép hai vật chạm cạnh. Quy ước này phải được giữ nguyên trong
+điều kiện nằm gọn, không chồng lấn và bộ kiểm tra.
+\end{designrule}
+
+Hình \ref{fig:packing-layout} dùng một ví dụ tự dựng để minh họa cách tọa độ
+thứ tự và quan hệ vị trí được dùng trong SAT cho đóng gói; cách tổ chức quan hệ
+này tiếp nối mô hình đóng gói dải của \textcite{soh2010strip}.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=8mm,y=8mm]
+  \draw[step=1,Rule!35,very thin] (0,0) grid (8,6);
+  \draw[Ink,very thick] (0,0) rectangle (8,6);
+  \draw[Blue,fill=PaleBlue,thick] (0,0) rectangle (3,2);
+  \node at (1.5,1) {\(A:3\times2\)};
+  \draw[Teal,fill=PaleTeal,thick] (3,0) rectangle (5,4);
+  \node[rotate=90] at (4,2) {\(B:2\times4\)};
+  \draw[Gold,fill=PaleGold,thick] (5,0) rectangle (8,3);
+  \node at (6.5,1.5) {\(C:3\times3\)};
+  \draw[Blue!65!Teal,fill=SoftGray,thick] (0,4) rectangle (5,6);
+  \node at (2.5,5) {\(D:5\times2\)};
+  \foreach \t in {0,...,8}
+    \node[below,satlabel] at (\t,0) {\(\t\)};
+  \foreach \t in {1,...,6}
+    \node[left,satlabel] at (0,\t) {\(\t\)};
+  \draw[satdim] (0,6.45)--(8,6.45)
+    node[midway,above,satlabel]{\(W=8\)};
+  \draw[satdim] (8.45,0)--(8.45,6)
+    node[midway,right,satlabel]{\(H=6\)};
+\end{tikzpicture}
+\caption{Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
+\(x_A+w_A=x_B=3\), nên biến chứng \(l_{AB}\) có thể nhận giá trị đúng.}
+\label{fig:packing-layout}
+\end{figure}
+
+\begin{workedexample}{Từ một cặp hình đến literal quan hệ}
+Trong \cref{fig:packing-layout}, \(A\) có \((x_A,y_A)=(0,0)\),
+\((w_A,h_A)=(3,2)\); \(B\) có \((x_B,y_B)=(3,0)\),
+\((w_B,h_B)=(2,4)\). Bốn bất đẳng thức tách là
+\[
+  0+3\le3,\quad 3+2\le0,\quad 0+2\le0,\quad 0+4\le0.
+\]
+Chỉ bất đẳng thức đầu đúng, nên \(l_{AB}=1\) là biến chứng tự nhiên. Nếu ép
+\(x_B\le2\), miền tọa độ làm \(x_A+w_A\le x_B\) bất khả và mệnh đề liên kết
+buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn một hướng khác
+hoặc chứng minh cặp hình không thể cùng một bố trí.
+\end{workedexample}
+
+\section{Mã hóa thứ tự cho tọa độ}
+
+\subsection{Ngữ nghĩa}
+
+Với \(e\) trong miền ngang, đặt
+\[
+  p^x_{i,e}=1 \iff x_i\le e.
+\]
+Tương tự, \(p^y_{i,f}=1\iff y_i\le f\). Chuỗi phải đơn điệu:
+\[
+  p^x_{i,e}\rightarrow p^x_{i,e+1},
+  \qquad
+  p^y_{i,f}\rightarrow p^y_{i,f+1}.
+\]
+Giá trị tọa độ được xác định bởi điểm chuyển đầu tiên từ sai sang đúng. Một
+bất đẳng thức như \(x_i+a\le x_j\) trở thành quan hệ kéo theo giữa hai ngưỡng:
+\[
+  p^x_{i,e}\ \text{và}\ p^x_{j,e+a-1}
+\]
+được nối theo hướng phù hợp với ngữ nghĩa \(\le\). Lợi ích là một literal
+ngưỡng đại diện cho cả nửa miền, thay vì liệt kê từng cặp tọa độ.
+
+\subsection{Hướng đặt và liên kết biểu diễn}
+
+Khi kích thước phụ thuộc \(\rho_i\), quan hệ kéo theo
+\[
+  l_{ij}\rightarrow x_i+\widehat w_i\le x_j
+\]
+được tách theo các hướng đặt của \(i\) và \(j\). Các trường hợp không thể nằm
+gọn được loại ở bước tiền xử lý. Với vật vuông, đặt
+\(\rho_i=0\) để bỏ đối xứng quay.
+
+Khi \(l_{ij}\) đóng vai trò biến chứng cho phép tuyển, mô-đun cần chiều
+\[
+  l_{ij}\rightarrow x_i+\widehat w_i\le x_j.
+\]
+Chiều ngược
+\[
+  x_i+\widehat w_i\le x_j\rightarrow l_{ij}
+\]
+có thể được bổ sung khi literal quan hệ cần đặc tả hai chiều. Bộ giải mã đọc
+trực tiếp tọa độ và hướng đặt, nhờ đó bộ kiểm tra độc lập với lựa chọn liên kết.
+
+\begin{proposition}[Tính đúng của mô-đun không chồng lấn]
+Giả sử mỗi biến chứng \(l_{ij},u_{ij}\) kéo theo đúng bất đẳng thức hình học
+của nó, và phép tuyển bốn biến chứng được thỏa cho mọi cặp vật trong cùng khung
+chứa. Khi đó mọi bố trí giải mã từ mô hình \SAT đều không giao nhau.
+\end{proposition}
+
+\begin{proof}
+Với một cặp \(i,j\), phép tuyển cho ít nhất một biến chứng đúng. Quan hệ kéo
+theo của biến chứng đó cho một bất đẳng thức tách theo trục \(x\) hoặc \(y\). Vì vậy nội
+thất hai hình chữ nhật rời nhau.
+\end{proof}
+
+\section{Bài toán đóng gói dải hai chiều}
+
+\subsection{Từ tối ưu chiều cao sang kiểm tra tính khả thi}
+
+Dải có chiều rộng cố định \(W\), còn chiều cao \(H\) cần tối thiểu hóa. Với
+mỗi \(H\), dựng công thức
+\[
+  \Phi_{\mathrm{SPP}}(H)
+  \iff
+  \text{tồn tại bố trí trong }W\times H.
+\]
+Tính đơn điệu cho phép tìm kiếm trên cận:
+\[
+  \Phi_{\mathrm{SPP}}(H)=\SAT
+  \Longrightarrow
+  \Phi_{\mathrm{SPP}}(H')=\SAT
+  \quad\forall H'\ge H.
+\]
+Cận dưới cơ bản là
+\[
+  LB=\max\left\{
+    \max_i \min(h_i,w_i),
+    \left\lceil\frac{\sum_iw_ih_i}{W}\right\rceil
+  \right\},
+\]
+trong đó hạng đầu phải điều chỉnh theo hướng đặt thực sự vừa khung. Cận trên
+đến từ một phép đặt theo kinh nghiệm.
+
+Chỉ cận diện tích hiếm khi đủ sát. Các phương pháp chính xác còn dùng hàm khả
+thi đối ngẫu, phép chiếu một chiều, tính không tương thích và tọa độ tổng tập
+con. Trong SAT, mọi cận dưới hợp lệ đều có hai vai trò: thu hẹp số cận phải gọi
+và thu hẹp miền tọa độ trước khi sinh mệnh đề. Nén tọa độ đặc biệt quan trọng:
+nếu có thể chứng minh một vật chỉ cần bắt đầu tại các tổng tập con khả dĩ,
+chuỗi thứ tự nên chạy trên tập mốc đã nén thay
+vì mọi số nguyên từ \(0\) đến \(W-w_i\).
+
+\subsection{Ba chế độ giải}
+
+\begin{center}
+\captionof{table}{Ba chế độ tối ưu chiều cao bằng SAT/MaxSAT.}
+\label{tab:strip-solving-modes}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.23\textwidth}YY@{}}
+\toprule
+Chế độ & Cấu trúc & Đặc điểm\\
+\midrule
+\SAT độc lập & Dựng lại \(\Phi(H)\) ở mỗi cận &
+Đơn giản, mỗi cận có một \CNF riêng\\
+\SAT tăng dần & Miền lớn cố định, kích hoạt \(H\) bằng các giả định &
+Giữ mệnh đề đã học giữa các cận\\
+\MaxSAT có trọng số & Chiều cao được biểu diễn bằng mệnh đề mềm &
+Không cần vòng tìm kiếm ngoài\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Mã hóa SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
+quan hệ vị trí và tái sử dụng mệnh đề đã học
+\parencite{soh2010strip}. Vì vậy nghiên cứu tình huống của nhóm được định vị
+theo hai câu hỏi kế tiếp: phép quay/đối xứng làm đổi mô hình thế nào, và
+SAT--MaxSAT--giải tăng dần có giữ lợi thế trên bộ kiểm chuẩn và bộ giải hiện
+tại hay không. Phép so sánh hợp lý phải giữ cùng các cận, miền tọa độ và bộ
+kiểm tra.
+
+Trong nghiên cứu của \textcite{kieu2025strip}, \SAT không tăng dần với phép
+quay và phá đối xứng chứng nhận 26 giá trị tối ưu trên 41 bài toán; phiên bản
+tăng dần chứng nhận 21, còn CP chứng nhận 28. Kết quả này cho thấy giải tăng
+dần chỉ có lợi khi công thức cơ sở và mệnh đề đã học còn phù hợp sau khi thay
+cận. Với đóng gói dải, thay \(H\) có thể làm thay đổi mạnh miền tọa độ và
+những xung đột hữu ích.
+
+\begin{keyidea}{Chứng nhận tối ưu}
+Một bố trí tại \(H^\star\) là cận trên. Công thức \(\Phi(H^\star-1)\) không
+thỏa là chứng nhận cận dưới. Cặp SAT/UNSAT ở hai cận kề nhau mới xác định
+\(H^\star\) là giá trị tối ưu.
+\end{keyidea}
+
+\section{Bài toán đóng gói vào khung chứa hai chiều}
+
+\subsection{Hai kiến trúc}
+
+Bài toán dùng nhiều khung chứa \(W\times H\) đồng nhất và tối thiểu hóa số
+khung. Có hai kiến trúc chính.
+
+\paragraph{Xếp chồng.}
+Ghép \(k\) khung thành một dải \(W\times kH\). Tọa độ \(y_i\) đồng thời xác
+định khung. Kiến trúc này tái sử dụng đóng gói dải nhưng phải ngăn vật vượt qua
+đường biên \(qH\).
+
+\paragraph{Không xếp chồng.}
+Dùng biến \(a_{ib}=1\) khi vật \(i\) nằm trong khung \(b\), và tọa độ cục bộ
+trong từng khung. Ta có
+\[
+  \ExactlyOne(a_{i1},\ldots,a_{ik}).
+\]
+Điều kiện không chồng lấn của cặp \(i,j\) trong khung \(b\) được gác bởi:
+\[
+  (a_{ib}\land a_{jb})
+  \rightarrow
+  (l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji}).
+\]
+Biến sử dụng \(q_b\) nối với phép gán bằng \(a_{ib}\rightarrow q_b\).
+Đối xứng giữa các khung được giảm bằng
+\[
+  q_{b+1}\rightarrow q_b.
+\]
+
+Các khung đã dùng tạo thành một tiền tố, vì thế hàm mục tiêu \(\sum_bq_b\)
+đúng bằng số khung. Có thể thêm phép gán chuẩn cho một số vật đầu, nhưng mọi
+ràng buộc đối xứng phải dựa trên phép hoán vị các khung đồng nhất, không dựa
+trên một bố trí kinh nghiệm cụ thể.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=7mm,y=7mm]
+  \node[satlabel] at (2.5,4.9) {xếp chồng};
+  \draw[Ink,thick] (0,0) rectangle (5,4);
+  \draw[Rule,dashed] (0,2)--(5,2);
+  \node[left,satlabel] at (0,1) {khung \(1\)};
+  \node[left,satlabel] at (0,3) {khung \(2\)};
+  \draw[Blue,fill=PaleBlue,thick] (.3,.3) rectangle (2.4,1.7);
+  \draw[Teal,fill=PaleTeal,thick] (2.6,2.3) rectangle (4.7,3.7);
+  \node[satlabel] at (9,4.9) {không xếp chồng};
+  \draw[Ink,thick] (6.2,0) rectangle (10.2,2.6);
+  \draw[Ink,thick] (10.8,0) rectangle (14.8,2.6);
+  \node[below,satlabel] at (8.2,0) {khung \(1\)};
+  \node[below,satlabel] at (12.8,0) {khung \(2\)};
+  \draw[Blue,fill=PaleBlue,thick] (6.5,.3) rectangle (8.6,1.7);
+  \draw[Teal,fill=PaleTeal,thick] (11.1,.3) rectangle (13.2,1.7);
+  \node[satstate] at (8.2,3.5) {\(q_1\)};
+  \node[satstate] at (12.8,3.5) {\(q_2\)};
+  \draw[satdash] (12.25,3.5)--(8.75,3.5)
+    node[midway,above,satlabel]{\(q_2\to q_1\)};
+\end{tikzpicture}
+\caption{Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
+toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng.}
+\label{fig:stacking-nonstacking}
+\end{figure}
+
+Trong mô hình theo vị trí đặt, một cách khác là xây đồ thị xung đột cho mọi cặp
+vị trí--khung rồi thêm ràng buộc đúng một theo vật. Cách này tránh biến quan hệ
+nhưng có thể tạo số vị trí rất lớn. Mô hình tọa độ không xếp chồng làm ngược
+lại: số biến tọa độ nhỏ hơn toàn bộ tập vị trí, đổi lại mỗi cặp vật--khung cần
+một phép tuyển có điều kiện. Hai mô hình là hai phía của phép phân tích nhân
+tử; đánh giá thực nghiệm nên báo cả số vị trí bị loại ở tiền xử lý và số quan
+hệ từng cặp còn lại.
+
+\begin{resultbox}{So sánh kiến trúc}
+Nghiên cứu của \textcite{kieu2025bin} so sánh các mô hình \SAT với MIP và CP
+trên cùng họ bài toán kiểm chuẩn. Kết quả nhấn mạnh hai yếu tố hơn là một phép
+mã hóa đơn lẻ: biến thứ tự giúp biểu diễn bất đẳng thức tọa độ, còn phá đối
+xứng cho khung/bản sao quyết định đáng kể kích thước không gian tìm kiếm.
+\end{resultbox}
+
+\section{Bài toán cắt tấm một kích thước}
+
+\subsection{Mô hình theo số tờ}
+
+Cho tấm vật liệu kích thước \(W\times H\), nhiều loại vật \(t\), mỗi loại có
+nhu cầu \(d_t\). Bài toán tối thiểu hóa số tấm. Nếu tạo từng bản sao riêng,
+phép gán và không chồng lấn giống bài toán đóng gói vào khung. Nếu gộp theo
+loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.
+
+Với một cận \(K\), công thức khả thi hỏi liệu có thể đáp ứng đủ nhu cầu trên
+\(K\) tấm. Hàm mục tiêu là
+\[
+  \min\set{K\mid \Phi_{\mathrm{CSP}}(K)\text{ là SAT}}.
+\]
+Đối xứng xuất hiện ở hai tầng: các tấm đồng nhất và các bản sao cùng loại. Một
+cách phá đối xứng bền vững là buộc biến sử dụng tấm theo tiền tố và buộc chỉ
+số tấm của các bản sao cùng loại không giảm.
+
+\subsection{SAT và MaxSAT}
+
+Tìm kiếm SAT thay \(K\) ở vòng ngoài. \MaxSAT bộ phận có thể giữ tất cả các
+tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
+\(\sum_bq_b\). Hai cách dùng chung điều kiện nằm gọn, hướng đặt và không chồng
+lấn; chúng chỉ khác ở lớp hàm mục tiêu.
+
+\textcite{kieu2026cutting} cho thấy phép mã hóa gọn với tọa độ thứ tự và đối
+xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
+thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun
+\[
+  \texttt{Assignment}
+  +\texttt{OrderCoordinate}
+  +\texttt{ConditionalNonOverlap}
+  +\texttt{UsageCounter}.
+\]
+
+\section{Giảm miền và đối xứng}
+
+Trước khi sinh \CNF, bốn phép rút gọn thường có hiệu quả trực tiếp:
+\begin{enumerate}
+  \item loại hướng đặt không vừa khung;
+  \item thu hẹp \(x_i\le W-\widehat w_i\) và
+        \(y_i\le H-\widehat h_i\);
+  \item loại một hướng tách nếu các cận chứng minh hướng đó bất khả thi;
+  \item chuẩn hóa vật/bản sao và khung chứa theo một thứ tự cố định.
+\end{enumerate}
+
+Mỗi ràng buộc phá đối xứng được gắn với một nhóm đối xứng cụ thể:
+\begin{itemize}
+  \item \(\rho_i=0\) cho vật vuông: đối xứng hướng đặt;
+  \item \(q_{b+1}\rightarrow q_b\): hoán vị khung/tấm;
+  \item thứ tự bản sao cùng loại: hoán vị các bản sao đồng nhất;
+  \item neo một vật lớn vào nửa khung chứa: phản xạ/tịnh tiến, nếu phép biến
+        đổi giữ miền và hàm mục tiêu.
+\end{itemize}
+Các nguyên tắc tổng quát về đối xứng được trình bày trong
+\textcite{walsh2006symmetry,gent2006symmetry}; phép mã hóa SAT cổ điển cho bài toán đóng gói khung 2D
+Packing có rotation có thể xem ở \textcite{soh2010binpacking}.
+
+\section{Tách ảnh hưởng của phép mã hóa, cận và quan hệ trội}
+
+Ma trận thiết kế ghi riêng ảnh hưởng của các thành phần:
+\begin{itemize}
+  \item cận dưới theo diện tích, phép chiếu và đồ thị con đầy đủ của quan hệ
+        không tương thích;
+  \item loại hướng đặt và vị trí bị trội;
+  \item cố định theo vật lớn hoặc thứ tự vật đồng nhất;
+  \item nén tọa độ;
+  \item khởi động ấm/cận trên từ phương pháp kinh nghiệm.
+\end{itemize}
+
+Ma trận thiết kế tách phần giảm mệnh đề do lọc miền khỏi phần giảm do chuyển
+sang CNF. Phép so sánh CP, MIP và SAT dùng chung cách chuẩn hóa bài toán và cận
+đầu vào; cận và quan hệ trội được ghi thành mô-đun riêng
+\parencite{iori2021packing,clautiaux2007orthogonal}.
+
+\section{Một thư viện mô-đun cho hình học}
+
+\begin{summarybox}
+\textbf{OrderCoordinate} cung cấp chuỗi ngưỡng và phép giải mã duy nhất.
+\textbf{Orientation} trả về kích thước hiệu dụng.
+\textbf{Containment} siết miền theo khung chứa đang chọn.
+\textbf{RelativePosition} tạo biến chứng trái/phải/trên/dưới.
+\textbf{ConditionalNonOverlap} gác phép tuyển bằng phép gán.
+\textbf{UsageCounter} biến số khung chứa được dùng thành hàm mục tiêu.
+\end{summarybox}
+
+Thứ tự kết hợp đi từ hướng đặt đến điều kiện nằm gọn, vị trí tương đối, không
+chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ kiểm tra đọc vật, hướng
+đặt, tọa độ và khung chứa, độc lập với biến phụ.
+
+\section{Bài học thiết kế}
+
+\begin{enumerate}
+  \item Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép mã hóa.
+  \item Dùng biến chứng cho phép tuyển hình học; không buộc biến chứng trở thành
+        quan hệ đầy đủ nếu phép giải mã không cần.
+  \item Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.
+  \item Phá đối xứng theo đúng phép hoán vị hoặc phản xạ của mô hình.
+  \item Chứng nhận tối ưu gồm bố trí hợp lệ và một cận dưới tương ứng.
+\end{enumerate}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Dẫn xuất các mệnh đề thứ tự cho quan hệ kéo theo
+        \(l_{ij}\rightarrow x_i+\widehat w_i\le x_j\) ở một hướng đặt cố định.
+  \item So sánh số biến của xếp chồng và không xếp chồng trên \(n\) vật,
+        \(k\) khung.
+  \item Thiết kế ràng buộc phá đối xứng cho ba bản sao cùng loại và chứng minh
+        mỗi quỹ đạo giữ một
+        đại diện.
+\end{enumerate}

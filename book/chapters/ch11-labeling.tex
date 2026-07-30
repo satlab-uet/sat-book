@@ -1,0 +1,555 @@
+\chapter{Gán nhãn và phân bổ tần số}
+\chapterlead{Gán nhãn radio, gán nhãn an toàn \(k\) và phân bổ tần số cùng chia
+sẻ một mô-đun: một lựa chọn chính xác tạo ra một khoảng cấm trên miền của
+đối tượng khác. Sự khác nhau nằm ở cách tạo khoảng cấm và cách định nghĩa hàm
+mục tiêu.}
+
+\index{radio labeling}\index{k-safe labeling}
+\index{frequency assignment}\index{forbidden interval}
+\index{arc-consistency preprocessing}
+
+\flowdiagram{Giá trị chính xác}{Chuỗi thứ tự}{Khoảng cấm}
+  {Độ trải hoặc số giá trị}{Nghiệm chứng và cận dưới}
+
+\section{Hai văn liệu nguồn: gán nhãn đồ thị và phân bổ tần số}
+
+Các bài toán trong chương đi vào SAT từ hai văn liệu khác nhau. Gán nhãn đồ
+thị nghiên cứu các ánh xạ số trên đỉnh/cạnh dưới nhiều quy tắc khoảng cách;
+gán nhãn radio là một nhánh trong hệ phân loại rất rộng đó
+\parencite{gallian2024labeling}. Phân bổ tần số bắt nguồn từ mô hình nhiễu vô
+tuyến: mỗi máy phát có miền, ràng buộc phân cách, đôi khi có giá trị gán trước,
+phân cực, nhiều loại nhiễu và nhiều hàm mục tiêu.
+
+Khảo cứu của Aardal và cộng sự phân loại FAP theo miền, mô hình nhiễu và hàm
+mục tiêu, đồng thời tổng hợp MIP, cận dưới lý thuyết đồ thị, tối ưu ràng buộc
+và phương pháp kinh nghiệm \parencite{aardal2007frequency}. Từ góc nhìn SAT,
+điểm quan trọng là không đồng nhất ba hàm mục tiêu:
+\begin{itemize}
+  \item \textbf{độ trải nhỏ nhất}: giảm hiệu giữa tần số lớn nhất và nhỏ nhất;
+  \item \textbf{số giá trị nhỏ nhất}: giảm số tần số phân biệt được dùng;
+  \item \textbf{nhiễu/chi phí nhỏ nhất}: cho phép vi phạm hoặc mức nhiễu có
+        trọng số.
+\end{itemize}
+Chúng có thể dùng cùng các ràng buộc khả thi nhưng cần biến hàm mục tiêu và lập
+luận cận dưới khác nhau.
+
+\begin{center}
+\captionof{table}{Ba lớp bài toán gán nhãn và tần số.}
+\label{tab:labeling-fap-classes}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
+\toprule
+Lớp & Miền & Ràng buộc & Hàm mục tiêu điển hình\\
+\midrule
+Gán nhãn radio & Liên tục \([1,B]\) & Từ khoảng cách đồ thị & Độ trải/nhãn lớn nhất nhỏ nhất\\
+Đơn ánh an toàn \(k\) & Liên tục \([1,B]\) & Khác nhau + khoảng cách cạnh &
+Nhãn lớn nhất nhỏ nhất\\
+FAP & Rời rạc theo máy phát & Phân cách nhiễu &
+Độ trải, số giá trị hoặc chi phí\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Các công trình của nhóm trong chương được dùng để minh họa ba phép chuyển:
+xung đột từng cặp sang biên khoảng; miền liên tục sang miền rời rạc; và cận độ
+trải sang bộ đếm giá trị phân biệt. Ba phép chuyển này kết nối hệ phân loại FAP
+và gán nhãn đồ thị với các mô-đun SAT có thể dùng lại.
+
+\section{Bổ đề khoảng cấm}
+
+Cho \(x_{u,a}=1\) khi đối tượng \(u\) nhận giá trị \(a\). Với đối tượng \(v\),
+đặt
+\[
+  g_{v,t}=1\iff f(v)\ge t.
+\]
+Giả sử lựa chọn \(a\) cấm khoảng \([L(a),U(a)]\) cho \(v\). Điều kiện hợp lệ
+là
+\[
+  f(v)<L(a)
+  \quad\lor\quad
+  f(v)>U(a).
+\]
+Trên miền nguyên liên tục, nó trở thành
+\[
+  \neg x_{u,a}
+  \lor
+  \neg g_{v,L(a)}
+  \lor
+  g_{v,U(a)+1}.
+  \tag{11.1}\label{eq:boundary}
+\]
+
+\begin{lemma}[Mệnh đề biên]\label{lem:boundary}
+Giả sử chuỗi thứ tự \(g_{v,t}\) đúng với ngữ nghĩa
+\(f(v)\ge t\). Khi \(x_{u,a}=1\), mệnh đề
+\eqref{eq:boundary} được thỏa khi và chỉ khi giá trị của \(v\) nằm ngoài
+\([L(a),U(a)]\).
+\end{lemma}
+
+\begin{proof}
+Nếu \(x_{u,a}=1\), literal đầu sai. Literal
+\(\neg g_{v,L(a)}\) đúng khi \(f(v)<L(a)\); literal
+\(g_{v,U(a)+1}\) đúng khi \(f(v)\ge U(a)+1\). Phép
+tuyển vì thế tương đương với điều kiện nằm ngoài khoảng.
+\end{proof}
+
+Trên miền rời rạc \(D_v\), không thể dùng trực tiếp chỉ số \(L,U\). Ta thay
+chúng bằng hai biên theo giá trị:
+\[
+  \lambda_v(a)=\min\set{q\mid D_{v,q}\ge L(a)},
+\]
+\[
+  \rho_v(a)=\min\set{q\mid D_{v,q}>U(a)}.
+\]
+Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
+tự theo chỉ số miền.
+
+\subsection{Quan hệ với mã hóa hỗ trợ}
+
+Trong mã hóa trực tiếp/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
+trong các giá trị còn hỗ trợ:
+\[
+  \neg x_{u,a}
+  \lor
+  \bigvee_{b\in D_v:\ b\notin[L(a),U(a)]}x_{v,b}.
+\]
+Mệnh đề biên nén phép tuyển này thành hai ngưỡng khi tập hỗ trợ là hợp của một
+tiền tố và một hậu tố. Nó không phải một mẹo riêng của radio/FAP; đó là phép
+phân tích mệnh đề hỗ trợ dựa trên tính lồi của tập cấm. Nếu tập cấm có nhiều
+khoảng rời nhau, cần nhiều cặp biên hoặc một
+biểu diễn BDD/MDD khác.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=11mm,y=8mm]
+  \foreach \a in {1,...,9}{
+    \ifnum\a<4
+      \node[satbox,minimum width=9mm,fill=PaleBlue] (a\a) at (\a,0) {\(\a\)};
+    \else
+      \ifnum\a<7
+        \node[satbox,minimum width=9mm,fill=PaleGold,draw=Gold] (a\a) at (\a,0)
+          {\(\a\)};
+      \else
+        \node[satbox,minimum width=9mm,fill=PaleTeal] (a\a) at (\a,0) {\(\a\)};
+      \fi
+    \fi
+  }
+  \draw[Blue,very thick] (.55,-.75)--(3.45,-.75)
+    node[midway,below,satlabel,text=Blue]{\(\neg g_{v,4}\): tiền tố hợp lệ};
+  \draw[Gold,very thick] (3.55,.75)--(6.45,.75)
+    node[midway,above,satlabel,text=Gold]{khoảng cấm \([4,6]\)};
+  \draw[Teal,very thick] (6.55,-.75)--(9.45,-.75)
+    node[midway,below,satlabel,text=Teal]{\(g_{v,7}\): hậu tố hợp lệ};
+\end{tikzpicture}
+\caption{Một khoảng cấm liên tục được nén thành hai literal biên:
+\(\neg g_{v,4}\lor g_{v,7}\).}
+\label{fig:forbidden-interval-boundaries}
+\end{figure}
+
+Phép so sánh lan truyền theo dõi đường suy luận của từng biểu diễn. Mệnh đề hỗ
+trợ trực tiếp loại giá trị chính xác; mệnh đề biên suy qua chuỗi thứ tự và liên
+kết giá trị chính xác--thứ tự. Hai phép mã hóa đạt cùng mức cắt tỉa khi đặc tả của các
+chuỗi đó cung cấp đủ các bước suy luận
+\parencite{gent2002arc,bacchus2007gac}.
+
+\begin{keyidea}{Mô-đun dùng lại}
+\texttt{ExactValue} chọn \(a\); \texttt{OrderChain} biểu diễn miền của \(v\);
+\texttt{ForbiddenInterval} chỉ cần một hàm trả về hai biên. Gán nhãn radio,
+gán nhãn an toàn \(k\) và MO-FAP khác nhau ở hàm này, không khác nhau ở lôgic của
+\cref{lem:boundary}.
+\end{keyidea}
+
+\section[Gán nhãn radio k]{Gán nhãn radio \(k\)}
+
+\subsection{Mô hình}
+
+Cho đồ thị liên thông \(G=(V,E)\), khoảng cách đường đi ngắn nhất \(d(u,v)\) và
+tham số \(k\). Phép gán nhãn radio \(k\) là ánh xạ
+\(f:V\to\mathbb{Z}_{>0}\) thỏa
+\[
+  \card{f(u)-f(v)}
+  \ge
+  \Delta_{uv},
+  \qquad
+  \Delta_{uv}=k+1-d(u,v),
+\]
+cho mọi cặp có \(\Delta_{uv}>0\). Mục tiêu là tối thiểu màu lớn nhất
+\[
+  \min\max_{v\in V}f(v).
+\]
+Trong bài toán gán nhãn radio chuẩn, người ta thường xét
+\(k=\operatorname{diam}(G)\).
+
+Khoảng cách đồ thị tạo một đồ thị ràng buộc dày hơn đồ thị gốc: mọi cặp có
+\(d(u,v)\le k\) đều bị ràng buộc, với mức phân cách giảm khi khoảng cách đồ
+thị tăng. Bước tìm đường đi ngắn nhất cho mọi cặp vì thế không chỉ dành cho bộ
+kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép mã hóa. Các cặp có
+\(\Delta_{uv}\le0\) được bỏ, còn các đỉnh trong cùng quỹ đạo có thể hỗ trợ phá
+đối xứng.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,node distance=19mm]
+  \node[satstate] (v1) {\(v_1\)};
+  \node[satstate,right=of v1] (v2) {\(v_2\)};
+  \node[satstate,right=of v2] (v3) {\(v_3\)};
+  \node[satstate,right=of v3] (v4) {\(v_4\)};
+  \draw[Ink,very thick] (v1)--(v2)--(v3)--(v4);
+  \draw[Blue,dashed,bend left=35] (v1) to node[above,satlabel]{\(d=2\)} (v3);
+  \draw[Blue,dashed,bend left=35] (v2) to node[above,satlabel]{\(d=2\)} (v4);
+  \draw[Gold,dotted,very thick,bend right=48] (v1) to
+    node[below,satlabel]{\(d=3\)} (v4);
+  \node[below=4pt of v1,satlabel,text=Teal] {\(f=1\)};
+  \node[below=4pt of v2,satlabel,text=Teal] {\(f=4\)};
+  \node[below=4pt of v3,satlabel,text=Teal] {\(f=7\)};
+  \node[below=4pt of v4,satlabel,text=Teal] {\(f=2\)};
+\end{tikzpicture}
+\caption{Một phép gán nhãn radio \(3\) khả thi cho \(P_4\). Hai đỉnh kề nhau
+cần chênh ít nhất \(3\), cặp cách hai cạnh cần \(2\), và hai đầu mút cần \(1\).}
+\label{fig:radio-p4}
+\end{figure}
+
+\subsection{SAT trực tiếp}
+
+Với một cận trên \(B\), đặt
+\[
+  x_{v,\ell}=1\iff f(v)=\ell,
+  \qquad \ell\in[1,B].
+\]
+Mỗi đỉnh nhận đúng một nhãn. Với cặp \(u,v\), mọi cặp nhãn
+\((a,b)\) có \(\card{a-b}<\Delta_{uv}\) tạo xung đột
+\[
+  \neg x_{u,a}\lor\neg x_{v,b}.
+\]
+Mã hóa trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+khoảng cấm.
+
+\subsection{SAT thứ tự}
+
+Thêm
+\[
+  g_{v,\ell}=1\iff f(v)\ge\ell.
+\]
+Biến chính xác được xác định tại điểm chuyển:
+\[
+  x_{v,\ell}\iff
+  g_{v,\ell}\land\neg g_{v,\ell+1}.
+\]
+Nếu \(u\) nhận \(a\), \(v\) không được nhận nhãn trong
+\([a-\Delta_{uv}+1,a+\Delta_{uv}-1]\). Mệnh đề biên là
+\[
+  \neg x_{u,a}
+  \lor
+  \neg g_{v,a-\Delta_{uv}+1}
+  \lor
+  g_{v,a+\Delta_{uv}},
+\]
+sau khi bỏ các literal nằm ngoài miền. Số mệnh đề khoảng cách trở thành tuyến tính
+theo \(B\) cho mỗi cặp đỉnh, thay vì phụ thuộc thêm vào \(\Delta_{uv}\).
+
+\subsection{Tối thiểu hóa độ trải theo cách tăng dần}
+
+Bộ giải được dựng một lần ở cận trên \(B\). Sau khi tìm mô hình có giá trị lớn
+nhất \(\beta\), thêm
+\[
+  \neg g_{v,\beta}
+  \qquad\forall v
+\]
+để buộc mọi nhãn không vượt quá \(\beta-1\). Vòng lặp nhảy theo nghiệm đương
+nhiệm thật, không cần giảm từng đơn vị. Nếu lần gọi ở \(\beta-1\) trả \UNSAT,
+mô hình tại \(\beta\) cùng cận dưới này chứng nhận tối ưu.
+
+Đối xứng có thể khai thác theo tự đẳng cấu của đồ thị. Với chu trình \(C_n\),
+sau khi dịch nhãn nhỏ nhất về \(1\), phép quay đưa đỉnh mang nhãn \(1\) về một
+đỉnh neo cố định. Quy tắc neo như vậy phải dựa trên quỹ đạo của đồ thị.
+
+\begin{resultbox}{Gán nhãn radio}
+Trên 146 bài toán từ chín họ đồ thị, \textcite{thanh2026radio} báo 38 số radio
+mới, khớp hoặc cải thiện \BKS trên 130 bài toán và chứng nhận 109 giá trị tối
+ưu khi kết hợp các khung SAT với ILP. SAT thứ tự đặc biệt hiệu quả ở những họ
+có đường kính tăng theo kích thước; ILP bổ sung tốt ở các họ có đường kính bị
+chặn.
+\end{resultbox}
+
+\section[Gán nhãn an toàn k chính xác]{Gán nhãn an toàn \(k\) chính xác}
+
+\subsection{Mô hình được sử dụng}
+
+Trong mô hình của \textcite{thanh2026ksafe}, nhãn
+\[
+  L:V\rightarrow\set{1,\ldots,B}
+\]
+thỏa hai điều kiện:
+\[
+  L_u\ne L_v \qquad\forall u\ne v,
+\]
+\[
+  \card{L_u-L_v}\ge k \qquad\forall uv\in E.
+\]
+Mục tiêu là tối thiểu \(\max_vL_v\). Điều kiện đầu là tính đơn ánh toàn cục:
+mỗi nhãn được dùng nhiều nhất một lần.
+
+\begin{designrule}{Quy ước của chương}
+Chương giữ đúng mô hình đơn ánh ở trên. Vì vậy, khi \(k=1\), bài toán vẫn là
+gán nhãn đơn ánh; nó không phải tô màu đồ thị chuẩn. Biến thể không đơn ánh là
+một mô hình khác.
+\end{designrule}
+
+\subsection{Mã hóa trực tiếp, thứ tự xuôi và thứ tự ngược}
+
+\paragraph{Mã hóa trực tiếp (DE).}
+\(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
+thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).
+
+\paragraph{Mã hóa thứ tự xuôi (FE).}
+\(X_{v,j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
+hoạt hai biên của khoảng \([j-k+1,j+k-1]\).
+
+\paragraph{Mã hóa thứ tự ngược (RE).}
+\(X_{v,j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
+và các literal cận được đảo.
+
+FE và RE có cùng tập phép gán nhãn nhưng có thể dẫn bộ giải đi theo các nhánh
+khác nhau. Đối xứng phản xạ
+\[
+  L'_v=S+1-L_v
+\]
+giữ mọi khoảng cách và tính đơn ánh trên miền \([1,S]\). Có thể chọn một đỉnh
+đại diện và đặt nó ở nửa dưới miền để giữ một đại diện của cặp phản xạ.
+
+\begin{resultbox}{So sánh ba phép mã hóa}
+Trên 16 đồ thị Erdős--Rényi của \textcite{thanh2026ksafe}, FE và RE tìm nghiệm
+cho toàn bộ tập và chứng nhận 13 giá trị tối ưu; DE tìm nghiệm cho 15 và chứng
+nhận 8. Kết quả cho thấy biên thứ tự phù hợp với ràng buộc khoảng cách, còn
+hướng FE/RE tạo khác biệt nhỏ hơn lựa chọn trực tiếp/thứ tự.
+\end{resultbox}
+
+\section{Phân bổ tần số với số giá trị nhỏ nhất}
+
+\subsection{Miền rời rạc và hàm mục tiêu}
+
+Mỗi máy phát \(v\) có miền tần số đã sắp
+\[
+  D_v=\set{D_{v,1}<D_{v,2}<\cdots<D_{v,m_v}}.
+\]
+Các cạnh mang khoảng cách nhiễu; một số máy phát có giá trị gán trước. Hàm mục
+tiêu không phải tần số lớn nhất mà là số giá trị phân biệt được dùng:
+\[
+  \min\card{\set{f_v\mid v\in V}}.
+\]
+Do miền có lỗ và khác nhau giữa các máy phát, khoảng cấm phải được
+tính theo giá trị thực của tần số rồi ánh xạ về chỉ số miền.
+
+Trong hệ phân loại FAP, đây là mô hình số giá trị nhỏ nhất: hai nghiệm dùng cùng
+số giá trị phân biệt có cùng giá trị mục tiêu dù độ trải khác nhau. Do đó chuỗi
+thứ tự theo \emph{chỉ số miền cục bộ} chỉ phục vụ tính khả thi; biến \(A_a\)
+theo \emph{giá trị toàn cục} mới phục vụ hàm mục tiêu. Trộn hai loại thứ tự này là một
+lỗi mô hình phổ biến.
+
+\begin{workedexample}{Cùng độ trải nhưng khác số giá trị}
+Xét ba máy phát có miền chứa \(\{1,4,7\}\), và không có cạnh nhiễu giữa máy
+phát thứ hai với thứ ba. Hai phương án
+\[
+  f=(1,4,7),\qquad f'=(1,7,7)
+\]
+đều có tần số lớn nhất \(7\), nhưng lần lượt dùng \(3\) và \(2\) giá trị phân
+biệt. Tối thiểu hóa độ trải xem chúng ngang nhau; FAP số giá trị nhỏ nhất ưu
+tiên \(f'\). Vì vậy biến hàm mục tiêu phải là \(A_1,A_4,A_7\), không phải chỉ
+một ngưỡng ``tần số lớn nhất không vượt \(7\)''.
+\end{workedexample}
+
+\subsection{Tiền xử lý nhất quán cung}
+
+Với cặp \((v,w)\), một giá trị \(a\in D_v\) phải có ít nhất một giá trị hỗ trợ
+\(b\in D_w\) thỏa khoảng cách yêu cầu. Nếu không có, \(a\) bị loại. Quá trình
+lặp đến điểm bất động:
+\[
+  D_v\leftarrow
+  \set{a\in D_v\mid
+    \exists b\in D_w:\card{a-b}\ge d_{vw}}
+\]
+cho mọi cung ràng buộc. Tiền xử lý này không thay giá trị tối ưu vì chỉ loại giá
+trị không thể xuất hiện trong bất kỳ nghiệm khả thi nào.
+
+Đây là AC-3 trên các ràng buộc phân cách nhị phân. Độ mạnh của nó giới hạn ở
+hỗ trợ từng cạnh: một giá trị có thể có hỗ trợ riêng trên mọi đỉnh kề nhưng
+không có hỗ trợ đồng thời toàn cục. Sau tiền xử lý, học mệnh đề SAT xử lý các
+tổ hợp xung đột còn lại. Vì vậy nên báo kích thước miền tại điểm bất động và
+thời gian AC riêng; không gán toàn bộ mức giảm thời gian chạy cho POSE.
+
+\subsection{DSE và POSE}
+
+Mã hóa SAT trực tiếp dùng \(x_{v,q}=1\iff f_v=D_{v,q}\), ràng buộc đúng một
+theo máy phát và xung đột từng cặp cho các cặp giá trị vi phạm.
+
+Mã hóa SAT thứ tự bộ phận thêm
+\[
+  g_{v,q}=1\iff
+  \text{chỉ số tần số của }v\text{ không nhỏ hơn }q.
+\]
+Nếu \(x_{v,q}=1\), tần số \(D_{v,q}\) tạo khoảng cấm
+\([D_{v,q}-d+1,D_{v,q}+d-1]\) trong miền \(D_w\). Hai biên
+\(\lambda_w,\rho_w\) của miền rời rạc được đưa vào mệnh đề biên
+\[
+  \neg x_{v,q}
+  \lor
+  \neg g_{w,\lambda_w(q)}
+  \lor
+  g_{w,\rho_w(q)}.
+\]
+POSE vì thế loại sự phụ thuộc vào số giá trị nằm bên trong khoảng cấm.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=13mm,y=9mm]
+  \node[left,satlabel] at (0,1) {\(D_v\)};
+  \foreach \i/\a in {1/1,2/4,3/7,4/10}{
+    \ifnum\a=7
+      \node[satbox,fill=PaleBlue,draw=Blue] at (\i,1) {\(\a\)};
+    \else
+      \node[satbox] at (\i,1) {\(\a\)};
+    \fi
+  }
+  \node[left,satlabel] at (0,0) {\(D_w\)};
+  \foreach \i/\a in {1/2,2/5,3/8,4/11}{
+    \ifnum\i=1
+      \node[satbox,fill=PaleTeal] at (\i,0) {\(\a\)};
+    \else
+      \ifnum\i=4
+        \node[satbox,fill=PaleTeal] at (\i,0) {\(\a\)};
+      \else
+        \node[satbox,fill=PaleGold,draw=Gold] at (\i,0) {\(\a\)};
+      \fi
+    \fi
+  }
+  \draw[Gold,decorate,decoration={brace,amplitude=4pt}] (1.55,-.55)--(3.45,-.55)
+    node[midway,below=5pt,satlabel,text=Gold]
+      {bị cấm bởi \(f_v=7,d=4\)};
+  \node[satlabel,align=left] at (7.4,.5)
+    {\(\lambda_w=2\) tại giá trị \(5\)\\
+     \(\rho_w=4\) tại giá trị \(11\)\\
+     hỗ trợ còn lại: \(\{2,11\}\)};
+\end{tikzpicture}
+\caption{Ánh xạ khoảng giá trị \([4,10]\) vào hai biên của miền rời rạc
+\(D_w=\{2,5,8,11\}\).}
+\label{fig:fap-discrete-boundaries}
+\end{figure}
+
+\begin{workedexample}{Mệnh đề biên trên miền có lỗ}
+Với các miền trong \cref{fig:fap-discrete-boundaries}, chọn giá trị thứ ba của
+\(D_v\), tức \(x_{v,3}=1\) và \(f_v=7\). Khoảng cách \(d=4\) cấm
+\([4,10]\) ở \(D_w\). Mệnh đề POSE là
+\[
+  \neg x_{v,3}\lor\neg g_{w,2}\lor g_{w,4}.
+\]
+Khi \(x_{v,3}=1\), \(\neg g_{w,2}\) cho phép chỉ số \(1\) (tần số \(2\));
+\(g_{w,4}\) cho phép chỉ số \(4\) (tần số \(11\)). Hai giá trị \(5,8\) nằm
+giữa bị loại mà không cần hai mệnh đề xung đột riêng.
+\end{workedexample}
+
+\subsection{Đếm số tần số phân biệt}
+
+Với mỗi giá trị tần số toàn cục \(a\), tạo biến
+\[
+  A_a=1\iff
+  \exists v:\ f_v=a.
+\]
+Liên kết \(x_{v,q}\rightarrow A_{D_{v,q}}\) bảo đảm mọi tần số được dùng đều
+được đánh dấu. Hàm mục tiêu trở thành một ràng buộc đếm:
+\[
+  \min\sum_aA_a.
+\]
+Bộ đếm tuần tự tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
+dùng \(q\) tần số, lần gọi kế tiếp kích hoạt cận \(q-1\) bằng các giả định. Lần
+\UNSAT tại \(q-1\) cùng mô hình tại \(q\) chứng nhận tối ưu.
+
+\begin{resultbox}{MO-FAP}
+Trên 35 bài toán CALMA/DUTtest hoặc được mô hình hóa lại,
+\textcite{dao2026mofap} báo cấu hình POSE kết hợp bộ đếm tăng dần chứng nhận
+trạng thái khả thi hoặc vô nghiệm của toàn bộ tập thử. Nhất quán cung
+giảm mạnh tổng thời gian của cấu hình này. Kết quả cho thấy vai trò bổ sung của
+ba mô-đun: lọc miền, nén khoảng cấm và đếm giá trị phân biệt.
+\end{resultbox}
+
+\section{So sánh theo cấu trúc}
+
+\begin{center}
+\captionof{table}{So sánh cấu trúc Radio \(k\), \(k\)-Safe và MO-FAP.}
+\label{tab:labeling-structure}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
+\toprule
+Đặc trưng & Radio \(k\) & \(k\)-Safe & MO-FAP\\
+\midrule
+Miền & \([1,B]\) liên tục & \([1,B]\) liên tục & \(D_v\) rời rạc\\
+Khoảng cấm & Từ khoảng cách đồ thị & \(k\) trên cạnh & Từ nhiễu\\
+Cặp bị ràng buộc & Mọi cặp có \(\Delta>0\) &
+Cạnh và tính đơn ánh & Cạnh ràng buộc\\
+Hàm mục tiêu & Nhãn lớn nhất nhỏ nhất & Nhãn lớn nhất nhỏ nhất & Số giá trị khác nhau nhỏ nhất\\
+Lớp mục tiêu & Cận độ trải & Cận độ trải & Bộ đếm giá trị phân biệt\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Ba bài toán dùng chung mô-đun khả thi ở mức khoảng, nhưng lớp hàm mục tiêu khác
+nhau. Radio và \(k\)-safe thay cận trên của nhãn. MO-FAP giữ các
+giá trị số cố định và tối thiểu số giá trị được kích hoạt. Đây là lý do không
+nên đồng nhất ``số giá trị nhỏ nhất'' với ``độ trải nhỏ nhất''.
+
+\section{Đối chứng ngoài SAT và cận dưới}
+
+Đối với độ trải gán nhãn, MIP dùng biến nhãn nguyên và hướng nhị phân cho trị
+tuyệt đối; CP dùng ràng buộc khác nhau và khoảng cách; các phép dựng lý thuyết
+đồ thị cho cận hoặc nghiệm trên từng họ đồ thị. Đối với FAP, MIP/sinh cột, tối
+ưu ràng buộc, tìm kiếm cục bộ và tìm kiếm kiêng kỵ (\emph{tabu}) là các đối
+chứng đã được phát triển lâu
+dài \parencite{aardal2007frequency}. Một đánh giá SAT
+có giá trị nên phân biệt:
+\begin{enumerate}
+  \item bài toán mà SAT cải thiện nghiệm đương nhiệm;
+  \item bài toán mà SAT đóng khoảng cách bằng chứng nhận \UNSAT;
+  \item bài toán mà phương pháp khác cung cấp cận dưới/cận trên đầu vào;
+  \item bài toán vô nghiệm do miền/giá trị gán trước, có thể phát hiện trước
+        bước tối ưu.
+\end{enumerate}
+
+Với số giá trị nhỏ nhất, cận dưới cơ bản có thể đến từ cấu trúc đồ thị con đầy
+đủ hoặc cấu trúc nhiễu
+hoặc số giá trị bắt buộc bởi các giá trị gán trước; cận trên đến từ phương án
+tần số kinh nghiệm. Bộ đếm giá trị phân biệt SAT tiếp nhận hai cận và lần lượt đóng
+khoảng \([LB,UB]\).
+
+\section{Bộ kiểm tra và chứng nhận}
+
+Bộ kiểm tra khả thi đọc trực tiếp nghiệm:
+\begin{itemize}
+  \item radio: kiểm miền, đường đi ngắn nhất cho mọi cặp và mọi
+        \(\Delta_{uv}>0\);
+  \item \(k\)-safe: kiểm miền, tính đơn ánh và phân cách trên cạnh;
+  \item MO-FAP: kiểm \(f_v\in D_v\), giá trị gán trước, mọi ràng buộc
+        và số tần số phân biệt.
+\end{itemize}
+Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
+phép mã hóa.
+
+Chứng nhận tối ưu gồm một nghiệm chứng tại cận trên và bằng chứng cận dưới:
+\UNSAT ở độ trải/số giá trị kề trước, hoặc một cận dưới toán học bằng cận trên.
+Với các giả định tăng dần, có thể vật hóa các giả định cuối thành mệnh đề đơn
+vị để tạo một \CNF độc lập cho bộ kiểm tra chứng minh.
+
+\begin{summarybox}
+\begin{enumerate}
+  \item Khoảng cấm là trừu tượng chung của cả ba bài toán.
+  \item Trên miền liên tục, khoảng dùng hai ngưỡng trực tiếp; trên miền
+        rời rạc, phải tìm biên theo giá trị.
+  \item Tối thiểu hóa độ trải và tối thiểu hóa số giá trị phân biệt cần hai mô
+        đun hàm mục tiêu khác nhau.
+  \item Biến trực tiếp phục vụ lựa chọn chính xác và giải mã; biến thứ tự nén
+        khoảng; bộ đếm tuần tự đếm số giá trị được dùng.
+\end{enumerate}
+\end{summarybox}
+
+\subsection*{Câu hỏi nghiên cứu}
+\begin{enumerate}
+  \item Chứng minh \cref{lem:boundary} khi khoảng chạm một biên của miền.
+  \item Với \(D_v=\set{10,30,40}\) và khoảng \([15,35]\), xác định hai
+        literal biên của POSE.
+\end{enumerate}

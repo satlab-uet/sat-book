@@ -1,0 +1,192 @@
+\chapter{Kết luận và chương trình nghiên cứu}
+\index{encoding!lựa chọn}
+\index{bằng chứng thực nghiệm}
+\index{giới hạn phương pháp}
+\index{chứng nhận tối ưu}
+
+\chapterlead{Chương kết nối các kết quả kỹ thuật thành một luận điểm chung:
+một phép mã hóa SAT tốt là một giao diện có ngữ nghĩa, được chọn theo cấu trúc
+bài toán và được đánh giá bằng một chuỗi bằng chứng có thể kiểm tra. Từ đó,
+chương tổng hợp miền hiệu quả của từng họ phương pháp và xây dựng chương trình
+nghiên cứu tiếp theo.}
+
+\section{Những kết luận bền vững}
+
+Các họ bộ mã hóa tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
+trình lựa chọn có thể dùng lại gồm bốn lớp.
+
+\paragraph{Lớp ngữ nghĩa.}
+Trước khi đếm biến và mệnh đề, phải viết đặc tả cho biến chính, biến phụ, bộ
+giải mã và hàm mục tiêu. Tính đúng, tính đầy đủ theo phép chiếu và khả năng dùng
+literal phụ ở mô-đun khác là ba yêu cầu khác nhau. Một biến Tseitin chỉ được
+xem như ngưỡng, biến chứng hay trạng thái khi các mệnh đề thật sự bảo đảm ngữ
+nghĩa đó.
+
+\paragraph{Lớp cấu trúc.}
+Phép mã hóa nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
+thái dùng chung; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
+ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
+Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
+phép ánh xạ bảo toàn nghiệm.
+
+\paragraph{Lớp giải.}
+Đánh giá ở lớp giải kết hợp số mệnh đề với lan truyền đơn vị, đường truyền qua
+biến phụ, khả năng giữ mệnh đề đã học khi thay cận, chi phí của bộ giải mã/bộ
+kiểm tra và tương tác với tiền xử lý. Cùng một phép mã hóa khả thi có thể cư xử
+khác nhau dưới SAT độc lập, SAT tăng dần, MaxSAT hay một kiến trúc kết hợp.
+
+\paragraph{Lớp bằng chứng.}
+Phát biểu về tính đúng cần chứng minh hoặc kiểm tra vét cạn trên miền nhỏ; phát
+biểu về kích thước cần công thức và bộ đếm từ gói tái lập; phát biểu về hiệu
+năng cần quy trình, đối chứng, giới hạn thời gian và dữ liệu từng lần chạy.
+Tối ưu chỉ được chứng nhận khi cận trên từ một nghiệm khả thi gặp cận dưới hợp
+lệ, thường là một kết quả
+\UNSAT ở cận kế tiếp.
+
+\section{Bản đồ đóng góp và bằng chứng hiện có}
+
+Bảng~\ref{tab:reported-evidence-map} gom các số liệu đã được trích trong sách.
+Mỗi hàng giữ nguyên thiết kế thí nghiệm của nguồn và làm rõ cơ chế mã hóa
+được kết quả đó hỗ trợ.
+
+\begin{longtable}{@{}
+>{\raggedright\arraybackslash}p{.19\textwidth}
+>{\raggedright\arraybackslash}p{.23\textwidth}
+>{\raggedright\arraybackslash}p{.39\textwidth}@{}}
+\caption{Bản đồ các nghiên cứu tình huống và bằng chứng được công trình nguồn
+báo cáo.}
+\label{tab:reported-evidence-map}\\
+\toprule
+Mô-đun/bài toán & Phạm vi nguồn & Kết quả chính\\
+\midrule
+\endfirsthead
+\toprule
+Mô-đun/bài toán & Phạm vi nguồn & Kết quả chính\\
+\midrule
+\endhead
+SCL/SCAMO và Anti-Bandwidth &
+Phân tích kích thước SCAMO; 24 đồ thị kiểm chuẩn &
+Thang dùng chung giảm phần bộ đếm lặp trên AMO bậc thang và cạnh tranh trong
+cấu hình Anti-Bandwidth đã thử; độ chồng lấn khoảng là đặc trưng quyết định
+\parencite{truong2025scamo}.\\
+
+NSC/Xếp nhóm chơi golf &
+66 bài toán; NSC, ADDER, BDD, CARD, BINOMIAL &
+NSC giải \(56/66\); ADDER, BDD và CARD cùng \(54/66\), BINOMIAL \(32/66\).
+Kết quả định vị NSC như một lựa chọn hiệu quả cho ràng buộc đúng \(K\) trong mô hình
+bài toán xếp nhóm chơi golf của nguồn \parencite{kieu2026golfer}.\\
+
+ALSCE/Lập lịch điều dưỡng &
+28 bài toán, đến 120 điều dưỡng và 24 tuần &
+ALSCE giải toàn bộ tập; kết quả hỗ trợ việc dùng chung thanh ghi cho các cửa sổ
+chuỗi trong mô hình này \parencite{truong2025nurse}.\\
+
+SAT/Đóng gói dải &
+41 bài toán; SAT thường, SAT tăng dần và CP &
+Số giá trị tối ưu được chứng nhận lần lượt là \(26\), \(21\) và \(28\). SAT
+tăng dần phát huy lợi thế khi thay cận giữ được phần lớn miền và mệnh đề đã học
+\parencite{kieu2025strip}.\\
+
+Gán nhãn radio &
+146 bài toán từ chín họ đồ thị; các khung SAT và ILP &
+Công trình báo 109 giá trị tối ưu được chứng nhận, 38 số radio mới, và khớp
+hoặc cải thiện BKS trên 130 bài toán; SAT và ILP có vai trò bổ sung theo cấu
+trúc đồ thị
+\parencite{thanh2026radio}.\\
+
+Gán nhãn an toàn \(k\) &
+16 đồ thị Erdős--Rényi; FE, RE và DE &
+FE và RE tìm nghiệm cho \(16/16\), chứng nhận 13 giá trị tối ưu; DE tìm nghiệm
+cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn mã hóa trực tiếp trong tập thử
+này \parencite{thanh2026ksafe}.\\
+
+POSE/MO-FAP &
+35 bài toán CALMA/DUTtest hoặc được mô hình hóa lại &
+POSE kết hợp bộ đếm tăng dần quyết định toàn bộ tập thử; kết quả hỗ trợ
+kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác nhau
+\parencite{dao2026mofap}.\\
+\bottomrule
+\end{longtable}
+
+Các số liệu được giữ cùng tập bài toán, bộ giải và giới hạn thời gian của từng
+công trình. Phép đối chiếu giữa các hàng tập trung vào cơ chế biểu diễn và đặc
+trưng của bài toán; Chương 4 cung cấp quy trình cho một bộ kiểm chuẩn hợp nhất
+về thời gian chạy.
+
+\section{Miền hiệu quả và điểm chuyển thiết kế}
+
+\paragraph{Bộ đếm dùng chung và Ladder AMK.}
+Bộ đếm dùng chung được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
+mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
+với các tập gần rời nhau, một phép mã hóa cục bộ thường gọn hơn.
+
+\paragraph{NSC.}
+NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Nó
+phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
+Cây tổng/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
+literal bù chuyển bài toán về ngưỡng \(n-k\) nhỏ hơn.
+
+\paragraph{Phá đối xứng.}
+Mỗi ràng buộc phá đối xứng được suy từ một nhóm tự đẳng cấu bảo toàn miền, ràng
+buộc và hàm mục tiêu. Sức chứa, miền quay và cách hàm mục tiêu đọc chỉ số quyết
+định những hoán vị nào thuộc nhóm này. Mức phá đối xứng được chọn cùng độ dài
+mệnh đề và chiến lược phân nhánh.
+
+\paragraph{Mã hóa thời gian và đóng gói.}
+SAT theo mốc thời gian phù hợp với chân trời vừa phải và miền bắt đầu đã được
+lọc. Tọa độ thứ tự nén tốt các so sánh trên miền nguyên. DDD mở rộng lựa chọn
+cho chân trời lớn khi có tập mốc đầy đủ hữu hạn, cận dưới hợp lệ và bước tinh
+chỉnh tăng nghiêm ngặt.
+
+\paragraph{Khoảng cấm và biên thứ tự.}
+Hai literal biên nén hiệu quả một khoảng cấm trên miền có thứ tự và đặc tả thứ
+tự hai chiều. Miền rời rạc dùng ánh xạ phần tử trước/sau; mỗi khoảng rời nhau
+bổ sung một cặp biên. Nhất quán cung tạo nhiều giá trị nhất trước SAT khi miền
+lớn hoặc đồ thị ràng buộc đủ dày.
+
+\section{Mức bằng chứng và lộ trình tái lập}
+
+Sổ nguồn ghi cho từng công trình trạng thái công bố, bộ giải, phần cứng, giới
+hạn thời gian, bộ kiểm chuẩn và mức sẵn có của mã nguồn/dữ liệu. Nhờ đó, mỗi
+kết quả trong sách liên kết được với quy trình đã tạo ra nó. Các công trình đã có gói tái lập tạo tầng bằng
+chứng đối chiếu được; các công trình còn ở trạng thái bản thảo hoặc phản biện
+được cập nhật khi có phiên bản chính thức.
+
+Vòng tái lập tiếp theo dùng chung bộ phân tích nhật ký, bộ kiểm tra, các cận,
+ảnh máy và phiên bản bộ giải; đồng thời xuất CNF, nhật ký từng lần chạy, mô hình
+đã giải mã và chứng minh cho các cận \UNSAT. Ma trận thiết kế thống nhất khi đó
+cho phép báo hồ sơ hiệu năng, biểu đồ xương rồng, PAR-2 và độ biến thiên qua hạt
+giống như Chương 4 đề xuất.
+
+\section{Chương trình nghiên cứu tiếp theo}
+
+\begin{enumerate}
+  \item \textbf{Lựa chọn bộ mã hóa theo bài toán.} Xây bộ chọn có thể giải thích
+  quyết định bằng các đặc trưng như \(n,k\), độ chồng lấn, độ thưa của miền và
+  số cận sẽ truy vấn; đánh giá bộ chọn so với bộ giải tốt nhất ảo.
+  \item \textbf{Đặc tả và kết hợp.} Phát triển thư viện mô-đun mà mỗi literal
+  đầu ra có ngữ nghĩa máy đọc được, cho phép kiểm tự động việc ghép bộ đếm,
+  liên kết biểu diễn, hàm mục tiêu và bộ giải mã.
+  \item \textbf{Chứng nhận toàn trình.} Nối ghi chứng minh của SAT/MaxSAT với
+  bộ kiểm tra miền và chứng cứ cận dưới để giá trị tối ưu không phụ thuộc vào niềm tin ở
+  bộ sinh.
+  \item \textbf{Trạng thái dùng chung tổng quát.} Mô hình hóa việc chọn khối,
+  cây ghép và ngưỡng cần vật hóa như một bài toán tối ưu riêng; tìm cận dưới
+  cho số trạng thái/bộ nối dưới các yêu cầu lan truyền khác nhau.
+  \item \textbf{Phương pháp kết hợp có phân công rõ.} Dùng CP/MIP để lọc miền
+  hoặc tạo cận, SAT/MaxSAT để xử lý phép tuyển, nhưng đánh giá bằng thí nghiệm
+  bóc tách để biết lợi ích đến từ mô-đun nào.
+  \item \textbf{Gói tái lập bền vững.} Dùng vùng chứa phần mềm, bản kê dữ liệu,
+  mã băm, giấy phép và quy trình tái lập; tách kết luận đã công bố khỏi kết quả
+  thăm dò.
+\end{enumerate}
+
+\section{Kết luận cuối}
+
+Giá trị của phép mã hóa SAT nằm ở khả năng chọn đúng trạng thái trung gian để
+CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm dùng chung, thanh ghi tam giác,
+biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
+cùng một nguyên tắc: chỉ vật hóa thông tin vừa đủ, đặt đặc tả rõ cho thông tin
+đó, rồi kiểm bằng cả chứng minh lẫn gói tái lập. Ba bước này chuyển một
+nghiên cứu tình huống thành một phương pháp có thể kiểm chứng, so sánh và dùng
+lại.
