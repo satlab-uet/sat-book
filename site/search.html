@@ -13,23 +13,6 @@
     <link rel="stylesheet" href="./assets/css/main.css">
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>VNU University of Engineering and Technology</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="./search.html" class="active">EN</a>
-            <span>|</span>
-            <a href="./vi/search.html">VI</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -37,23 +20,32 @@
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./">Home</a>
-          <a href="./research.html">Research</a>
-          <a href="./publications.html">Publications</a>
-          <a href="./projects.html">Projects</a>
-          <a href="./people.html">People</a>
-          <a href="./resources.html">Resources</a>
-          <a href="./join.html">Join Us</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Home</a>
+            <a href="./research.html">Research</a>
+            <a href="./publications.html">Publications</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./people.html">People</a>
+            <a href="./resources.html">Resources</a>
+            <a href="./join.html">Join Us</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="./search.html" class="active">EN</a>
+              <a href="./vi/search.html">VI</a>
+            </div>
+            <a href="./search.html" class="search-link">Search</a>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="shell" style="padding: 40px 0 80px; max-width: 800px;">
-      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 20px;">Search SATLab</h1>
-      <input type="text" id="global-search-input" class="search-box" style="max-width: 100%; font-size: 1.1rem; padding: 14px 20px;" placeholder="Type keywords (e.g. SAT, scheduling, packing, Hieu)..." autofocus>
+    <main class="shell" style="padding: 32px 0 64px; max-width: 800px;">
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 16px;">Search SATLab</h1>
+      <input type="text" id="global-search-input" class="search-box" style="max-width: 100%; font-size: 1.05rem; padding: 12px 18px;" placeholder="Type keywords (e.g. SAT, scheduling, packing, Hieu)..." autofocus>
 
-      <div id="search-results-output" style="margin-top: 32px;">
+      <div id="search-results-output" style="margin-top: 24px;">
         <p style="color: var(--color-ink-650);">Type a keyword above to search across publications, research themes, projects, and people.</p>
       </div>
     </main>
@@ -87,12 +79,12 @@
           return;
         }
 
-        var htmlOut = '<div style="display: flex; flex-direction: column; gap: 16px;">';
+        var htmlOut = '<div style="display: flex; flex-direction: column; gap: 12px;">';
         matches.forEach(m => {
-          htmlOut += '<article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 18px 24px;">' +
-            '<span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">' + m.type + '</span>' +
-            '<h3 style="margin: 4px 0 6px; font-size: 1.1rem;"><a href="' + m.url + '">' + m.title + ' ↗</a></h3>' +
-            '<p style="margin: 0; font-size: 0.9rem; color: var(--color-ink-650);">' + m.text + '</p>' +
+          htmlOut += '<article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 16px 20px;">' +
+            '<span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">' + m.type + '</span>' +
+            '<h3 style="margin: 4px 0 4px; font-size: 1.05rem;"><a href="' + m.url + '">' + m.title + ' ↗</a></h3>' +
+            '<p style="margin: 0; font-size: 0.88rem; color: var(--color-ink-650);">' + m.text + '</p>' +
             '</article>';
         });
         htmlOut += '</div>';

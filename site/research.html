@@ -15,24 +15,6 @@
     <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/research.html">
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>VNU University of Engineering and Technology</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="./research.html" class="active">EN</a>
-            <span>|</span>
-            <a href="./vi/research.html">VI</a>
-          </div>
-          <a href="./search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Search</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -40,19 +22,28 @@
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./">Home</a>
-          <a href="./research.html" class="active">Research</a>
-          <a href="./publications.html">Publications</a>
-          <a href="./projects.html">Projects</a>
-          <a href="./people.html">People</a>
-          <a href="./resources.html">Resources</a>
-          <a href="./join.html">Join Us</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Home</a>
+            <a href="./research.html" class="active">Research</a>
+            <a href="./publications.html">Publications</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./people.html">People</a>
+            <a href="./resources.html">Resources</a>
+            <a href="./join.html">Join Us</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="./research.html" class="active">EN</a>
+              <a href="./vi/research.html">VI</a>
+            </div>
+            <a href="./search.html" class="search-link">Search</a>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- Breadcrumb (Design Doc 7.4) -->
+    <!-- Breadcrumb -->
     <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
       <div class="shell">
         <ol class="breadcrumbs-list">
@@ -63,59 +54,55 @@
     </nav>
 
     <!-- Page Content -->
-    <main class="shell" style="padding: 32px 0 64px;">
-      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 12px;">Core Research Domains</h1>
-      <p style="font-size: 1.1rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 40px;">
-        SATLab investigates how propositional satisfiability (SAT), MaxSAT, and Pseudo-Boolean (PB) encodings can be formulated to solve hard combinatorial optimization problems with provable correctness and superior performance over standard MIP tools.
+    <main class="shell" style="padding: 24px 0 56px;">
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Core Research Domains</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
+        SATLab investigates how propositional satisfiability (SAT), MaxSAT, and Pseudo-Boolean (PB) encodings can be formulated to solve hard combinatorial optimization problems with provable correctness.
       </p>
 
-      <div style="display: flex; flex-direction: column; gap: 32px;">
-        <!-- Theme 1 -->
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 01</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Encodings & Solver Architecture</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
-            We design compact, unit-propagation-effective SAT encodings for cardinality constraints (AMO, AMK, ALK) and Pseudo-Boolean constraints. Key breakthroughs include the New Sequential Counter (NSC) register, ladder-structured encodings, and the SCLib solver ecosystem.
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 01</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Encodings & Solver Architecture</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
+            We design compact, unit-propagation-effective SAT encodings for cardinality constraints (AMO, AMK, ALK) and Pseudo-Boolean constraints. Key breakthroughs include the New Sequential Counter (NSC) register and the SCLib solver ecosystem.
           </p>
-          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
             <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
             <a href="./resources.html" class="btn btn-outline">View SCLib Solver ↗</a>
           </div>
         </article>
 
-        <!-- Theme 2 -->
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 02</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Scheduling & Line Balancing</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 02</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Scheduling & Line Balancing</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Industrial optimization problems including Assembly Line Balancing (SALBP, UALBP), Power Peak Minimization, Job-Shop Scheduling (JSSP/FJSSP), and Railway Train Rescheduling using MaxSAT-DDD.
           </p>
-          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
             <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
             <a href="./projects.html" class="btn btn-outline">View Active Projects ↗</a>
           </div>
         </article>
 
-        <!-- Theme 3 -->
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 03</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">2D Packing & Cutting Optimization</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 03</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">2D Packing & Cutting Optimization</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Exact SAT models for 2D Strip Packing Problems, 2D Bin Packing, and Cutting Stock Problems using integer layout modeling and non-overlapping spatial decomposition.
           </p>
-          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
             <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
           </div>
         </article>
 
-        <!-- Theme 4 -->
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 04</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Graph Labeling & Frequency Assignment</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 04</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Graph Labeling & Frequency Assignment</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Exact decision algorithms for Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling, and Multi-Objective Frequency Assignment (MO-FAP) in wireless networks.
           </p>
-          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
             <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
           </div>
         </article>
@@ -129,7 +116,7 @@
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Research Group</div>
           <p>VNU University of Engineering and Technology (UET-VNU)</p>
-          <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
+          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>

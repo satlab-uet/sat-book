@@ -15,24 +15,6 @@
     <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/research.html">
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>Trường Đại học Công nghệ — ĐHQGHN</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="../research.html">EN</a>
-            <span>|</span>
-            <a href="./research.html" class="active">VI</a>
-          </div>
-          <a href="../search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Tìm kiếm</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -40,15 +22,24 @@
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./">Trang chủ</a>
-          <a href="./research.html" class="active">Nghiên cứu</a>
-          <a href="./publications.html">Công bố</a>
-          <a href="./projects.html">Dự án</a>
-          <a href="./people.html">Nhân sự</a>
-          <a href="./resources.html">Tài nguyên</a>
-          <a href="./join.html">Cơ hội tham gia</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Trang chủ</a>
+            <a href="./research.html" class="active">Nghiên cứu</a>
+            <a href="./publications.html">Công bố</a>
+            <a href="./projects.html">Dự án</a>
+            <a href="./people.html">Nhân sự</a>
+            <a href="./resources.html">Tài nguyên</a>
+            <a href="./join.html">Cơ hội tham gia</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="../research.html">EN</a>
+              <a href="./research.html" class="active">VI</a>
+            </div>
+            <a href="../search.html" class="search-link">Tìm kiếm</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -63,41 +54,41 @@
     </nav>
 
     <!-- Content -->
-    <main class="shell" style="padding: 32px 0 64px;">
-      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 12px;">Các hướng nghiên cứu trọng tâm</h1>
-      <p style="font-size: 1.1rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 40px;">
-        SATLab nghiên cứu lý thuyết và thực tiễn mã hóa SAT/MaxSAT/Pseudo-Boolean cho các bài toán tối ưu hóa tổ hợp có độ phức tạp cao, đem lại hiệu năng vượt trội so với các công cụ thương mại.
+    <main class="shell" style="padding: 24px 0 56px;">
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Các hướng nghiên cứu trọng tâm</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
+        SATLab nghiên cứu lý thuyết và thực tiễn mã hóa SAT/MaxSAT/Pseudo-Boolean cho các bài toán tối ưu hóa tổ hợp có độ phức tạp cao.
       </p>
 
-      <div style="display: flex; flex-direction: column; gap: 32px;">
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 01</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 01</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Phát triển bộ đếm tuần tự thích nghi (NSC), mã hóa ràng buộc đếm Cardinality, Pseudo-Boolean (PB), AMO/AMK/ALK dạng bậc thang và hệ sinh thái thư viện SCLib.
           </p>
         </article>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 02</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 02</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền sản xuất (SALB, UALBP), lập lịch Job-Shop (JSSP/FJSSP), lập lịch tàu hỏa (Train Rescheduling via MaxSAT-DDD).
           </p>
         </article>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 03</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 03</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Phương pháp SAT/MaxSAT giải chính xác bài toán đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và cắt cuộn nguyên liệu.
           </p>
         </article>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-sm);">
-          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 04</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--color-ink-950); margin: 8px 0 16px;">Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h2>
-          <p style="font-size: 1.05rem; color: var(--color-ink-800); line-height: 1.7;">
+        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 04</div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h2>
+          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
             Mã hóa SAT giải tối ưu bài toán Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling và Phân bổ tần số (MO-FAP).
           </p>
         </article>

@@ -15,24 +15,6 @@
     <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/resources.html">
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>VNU University of Engineering and Technology</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="./resources.html" class="active">EN</a>
-            <span>|</span>
-            <a href="./vi/resources.html">VI</a>
-          </div>
-          <a href="./search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Search</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -40,15 +22,24 @@
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./">Home</a>
-          <a href="./research.html">Research</a>
-          <a href="./publications.html">Publications</a>
-          <a href="./projects.html">Projects</a>
-          <a href="./people.html">People</a>
-          <a href="./resources.html" class="active">Resources</a>
-          <a href="./join.html">Join Us</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Home</a>
+            <a href="./research.html">Research</a>
+            <a href="./publications.html">Publications</a>
+            <a href="./projects.html">Projects</a>
+            <a href="./people.html">People</a>
+            <a href="./resources.html" class="active">Resources</a>
+            <a href="./join.html">Join Us</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="./resources.html" class="active">EN</a>
+              <a href="./vi/resources.html">VI</a>
+            </div>
+            <a href="./search.html" class="search-link">Search</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -63,15 +54,15 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="shell" style="padding: 32px 0 64px;">
-      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 12px;">Research Assets & Solvers</h1>
-      <p style="font-size: 1.1rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 36px;">
-        Open-source software libraries, benchmark datasets, learning materials, and the flagship SAT Book monograph.
+    <main class="shell" style="padding: 24px 0 56px;">
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Research Assets & Solvers</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
+        Open-source software libraries, benchmark datasets, learning materials, and the SAT Book monograph.
       </p>
 
       <!-- 1. Books & Learning -->
-      <section style="margin-bottom: 40px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 8px; margin-bottom: 20px;">Books & Learning Resources</h2>
+      <section style="margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">Books & Learning Resources</h2>
         
         <div class="resource-card">
           <div class="resource-header">
@@ -79,25 +70,25 @@
             <span class="status-badge active">MAINTAINED</span>
           </div>
           <p class="resource-desc">
-            A 104-page authoritative monograph on optimal SAT encodings for combinatorial optimization, featuring 12 chapters and interactive KaTeX math rendering.
+            Academic monograph on optimal SAT encodings for combinatorial optimization.
           </p>
-          <div class="resource-meta" style="margin-bottom: 16px;">
-            <span><strong>Type:</strong> Monograph Book</span>
+          <div class="resource-meta" style="margin-bottom: 14px;">
+            <span><strong>Type:</strong> Monograph</span>
             <span>·</span>
             <span><strong>License:</strong> CC BY-NC-ND 4.0</span>
             <span>·</span>
             <span><strong>Maintainers:</strong> SATLab Team</span>
           </div>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <a href="./read.html" class="btn btn-primary-html">📖 Read HTML Reader Edition ↗</a>
-            <a href="./downloads/sat-book.pdf" class="btn btn-primary">📥 Download PDF (104 Pages)</a>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="./read.html" class="btn btn-primary-html">Read HTML Reader Edition ↗</a>
+            <a href="./downloads/sat-book.pdf" class="btn btn-primary">Download PDF (104 Pages)</a>
           </div>
         </div>
       </section>
 
       <!-- 2. Software & Solvers -->
-      <section style="margin-bottom: 40px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 8px; margin-bottom: 20px;">Software & Solvers</h2>
+      <section style="margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">Software & Solvers</h2>
         
         <div class="resource-card">
           <div class="resource-header">
@@ -105,7 +96,7 @@
             <span class="status-badge active">ACTIVE</span>
           </div>
           <p class="resource-desc">
-            C++ encoder library generating compact sequential counter and ladder encodings for Pseudo-Boolean and Cardinality constraints.
+            C++ encoder library generating compact sequential counter and ladder encodings for Pseudo-Boolean constraints.
           </p>
           <div class="resource-meta">
             <span><strong>Type:</strong> C++ Library</span>
@@ -125,7 +116,7 @@
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Research Group</div>
           <p>VNU University of Engineering and Technology (UET-VNU)</p>
-          <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
+          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>

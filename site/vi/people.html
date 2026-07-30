@@ -14,33 +14,15 @@
     <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/people.html">
     <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/people.html">
     <style>
-      .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
-      .team-card { background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs); }
-      .team-avatar-placeholder { width: 64px; height: 64px; border-radius: 50%; background: var(--color-brand-50); color: var(--color-blue-700); font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-      .team-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--color-ink-950); margin: 0 0 4px; }
-      .team-role { font-size: 0.9rem; font-weight: 700; color: var(--color-blue-700); margin-bottom: 12px; }
-      .team-bio { font-size: 0.92rem; color: var(--color-ink-650); line-height: 1.55; margin: 0; }
+      .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-bottom: 32px; }
+      .team-card { background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 20px; box-shadow: var(--shadow-xs); }
+      .team-avatar-placeholder { width: 56px; height: 56px; border-radius: 50%; background: var(--color-brand-50); color: var(--color-blue-700); font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+      .team-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--color-ink-950); margin: 0 0 2px; }
+      .team-role { font-size: 0.85rem; font-weight: 700; color: var(--color-blue-700); margin-bottom: 10px; }
+      .team-bio { font-size: 0.88rem; color: var(--color-ink-650); line-height: 1.5; margin: 0; }
     </style>
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>Trường Đại học Công nghệ — ĐHQGHN</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="../people.html">EN</a>
-            <span>|</span>
-            <a href="./people.html" class="active">VI</a>
-          </div>
-          <a href="../search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Tìm kiếm</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -48,15 +30,24 @@
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./">Trang chủ</a>
-          <a href="./research.html">Nghiên cứu</a>
-          <a href="./publications.html">Công bố</a>
-          <a href="./projects.html">Dự án</a>
-          <a href="./people.html" class="active">Nhân sự</a>
-          <a href="./resources.html">Tài nguyên</a>
-          <a href="./join.html">Cơ hội tham gia</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Trang chủ</a>
+            <a href="./research.html">Nghiên cứu</a>
+            <a href="./publications.html">Công bố</a>
+            <a href="./projects.html">Dự án</a>
+            <a href="./people.html" class="active">Nhân sự</a>
+            <a href="./resources.html">Tài nguyên</a>
+            <a href="./join.html">Cơ hội tham gia</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="../people.html">EN</a>
+              <a href="./people.html" class="active">VI</a>
+            </div>
+            <a href="../search.html" class="search-link">Tìm kiếm</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -70,14 +61,14 @@
       </div>
     </nav>
 
-    <main class="shell" style="padding: 32px 0 64px;">
-      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 12px;">Đội ngũ nghiên cứu</h1>
-      <p style="font-size: 1.1rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 36px;">
+    <main class="shell" style="padding: 24px 0 56px;">
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Đội ngũ nghiên cứu</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 28px;">
         Giảng viên hướng dẫn, nghiên cứu sinh và sinh viên nghiên cứu tại UET-VNU.
       </p>
 
       <section>
-        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); margin: 32px 0 20px;">1. Trưởng nhóm Nghiên cứu</h2>
+        <h2 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--color-ink-950); margin: 24px 0 16px;">1. Trưởng nhóm Nghiên cứu</h2>
         <div class="team-grid">
           <div class="team-card">
             <div class="team-avatar-placeholder">TK</div>
@@ -89,7 +80,7 @@
       </section>
 
       <section>
-        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); margin: 32px 0 20px;">2. Nghiên cứu sinh & Nghiên cứu viên</h2>
+        <h2 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--color-ink-950); margin: 24px 0 16px;">2. Nghiên cứu sinh & Nghiên cứu viên</h2>
         <div class="team-grid">
           <div class="team-card">
             <div class="team-avatar-placeholder">KT</div>
