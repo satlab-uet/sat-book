@@ -6,69 +6,145 @@
     <meta name="theme-color" content="#1e3a8a">
     <meta
       name="description"
-      content="Chuyên khảo Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp. Nhóm nghiên cứu SATLab, Khoa CNTT, Trường ĐH Công nghệ, ĐHQGHN."
+      content="SATLab — Phòng nghiên cứu Biểu diễn SAT và Tối ưu hóa Tổ hợp, Trường Đại học Công nghệ, ĐHQGHN (UET-VNU)."
     >
-    <meta
-      name="author"
-      content="Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức"
-    >
-
-    <link rel="canonical" href="https://satlab-uet.github.io/sat-book/">
-    <link rel="shortcut icon" href="./favicon.ico">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
-    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
-    <link rel="manifest" href="./manifest.webmanifest">
-    <link rel="stylesheet" href="./assets/css/main.css">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="book">
-    <meta property="og:locale" content="vi_VN">
-    <meta property="og:site_name" content="SATLab UET">
-    <meta property="og:title" content="Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp">
+    
+    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SATLab — Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp | UET-VNU">
     <meta
       property="og:description"
-      content="Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT cho các bài toán tối ưu hóa tổ hợp. Ấn bản 2026."
+      content="Nghiên cứu chuyên sâu về phép mã hóa SAT/MaxSAT/PB, thuật toán giải chính xác cho bài toán lập lịch, đóng gói 2D, gán nhãn đồ thị và cân bằng dây chuyền."
     >
-    <meta property="og:url" content="https://satlab-uet.github.io/sat-book/">
     <meta
       property="og:image"
       content="https://satlab-uet.github.io/sat-book/assets/images/og-card.png"
     >
 
-    <title>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
+    <title>SATLab — Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp | UET-VNU</title>
 
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="./assets/css/main.css">
+
+    <!-- Schema.org JSON-LD Metadata -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Book",
-        "name": "Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp",
-        "inLanguage": "vi",
-        "datePublished": "2026-07-30",
-        "bookFormat": "https://schema.org/EBook",
-        "numberOfPages": 104,
-        "version": "1.0.0",
+        "@type": "ResearchOrganization",
+        "name": "SATLab — SAT & Combinatorial Optimization Research Group",
+        "alternateName": "SATLab UET-VNU",
         "url": "https://satlab-uet.github.io/sat-book/",
-        "image": "https://satlab-uet.github.io/sat-book/assets/images/book-cover.webp",
-        "author": [
-          {"@type": "Person", "name": "Tô Văn Khánh"},
-          {"@type": "Person", "name": "Kiều Văn Tuyên"},
-          {"@type": "Person", "name": "Trương Xuân Hiếu"},
-          {"@type": "Person", "name": "Vũ Thanh Hương"},
-          {"@type": "Person", "name": "Đào Xuân Nghĩa"},
-          {"@type": "Person", "name": "Nguyễn Kim Trung Đức"}
-        ],
-        "publisher": {
-          "@type": "Organization",
-          "name": "SATLab UET",
-          "url": "https://satlab-uet.github.io/sat-book/"
-        }
+        "logo": "https://satlab-uet.github.io/sat-book/assets/images/satlab.png",
+        "parentOrganization": {
+          "@type": "EducationalOrganization",
+          "name": "VNU University of Engineering and Technology (UET-VNU)"
+        },
+        "description": "Phòng nghiên cứu Biểu diễn SAT và Tối ưu hóa Tổ hợp tại Trường Đại học Công nghệ, ĐHQGHN."
       }
     </script>
-  </head>
 
+    <style>
+      .stat-counter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 16px;
+        margin: 28px 0;
+      }
+      .stat-card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        box-shadow: var(--shadow-xs);
+      }
+      .stat-num {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--color-brand-600);
+        line-height: 1.1;
+      }
+      .stat-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-ink-600);
+        margin-top: 4px;
+      }
+      .pub-badge {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 12px;
+        background: #f1f5f9;
+        color: var(--color-ink-700);
+        border: 1px solid var(--border-color);
+      }
+      .pub-badge.q1 { background: #dcfce7; color: #15803d; border-color: #86efac; }
+      .pub-badge.q2 { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+      .pub-badge.q3 { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+      .pub-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .pub-item {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 20px 24px;
+        transition: all 0.2s ease;
+      }
+      .pub-item:hover {
+        border-color: var(--color-brand-500);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+      }
+      .pub-title {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--color-ink-900);
+        margin-bottom: 6px;
+      }
+      .pub-authors {
+        font-size: 0.92rem;
+        color: var(--color-ink-700);
+        margin-bottom: 6px;
+      }
+      .pub-venue {
+        font-size: 0.88rem;
+        color: var(--color-ink-500);
+        font-style: italic;
+      }
+      .recruitment-card {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
+        color: #ffffff;
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        box-shadow: var(--shadow-lg);
+        margin-top: 60px;
+      }
+      .recruitment-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 12px;
+      }
+      .recruitment-card p {
+        color: #cbd5e1;
+        font-size: 1.05rem;
+        margin-bottom: 24px;
+        line-height: 1.65;
+      }
+    </style>
+  </head>
   <body>
-    <!-- Header -->
+    <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
         <a class="brand" href="./">
@@ -76,288 +152,309 @@
           <span class="brand-title">SAT Book</span>
         </a>
         <nav class="nav">
-          <a href="#muc-luc">Mục lục</a>
-          <a href="./read.html">Đọc HTML ↗</a>
-          <a href="#hinh-anh">Hình minh họa</a>
-          <a href="#trich-dan">Trích dẫn</a>
+          <a href="#ve-satlab">Về SATLab</a>
+          <a href="#huong-nghien-cuu">Hướng nghiên cứu</a>
+          <a href="#sach-chuyen-khao">Sách Chuyên khảo</a>
+          <a href="#cong-trinh">Công trình công bố</a>
+          <a href="./read.html">Đọc sách HTML ↗</a>
+          <a href="./downloads/sat-book.pdf">Tải PDF (104 trang)</a>
         </nav>
       </div>
     </header>
 
-    <main>
-      <!-- Hero Section -->
-      <section id="gioi-thieu" class="hero">
-        <div class="shell hero-grid">
-          <div>
-            <div class="pill-badge">
-              <span class="pill-dot"></span>
-              Chuyên khảo Khoa học · Ấn bản 2026
+    <!-- Hero Section -->
+    <section class="hero" id="ve-satlab">
+      <div class="shell hero-grid">
+        <div>
+          <div class="pill-badge">
+            <span class="pill-dot"></span>
+            SATLAB · UET - VNU HANOI
+          </div>
+          <h1>Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp</h1>
+          <p class="hero-subtitle">
+            Nghiên cứu chuyên sâu về lý thuyết phép mã hóa SAT/MaxSAT/Pseudo-Boolean, thiết kế bộ giải chính xác (Exact Solvers) ứng dụng trong Lập lịch công nghiệp, Đóng gói 2D, Gán nhãn đồ thị và Kiểm chứng phần mềm.
+          </p>
+
+          <div class="stat-counter-grid">
+            <div class="stat-card">
+              <div class="stat-num">15+</div>
+              <div class="stat-label">Công trình Q1/Q2/Q3 & Hội nghị Rank B</div>
             </div>
-            <h1>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</h1>
-            <p class="hero-subtitle">
-              Nghiên cứu nguyên lý thiết kế, tái sử dụng cấu trúc bộ đếm và ứng dụng phép mã hóa SAT (SAT encoding) trong các miền bài toán tối ưu hóa tổ hợp thực tế.
+            <div class="stat-card">
+              <div class="stat-num">10+</div>
+              <div class="stat-label">Bài toán Tối ưu hóa Thực tế</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">104</div>
+              <div class="stat-label">Trang Sách Chuyên khảo Chuẩn</div>
+            </div>
+          </div>
+
+          <div class="hero-meta-card">
+            <p class="hero-authors">
+              <strong>Thành viên chủ chốt:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức
             </p>
-
-            <div class="hero-meta-card">
-              <p class="hero-authors">
-                <strong>Tác giả:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức.
-              </p>
-              <div class="hero-affiliation">
-                🏛️ SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, ĐHQGHN.
-              </div>
-            </div>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="./downloads/sat-book.pdf">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
-                Tải PDF (104 trang)
-              </a>
-              <a class="btn btn-primary-html" href="./read.html">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 1 3-3h7z"/></svg>
-                Đọc bản HTML (Online) ↗
-              </a>
+            <div class="hero-affiliation">
+              Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)
             </div>
           </div>
 
-          <div class="cover-wrapper">
+          <div class="hero-actions">
+            <a class="btn btn-primary-html" href="./read.html">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 1 3-3h7z"/></svg>
+              📖 Đọc Sách Chuyên khảo (Online) ↗
+            </a>
+            <a class="btn btn-primary" href="./downloads/sat-book.pdf">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+              Tải PDF Sách (104 trang)
+            </a>
+            <a class="btn btn-outline" href="#huong-nghien-cuu">
+              Khám phá Nghiên cứu ↓
+            </a>
+          </div>
+        </div>
+
+        <div class="cover-wrapper">
+          <a href="./read.html" title="Đọc bản sách HTML trực tuyến">
             <img
-              class="book-cover-img"
               src="./assets/images/book-cover.webp"
-              width="720"
-              height="1018"
               alt="Bìa sách Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp"
+              class="book-cover-img"
             >
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Research Directions Section -->
+    <section class="features-section" id="huong-nghien-cuu">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-tag">RESEARCH DOMAINS</div>
+          <h2 class="section-title">Các hướng nghiên cứu trọng tâm</h2>
+          <p class="section-desc">
+            SATLab phát triển hệ thống biểu diễn và thuật toán giải tối ưu có khả năng vượt trội so với các công cụ thương mại MIP/CPLEX/Gurobi trên nhiều bài toán thực tế.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/></svg>
+            </div>
+            <h3>Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h3>
+            <p>Phát triển bộ đếm tuần tự thích nghi (New Sequential Counter - NSC), mã hóa ràng buộc đếm Cardinality, Pseudo-Boolean (PB), AMO/AMK/ALK dạng bậc thang và hệ sinh thái thư viện SCLib.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h3>
+            <p>Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền sản xuất (SALB, UALBP), lập lịch Job-Shop (JSSP/FJSSP), lập lịch tàu hỏa (Train Rescheduling via MaxSAT-DDD) và RCPSP.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <h3>Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h3>
+            <p>Phương pháp SAT/MaxSAT giải chính xác bài toán đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và cắt cuộn nguyên liệu (Cutting Stock Problem).</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <h3>Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h3>
+            <p>Mã hóa SAT giải tối ưu bài toán Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling, k-Safe Labeling và Phân bổ tần số mạng vô tuyến (MO-FAP).</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Table of Contents Section -->
-      <section id="muc-luc" class="section">
-        <div class="shell">
-          <div class="section-header">
-            <h2 class="section-title">Cấu trúc chuyên khảo</h2>
-            <p class="section-subtitle">Chuyên khảo gồm 12 chương được chia thành 3 phần trọng tâm, trình bày từ cơ sở lý thuyết logic đến nguyên lý thiết kế và 4 miền ứng dụng thực tiễn.</p>
+    <!-- Flagship Monograph Section -->
+    <section class="toc-section" id="sach-chuyen-khao">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-tag">FLAGSHIP PUBLICATION</div>
+          <h2 class="section-title">Sách Chuyên khảo của SATLab</h2>
+          <p class="section-desc">
+            Ấn phẩm 104 trang đúc kết toàn bộ lý thuyết và thực tiễn kỹ nghệ công nghệ phần mềm mã hóa SAT tối ưu cho các bài toán tối ưu hóa tổ hợp.
+          </p>
+        </div>
+
+        <div class="toc-grid">
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 01</span>
+            <h3>SAT và MaxSAT như một nền tảng giải chính xác</h3>
+            <p>Bốn lớp thuật toán, quy trình CDCL và mối tương quan giữa mã hóa và giải mã.</p>
           </div>
 
-          <!-- Part I -->
-          <div class="toc-block">
-            <div class="toc-block-title">
-              <span>Phần I · Nền tảng và tiêu chí thiết kế</span>
-              <span class="toc-block-badge">Chương 1 – 4</span>
-            </div>
-            <ul class="toc-list">
-              <li class="toc-item">
-                <div class="toc-num-tag">CHƯƠNG 1</div>
-                <div>
-                  <div class="toc-content-title">SAT và MaxSAT như một nền tảng giải chính xác</div>
-                  <div class="toc-content-desc">Tổng quan về mô hình miền, chuyển đổi Tseitin sang CNF, thuật toán CDCL (gán đơn vị, học mệnh đề, quay lùi), kiến trúc giải MaxSAT (core-guided, model-based), thư viện PySAT và cơ chế chứng nhận nghiệm bằng bằng chứng DRAT.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag">CHƯƠNG 2</div>
-                <div>
-                  <div class="toc-content-title">Thế nào là một phép mã hóa SAT tốt?</div>
-                  <div class="toc-content-desc">Hệ thống hóa các tiêu chí đánh giá phép mã hóa: tính đúng ngữ nghĩa theo phép chiếu, khả năng lan truyền đơn vị (GAC và GAC-like), sự đánh đổi giữa số biến/mệnh đề phụ với khả năng suy luận của bộ giải, và thiết kế giao diện ghép mô-đun.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag">CHƯƠNG 3</div>
-                <div>
-                  <div class="toc-content-title">Bộ công cụ ràng buộc đếm và giả Boolean</div>
-                  <div class="toc-content-desc">Khảo sát các họ mã hóa ràng buộc đếm (AMO, EXO, AMK, ALK) và giả Boolean (PB): từ mã hóa cặp (Pairwise), mã hóa nhị phân (Bitwise), bộ đếm tuần tự (Sequential Counter), Cây tổng cân bằng, Mạng sắp xếp Batcher đến cấu trúc PB/GTE.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag">CHƯƠNG 4</div>
-                <div>
-                  <div class="toc-content-title">Thiết kế thực nghiệm cho phép mã hóa SAT</div>
-                  <div class="toc-content-desc">Quy trình thực nghiệm chuẩn hóa cho phép mã hóa SAT: nguyên tắc chọn bộ kiểm chuẩn đại diện, cấu hình solver (Minisat, Glucose, CaDiCaL, RC2), thước đo thời gian CPU/PAR-2, biểu đồ xương rồng, biểu đồ phân tán và chuỗi truy vết thực nghiệm.</div>
-                </div>
-              </li>
-            </ul>
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 02</span>
+            <h3>Thế nào là một phép mã hóa SAT tốt?</h3>
+            <p>Đặc tả ngữ nghĩa contract, lan truyền đơn vị, mặt Pareto và ma trận phát biểu.</p>
           </div>
 
-          <!-- Part II -->
-          <div class="toc-block">
-            <div class="toc-block-title">
-              <span>Phần II · Tái sử dụng cấu trúc trong phép mã hóa SAT</span>
-              <span class="toc-block-badge">Chương 5 – 7</span>
-            </div>
-            <ul class="toc-list">
-              <li class="toc-item">
-                <div class="toc-num-tag part-2">CHƯƠNG 5</div>
-                <div>
-                  <div class="toc-content-title">Bộ đếm dùng chung cho các cửa sổ chồng lấn</div>
-                  <div class="toc-content-desc">Thiết kế bộ đếm dùng chung (Shared Counter) cho chuỗi ràng buộc đếm chồng lấn (Sequence constraint). Phương pháp phân hoạch khối chuỗi Boolean giúp tái sử dụng trạng thái đếm cục bộ giữa các cửa sổ kề nhau, giảm đáng kể số biến và mệnh đề phụ.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-2">CHƯƠNG 6</div>
-                <div>
-                  <div class="toc-content-title">Thanh ghi đếm thích nghi cho ràng buộc đúng K</div>
-                  <div class="toc-content-desc">Kiến trúc thanh ghi đếm thích nghi (NSC - New Sequential Counter) cho ràng buộc đếm Exactly-K. Phân tích miền trạng thái tam giác khả đạt và lập hệ thức truy hồi ngưỡng để loại bỏ các ô đếm bất khả, đạt số biến và mệnh đề tối ưu.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-2">CHƯƠNG 7</div>
-                <div>
-                  <div class="toc-content-title">Đối xứng, biến quan hệ và liên kết biểu diễn</div>
-                  <div class="toc-content-desc">Phương pháp phá đối xứng Lexicographic (LEX), khai thác biến quan hệ làm chứng chỉ biểu diễn cho tập tọa độ, và kỹ thuật liên kết biểu diễn hai chiều (Channeling) giữa các miền biến khác nhau nhằm kích hoạt tối đa đường lan truyền đơn vị.</div>
-                </div>
-              </li>
-            </ul>
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 03</span>
+            <h3>Bộ công cụ ràng buộc đếm và giả Boolean</h3>
+            <p>AMO, AMK, ALK, bộ đếm tuần tự NSC, cây tổng cân bằng và mạng sắp xếp.</p>
           </div>
 
-          <!-- Part III -->
-          <div class="toc-block">
-            <div class="toc-block-title">
-              <span>Phần III · Các họ bài toán tối ưu tổ hợp</span>
-              <span class="toc-block-badge">Chương 8 – 12</span>
-            </div>
-            <ul class="toc-list">
-              <li class="toc-item">
-                <div class="toc-num-tag part-3">CHƯƠNG 8</div>
-                <div>
-                  <div class="toc-content-title">Lập lịch và cân bằng dây chuyền</div>
-                  <div class="toc-content-desc">Mã hóa bài toán lập lịch công việc và tài nguyên: so sánh biểu diễn mốc thời gian (order/support) với vị trí công việc, ứng dụng trong lập lịch y tế (NSP), xếp lịch tàu hỏa, RCPSP và giải thuật phân rã miền động (DDD) cho MaxSAT.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-3">CHƯƠNG 9</div>
-                <div>
-                  <div class="toc-content-title">Đóng gói và cắt hai chiều</div>
-                  <div class="toc-content-desc">Mã hóa bài toán xếp hình và đóng gói 2D: biểu diễn quan hệ vị trí không chồng lấn giữa các vật thể hình chữ nhật, ứng dụng trong 2D Strip Packing, 2D Bin Packing, Cắt thanh kim loại nguyên chiếc và so sánh kiến trúc xếp chồng vs không xếp chồng.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-3">CHƯƠNG 10</div>
-                <div>
-                  <div class="toc-content-title">Bandwidth, antibandwidth và tô đa màu</div>
-                  <div class="toc-content-desc">Mã hóa các bài toán khoảng cách nhãn trên đồ thị: xây dựng ma trận khoảng cấm cho Cyclic Antibandwidth (CABP), Bandwidth Coloring Problem (BCP) và phương pháp phân rã cửa sổ cấm trên các họ đồ thị cấu trúc đặc biệt.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-3">CHƯƠNG 11</div>
-                <div>
-                  <div class="toc-content-title">Gán nhãn và phân bổ tần số</div>
-                  <div class="toc-content-desc">Mã hóa bài toán phân bổ tài nguyên tần số radio (FAP) và gán nhãn Radio Labeling: kỹ thuật nén khoảng cấm liên tục thành hai literal biên và gán nhãn k-safe trên đồ thị để đảm bảo khoảng cách an toàn chống nhiễu sóng.</div>
-                </div>
-              </li>
-              <li class="toc-item">
-                <div class="toc-num-tag part-3">CHƯƠNG 12</div>
-                <div>
-                  <div class="toc-content-title">Kết luận và chương trình nghiên cứu</div>
-                  <div class="toc-content-desc">Tổng kết bốn nguyên lý thiết kế phép mã hóa SAT hiệu quả, hệ thống hóa bản đồ bằng chứng thực nghiệm của nhóm tác giả và đề xuất các chương trình nghiên cứu phát triển mở rộng trong tương lai.</div>
-                </div>
-              </li>
-            </ul>
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 04</span>
+            <h3>Thiết kế thực nghiệm cho phép mã hóa SAT</h3>
+            <p>Ma trận cấu hình, biểu đồ xương rồng, profile bậc thang và chuỗi truy vết.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 05</span>
+            <h3>Bộ đếm dùng chung cho các cửa sổ chồng lấn</h3>
+            <p>Phân hoạch khối, bộ đếm cục bộ, bộ nối và ứng dụng trong cửa sổ trượt.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 06</span>
+            <h3>Thanh ghi đếm thích nghi cho ràng buộc đúng K</h3>
+            <p>Miền trạng thái tam giác NSC, truy hồi ngưỡng và điều kiện phá biên.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 07</span>
+            <h3>Đối xứng, biến quan hệ và liên kết biểu diễn</h3>
+            <p>Nhóm đối xứng, đại diện chuẩn, quan hệ không chồng lấn và liên kết kênh.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 08</span>
+            <h3>Lập lịch và cân bằng dây chuyền</h3>
+            <p>Miền thời gian, tài nguyên liên tục, cửa sổ ALSC và làm mịn lưới DDD.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 09</span>
+            <h3>Đóng gói và cắt hai chiều</h3>
+            <p>Tọa độ thứ tự, quan hệ tách, cận khung chứa và xếp chồng không toàn cục.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 10</span>
+            <h3>Bandwidth, antibandwidth và tô đa màu</h3>
+            <p>Cửa sổ cấm, tuyến tính hóa vòng, ma trận khoảng cách và tìm cận dưới.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 11</span>
+            <h3>Gán nhãn và phân bổ tần số</h3>
+            <p>Chuỗi thứ tự, nén khoảng cấm, gán nhãn radio và khoảng chênh tần số.</p>
+          </div>
+
+          <div class="toc-item">
+            <span class="toc-number">CHƯƠNG 12</span>
+            <h3>Kết luận và chương trình nghiên cứu</h3>
+            <p>Tổng kết bài học thiết kế, checklist đánh giá mã hóa và lộ trình mở rộng.</p>
           </div>
         </div>
-      </section>
 
-      <!-- Figures Section -->
-      <section id="hinh-anh" class="section">
-        <div class="shell">
-          <div class="section-header">
-            <h2 class="section-title">Hình minh họa kỹ thuật tiêu biểu</h2>
-            <p class="section-subtitle">Các hình minh họa trong chuyên khảo được dựng nguyên bản bằng TikZ trong mã nguồn LaTeX, mô phỏng trực quan các cấu trúc đếm và luồng dữ liệu.</p>
+        <div style="text-align: center; margin-top: 40px;">
+          <a class="btn btn-primary-html" href="./read.html">
+            📖 Đọc toàn văn 12 Chương trực tuyến (HTML Reader) ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section class="features-section" id="cong-trinh">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-tag">PUBLICATIONS & ACHIEVEMENTS</div>
+          <h2 class="section-title">Công trình công bố tiêu biểu</h2>
+          <p class="section-desc">
+            Các bài báo khoa học xuất sắc của SATLab trên các Tạp chí ISI/Scopus hàng đầu và Báo cáo tại các Hội nghị Quốc tế Prestige.
+          </p>
+        </div>
+
+        <div class="pub-list">
+          <div class="pub-item">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span class="pub-badge q1">Q1 ISI</span>
+              <span class="pub-badge">Tạp chí Quốc tế</span>
+            </div>
+            <div class="pub-title">Solving Cyclic Antibandwidth Problem by SAT</div>
+            <div class="pub-authors">Trương Xuân Hiếu, Tô Văn Khánh</div>
+            <div class="pub-venue">Computational Optimization and Applications (2026)</div>
           </div>
 
-          <div class="figures-grid">
-            <div class="figure-card">
-              <div class="figure-img-box">
-                <img src="./assets/images/diagrams/fig_ch01.webp" alt="Sơ đồ vòng lặp CDCL trong bộ giải SAT" loading="lazy">
-              </div>
-              <div class="figure-info">
-                <div class="figure-title">Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT</div>
-                <div class="figure-desc">Luồng xử lý từ gán đơn vị, phát hiện xung đột, phân tích xung đột đến học mệnh đề và quay lùi không thứ tự trong solver.</div>
-              </div>
+          <div class="pub-item">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span class="pub-badge q2">Q2 Scopus</span>
+              <span class="pub-badge">Tạp chí Quốc tế</span>
             </div>
+            <div class="pub-title">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</div>
+            <div class="pub-authors">Kiều Văn Tuyên, Tô Văn Khánh</div>
+            <div class="pub-venue">Cybernetics and Information Technologies 25(3), 2025</div>
+          </div>
 
-            <div class="figure-card">
-              <div class="figure-img-box">
-                <img src="./assets/images/diagrams/fig_ch03.webp" alt="Lưới trạng thái bộ đếm tuần tự Sequential Counter" loading="lazy">
-              </div>
-              <div class="figure-info">
-                <div class="figure-title">Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)</div>
-                <div class="figure-desc">Ma trận biến phụ tích lũy và các đường lan truyền ngưỡng trong mã hóa ràng buộc đếm AMK.</div>
-              </div>
+          <div class="pub-item">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span class="pub-badge q3">Q3 ISI</span>
+              <span class="pub-badge">Tạp chí Quốc tế</span>
             </div>
+            <div class="pub-title">An Efficient SAT Encoding for Solving the Social Golfer Problem</div>
+            <div class="pub-authors">Kiều Văn Tuyên, Nguyễn Tân Nguyên, Tô Văn Khánh</div>
+            <div class="pub-venue">RAIRO - Operations Research 60(1): 173-199, 2026</div>
+          </div>
 
-            <div class="figure-card">
-              <div class="figure-img-box">
-                <img src="./assets/images/diagrams/fig_ch05.webp" alt="Bộ đếm dùng chung cho cửa sổ chồng lấn Shared Counter" loading="lazy">
-              </div>
-              <div class="figure-info">
-                <div class="figure-title">Hình 5.3 · Bộ đếm dùng chung (Shared Counter)</div>
-                <div class="figure-desc">Phân hoạch khối và kỹ thuật tái sử dụng trạng thái đếm cục bộ giữa các cửa sổ Sequence kề nhau.</div>
-              </div>
+          <div class="pub-item">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span class="pub-badge q2">Rank B</span>
+              <span class="pub-badge">Hội nghị Quốc tế</span>
             </div>
+            <div class="pub-title">Sequential Counter Encoding for Staircase At-Most-One Constraints</div>
+            <div class="pub-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
+            <div class="pub-venue">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), SciTePress</div>
+          </div>
 
-            <div class="figure-card">
-              <div class="figure-img-box">
-                <img src="./assets/images/diagrams/so_do_chuong_9.png" alt="Sơ đồ đóng gói và cắt hai chiều" loading="lazy">
-              </div>
-              <div class="figure-info">
-                <div class="figure-title">Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D</div>
-                <div class="figure-desc">Biểu diễn quan hệ không chồng lấn giữa các vật thể hình chữ nhật bằng các literal quan hệ chứng minh.</div>
-              </div>
+          <div class="pub-item">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span class="pub-badge q4">Q4 Scopus</span>
+              <span class="pub-badge">Tạp chí Quốc tế</span>
             </div>
+            <div class="pub-title">Efficient SAT and MaxSAT Techniques for Solving the Two-Dimensional Strip Packing Problem</div>
+            <div class="pub-authors">Kiều Văn Tuyên, Lê Quý Dương, Tô Văn Khánh</div>
+            <div class="pub-venue">Pesquisa Operacional 45: e297231, 2025</div>
           </div>
         </div>
-      </section>
 
-      <!-- Citation Section -->
-      <section id="trich-dan" class="section">
-        <div class="shell">
-          <div class="section-header">
-            <h2 class="section-title">Thông tin trích dẫn</h2>
-            <p class="section-subtitle">Vui lòng sử dụng trích dẫn bên dưới khi tham chiếu đến nội dung chuyên khảo trong các công trình nghiên cứu khoa học.</p>
-          </div>
-
-          <div class="cite-card">
-            <div class="cite-text-block">
-              Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức (2026).
-              <em>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</em>. Ấn bản 2026. SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội.
-            </div>
-
-            <div class="code-terminal">
-              <pre id="bibtex-code"><code>@book{satbook2026,
-  title     = {Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp},
-  author    = {Tô, Văn Khánh và Kiều, Văn Tuyên và Trương, Xuân Hiếu và Vũ, Thanh Hương và Đào, Xuân Nghĩa và Nguyễn, Kim Trung Đức},
-  year      = {2026},
-  publisher = {SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, ĐHQGHN},
-  note      = {Ấn bản 2026},
-  url       = {https://satlab-uet.github.io/sat-book/}
-}</code></pre>
-            </div>
-
-            <div class="cite-actions">
-              <button id="copy-bibtex-btn" class="copy-btn" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Sao chép BibTeX
-              </button>
-              <span id="copy-toast" class="copy-status" role="status"></span>
-            </div>
-          </div>
+        <!-- Recruitment Banner -->
+        <div class="recruitment-card">
+          <h3>Tham gia SATLab & Lifelong Learning</h3>
+          <p>
+            “School shows us the key to knowledge; learning in life is a lifelong job.” SATLab liên tục tìm kiếm và chào đón các bạn Nghiên cứu sinh (PhD), Học viên Cao học (Master) và Sinh viên cử nhân (Undergraduate K67, K68, K69) đam mê nghiên cứu về Software Verification, SAT/MaxSAT Solvers, Planning, Scheduling và Optimization.
+          </p>
+          <a class="btn btn-primary" href="mailto:khanhtv@vnu.edu.vn">
+            ✉ Đăng ký tham gia SATLab
+          </a>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</div>
-          <p>© 2026 Các tác giả. Nhóm nghiên cứu SATLab UET.</p>
+          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
+          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
-          Khoa Công nghệ Thông tin · Trường Đại học Công nghệ, ĐHQGHN
+          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
         </div>
       </div>
     </footer>
-
-    <script src="./assets/js/main.js" defer></script>
   </body>
 </html>

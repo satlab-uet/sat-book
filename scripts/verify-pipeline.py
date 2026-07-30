@@ -96,14 +96,14 @@ def main():
     if json_ld_match:
         try:
             data = json.loads(json_ld_match.group(1))
-            assert data["@type"] == "Book"
+            assert data["@type"] in ["ResearchOrganization", "Book"]
             print(f"[✓] JSON-LD Schema.org metadata parsed and validated successfully.")
         except Exception as e:
             print(f"[X] Invalid JSON-LD metadata: {e}", file=sys.stderr)
             sys.exit(1)
             
     # Verify Anchors
-    anchors = ["gioi-thieu", "muc-luc", "hinh-anh", "trich-dan"]
+    anchors = ["ve-satlab", "huong-nghien-cuu", "sach-chuyen-khao", "cong-trinh"]
     for a in anchors:
         if f'id="{a}"' in html_text or f'id=\'{a}\'' in html_text:
             print(f"[✓] Anchor section confirmed: #{a}")
