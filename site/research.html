@@ -4,17 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="SATLab Research Domains — SAT/MaxSAT Encodings, Exact Solvers, Assembly Line Balancing, 2D Packing, and Graph Labeling.">
+    <meta name="description" content="SATLab Research Themes — Encodings, Line Balancing, 2D Packing, and Graph Labeling.">
     <title>Research Domains | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/research.html">
-    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/research.html">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/research.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/research.html">
   </head>
   <body>
+    <!-- Top Announcement Banner -->
+    <div class="top-banner">
+      SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -53,59 +58,45 @@
       </div>
     </nav>
 
-    <!-- Page Content -->
+    <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
       <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Core Research Domains</h1>
       <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
-        SATLab investigates how propositional satisfiability (SAT), MaxSAT, and Pseudo-Boolean (PB) encodings can be formulated to solve hard combinatorial optimization problems with provable correctness.
+        Our research spans fundamental theoretical encodings to industrial combinatorial optimization applications.
       </p>
 
-      <div style="display: flex; flex-direction: column; gap: 24px;">
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 01</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Encodings & Solver Architecture</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            We design compact, unit-propagation-effective SAT encodings for cardinality constraints (AMO, AMK, ALK) and Pseudo-Boolean constraints. Key breakthroughs include the New Sequential Counter (NSC) register and the SCLib solver ecosystem.
-          </p>
-          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
-            <a href="./resources.html" class="btn btn-outline">View SCLib Solver ↗</a>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge active">THEORETICAL CORE</span>
           </div>
-        </article>
+          <h3>1. SAT & Pseudo-Boolean Encodings</h3>
+          <p>Developing New Sequential Counter (NSC) variants, Cardinality encodings (AMO/AMK/ALK), and Pseudo-Boolean translations for CNF solvers.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 02</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Scheduling & Line Balancing</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Industrial optimization problems including Assembly Line Balancing (SALBP, UALBP), Power Peak Minimization, Job-Shop Scheduling (JSSP/FJSSP), and Railway Train Rescheduling using MaxSAT-DDD.
-          </p>
-          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
-            <a href="./projects.html" class="btn btn-outline">View Active Projects ↗</a>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge rolling">INDUSTRIAL APPS</span>
           </div>
-        </article>
+          <h3>2. Assembly Line Balancing & Scheduling</h3>
+          <p>Exact decision algorithms for Power Peak Minimization in SALB/UALBP, Job-Shop Scheduling, and Train Rescheduling via MaxSAT-DDD.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 03</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">2D Packing & Cutting Optimization</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Exact SAT models for 2D Strip Packing Problems, 2D Bin Packing, and Cutting Stock Problems using integer layout modeling and non-overlapping spatial decomposition.
-          </p>
-          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge open">GEOMETRIC OPTIMIZATION</span>
           </div>
-        </article>
+          <h3>3. 2D Strip & Bin Packing</h3>
+          <p>Formulating non-overlapping spatial constraints and rotation-free models for 2D Strip Packing and Cutting Stock Problems.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">THEME 04</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Graph Labeling & Frequency Assignment</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Exact decision algorithms for Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling, and Multi-Objective Frequency Assignment (MO-FAP) in wireless networks.
-          </p>
-          <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="./publications.html" class="btn btn-outline">View Publications ↗</a>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge active">GRAPH ALGORITHMS</span>
           </div>
-        </article>
+          <h3>4. Graph Labeling & Frequency Assignment</h3>
+          <p>Solving Antibandwidth, Cyclic Antibandwidth, Radio-k Labeling, Bandwidth Multicoloring, and Mobile Frequency Allocation via SAT.</p>
+        </div>
       </div>
     </main>
 
@@ -119,6 +110,7 @@
           <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
           <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
           <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>

@@ -4,15 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="Search SATLab — Full-text search index across research domains, publications, projects, people, and resources.">
-    <title>Search | SATLab UET</title>
+    <meta name="description" content="Search SATLab — Instant search across publications, research themes, projects, resources, and group members.">
+    <title>Search SATLab | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/search.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/search.html">
   </head>
   <body>
+    <!-- Top Announcement Banner -->
+    <div class="top-banner">
+      SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -35,61 +42,99 @@
               <a href="./search.html" class="active">EN</a>
               <a href="./vi/search.html">VI</a>
             </div>
-            <a href="./search.html" class="search-link">Search</a>
+            <a href="./search.html" class="search-link active">Search</a>
           </div>
         </div>
       </div>
     </header>
 
-    <main class="shell" style="padding: 32px 0 64px; max-width: 800px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 16px;">Search SATLab</h1>
-      <input type="text" id="global-search-input" class="search-box" style="max-width: 100%; font-size: 1.05rem; padding: 12px 18px;" placeholder="Type keywords (e.g. SAT, scheduling, packing, Hieu)..." autofocus>
-
-      <div id="search-results-output" style="margin-top: 24px;">
-        <p style="color: var(--color-ink-650);">Type a keyword above to search across publications, research themes, projects, and people.</p>
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+      <div class="shell">
+        <ol class="breadcrumbs-list">
+          <li><a href="./">Home</a></li>
+          <li aria-current="page">Search</li>
+        </ol>
       </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="shell" style="padding: 36px 0 64px; max-width: 840px;">
+      <h1 style="font-family: var(--font-display); font-size: 2.1rem; color: var(--color-ink-950); margin-bottom: 12px; font-weight: 800;">Search SATLab</h1>
+      <p style="font-size: 1rem; color: var(--color-ink-650); margin-bottom: 24px;">
+        Type a keyword below to search across publications, research themes, projects, resources, and people.
+      </p>
+
+      <div class="search-input-wrapper">
+        <input 
+          type="text" 
+          id="global-search-input" 
+          class="search-box" 
+          placeholder="Type keywords (e.g. SAT, MaxSAT, Antibandwidth, Kieu Van Tuyen, SCLib)..."
+          autofocus
+        >
+      </div>
+
+      <!-- Live Search Results Container -->
+      <div id="search-results-summary" style="font-size: 0.9rem; color: var(--color-ink-650); margin-bottom: 16px; font-weight: 600;"></div>
+      <div id="search-results-list"></div>
     </main>
 
     <script>
-      var searchIndex = [
-        { title: "Encodings & Solver Architecture", type: "Research Domain", url: "./research.html", text: "New Sequential Counter NSC AMO AMK ALK Pseudo-Boolean SCLib" },
-        { title: "Scheduling & Line Balancing", type: "Research Domain", url: "./research.html", text: "Power Peak Minimization Assembly Line Balancing SALBP JSSP MaxSAT-DDD" },
-        { title: "2D Packing & Cutting Optimization", type: "Research Domain", url: "./research.html", text: "2D Strip Packing Bin Packing Cutting Stock spatial decomposition" },
-        { title: "Graph Labeling & Frequency Assignment", type: "Research Domain", url: "./research.html", text: "Antibandwidth Cyclic Antibandwidth Radio-k Labeling MO-FAP" },
-        { title: "Solving Cyclic Antibandwidth Problem by SAT", type: "Publication", url: "./publications.html", text: "Truong Xuan Hieu To Van Khanh COAP Springer 2026 Q1 ISI" },
-        { title: "Compact SAT Encodings for Power Peak Minimization", type: "Publication", url: "./publications.html", text: "Kieu Van Tuyen To Van Khanh JCO 2025 Q2 Scopus" },
-        { title: "SAT Book Monograph", type: "Resource", url: "./read.html", text: "104 pages 12 chapters monograph online reader edition" },
-        { title: "Dr. To Van Khanh", type: "Person", url: "./people.html", text: "Lab Leader Head of SATLab UET" },
-        { title: "Kieu Van Tuyen", type: "Person", url: "./people.html", text: "PhD Candidate Researcher Scheduling Strip Packing" },
-        { title: "Truong Xuan Hieu", type: "Person", url: "./people.html", text: "Researcher Antibandwidth SCLib" }
+      const searchData = [
+        { title: "Solving Cyclic Antibandwidth Problem by SAT", type: "Publication", url: "./publications.html", desc: "Q1 ISI Journal paper by Truong Xuan Hieu and To Van Khanh in Computational Optimization and Applications (2026)." },
+        { title: "Compact SAT Encodings for Power Peak Minimization in Assembly Line Balancing", type: "Publication", url: "./publications.html", desc: "Journal of Combinatorial Optimization (2025) paper by Kieu Van Tuyen and To Van Khanh." },
+        { title: "SAT Encodings for 2D Strip Packing Problems with Non-Overlapping Constraints", type: "Publication", url: "./publications.html", desc: "ICAART 2025 conference paper by Kieu Van Tuyen, Truong Xuan Hieu, and To Van Khanh." },
+        { title: "SCLib — C++ SAT Encoding & Cardinality Library", type: "Resource", url: "./resources.html", desc: "Open-source high-performance C++ header-only library implementing NSC, AMO, AMK, and PB encodings." },
+        { title: "SAT-Monograph — Optimal Encodings Source Code", type: "Resource", url: "./resources.html", desc: "Complete reproducible code repository for all benchmarks in the SAT Monograph." },
+        { title: "SAT Book Monograph Online HTML Edition", type: "Book", url: "./read.html", desc: "Full online readable HTML edition with MathJax/KaTeX math rendering." },
+        { title: "Dr. To Van Khanh (Head of SATLab)", type: "Person", url: "./people.html", desc: "Associate Professor / Senior Researcher specializing in SAT/SMT encodings, formal verification, and optimization." },
+        { title: "Kieu Van Tuyen (PhD Candidate)", type: "Person", url: "./people.html", desc: "PhD Candidate researching exact decision solvers for industrial scheduling and 2D packing." },
+        { title: "Truong Xuan Hieu (Researcher / Lecturer)", type: "Person", url: "./people.html", desc: "Lecturer & Researcher focusing on graph labeling, antibandwidth, and SAT encodings." },
+        { title: "About SATLab UET (Embedded Systems Lab History)", type: "About", url: "./about.html", desc: "History of SATLab founded in 2010 (formerly SIS Lab 2005) at VNU-UET." }
       ];
 
-      document.getElementById('global-search-input').addEventListener('keyup', function() {
-        var query = this.value.toLowerCase().trim();
-        var out = document.getElementById('search-results-output');
+      const inputEl = document.getElementById('global-search-input');
+      const resultsSummaryEl = document.getElementById('search-results-summary');
+      const resultsListEl = document.getElementById('search-results-list');
+
+      function performSearch(query) {
+        query = query.trim().toLowerCase();
+        resultsListEl.innerHTML = '';
+
         if (!query) {
-          out.innerHTML = '<p style="color: var(--color-ink-650);">Type a keyword above to search across publications, research themes, projects, and people.</p>';
+          resultsSummaryEl.textContent = '';
           return;
         }
 
-        var matches = searchIndex.filter(item => (item.title + " " + item.type + " " + item.text).toLowerCase().includes(query));
+        const matches = searchData.filter(item => 
+          item.title.toLowerCase().includes(query) || 
+          item.desc.toLowerCase().includes(query) ||
+          item.type.toLowerCase().includes(query)
+        );
 
         if (matches.length === 0) {
-          out.innerHTML = '<p style="color: var(--color-ink-650);">No matching results found for "<strong>' + query + '</strong>".</p>';
+          resultsSummaryEl.textContent = `No results found for "${query}". Try searching for "SAT", "MaxSAT", "Tuyen", or "SCLib".`;
           return;
         }
 
-        var htmlOut = '<div style="display: flex; flex-direction: column; gap: 12px;">';
-        matches.forEach(m => {
-          htmlOut += '<article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 16px 20px;">' +
-            '<span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">' + m.type + '</span>' +
-            '<h3 style="margin: 4px 0 4px; font-size: 1.05rem;"><a href="' + m.url + '">' + m.title + ' ↗</a></h3>' +
-            '<p style="margin: 0; font-size: 0.88rem; color: var(--color-ink-650);">' + m.text + '</p>' +
-            '</article>';
+        resultsSummaryEl.textContent = `Found ${matches.length} result(s) for "${query}":`;
+        
+        matches.forEach(item => {
+          const card = document.createElement('div');
+          card.style.cssText = 'background:#ffffff; border:1px solid var(--color-border); border-radius:var(--radius-card); padding:18px; margin-bottom:12px; box-shadow:var(--shadow-xs);';
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-family:var(--font-mono); font-size:0.72rem; font-weight:700; background:var(--color-brand-50); color:var(--color-blue-700); padding:2px 8px; border-radius:var(--radius-full); text-transform:uppercase;">${item.type}</span>
+            </div>
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-ink-950); margin:4px 0 6px;"><a href="${item.url}">${item.title} ↗</a></h3>
+            <p style="font-size:0.9rem; color:var(--color-ink-650); margin:0;">${item.desc}</p>
+          `;
+          resultsListEl.appendChild(card);
         });
-        htmlOut += '</div>';
-        out.innerHTML = htmlOut;
-      });
+      }
+
+      inputEl.addEventListener('input', (e) => performSearch(e.target.value));
     </script>
 
     <!-- Footer -->
@@ -98,7 +143,14 @@
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Research Group</div>
-          <p>© 2026 SATLab UET. All rights reserved.</p>
+          <p>VNU University of Engineering and Technology (UET-VNU)</p>
+          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
+          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
         </div>
       </div>
     </footer>

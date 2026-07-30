@@ -67,6 +67,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 24px);
+  height: 100%;
 }
 
 body {
@@ -77,6 +78,14 @@ body {
   font-size: 0.98rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+  min-height: calc(100vh - 300px);
 }
 
 p {
@@ -281,6 +290,35 @@ a:hover {
 
 .breadcrumbs-list a:hover {
   color: var(--color-blue-700);
+}
+
+/* ==========================================================================
+   Search Input & Search Page Styling
+   ========================================================================== */
+.search-input-wrapper {
+  width: 100%;
+  max-width: 680px;
+  margin-bottom: 24px;
+}
+
+.search-box {
+  width: 100%;
+  max-width: 680px;
+  padding: 12px 18px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  color: var(--color-ink-950);
+  background: #ffffff;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s ease;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: var(--color-blue-700);
+  box-shadow: 0 0 0 3px rgba(18, 91, 147, 0.12);
 }
 
 /* ==========================================================================
@@ -526,7 +564,7 @@ a:hover {
   transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Ensures children do not stretch to 100% width */
+  align-items: flex-start;
 }
 
 .feature-card:hover {
@@ -606,12 +644,14 @@ a:hover {
   color: var(--color-ink-500);
 }
 
-/* Footer */
+/* Footer (Sticky Bottom via Flex Layout) */
 .site-footer {
   padding: 40px 0 24px;
   background: var(--color-ink-950);
   color: #94a3b8;
   font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .footer-grid {

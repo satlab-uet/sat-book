@@ -6,123 +6,102 @@
 \hypersetup{pageanchor=false}
 
 %%==========================================================
-%% TITLE PAGE — Springer Monographs / OUP style
+%% TITLE PAGE — Springer "Algorithms & Combinatorics" style
 %%==========================================================
 \begin{titlepage}
 \thispagestyle{empty}
-% --- Full-bleed background geometry ---
 \begin{tikzpicture}[remember picture,overlay]
-  % Top dark panel (≈55% page height)
-  \fill[Ink] (current page.north west)
-    rectangle ([yshift=-162mm]current page.north east);
-  % Accent rule below dark panel
-  \fill[Blue] ([yshift=-162mm]current page.north west)
-    rectangle ([yshift=-165.5mm]current page.north east);
-  % Thin gold rule inside the top panel
-  \draw[Gold,line width=1pt]
-    ([xshift=26mm,yshift=-20mm]current page.north west) --
-    ([xshift=-23mm,yshift=-20mm]current page.north east);
-  % Bottom rule above footer
-  \draw[Rule,line width=.6pt]
-    ([xshift=26mm,yshift=36mm]current page.south west) --
-    ([xshift=-23mm,yshift=36mm]current page.south east);
-  % Pale gold left-margin accent strip in the lower half
-  \fill[PaleGold!60]
-    ([xshift=26mm,yshift=36mm]current page.south west)
-    rectangle ([xshift=29.5mm,yshift=-165.5mm]current page.north west);
+  %--- Full dark background ---
+  \fill[Ink] (current page.south west) rectangle (current page.north east);
+  %--- Blue vertical left-margin bar ---
+  \fill[Blue]
+    (current page.north west)
+    rectangle ([xshift=20mm]current page.south west);
+  %--- Gold rule below series label ---
+  \draw[Gold,line width=1.4pt]
+    ([xshift=28mm,yshift=-36mm]current page.north west) --
+    ([xshift=-22mm,yshift=-36mm]current page.north east);
+  %--- Gold rule above author block ---
+  \draw[Gold,line width=1.4pt]
+    ([xshift=28mm,yshift=52mm]current page.south west) --
+    ([xshift=-22mm,yshift=52mm]current page.south east);
 \end{tikzpicture}
 
-% --- Series label ---
-\vspace*{14mm}
-{\fontspec{TeX Gyre Heros}\bfseries\fontsize{8}{10}\selectfont
- \color{Gold}\MakeUppercase{Sách Chuyên Khảo · Khoa Học Máy Tính}\par}
-\vspace{6mm}
+\vspace*{18mm}
+{\sffamily\bfseries\fontsize{8.5}{11}\selectfont\color{Gold}%
+ SÁCH CHUYÊN KHẢO\enspace·\enspace KHOA HỌC MÁY TÍNH\par}
 
-% --- Gold thin rule ---
-{\color{Gold}\rule{\linewidth}{.7pt}\par}
-\vspace{9mm}
+\vspace{22mm}
 
-% --- MAIN TITLE (all caps, large) ---
-{\fontspec{TeX Gyre Heros}\bfseries\fontsize{36}{40}\selectfont
- \color{white}
- \MakeUppercase{Biểu Diễn SAT Tối Ưu}\par}
-\vspace{6mm}
+{\sffamily\bfseries\fontsize{44}{50}\selectfont\color{white}%
+ BIỂU DIỄN SAT TỐI ƯU\par}
 
-% --- SUBTITLE ---
-{\fontspec{TeX Gyre Heros}\fontsize{17}{22}\selectfont
- \color{white!85!Blue}
- \MakeUppercase{Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp}\par}
+\vspace{10mm}
 
-\vspace{18mm}
+{\sffamily\fontsize{18}{24}\selectfont\color{white}%
+ Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp\par}
 
-% --- Three chapter highlights (bullet list style, white) ---
-{\fontspec{TeX Gyre Heros}\fontsize{9.5}{14}\selectfont\color{white!75!Ink}
-  {\color{Gold}■}\enspace Khảo cứu nền tảng và các họ mã hóa SAT\par
-  \vspace{3pt}
-  {\color{Gold}■}\enspace Nguyên lý thiết kế và tái sử dụng cấu trúc\par
-  \vspace{3pt}
-  {\color{Gold}■}\enspace Nghiên cứu tình huống trong tối ưu tổ hợp\par
-}
+\vspace{32mm}
 
-% --- Spacer to push author block to lower area ---
+{\sffamily\fontsize{11}{18}\selectfont\color{white}%
+ {\color{Gold}\rule{10mm}{0.8pt}}\enspace
+ Khảo cứu nền tảng và các họ mã hóa SAT\par\vspace{7pt}%
+ {\color{Gold}\rule{10mm}{0.8pt}}\enspace
+ Nguyên lý thiết kế và tái sử dụng cấu trúc\par\vspace{7pt}%
+ {\color{Gold}\rule{10mm}{0.8pt}}\enspace
+ Nghiên cứu tình huống trong tối ưu tổ hợp\par}
+
 \vfill
 
-% === LOWER HALF (white background, already set by page) ===
-
-% Invisible strut to position from the blue accent rule
-\vspace{28mm}
-
-% --- Publisher-style monograph label ---
-{\fontspec{TeX Gyre Heros}\bfseries\fontsize{7.5}{9}\selectfont
- \color{Ink!60}\MakeUppercase{SATLAB Research Group · 2026}\par}
-\vspace{5mm}
-
-% --- Author block ---
-{\fontspec{TeX Gyre Heros}\bfseries\fontsize{11.5}{16}\selectfont\color{Ink}
- Tô Văn Khánh \enspace{\color{Rule}|} \enspace
- Kiều Văn Tuyên \enspace{\color{Rule}|} \enspace
+{\sffamily\bfseries\fontsize{13.5}{19}\selectfont\color{white}%
+ Tô Văn Khánh\enspace·\enspace
+ Kiều Văn Tuyên\enspace·\enspace
  Trương Xuân Hiếu\par}
-\vspace{3pt}
-{\fontspec{TeX Gyre Heros}\fontsize{10}{14}\selectfont\color{Ink!80}
- Vũ Thanh Hương \enspace{\color{Rule}|} \enspace
- Đào Xuân Nghĩa \enspace{\color{Rule}|} \enspace
+\vspace{4pt}
+{\sffamily\fontsize{11.5}{16}\selectfont\color{white}%
+ Vũ Thanh Hương\enspace·\enspace
+ Đào Xuân Nghĩa\enspace·\enspace
  Nguyễn Kim Trung Đức\par}
-\vspace{8mm}
+
+\vspace{10mm}
+{\sffamily\bfseries\fontsize{8}{10}\selectfont\color{Gold}%
+ SATLAB RESEARCH GROUP\enspace·\enspace 2026\par}
+\vspace{16mm}
 
 \end{titlepage}
 \hypersetup{pageanchor=true}
 
 %%----------------------------------------------------------
-%% HALF-TITLE PAGE (verso of cover) — Springer/OUP inner page
+%% HALF-TITLE PAGE (verso) — clean inner title, OUP style
 %%----------------------------------------------------------
 \cleardoublepage
 \thispagestyle{empty}
-\vspace*{42mm}
 {\centering
-  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{8}{10}\selectfont\color{Ink!55}
-   \MakeUppercase{Sách Chuyên Khảo · Tin Học và Khoa Học Máy Tính}\par}
-  \vspace{14mm}
-  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{28}{32}\selectfont\color{Ink}
-   \MakeUppercase{Biểu Diễn SAT Tối Ưu}\par}
-  \vspace{3mm}
-  {\fontspec{TeX Gyre Heros}\fontsize{14}{18}\selectfont\color{Ink!70}
-   \MakeUppercase{Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp}\par}
-  \vspace{12mm}
-  {\color{Blue}\rule{0.42\textwidth}{0.6pt}\par}
-  \vspace{12mm}
-  {\fontspec{TeX Gyre Heros}\fontsize{12}{17}\selectfont\color{Ink}
-   Tô Văn Khánh \quad Vũ Thanh Hương\par
-   Kiều Văn Tuyên \quad Đào Xuân Nghĩa\par
-   Trương Xuân Hiếu \quad Nguyễn Kim Trung Đức\par}
-  \vspace{14mm}
-  {\fontspec{TeX Gyre Heros}\fontsize{9}{12}\selectfont\color{Ink!55}
-   SATLAB Research Group\par
-   Trường Đại học Công nghệ Thông tin, ĐH Quốc gia TP.HCM\par}
+\vspace*{48mm}
+{\sffamily\fontsize{8}{10}\selectfont\color{Ink!60}%
+ SÁCH CHUYÊN KHẢO · TIN HỌC VÀ KHOA HỌC MÁY TÍNH\par}
+\vspace{18mm}
+{\sffamily\bfseries\fontsize{30}{35}\selectfont\color{Ink}%
+ BIỂU DIỄN SAT TỐI ƯU\par}
+\vspace{5mm}
+{\sffamily\fontsize{15}{20}\selectfont\color{Ink}%
+ Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp\par}
+\vspace{14mm}
+{\color{Blue}\rule{0.4\textwidth}{0.7pt}\par}
+\vspace{14mm}
+{\sffamily\fontsize{12.5}{18}\selectfont\color{Ink}%
+ Tô Văn Khánh \quad Vũ Thanh Hương\par
+ Kiều Văn Tuyên \quad Đào Xuân Nghĩa\par
+ Trương Xuân Hiếu \quad Nguyễn Kim Trung Đức\par}
+\vspace{18mm}
+{\sffamily\fontsize{9}{12}\selectfont\color{Ink!70}%
+ SATLAB Research Group\par
+ Trường Đại học Công nghệ Thông tin, ĐH Quốc gia TP.HCM\par}
 \par}
 \vfill
-\noindent\color{Rule}\rule{\linewidth}{0.4pt}\par
-\vspace{2mm}
-{\fontspec{TeX Gyre Heros}\fontsize{7.5}{10}\selectfont\color{Ink!45}
+\noindent{\color{Rule}\rule{\linewidth}{0.5pt}\par}
+\vspace{3mm}
+{\sffamily\fontsize{8}{10}\selectfont\color{Ink!55}%
 Bản khảo cứu mở rộng. Mọi quyền được bảo lưu, 2026.\par}
 \cleardoublepage
 

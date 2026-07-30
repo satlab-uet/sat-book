@@ -4,17 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="Các hướng nghiên cứu trọng tâm tại SATLab UET — Phép mã hóa SAT/MaxSAT, Bộ giải chính xác, Cân bằng dây chuyền, Đóng gói 2D và Gán nhãn đồ thị.">
+    <meta name="description" content="Các hướng nghiên cứu trọng tâm tại SATLab UET — Mã hóa SAT, Lập lịch dây chuyền, Đóng gói 2D và Gán nhãn đồ thị.">
     <title>Hướng nghiên cứu | SATLab UET</title>
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/research.html">
-    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/research.html">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/research.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/research.html">
   </head>
   <body>
+    <!-- Top Announcement Banner -->
+    <div class="top-banner">
+      SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="./publications.html">Xem tất cả công bố ↗</a>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -43,7 +48,7 @@
       </div>
     </header>
 
-    <!-- Breadcrumbs -->
+    <!-- Breadcrumb -->
     <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
       <div class="shell">
         <ol class="breadcrumbs-list">
@@ -53,45 +58,45 @@
       </div>
     </nav>
 
-    <!-- Content -->
+    <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Các hướng nghiên cứu trọng tâm</h1>
+      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Các Hướng Nghiên cứu Trọng tâm</h1>
       <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
-        SATLab nghiên cứu lý thuyết và thực tiễn mã hóa SAT/MaxSAT/Pseudo-Boolean cho các bài toán tối ưu hóa tổ hợp có độ phức tạp cao.
+        Nghiên cứu của SATLab kết hợp giữa lý thuyết biểu diễn SAT cơ bản và ứng dụng giải quyết các bài toán tối ưu hóa tổ hợp công nghiệp thực tế.
       </p>
 
-      <div style="display: flex; flex-direction: column; gap: 24px;">
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 01</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Phát triển bộ đếm tuần tự thích nghi (NSC), mã hóa ràng buộc đếm Cardinality, Pseudo-Boolean (PB), AMO/AMK/ALK dạng bậc thang và hệ sinh thái thư viện SCLib.
-          </p>
-        </article>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge active">LÝ THUYẾT NỀN TẢNG</span>
+          </div>
+          <h3>1. Phép mã hóa SAT & Pseudo-Boolean</h3>
+          <p>Phát triển các biến thể Bộ đếm tuần tự (NSC), ràng buộc đếm Cardinality (AMO/AMK/ALK) và chuyển đổi Pseudo-Boolean cho bộ giải CNF.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 02</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền sản xuất (SALB, UALBP), lập lịch Job-Shop (JSSP/FJSSP), lập lịch tàu hỏa (Train Rescheduling via MaxSAT-DDD).
-          </p>
-        </article>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge rolling">ỨNG DỤNG CÔNG NGHIỆP</span>
+          </div>
+          <h3>2. Lập lịch & Cân bằng Dây chuyền</h3>
+          <p>Thuật toán giải chính xác cho bài toán Tối ưu đỉnh công suất trong SALB/UALBP, Lập lịch Job-Shop và Điều hành tàu hỏa bằng MaxSAT-DDD.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 03</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Phương pháp SAT/MaxSAT giải chính xác bài toán đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và cắt cuộn nguyên liệu.
-          </p>
-        </article>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge open">TỐI ƯU KHÔNG GIAN</span>
+          </div>
+          <h3>3. Đóng gói Dải 2D & Tối ưu Cắt cuộn</h3>
+          <p>Xây dựng mô hình biểu diễn các ràng buộc không đè phủ không gian cho bài toán Đóng gói 2D (Strip Packing) và Cắt cuộn nguyên liệu.</p>
+        </div>
 
-        <article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-xs);">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">HƯỚNG 04</div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); margin: 6px 0 12px;">Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h2>
-          <p style="font-size: 0.98rem; color: var(--color-ink-800); line-height: 1.6;">
-            Mã hóa SAT giải tối ưu bài toán Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling và Phân bổ tần số (MO-FAP).
-          </p>
-        </article>
+        <div class="feature-card">
+          <div class="card-top-row">
+            <span class="status-badge active">THUẬT TOÁN ĐỒ THỊ</span>
+          </div>
+          <h3>4. Gán nhãn Đồ thị & Phân bổ Tần số</h3>
+          <p>Giải chính xác các bài toán Antibandwidth, Cyclic Antibandwidth, Radio-k Labeling, Tô đa màu và Phân bổ tần số di động bằng SAT.</p>
+        </div>
       </div>
     </main>
 
@@ -101,7 +106,14 @@
         <div>
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Phòng nghiên cứu Biểu diễn SAT</div>
-          <p>© 2026 SATLab UET. All rights reserved.</p>
+          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">Giới thiệu</a>
+          <a href="../accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="../privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
         </div>
       </div>
     </footer>
