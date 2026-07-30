@@ -1,0 +1,172 @@
+% book/web-reader.tex — make4ht/TeX4ht entry point for HTML generation
+% Uses LuaLaTeX (make4ht -l) to handle fontspec + unicode correctly.
+% KOMA scrbook replaced with standard book for TeX4ht compatibility.
+
+\documentclass[11pt,a4paper]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Basic math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% Tables
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% Lists
+\usepackage{enumitem}
+
+% References
+\usepackage[unicode,hidelinks]{hyperref}
+
+% Colors (used by environments)
+\usepackage{xcolor}
+\definecolor{Ink}{HTML}{172A3A}
+\definecolor{Blue}{HTML}{1769AA}
+\definecolor{Teal}{HTML}{197278}
+\definecolor{Gold}{HTML}{B7791F}
+\definecolor{Rule}{HTML}{CBD5DC}
+\definecolor{PaleBlue}{HTML}{F1F6FA}
+\definecolor{PaleTeal}{HTML}{F0F7F6}
+\definecolor{PaleGold}{HTML}{FFF8E7}
+\definecolor{SoftGray}{HTML}{F6F7F8}
+
+% captions
+\usepackage{caption}
+
+% Bibliography - standard (no biblatex)
+\usepackage[numbers,sort&compress]{natbib}
+
+%=========================================================
+% CUSTOM MACROS
+%=========================================================
+\newcommand{\SAT}{\textsc{sat}\xspace}
+\newcommand{\UNSAT}{\textsc{unsat}\xspace}
+\newcommand{\MaxSAT}{\textsc{MaxSAT}\xspace}
+\newcommand{\CNF}{\textsc{cnf}\xspace}
+\newcommand{\AMO}{\textsc{amo}\xspace}
+\newcommand{\AMK}{\textsc{amk}\xspace}
+\newcommand{\ALK}{\textsc{alk}\xspace}
+\newcommand{\ALO}{\textsc{alo}\xspace}
+\newcommand{\OPT}{\textsc{opt}\xspace}
+\newcommand{\BKS}{\textsc{bks}\xspace}
+\newcommand{\ie}{tức là\xspace}
+\newcommand{\eg}{chẳng hạn\xspace}
+\usepackage{xspace}
+\newcommand{\suchthat}{\;\middle|\;}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\reported}{\textit{Kết quả được dẫn theo công trình nguồn.}}
+\DeclareMathOperator{\ExactlyOne}{ExactlyOne}
+\DeclareMathOperator{\AtMostOne}{AtMostOne}
+\DeclareMathOperator{\cost}{cost}
+
+% cleveref-lite (manual since cleveref pulls expl3)
+\newcommand{\cref}[1]{\ref{#1}}
+
+%=========================================================
+% THEOREM ENVIRONMENTS
+%=========================================================
+\newtheoremstyle{satplain}{.8\baselineskip}{.8\baselineskip}{\itshape}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{satplain}
+\newtheorem{theorem}{Định lý}[chapter]
+\newtheorem{proposition}[theorem]{Mệnh đề}
+\newtheorem{lemma}[theorem]{Bổ đề}
+\newtheorem{corollary}[theorem]{Hệ quả}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Định nghĩa}
+\newtheorem{example}[theorem]{Ví dụ}
+
+%=========================================================
+% CUSTOM ENVIRONMENTS (no tcolorbox)
+%=========================================================
+\newenvironment{keyidea}[1]{%
+  \par\medskip\noindent%
+  \textbf{\color{Blue}#1}\par\smallskip%
+  \begin{quote}%
+}{\end{quote}\par\medskip}
+
+\newenvironment{designrule}[1]{%
+  \par\medskip\noindent%
+  \textbf{\color{Teal}#1}\par\smallskip%
+  \begin{quote}%
+}{\end{quote}\par\medskip}
+
+\newenvironment{resultbox}[1]{%
+  \par\medskip\noindent%
+  \textbf{\color{Gold}#1}\par\smallskip%
+  \begin{quote}%
+}{\end{quote}\par\medskip}
+
+\newenvironment{summarybox}{%
+  \par\medskip%
+  \begin{quote}%
+}{\end{quote}\par\medskip}
+
+\newenvironment{workedexample}[1]{%
+  \par\medskip\noindent%
+  \textbf{\color{Gold}Ví dụ tính tay: #1}\par\smallskip%
+  \begin{quote}%
+}{\end{quote}\par\medskip}
+
+% chapterlead
+\newcommand{\chapterlead}[1]{%
+  \begin{quote}%
+    \noindent\textbf{\color{Blue}TÓM TẮT CHƯƠNG}\par\smallskip%
+    \itshape #1%
+  \end{quote}%
+  \vspace{.4\baselineskip}%
+}
+
+% figsource
+\newcommand{\figsource}[1]{\par\smallskip{\centering\small\itshape #1\par}}
+
+% flowdiagram — simplified for HTML
+\newcommand{\flowdiagram}[5]{%
+  \par\noindent\textit{Lộ trình: #1 $\to$ #2 $\to$ #3 $\to$ #4 $\to$ #5.}\par%
+}
+
+%=========================================================
+% DOCUMENT
+%=========================================================
+\title{Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp}
+\author{Tô Văn Khánh \and Kiều Văn Tuyên \and Trương Xuân Hiếu \and Vũ Thanh Hương \and Đào Xuân Nghĩa \and Nguyễn Kim Trung Đức}
+\date{2026}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter*{Giới thiệu}
+Cuốn sách trình bày phép mã hóa SAT như một thành phần trung tâm của thuật toán giải chính xác.
+
+\mainmatter
+\part{Nền tảng và tiêu chí thiết kế}
+\include{chapters/ch01-foundations}
+\include{chapters/ch02-quality}
+\include{chapters/ch03-cardinality}
+\include{chapters/ch04-experiments}
+
+\part{Tái sử dụng cấu trúc trong phép mã hóa SAT}
+\include{chapters/ch05-shared-counters}
+\include{chapters/ch06-adaptive-counter}
+\include{chapters/ch07-symmetry-channeling}
+
+\part{Các họ bài toán tối ưu tổ hợp}
+\include{chapters/ch08-scheduling}
+\include{chapters/ch09-packing}
+\include{chapters/ch10-bandwidth}
+\include{chapters/ch11-labeling}
+
+\include{chapters/conclusion}
+
+\backmatter
+
+\end{document}

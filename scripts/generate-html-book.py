@@ -128,9 +128,9 @@ def expand_tex_math_macros(tex: str) -> str:
     tex = re.sub(r'\\ExactlyOne\b', r'\\mathrm{ExactlyOne}', tex)
     tex = re.sub(r'\\PySAT\b', r'\\mathrm{PySAT}', tex)
     
-    # Expand sets and cards
-    tex = re.sub(r'\\set\{([^}]+)\}', r'\\left\\{\1\\right\\}', tex)
-    tex = re.sub(r'\\card\{([^}]+)\}', r'\\left|\1\\right|', tex)
+    # Expand sets and cards — use \1 (not \\1) for capture group backreference
+    tex = re.sub(r'\\set\{([^}]+)\}', lambda m: r'\left\{' + m.group(1) + r'\right\}', tex)
+    tex = re.sub(r'\\card\{([^}]+)\}', lambda m: r'\left|' + m.group(1) + r'\right|', tex)
     
     # Format comma spacing inside inline bounds like (LB,UB) -> (LB, UB)
     tex = re.sub(r'([A-Za-z0-9]+),([A-Za-z0-9]+)', r'\1, \2', tex)
@@ -515,37 +515,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
     
-    <!-- Robust Dual-Engine Math Rendering: MathJax 3 + KaTeX 0.16.11 -->
+    <!-- MathJax 3 — full-document math rendering -->
     <script>
       window.MathJax = {
         tex: {
-          inlineMath: [['\\\\(', '\\\\)']],
-          displayMath: [['\\\\[', '\\\\]']],
+          inlineMath: [['\\\\(', '\\\\)'], ['$', '$']],
+          displayMath: [['\\\\[', '\\\\]'], ['$$', '$$']],
           processEscapes: true,
+          processEnvironments: true,
+          tags: 'ams',
           macros: {
-            SAT: '\\\\mathrm{SAT}',
-            UNSAT: '\\\\mathrm{UNSAT}',
-            OPT: '\\\\mathrm{OPT}',
-            BKS: '\\\\mathrm{BKS}',
-            CNF: '\\\\mathrm{CNF}',
-            MaxSAT: '\\\\mathrm{MaxSAT}',
-            AMK: '\\\\mathrm{AMK}',
-            AMO: '\\\\mathrm{AMO}',
-            ALK: '\\\\mathrm{ALK}',
-            ExactlyOne: '\\\\mathrm{ExactlyOne}'
+            SAT: '{\\\\mathrm{SAT}}',
+            UNSAT: '{\\\\mathrm{UNSAT}}',
+            OPT: '{\\\\mathrm{OPT}}',
+            BKS: '{\\\\mathrm{BKS}}',
+            CNF: '{\\\\mathrm{CNF}}',
+            MaxSAT: '{\\\\mathrm{MaxSAT}}',
+            AMK: '{\\\\mathrm{AMK}}',
+            AMO: '{\\\\mathrm{AMO}}',
+            ALK: '{\\\\mathrm{ALK}}',
+            ExactlyOne: '{\\\\mathrm{ExactlyOne}}',
+            suchthat: '{\\\\;\\\\middle|\\\\;}',
+            card: ['{\\\\lvert #1 \\\\rvert}', 1],
+            set: ['{\\\\left\\\\{ #1 \\\\right\\\\}}', 1]
           }
         },
-        options: {
-          ignoreHtmlClass: 'tex2jax_ignore',
-          processHtmlClass: 'tex2jax_process'
+        chtml: {
+          scale: 1,
+          matchFontHeight: false
+        },
+        startup: {
+          typeset: true
         }
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 
     <style>
       body {
@@ -859,19 +863,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       </div>
     </footer>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        if (typeof renderMathInElement === 'function') {
-          renderMathInElement(document.body, {
-            delimiters: [
-              {left: '\\[', right: '\\]', display: true},
-              {left: '\\(', right: '\\)', display: false}
-            ],
-            throwOnError: false
-          });
-        }
-      });
-    </script>
+
   </body>
 </html>
 """

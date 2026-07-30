@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="ebe7eccfabff17bb6a0b53565b2a3a8c9d875871822cdcdfb5c1ade04d071f50">
+    <meta name="sat-book-source-sha256" content="65d8db2652b60a01c180810010bbec192f77c0ae1e887f18fdb6e3eff4dbb05c">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -12,37 +12,41 @@
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
     
-    <!-- Robust Dual-Engine Math Rendering: MathJax 3 + KaTeX 0.16.11 -->
+    <!-- MathJax 3 — full-document math rendering -->
     <script>
       window.MathJax = {
         tex: {
           inlineMath: [['\\(', '\\)'], ['$', '$']],
           displayMath: [['\\[', '\\]'], ['$$', '$$']],
           processEscapes: true,
+          processEnvironments: true,
+          tags: 'ams',
           macros: {
-            SAT: '\\mathrm{SAT}',
-            UNSAT: '\\mathrm{UNSAT}',
-            OPT: '\\mathrm{OPT}',
-            BKS: '\\mathrm{BKS}',
-            CNF: '\\mathrm{CNF}',
-            MaxSAT: '\\mathrm{MaxSAT}',
-            AMK: '\\mathrm{AMK}',
-            AMO: '\\mathrm{AMO}',
-            ALK: '\\mathrm{ALK}',
-            ExactlyOne: '\\mathrm{ExactlyOne}'
+            SAT: '{\\mathrm{SAT}}',
+            UNSAT: '{\\mathrm{UNSAT}}',
+            OPT: '{\\mathrm{OPT}}',
+            BKS: '{\\mathrm{BKS}}',
+            CNF: '{\\mathrm{CNF}}',
+            MaxSAT: '{\\mathrm{MaxSAT}}',
+            AMK: '{\\mathrm{AMK}}',
+            AMO: '{\\mathrm{AMO}}',
+            ALK: '{\\mathrm{ALK}}',
+            ExactlyOne: '{\\mathrm{ExactlyOne}}',
+            suchthat: '{\\;\\middle|\\;}',
+            card: ['{\\lvert #1 \\rvert}', 1],
+            set: ['{\\left\\{ #1 \\right\\}}', 1]
           }
         },
-        options: {
-          ignoreHtmlClass: 'tex2jax_ignore',
-          processHtmlClass: 'tex2jax_process'
+        chtml: {
+          scale: 1,
+          matchFontHeight: false
+        },
+        startup: {
+          typeset: true
         }
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 
     <style>
       body {
@@ -287,6 +291,12 @@
         font-variant: small-caps;
         letter-spacing: 0.05em;
       }
+
+      /* KaTeX & MathJax Font Fallback Overrides to Protect Vietnamese Diacritics */
+      .katex, .katex .text, .katex-display {
+        font-family: var(--font-sans) !important;
+      }
+      
       @media (max-width: 900px) {
         .reader-layout {
           grid-template-columns: 1fr;
@@ -325,28 +335,29 @@
       <aside class="reader-toc">
         <h3>Mục lục Sách Chuyên khảo</h3>
         <ul>
-          <li><a href="#ch01-foundations">Chương 1: Nền tảng Biểu diễn và Bộ giải SAT</a></li>
-<li><a href="#ch02-quality">Chương 2: Đánh giá Chất lượng và Tiêu chuẩn Mã hóa</a></li>
-<li><a href="#ch03-cardinality">Chương 3: Phép Mã hóa Ràng buộc Cardinality</a></li>
-<li><a href="#ch04-experiments">Chương 4: Quy trình và Đánh giá Thực nghiệm</a></li>
-<li><a href="#ch05-shared-counters">Chương 5: Phép Mã hóa Bộ đếm Dùng chung</a></li>
-<li><a href="#ch06-adaptive-counter">Chương 6: Phép Mã hóa Bộ đếm Thích nghi</a></li>
-<li><a href="#ch07-symmetry-channeling">Chương 7: Phá Đối xứng và Kênh liên kết Variable-Channeling</a></li>
-<li><a href="#ch08-scheduling">Chương 8: Ứng dụng trong Lập lịch và Dây chuyền Sản xuất</a></li>
-<li><a href="#ch09-packing">Chương 9: Ứng dụng trong Bài toán Đóng gói 2D</a></li>
-<li><a href="#ch10-bandwidth">Chương 10: Ứng dụng trong Gán nhãn Đồ thị và Antibandwidth</a></li>
-<li><a href="#ch11-labeling">Chương 11: Ứng dụng trong Radio Labeling</a></li>
-<li><a href="#conclusion">Kết luận và Hướng phát triển</a></li>
+          <li><a href="#chap-1">Chương 1: Nền tảng Biểu diễn và Bộ giải SAT</a></li>
+<li><a href="#chap-2">Chương 2: Đánh giá Chất lượng và Tiêu chuẩn Mã hóa</a></li>
+<li><a href="#chap-3">Chương 3: Phép Mã hóa Ràng buộc Cardinality</a></li>
+<li><a href="#chap-4">Chương 4: Quy trình và Đánh giá Thực nghiệm</a></li>
+<li><a href="#chap-5">Chương 5: Phép Mã hóa Bộ đếm Dùng chung</a></li>
+<li><a href="#chap-6">Chương 6: Phép Mã hóa Bộ đếm Thích nghi</a></li>
+<li><a href="#chap-7">Chương 7: Phá Đối xứng và Kênh liên kết Variable-Channeling</a></li>
+<li><a href="#chap-8">Chương 8: Ứng dụng trong Lập lịch và Dây chuyền Sản xuất</a></li>
+<li><a href="#chap-9">Chương 9: Ứng dụng trong Bài toán Đóng gói 2D</a></li>
+<li><a href="#chap-10">Chương 10: Ứng dụng trong Gán nhãn Đồ thị và Antibandwidth</a></li>
+<li><a href="#chap-11">Chương 11: Ứng dụng trong Radio Labeling</a></li>
+<li><a href="#chap-12">Kết luận và Hướng phát triển</a></li>
         </ul>
       </aside>
 
       <article class="reader-content">
+        <h1 style="font-family: var(--font-display); font-size: 1.85rem; color: #0f172a; margin-bottom: 24px; font-weight: 800;">Sách Chuyên khảo: Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</h1>
         
-        <section id="ch01-foundations" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-1" data-slug="ch01-foundations" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 1: Nền tảng Biểu diễn và Bộ giải SAT</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch01.webp" alt="Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch01.webp" alt="Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT</em></div>
             </div>
             
@@ -627,7 +638,7 @@ dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ 
         </section>
         
 
-        <section id="ch02-quality" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-2" data-slug="ch02-quality" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 2: Đánh giá Chất lượng và Tiêu chuẩn Mã hóa</h2>
           
           <div class="chapter-lead">Chất lượng phép mã hóa được đánh giá trên nhiều trục. Đúng đắn là
@@ -855,11 +866,11 @@ quan sát thực nghiệm.</p>
         </section>
         
 
-        <section id="ch03-cardinality" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-3" data-slug="ch03-cardinality" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 3: Phép Mã hóa Ràng buộc Cardinality</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch03.webp" alt="Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch03.webp" alt="Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)</em></div>
             </div>
             
@@ -1100,11 +1111,11 @@ ràng buộc chia sẻ cấu trúc.</p>
         </section>
         
 
-        <section id="ch04-experiments" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-4" data-slug="ch04-experiments" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 4: Quy trình và Đánh giá Thực nghiệm</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch04.webp" alt="Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch04.webp" alt="Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)</em></div>
             </div>
             
@@ -1375,11 +1386,11 @@ thay đổi.</p>
         </section>
         
 
-        <section id="ch05-shared-counters" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-5" data-slug="ch05-shared-counters" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 5: Phép Mã hóa Bộ đếm Dùng chung</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch05.webp" alt="Hình 5.3 · Bộ đếm dùng chung (Shared Counter)" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch05.webp" alt="Hình 5.3 · Bộ đếm dùng chung (Shared Counter)" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 5.3 · Bộ đếm dùng chung (Shared Counter)</em></div>
             </div>
             
@@ -1705,11 +1716,11 @@ số bộ nối sau giản lược và số bước ghép của các cửa sổ 
         </section>
         
 
-        <section id="ch06-adaptive-counter" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-6" data-slug="ch06-adaptive-counter" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 6: Phép Mã hóa Bộ đếm Thích nghi</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch06.webp" alt="Hình 6.2 · Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch06.webp" alt="Hình 6.2 · Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 6.2 · Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)</em></div>
             </div>
             
@@ -2026,11 +2037,11 @@ trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán t
         </section>
         
 
-        <section id="ch07-symmetry-channeling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-7" data-slug="ch07-symmetry-channeling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 7: Phá Đối xứng và Kênh liên kết Variable-Channeling</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch07.webp" alt="Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch07.webp" alt="Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)</em></div>
             </div>
             
@@ -2380,11 +2391,11 @@ chính kiến trúc này cho bốn họ bài toán.</p>
         </section>
         
 
-        <section id="ch08-scheduling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-8" data-slug="ch08-scheduling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 8: Ứng dụng trong Lập lịch và Dây chuyền Sản xuất</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch08.webp" alt="Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch08.webp" alt="Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch</em></div>
             </div>
             
@@ -2770,11 +2781,11 @@ một kiến trúc kết hợp.</p>
         </section>
         
 
-        <section id="ch09-packing" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-9" data-slug="ch09-packing" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 9: Ứng dụng trong Bài toán Đóng gói 2D</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch09.webp" alt="Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch09.webp" alt="Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D</em></div>
             </div>
             
@@ -3101,11 +3112,11 @@ chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ k
         </section>
         
 
-        <section id="ch10-bandwidth" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-10" data-slug="ch10-bandwidth" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 10: Ứng dụng trong Gán nhãn Đồ thị và Antibandwidth</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch10.webp" alt="Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch10.webp" alt="Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 10.2 · Cặp nhãn bị cấm và bài toán Antibandwidth</em></div>
             </div>
             
@@ -3445,11 +3456,11 @@ lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những
         </section>
         
 
-        <section id="ch11-labeling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-11" data-slug="ch11-labeling" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 11: Ứng dụng trong Radio Labeling</h2>
           
             <div style="text-align: center; margin: 24px 0;">
-              <img src="./assets/images/fig_ch11.webp" alt="Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm" class="reader-figure-img">
+              <img src="./assets/images/diagrams/fig_ch11.webp" alt="Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm" class="reader-figure-img">
               <div class="reader-inline-caption"><em>Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm</em></div>
             </div>
             
@@ -3846,7 +3857,7 @@ vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
         </section>
         
 
-        <section id="conclusion" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+        <section id="chap-12" data-slug="conclusion" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Kết luận và Hướng phát triển</h2>
           
           <div class="chapter-lead">Chương kết nối các kết quả kỹ thuật thành một luận điểm chung:
@@ -3951,20 +3962,6 @@ lại.</p>
       </div>
     </footer>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        if (typeof renderMathInElement === 'function') {
-          renderMathInElement(document.body, {
-            delimiters: [
-              {left: '\[', right: '\]', display: true},
-              {left: '\(', right: '\)', display: false},
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}
-            ],
-            throwOnError: false
-          });
-        }
-      });
-    </script>
+
   </body>
 </html>

@@ -1,0 +1,82 @@
+# LaTeXML binding for satbook.sty custom environments
+# File: book/satbook.latexml
+
+package LaTeXML::Package;
+
+# ---------------------------------------------------------------
+# Math macros
+# ---------------------------------------------------------------
+DefMacro('\SAT',     '\text{sat}');
+DefMacro('\UNSAT',   '\text{unsat}');
+DefMacro('\MaxSAT',  '\text{MaxSAT}');
+DefMacro('\CNF',     '\text{cnf}');
+DefMacro('\AMO',     '\text{amo}');
+DefMacro('\AMK',     '\text{amk}');
+DefMacro('\ALO',     '\text{alo}');
+DefMacro('\OPT',     '\text{opt}');
+DefMacro('\BKS',     '\text{bks}');
+DefMacro('\ie',      'tức là ');
+DefMacro('\eg',      'chẳng hạn ');
+DefMacro('\suchthat', '\;\middle|\;');
+DefMacro('\card{}',  '\lvert #1 \rvert');
+DefMacro('\set{}',   '\left\{ #1 \right\}');
+DefMacro('\reported', '\textit{Kết quả được dẫn theo công trình nguồn.}');
+
+# ---------------------------------------------------------------
+# Custom tcolorbox environments → HTML divs with data-env attr
+# ---------------------------------------------------------------
+
+# keyidea{title}
+DefEnvironment('{keyidea}{}',
+  "<ltx:block class='keyidea' cssstyle='border-left:4px solid #1769AA;background:#F1F6FA;padding:14px 18px;margin:18px 0;border-radius:4px'>"
+ ."<ltx:text class='keyidea-title' font='bold' cssstyle='color:#1769AA;font-family:sans-serif;display:block;margin-bottom:6px'>#1</ltx:text>"
+ ."#body"
+ ."</ltx:block>");
+
+# designrule{title}
+DefEnvironment('{designrule}{}',
+  "<ltx:block class='designrule' cssstyle='border-left:4px solid #197278;background:#F0F7F6;padding:14px 18px;margin:18px 0;border-radius:4px'>"
+ ."<ltx:text class='designrule-title' font='bold' cssstyle='color:#197278;font-family:sans-serif;display:block;margin-bottom:6px'>#1</ltx:text>"
+ ."#body"
+ ."</ltx:block>");
+
+# resultbox{title}
+DefEnvironment('{resultbox}{}',
+  "<ltx:block class='resultbox' cssstyle='border:1px solid #B7791F;background:#FFF8E7;padding:14px 18px;margin:18px 0;border-radius:4px'>"
+ ."<ltx:text class='resultbox-title' font='bold' cssstyle='color:#B7791F;font-family:sans-serif;display:block;margin-bottom:6px'>#1</ltx:text>"
+ ."#body"
+ ."</ltx:block>");
+
+# summarybox (no title)
+DefEnvironment('{summarybox}',
+  "<ltx:block class='summarybox' cssstyle='border:1px solid #CBD5DC;background:#F6F7F8;padding:14px 18px;margin:18px 0;border-radius:4px'>"
+ ."#body"
+ ."</ltx:block>");
+
+# workedexample{title}
+DefEnvironment('{workedexample}{}',
+  "<ltx:block class='workedexample' cssstyle='border:1px solid #B7791F;background:#ffffff;padding:14px 18px;margin:18px 0;border-radius:4px'>"
+ ."<ltx:text class='workedexample-title' font='bold' cssstyle='color:#B7791F;font-family:sans-serif;display:block;margin-bottom:6px'>Ví dụ tính tay: #1</ltx:text>"
+ ."#body"
+ ."</ltx:block>");
+
+# chapterlead
+DefMacro('\chapterlead{}',
+  '\begin{quote}\textbf{\textcolor{Blue}{TÓM TẮT CHƯƠNG}}\\\\ \itshape #1 \end{quote}');
+
+# flowdiagram (skip tikzpicture, just emit caption-like text)
+DefMacro('\flowdiagram{}{}{}{}{}',
+  '\par\textit{Lộ trình: #1 → #2 → #3 → #4 → #5.}\par');
+
+# figsource
+DefMacro('\figsource{}', '\par\textit{#1}\par');
+
+# ---------------------------------------------------------------
+# Silence problematic packages that LaTeXML can't fully handle
+# ---------------------------------------------------------------
+RequirePackage('graphicx');
+RequirePackage('hyperref');
+RequirePackage('amsmath');
+RequirePackage('amssymb');
+
+1;

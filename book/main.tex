@@ -11,83 +11,75 @@
 \begin{titlepage}
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
-  %--- Background fill ---
-  \fill[Ink] (current page.south west) rectangle (current page.north east);
+  %--- Artwork Background Fill ---
+  \node[anchor=center, inner sep=0pt] at (current page.center) {
+    \includegraphics[width=\paperwidth,height=\paperheight]{cover_artwork.png}
+  };
+  %--- Darkening overlay for rich contrast & readability ---
+  \fill[Ink!90!black,opacity=0.68] (current page.south west) rectangle (current page.north east);
   
-  %--- Header top band accent ---
-  \fill[Blue] (current page.north west) rectangle ([yshift=-32mm]current page.north east);
-  \draw[Gold,line width=1.5pt] ([yshift=-32mm]current page.north west) -- ([yshift=-32mm]current page.north east);
+  %--- Top Header Accent Band (Expanded to 52mm for larger, clearer text) ---
+  \fill[Ink!95!black,opacity=0.92] (current page.north west) rectangle ([yshift=-52mm]current page.north east);
+  \draw[Gold,line width=1.6pt] ([yshift=-52mm]current page.north west) -- ([yshift=-52mm]current page.north east);
 
-  %--- Category banner strip ---
-  \fill[Teal!90!Ink] ([yshift=-72mm]current page.north west) rectangle ([yshift=-85mm]current page.north east);
+  %--- Spaced Category Banner Strip (Vertically centered at yshift=-95.5mm) ---
+  \fill[Teal!85!Ink,opacity=0.92] ([yshift=-88mm]current page.north west) rectangle ([yshift=-103mm]current page.north east);
+  \draw[Gold!70,line width=1pt] ([yshift=-88mm]current page.north west) -- ([yshift=-88mm]current page.north east);
+  \draw[Gold!70,line width=1pt] ([yshift=-103mm]current page.north west) -- ([yshift=-103mm]current page.north east);
+  \node[anchor=center, text=white] at ([yshift=-95.5mm]current page.north) {
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{14.5}{17.5}\selectfont
+    S \enspace Á \enspace C \enspace H \qquad C \enspace H \enspace U \enspace Y \enspace Ê \enspace N \qquad K \enspace H \enspace Ả \enspace O}
+  };
 
-  %--- Bottom footer band accent ---
-  \fill[Blue!80!Ink] (current page.south west) rectangle ([yshift=24mm]current page.south east);
-  \draw[Gold,line width=1.2pt] ([yshift=24mm]current page.south west) -- ([yshift=24mm]current page.south east);
+  %--- Bottom Footer Accent Band (38mm height) ---
+  \fill[Ink!95!black,opacity=0.92] (current page.south west) rectangle ([yshift=38mm]current page.south east);
+  \draw[Gold,line width=1.4pt] ([yshift=38mm]current page.south west) -- ([yshift=38mm]current page.south east);
+  
+  %--- Bottom Footer Text Nodes (100% Vertically Centered inside 38mm band at yshift=19mm) ---
+  \node[anchor=west, inner sep=0pt] at ([xshift=20mm,yshift=19mm]current page.south west) {
+    \begin{minipage}[c]{0.45\textwidth}
+      {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{Gold!95!white}%
+      TỦ SÁCH KHOA HỌC - SATLAB\par
+      \color{white!85!Ink}\fontseries{m}\selectfont MS: SAT-VNU-2026\par}
+    \end{minipage}
+  };
+  \node[anchor=east, inner sep=0pt] at ([xshift=-20mm,yshift=19mm]current page.south east) {
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{14.5}{18}\selectfont\color{Gold!95!white}%
+    BẢN THẢO KHẢO CỨU}
+  };
 \end{tikzpicture}
 
-%--- Top Header: VNU / UET Institution & Authors ---
-\vspace*{-4mm}
-\begin{minipage}[t]{0.45\textwidth}
-  {\sffamily\bfseries\fontsize{9}{12}\selectfont\color{white}%
-  ĐẠI HỌC QUỐC GIA HÀ NỘI\par
-  TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
+%--- Top Header: Transparent SATLab Logo + Institution (Left) & Authors (Right) ---
+\vspace*{-2mm}
+\begin{minipage}[c]{0.50\textwidth}
+  \raisebox{-0.32\height}{\includegraphics[height=16mm]{satlab_logo_transparent.png}}%
+  \hspace{3mm}%
+  \begin{minipage}[c]{0.70\textwidth}
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{white}%
+    ĐẠI HỌC QUỐC GIA HÀ NỘI\par
+    TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
+  \end{minipage}
 \end{minipage}%
-\begin{minipage}[t]{0.55\textwidth}
+\begin{minipage}[c]{0.50\textwidth}
   \raggedleft
-  {\sffamily\bfseries\fontsize{9.5}{13}\selectfont\color{Gold}%
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{15}\selectfont\color{Gold!95!white}%
   TÔ VĂN KHÁNH \enspace·\enspace KIỀU VĂN TUYÊN\par
   TRƯƠNG XUÂN HIẾU \enspace·\enspace VŨ THANH HƯƠNG\par
   ĐÀO XUÂN NGHĨA \enspace·\enspace NGUYỄN KIM TRUNG ĐỨC\par}
 \end{minipage}
 
-\vspace{38mm}
+\vspace{78mm}
 
-%--- Spaced Category Banner Text ---
+%--- Main Title: Single Line Display ---
 \begin{center}
-  {\sffamily\bfseries\fontsize{13}{16}\selectfont\color{white}%
-  S \enspace Á \enspace C \enspace H \qquad C \enspace H \enspace U \enspace Y \enspace Ê \enspace N \qquad K \enspace H \enspace Ả \enspace O\par}
-\end{center}
-
-\vspace{18mm}
-
-%--- Main Title: Large Bold Gold/Yellow Text ---
-\begin{center}
-  {\sffamily\bfseries\fontsize{38}{44}\selectfont\color{Gold}%
-  BIỂU DIỄN SAT TỐI ƯU\par}
-  \vspace{8mm}
-  {\sffamily\bfseries\fontsize{18}{24}\selectfont\color{white}%
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{44}{52}\selectfont\color{Gold!98!white}%
+  \mbox{BIỂU DIỄN SAT TỐI ƯU}\par}
+  \vspace{12mm}
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{21}{27}\selectfont\color{white}%
   CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP\par}
 \end{center}
 
-\vspace{22mm}
-
-%--- Summary / Topics ---
-\begin{center}
-  \begin{minipage}{0.85\textwidth}
-    {\sffamily\fontsize{11.5}{18}\selectfont\color{white!95!Ink}%
-    \centering
-    ■\enspace Khảo cứu nền tảng và các họ mã hóa SAT\par\vspace{5pt}
-    ■\enspace Nguyên lý thiết kế và tái sử dụng cấu trúc\par\vspace{5pt}
-    ■\enspace Nghiên cứu tình huống trong tối ưu tổ hợp\par}
-  \end{minipage}
-\end{center}
-
 \vfill
-
-%--- Bottom Footer: Tủ sách & Nhà xuất bản ĐHQGHN ---
-\begin{minipage}[b]{0.45\textwidth}
-  {\sffamily\bfseries\fontsize{8.5}{11}\selectfont\color{Gold}%
-  TỦ SÁCH KHOA HỌC - SATLAB\par
-  \color{white!80!Ink}\fontseries{m}\selectfont MS: SAT-VNU-2026\par}
-\end{minipage}%
-\begin{minipage}[b]{0.55\textwidth}
-  \raggedleft
-  {\sffamily\bfseries\fontsize{10}{13}\selectfont\color{white}%
-  NHÀ XUẤT BẢN ĐẠI HỌC QUỐC GIA HÀ NỘI\par}
-\end{minipage}
-
-\vspace{-2mm}
 
 \end{titlepage}
 \hypersetup{pageanchor=true}
