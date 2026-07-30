@@ -1,11 +1,11 @@
 /* ==========================================================================
-   SAT Book — World-Class Academic & Modern Web Design System
+   SAT Book & SATLab — Top-Tier University Lab Design System
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Color Palette - Curated Vibrant & Dark Mode Accents */
+  /* Color Palette - Top Tier Academic Palette */
   --color-ink-950: #030712;
   --color-ink-900: #0f172a;
   --color-ink-800: #1e293b;
@@ -23,14 +23,12 @@
   --color-brand-900: #1e3a8a;
   
   --gradient-brand: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #4f46e5 100%);
-  --gradient-brand-glow: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(79, 70, 229, 0.15) 100%);
+  --gradient-banner: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 50%, #4f46e5 100%);
   --gradient-emerald: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  --gradient-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.8) 100%);
 
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
   --border-color: #e2e8f0;
-  --border-color-glow: rgba(59, 130, 246, 0.3);
   
   /* Typography Tokens */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -39,16 +37,15 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   
   /* Layout & Spacing */
-  --container-max: 1120px;
+  --container-max: 1160px;
   --header-height: 72px;
   
-  /* Advanced Shadows & Glassmorphism */
+  /* Advanced Elevation & Shadows */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
   --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 16px 32px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
   --shadow-cover: 0 24px 48px -12px rgba(30, 58, 138, 0.28), 0 8px 16px -6px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
   
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -62,7 +59,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + 24px);
+  scroll-padding-top: calc(var(--header-height) + 36px);
 }
 
 body {
@@ -73,13 +70,12 @@ body {
   font-size: 1.05rem;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: var(--color-brand-600);
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 a:hover {
@@ -92,18 +88,40 @@ a:hover {
 }
 
 /* ==========================================================================
+   Top Announcement / Alert Banner
+   ========================================================================== */
+.top-banner {
+  background: var(--gradient-banner);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.top-banner a {
+  color: #ffffff;
+  text-decoration: underline;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+.top-banner a:hover {
+  color: #dbeafe;
+}
+
+/* ==========================================================================
    Header & Sticky Glass Navbar
    ========================================================================== */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: all 0.3s ease;
 }
 
 .header-inner {
@@ -125,11 +143,11 @@ a:hover {
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.15));
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.3s ease;
 }
 
 .brand:hover .brand-logo-img {
-  transform: scale(1.08) rotate(-2deg);
+  transform: scale(1.06);
 }
 
 .brand-title {
@@ -138,15 +156,12 @@ a:hover {
   font-size: 1.25rem;
   color: var(--color-ink-900);
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -157,16 +172,19 @@ a:hover {
   padding: 6px 0;
 }
 
-.nav a::after {
+.nav a.active {
+  color: var(--color-brand-600);
+}
+
+.nav a.active::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0%;
+  width: 100%;
   height: 2px;
   background: var(--gradient-brand);
   border-radius: 2px;
-  transition: width 0.25s ease;
 }
 
 .nav a:hover {
@@ -174,40 +192,23 @@ a:hover {
   text-decoration: none;
 }
 
-.nav a:hover::after {
-  width: 100%;
-}
-
 /* ==========================================================================
-   Hero Section & Modern Mesh Backdrop
+   Hero Section
    ========================================================================== */
 .hero {
   position: relative;
-  padding: 72px 0 64px;
+  padding: 64px 0 56px;
   background: #ffffff;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.07) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.06) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%);
   border-bottom: 1px solid var(--border-color);
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  right: -100px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 320px;
-  gap: 56px;
+  gap: 52px;
   align-items: center;
 }
 
@@ -225,7 +226,6 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
 }
 
 .pill-dot {
@@ -233,19 +233,11 @@ a:hover {
   height: 8px;
   border-radius: 50%;
   background: var(--color-brand-600);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
-  animation: pulse-glow 2s infinite;
-}
-
-@keyframes pulse-glow {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.6rem;
+  font-size: 2.5rem;
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 18px;
@@ -255,59 +247,54 @@ a:hover {
 
 .hero-subtitle {
   font-size: 1.15rem;
-  font-weight: 400;
   color: var(--color-ink-700);
-  margin: 0 0 28px;
+  margin: 0 0 24px;
   line-height: 1.65;
 }
 
 .hero-meta-card {
   background: rgba(248, 250, 252, 0.9);
-  backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  padding: 20px 24px;
-  margin-bottom: 32px;
-  box-shadow: var(--shadow-sm);
+  padding: 18px 22px;
+  margin-bottom: 28px;
 }
 
 .hero-authors {
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   color: var(--color-ink-800);
   margin: 0;
   line-height: 1.6;
-  font-weight: 500;
 }
 
 .hero-affiliation {
   font-size: 0.88rem;
   color: var(--color-ink-500);
-  margin-top: 8px;
+  margin-top: 6px;
   font-weight: 600;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
 
 /* ==========================================================================
-   Buttons & Interactive Micro-animations
+   Buttons
    ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 13px 26px;
+  padding: 12px 24px;
   border-radius: var(--radius-md);
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 700;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   border: 1px solid transparent;
   cursor: pointer;
-  letter-spacing: -0.01em;
 }
 
 .btn:hover {
@@ -315,28 +302,24 @@ a:hover {
   transform: translateY(-2px);
 }
 
-.btn:active {
-  transform: translateY(0);
-}
-
 .btn-primary {
   background: var(--gradient-brand);
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
 .btn-primary-html {
   background: var(--gradient-emerald);
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.32);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
 }
 
 .btn-primary-html:hover {
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.42);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.38);
 }
 
 .btn-outline {
@@ -349,225 +332,148 @@ a:hover {
 .btn-outline:hover {
   border-color: var(--color-brand-500);
   color: var(--color-brand-600);
-  box-shadow: var(--shadow-sm);
-}
-
-.cover-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1000px;
-}
-
-.book-cover-img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-cover);
-  display: block;
-  object-fit: contain;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cover-wrapper:hover .book-cover-img {
-  transform: scale(1.04) rotateY(-4deg) rotateX(2deg);
 }
 
 /* ==========================================================================
-   Section Headers & Cards
+   Interactive Publication Filter & Search Bar
    ========================================================================== */
-.section-header {
-  text-align: center;
-  max-width: 680px;
-  margin: 0 auto 48px;
+.pub-control-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
 }
 
-.section-tag {
+.pub-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 600;
+  background: var(--bg-page);
+  color: var(--color-ink-700);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn.active, .filter-btn:hover {
+  background: var(--color-brand-600);
+  color: #ffffff;
+  border-color: var(--color-brand-600);
+}
+
+.pub-search-input {
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  width: 280px;
+  outline: none;
+}
+
+.pub-search-input:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* BibTeX Drawer */
+.bibtex-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-brand-600);
+  background: var(--color-brand-50);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-brand-200);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.bibtex-toggle:hover {
+  background: var(--color-brand-100);
+}
+
+.bibtex-box {
+  display: none;
+  margin-top: 12px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.bibtex-box.show {
+  display: block;
+}
+
+/* News Stream Cards */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.news-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s ease;
+}
+
+.news-card:hover {
+  border-color: var(--color-brand-500);
+  box-shadow: var(--shadow-md);
+}
+
+.news-date {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-brand-600);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 10px;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-ink-900);
-  margin: 0 0 14px;
-  letter-spacing: -0.02em;
-}
-
-.section-desc {
-  font-size: 1.08rem;
-  color: var(--color-ink-600);
-  margin: 0;
-  line-height: 1.6;
-}
-
-/* Feature Grid */
-.features-section {
-  padding: 80px 0;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
-}
-
-.feature-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: var(--gradient-brand);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-brand-200);
-}
-
-.feature-card:hover::before {
-  opacity: 1;
-}
-
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
   background: var(--color-brand-50);
-  color: var(--color-brand-600);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 
-.feature-card h3 {
+.news-content h3 {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--color-ink-900);
-  margin: 0 0 10px;
+  margin: 0 0 6px;
 }
 
-.feature-card p {
-  font-size: 0.98rem;
+.news-content p {
+  font-size: 0.94rem;
   color: var(--color-ink-600);
   margin: 0;
-  line-height: 1.6;
-}
-
-/* TOC Grid */
-.toc-section {
-  padding: 80px 0;
-  background: #ffffff;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.toc-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-}
-
-.toc-item {
-  background: var(--bg-page);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 22px 26px;
-  transition: all 0.25s ease;
-}
-
-.toc-item:hover {
-  background: #ffffff;
-  border-color: var(--color-brand-500);
-  box-shadow: var(--shadow-md);
-  transform: translateX(4px);
-}
-
-.toc-number {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--color-brand-600);
-  background: var(--color-brand-50);
-  padding: 3px 10px;
-  border-radius: 12px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-
-.toc-item h3 {
-  font-family: var(--font-display);
-  font-size: 1.12rem;
-  font-weight: 700;
-  color: var(--color-ink-900);
-  margin: 0 0 8px;
-  line-height: 1.35;
-}
-
-.toc-item p {
-  font-size: 0.92rem;
-  color: var(--color-ink-600);
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* ==========================================================================
-   HTML Reader Layout & Callout Styling
-   ========================================================================== */
-.reader-callout {
-  margin: 28px 0;
-  padding: 20px 24px;
-  border-radius: var(--radius-md);
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-left: 5px solid var(--color-brand-600);
-  box-shadow: var(--shadow-xs);
-}
-
-.reader-callout.worked-example {
-  border-left-color: #3b82f6;
-  background: #f0f9ff;
-}
-
-.reader-callout.design-rule {
-  border-left-color: #10b981;
-  background: #ecfdf5;
-}
-
-.reader-callout.key-idea {
-  border-left-color: #f59e0b;
-  background: #fffbeb;
-}
-
-.reader-callout.summary-box {
-  border-left-color: #8b5cf6;
-  background: #f5f3ff;
+  line-height: 1.55;
 }
 
 /* Footer */
@@ -605,23 +511,13 @@ a:hover {
   color: #64748b;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 900px) {
+@media (max-width: 860px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
+    gap: 36px;
   }
-  .hero-meta-card {
-    text-align: left;
-  }
-  .hero-actions {
-    justify-content: center;
-  }
-  .hero h1 {
-    font-size: 2.1rem;
-  }
-  .book-cover-img {
-    max-width: 240px;
+  .nav {
+    gap: 16px;
+    font-size: 0.88rem;
   }
 }

@@ -72,6 +72,11 @@
     </style>
   </head>
   <body>
+    <!-- Top Announcement Bar -->
+    <div class="top-banner">
+      🎉 SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="#journals">Xem công bố ↗</a>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -91,134 +96,203 @@
     </header>
 
     <main>
-      <section class="hero" style="padding: 56px 0 40px;">
+      <section class="hero" style="padding: 56px 0 36px;">
         <div class="shell">
-          <div class="pill-badge">PUBLICATIONS</div>
-          <h1>Các công trình công bố khoa học</h1>
+          <div class="pill-badge">RESEARCH PUBLICATIONS</div>
+          <h1>Danh mục Công bố Khoa học của SATLab</h1>
           <p class="hero-subtitle">
-            Danh mục bài báo đăng trên các Tạp chí Quốc tế uy tín (ISI/Scopus Q1, Q2, Q3) và các Báo cáo Hội nghị Quốc tế chất lượng cao của phòng nghiên cứu SATLab.
+            Các công trình nghiên cứu công bố trên các Tạp chí Quốc tế uy tín (Q1, Q2, Q3 ISI/Scopus) và các Báo cáo Hội nghị Quốc tế hàng đầu.
           </p>
+
+          <!-- Interactive Filter & Search Bar -->
+          <div class="pub-control-bar">
+            <div class="pub-filter-group">
+              <button class="filter-btn active" onclick="filterPubs('all')">Tất cả (20+)</button>
+              <button class="filter-btn" onclick="filterPubs('isi')">Tạp chí ISI/Scopus</button>
+              <button class="filter-btn" onclick="filterPubs('conf')">Hội nghị Quốc tế</button>
+              <button class="filter-btn" onclick="filterPubs('student')">Bài báo Sinh viên</button>
+            </div>
+            <input type="text" id="pubSearch" class="pub-search-input" placeholder="🔍 Tìm kiếm bài báo, tác giả..." onkeyup="searchPubs()">
+          </div>
         </div>
       </section>
 
       <section class="features-section" style="padding-top: 0;">
         <div class="shell">
-          <h2 class="pub-section-title">1. Tạp chí Quốc tế & Báo cáo Hội nghị đã Xuất bản (Published Papers)</h2>
-
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q1">Q1 ISI</span>
-              <span class="badge-tag">Tạp chí Quốc tế</span>
+          <div id="pubList">
+            <!-- Item 1 -->
+            <div class="pub-card" data-cat="isi" id="journals">
+              <div class="pub-badge-row">
+                <span class="badge-tag q1">Q1 ISI</span>
+                <span class="badge-tag">Tạp chí Quốc tế</span>
+              </div>
+              <div class="pub-paper-title">Solving Cyclic Antibandwidth Problem by SAT</div>
+              <div class="pub-paper-authors">Trương Xuân Hiếu, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Computational Optimization and Applications (2026)</div>
+              <button class="bibtex-toggle" onclick="toggleBib('bib1')">📋 Hiện BibTeX</button>
+              <div class="bibtex-box" id="bib1">@article{hieu2026cyclic,
+  title={Solving Cyclic Antibandwidth Problem by SAT},
+  author={Hieu, Truong Xuan and Khanh, To Van},
+  journal={Computational Optimization and Applications},
+  year={2026},
+  publisher={Springer}
+}</div>
             </div>
-            <div class="pub-paper-title">Solving Cyclic Antibandwidth Problem by SAT</div>
-            <div class="pub-paper-authors">Trương Xuân Hiếu, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Computational Optimization and Applications (2026)</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q2">Q2 Scopus</span>
-              <span class="badge-tag">Tạp chí Quốc tế</span>
+            <!-- Item 2 -->
+            <div class="pub-card" data-cat="isi">
+              <div class="pub-badge-row">
+                <span class="badge-tag q2">Q2 Scopus</span>
+                <span class="badge-tag">Tạp chí Quốc tế</span>
+              </div>
+              <div class="pub-paper-title">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</div>
+              <div class="pub-paper-authors">Kiều Văn Tuyên, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Cybernetics and Information Technologies 25(3), 2025</div>
+              <button class="bibtex-toggle" onclick="toggleBib('bib2')">📋 Hiện BibTeX</button>
+              <div class="bibtex-box" id="bib2">@article{tuyen2025compact,
+  title={A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources},
+  author={Tuyen, Kieu Van and Khanh, To Van},
+  journal={Cybernetics and Information Technologies},
+  volume={25},
+  number={3},
+  year={2025}
+}</div>
             </div>
-            <div class="pub-paper-title">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</div>
-            <div class="pub-paper-authors">Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Cybernetics and Information Technologies 25(3), 2025</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q3">Q3 ISI</span>
-              <span class="badge-tag">Tạp chí Quốc tế</span>
+            <!-- Item 3 -->
+            <div class="pub-card" data-cat="isi student">
+              <div class="pub-badge-row">
+                <span class="badge-tag q3">Q3 ISI</span>
+                <span class="badge-tag">Bài báo Sinh viên (K67CC)</span>
+              </div>
+              <div class="pub-paper-title">An Efficient SAT Encoding for Solving the Social Golfer Problem</div>
+              <div class="pub-paper-authors">Kiều Văn Tuyên, Nguyễn Tân Nguyên, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">RAIRO - Operations Research 60(1): 173-199, 2026</div>
+              <button class="bibtex-toggle" onclick="toggleBib('bib3')">📋 Hiện BibTeX</button>
+              <div class="bibtex-box" id="bib3">@article{tuyen2026sgp,
+  title={An efficient SAT encoding for solving the Social Golfer Problem},
+  author={Tuyen, Kieu Van and Nguyen, Nguyen Tan and Khanh, To Van},
+  journal={RAIRO - Operations Research},
+  volume={60},
+  number={1},
+  pages={173--199},
+  year={2026}
+}</div>
             </div>
-            <div class="pub-paper-title">An Efficient SAT Encoding for Solving the Social Golfer Problem</div>
-            <div class="pub-paper-authors">Kiều Văn Tuyên, Nguyễn Tân Nguyên, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">RAIRO - Operations Research 60(1): 173-199, 2026</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q2">Rank B</span>
-              <span class="badge-tag">Hội nghị Quốc tế</span>
+            <!-- Item 4 -->
+            <div class="pub-card" data-cat="conf">
+              <div class="pub-badge-row">
+                <span class="badge-tag q2">Rank B</span>
+                <span class="badge-tag">Hội nghị Quốc tế</span>
+              </div>
+              <div class="pub-paper-title">Sequential Counter Encoding for Staircase At-Most-One Constraints</div>
+              <div class="pub-paper-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), SciTePress</div>
+              <button class="bibtex-toggle" onclick="toggleBib('bib4')">📋 Hiện BibTeX</button>
+              <div class="bibtex-box" id="bib4">@inproceedings{hieu2025icaart,
+  title={Sequential counter encoding for staircase at-most-one constraints},
+  author={Hieu, Truong Xuan and Tuyen, Kieu Van and Khanh, To Van},
+  booktitle={Proceedings of ICAART 2025},
+  pages={164--175},
+  year={2025}
+}</div>
             </div>
-            <div class="pub-paper-title">Sequential Counter Encoding for Staircase At-Most-One Constraints</div>
-            <div class="pub-paper-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), SciTePress</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q4">Q4 Scopus</span>
-              <span class="badge-tag">Tạp chí Quốc tế</span>
+            <!-- Item 5 -->
+            <div class="pub-card" data-cat="isi student">
+              <div class="pub-badge-row">
+                <span class="badge-tag q4">Q4 Scopus</span>
+                <span class="badge-tag">Bài báo Sinh viên (K66CS)</span>
+              </div>
+              <div class="pub-paper-title">Efficient SAT and MaxSAT Techniques for Solving the Two-Dimensional Strip Packing Problem</div>
+              <div class="pub-paper-authors">Kiều Văn Tuyên, Lê Quý Dương, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Pesquisa Operacional 45: e297231, 2025</div>
+              <button class="bibtex-toggle" onclick="toggleBib('bib5')">📋 Hiện BibTeX</button>
+              <div class="bibtex-box" id="bib5">@article{tuyen2025packing,
+  title={Efficient SAT and MaxSAT techniques for solving the Two-Dimensional Strip Packing Problem},
+  author={Tuyen, Kieu Van and Duong, Le Quy and Khanh, To Van},
+  journal={Pesquisa Operacional},
+  volume={45},
+  pages={e297231},
+  year={2025}
+}</div>
             </div>
-            <div class="pub-paper-title">Efficient SAT and MaxSAT Techniques for Solving the Two-Dimensional Strip Packing Problem</div>
-            <div class="pub-paper-authors">Kiều Văn Tuyên, Lê Quý Dương, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Pesquisa Operacional 45: e297231, 2025</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q2">Rank B</span>
-              <span class="badge-tag">Hội nghị Quốc tế</span>
+            <!-- Item 6 -->
+            <div class="pub-card" data-cat="conf student">
+              <div class="pub-badge-row">
+                <span class="badge-tag q2">Rank B</span>
+                <span class="badge-tag">Bài báo Sinh viên (K67C/K66CS)</span>
+              </div>
+              <div class="pub-paper-title">Solving at-Least Sequence Constraints in Nurse Rostering Problem Using SAT</div>
+              <div class="pub-paper-authors">Trương Xuân Hiếu, Nguyễn Hồng Quân, Đào Xuân Nghĩa, Kiều Văn Tuyên, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Proceedings of the 24th International Symposium on Communications and Information Technologies (ISCIT 2025)</div>
             </div>
-            <div class="pub-paper-title">Solving at-Least Sequence Constraints in Nurse Rostering Problem Using SAT</div>
-            <div class="pub-paper-authors">Trương Xuân Hiếu, Nguyễn Hồng Quân, Đào Xuân Nghĩa, Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Proceedings of the 24th International Symposium on Communications and Information Technologies (ISCIT 2025)</div>
-          </div>
 
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag">Scopus</span>
-              <span class="badge-tag">Hội nghị Quốc tế</span>
+            <!-- Item 7 -->
+            <div class="pub-card" data-cat="conf student">
+              <div class="pub-badge-row">
+                <span class="badge-tag">Scopus</span>
+                <span class="badge-tag">Bài báo Sinh viên (K67CS)</span>
+              </div>
+              <div class="pub-paper-title">SAT-Based Approaches for Two-Dimensional Bin Packing: A Comprehensive Comparison with MIP and CP Methods</div>
+              <div class="pub-paper-authors">Kiều Văn Tuyên, Hoàng Linh Chi, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">17th International Conference on Knowledge and Systems Engineering (KSE 2025)</div>
             </div>
-            <div class="pub-paper-title">SAT-Based Approaches for Two-Dimensional Bin Packing: A Comprehensive Comparison with MIP and CP Methods</div>
-            <div class="pub-paper-authors">Kiều Văn Tuyên, Hoàng Linh Chi, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">17th International Conference on Knowledge and Systems Engineering (KSE 2025)</div>
-          </div>
 
-          <h2 class="pub-section-title">2. Bài báo đang phản biện & Đã chấp nhận (Submissions & Accepted Papers)</h2>
-
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q2">Q2 ISI</span>
-              <span class="badge-tag">Major Revisions</span>
+            <!-- Item 8 -->
+            <div class="pub-card" data-cat="conf student">
+              <div class="pub-badge-row">
+                <span class="badge-tag">Accepted</span>
+                <span class="badge-tag">Bài báo Sinh viên (K68CS3/K69CS2)</span>
+              </div>
+              <div class="pub-paper-title">Exact k-Safe Labeling via Incremental SAT Solving</div>
+              <div class="pub-paper-authors">Vũ Thanh Hương, Nguyễn Kim Trung Đức, Đỗ Đức Long, Đào Thị Hương, Trịnh Ngọc Thuận, Tô Văn Khánh</div>
+              <div class="pub-paper-venue">Proceedings of CITA 2026 (Accepted)</div>
             </div>
-            <div class="pub-paper-title">Compact SAT Encoding for Power Peak Minimization in Assembly Line Balancing</div>
-            <div class="pub-paper-authors">Kiều Văn Tuyên, Nguyễn Chí Phong, Hoàng Gia Bảo, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Journal of Combinatorial Optimization (Revised 2026)</div>
-          </div>
-
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q2">Q2 ISI</span>
-              <span class="badge-tag">Major Revisions</span>
-            </div>
-            <div class="pub-paper-title">A SAT-Based Exact Approach for the Minimum Order Frequency Assignment Problem</div>
-            <div class="pub-paper-authors">Đào Xuân Nghĩa, Đặng Anh Phương, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">IEEE Latin America Transactions (Revised 2026)</div>
-          </div>
-
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag">Accepted</span>
-              <span class="badge-tag">Hội nghị Quốc tế</span>
-            </div>
-            <div class="pub-paper-title">Exact k-Safe Labeling via Incremental SAT Solving</div>
-            <div class="pub-paper-authors">Vũ Thanh Hương, Nguyễn Kim Trung Đức, Đỗ Đức Long, Đào Thị Hương, Trịnh Ngọc Thuận, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">CITA 2026 (Accepted)</div>
-          </div>
-
-          <div class="pub-card">
-            <div class="pub-badge-row">
-              <span class="badge-tag q3">Q3 ISI</span>
-              <span class="badge-tag">Under Review</span>
-            </div>
-            <div class="pub-paper-title">SAT Encoding for Set of At-Most-K Cardinality Constraints with Ladder Shape</div>
-            <div class="pub-paper-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-paper-venue">Constraints (Revised 2026)</div>
           </div>
         </div>
       </section>
     </main>
+
+    <!-- Interactive Script for Filtering & Searching -->
+    <script>
+      function toggleBib(id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.classList.toggle('show');
+        }
+      }
+
+      function filterPubs(category) {
+        var btns = document.querySelectorAll('.filter-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        var cards = document.querySelectorAll('.pub-card');
+        cards.forEach(c => {
+          if (category === 'all' || c.getAttribute('data-cat').includes(category)) {
+            c.style.display = 'block';
+          } else {
+            c.style.display = 'none';
+          }
+        });
+      }
+
+      function searchPubs() {
+        var q = document.getElementById('pubSearch').value.toLowerCase();
+        var cards = document.querySelectorAll('.pub-card');
+        cards.forEach(c => {
+          var text = c.innerText.toLowerCase();
+          if (text.includes(q)) {
+            c.style.display = 'block';
+          } else {
+            c.style.display = 'none';
+          }
+        });
+      }
+    </script>
 
     <!-- Footer -->
     <footer class="site-footer">

@@ -73,53 +73,6 @@
         color: var(--color-ink-600);
         margin-top: 4px;
       }
-      .pub-badge {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding: 3px 10px;
-        border-radius: 12px;
-        background: #f1f5f9;
-        color: var(--color-ink-700);
-        border: 1px solid var(--border-color);
-      }
-      .pub-badge.q1 { background: #dcfce7; color: #15803d; border-color: #86efac; }
-      .pub-badge.q2 { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
-      .pub-badge.q3 { background: #fef3c7; color: #b45309; border-color: #fde68a; }
-      .pub-list {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .pub-item {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 20px 24px;
-        transition: all 0.2s ease;
-      }
-      .pub-item:hover {
-        border-color: var(--color-brand-500);
-        box-shadow: var(--shadow-md);
-        transform: translateY(-2px);
-      }
-      .pub-title {
-        font-family: var(--font-display);
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin-bottom: 6px;
-      }
-      .pub-authors {
-        font-size: 0.92rem;
-        color: var(--color-ink-700);
-        margin-bottom: 6px;
-      }
-      .pub-venue {
-        font-size: 0.88rem;
-        color: var(--color-ink-500);
-        font-style: italic;
-      }
       .recruitment-card {
         background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
         color: #ffffff;
@@ -144,20 +97,25 @@
     </style>
   </head>
   <body>
+    <!-- Top Announcement Bar -->
+    <div class="top-banner">
+      🎉 SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="./publications.html">Xem tất cả công bố ↗</a>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
         <a class="brand" href="./">
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
-          <span class="brand-title">SAT Book</span>
+          <span class="brand-title">SATLab</span>
         </a>
         <nav class="nav">
-          <a href="#ve-satlab">Về SATLab</a>
-          <a href="#huong-nghien-cuu">Hướng nghiên cứu</a>
-          <a href="#sach-chuyen-khao">Sách Chuyên khảo</a>
-          <a href="#cong-trinh">Công trình công bố</a>
-          <a href="./read.html">Đọc sách HTML ↗</a>
-          <a href="./downloads/sat-book.pdf">Tải PDF (104 trang)</a>
+          <a href="./" class="active">Trang chủ</a>
+          <a href="./about.html">Giới thiệu</a>
+          <a href="./research.html">Nghiên cứu</a>
+          <a href="./publications.html">Công bố</a>
+          <a href="./people.html">Nhân sự</a>
+          <a href="./read.html">Sách Chuyên khảo ↗</a>
         </nav>
       </div>
     </header>
@@ -208,7 +166,7 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
               Tải PDF Sách (104 trang)
             </a>
-            <a class="btn btn-outline" href="#huong-nghien-cuu">
+            <a class="btn btn-outline" href="./research.html">
               Khám phá Nghiên cứu ↓
             </a>
           </div>
@@ -226,9 +184,45 @@
       </div>
     </section>
 
+    <!-- Latest News & Highlights Stream -->
+    <section class="features-section" style="background: #ffffff; border-bottom: 1px solid var(--border-color);">
+      <div class="shell">
+        <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 32px;">
+          <div class="section-tag">LAB HIGHLIGHTS & NEWS</div>
+          <h2 class="section-title">Tin tức & Sự kiện Nổi bật</h2>
+        </div>
+
+        <div class="news-list">
+          <div class="news-card">
+            <div class="news-date">JULY 2026</div>
+            <div class="news-content">
+              <h3>Công bố bài báo Q1 ISI trên Computational Optimization and Applications</h3>
+              <p>Nghiên cứu "Solving Cyclic Antibandwidth Problem by SAT" của tác giả Trương Xuân Hiếu và Tô Văn Khánh chính thức được nhận đăng trên Tạp chí Computational Optimization and Applications (Q1 ISI).</p>
+            </div>
+          </div>
+
+          <div class="news-card">
+            <div class="news-date">JUNE 2026</div>
+            <div class="news-content">
+              <h3>Hoàn thành Chuyên khảo 104 trang về Biểu diễn SAT Tối ưu</h3>
+              <p>SATLab xuất bản ấn phẩm chuyên khảo 104 trang đúc kết 12 chương lý thuyết và kỹ nghệ công nghệ phần mềm chuyển đổi SAT/MaxSAT cho tối ưu hóa tổ hợp.</p>
+            </div>
+          </div>
+
+          <div class="news-card">
+            <div class="news-date">MAY 2026</div>
+            <div class="news-content">
+              <h3>Báo cáo được chấp nhận tại CITA 2026 & ISCIT 2025</h3>
+              <p>Cụm công trình gán nhãn k-Safe Labeling và Sequence Constraints của nhóm nghiên cứu trẻ sinh viên K67/K68 đã được chấp nhận báo cáo tại các Hội nghị Quốc tế.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Core Research Directions Section -->
     <section class="features-section" id="huong-nghien-cuu">
-      <div class="shell">
+      <div class="shell" id="cong-trinh">
         <div class="section-header">
           <div class="section-tag">RESEARCH DOMAINS</div>
           <h2 class="section-title">Các hướng nghiên cứu trọng tâm</h2>
@@ -308,135 +302,11 @@
             <h3>Thiết kế thực nghiệm cho phép mã hóa SAT</h3>
             <p>Ma trận cấu hình, biểu đồ xương rồng, profile bậc thang và chuỗi truy vết.</p>
           </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 05</span>
-            <h3>Bộ đếm dùng chung cho các cửa sổ chồng lấn</h3>
-            <p>Phân hoạch khối, bộ đếm cục bộ, bộ nối và ứng dụng trong cửa sổ trượt.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 06</span>
-            <h3>Thanh ghi đếm thích nghi cho ràng buộc đúng K</h3>
-            <p>Miền trạng thái tam giác NSC, truy hồi ngưỡng và điều kiện phá biên.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 07</span>
-            <h3>Đối xứng, biến quan hệ và liên kết biểu diễn</h3>
-            <p>Nhóm đối xứng, đại diện chuẩn, quan hệ không chồng lấn và liên kết kênh.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 08</span>
-            <h3>Lập lịch và cân bằng dây chuyền</h3>
-            <p>Miền thời gian, tài nguyên liên tục, cửa sổ ALSC và làm mịn lưới DDD.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 09</span>
-            <h3>Đóng gói và cắt hai chiều</h3>
-            <p>Tọa độ thứ tự, quan hệ tách, cận khung chứa và xếp chồng không toàn cục.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 10</span>
-            <h3>Bandwidth, antibandwidth và tô đa màu</h3>
-            <p>Cửa sổ cấm, tuyến tính hóa vòng, ma trận khoảng cách và tìm cận dưới.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 11</span>
-            <h3>Gán nhãn và phân bổ tần số</h3>
-            <p>Chuỗi thứ tự, nén khoảng cấm, gán nhãn radio và khoảng chênh tần số.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 12</span>
-            <h3>Kết luận và chương trình nghiên cứu</h3>
-            <p>Tổng kết bài học thiết kế, checklist đánh giá mã hóa và lộ trình mở rộng.</p>
-          </div>
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
           <a class="btn btn-primary-html" href="./read.html">
             📖 Đọc toàn văn 12 Chương trực tuyến (HTML Reader) ↗
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Publications Section -->
-    <section class="features-section" id="cong-trinh">
-      <div class="shell">
-        <div class="section-header">
-          <div class="section-tag">PUBLICATIONS & ACHIEVEMENTS</div>
-          <h2 class="section-title">Công trình công bố tiêu biểu</h2>
-          <p class="section-desc">
-            Các bài báo khoa học xuất sắc của SATLab trên các Tạp chí ISI/Scopus hàng đầu và Báo cáo tại các Hội nghị Quốc tế Prestige.
-          </p>
-        </div>
-
-        <div class="pub-list">
-          <div class="pub-item">
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <span class="pub-badge q1">Q1 ISI</span>
-              <span class="pub-badge">Tạp chí Quốc tế</span>
-            </div>
-            <div class="pub-title">Solving Cyclic Antibandwidth Problem by SAT</div>
-            <div class="pub-authors">Trương Xuân Hiếu, Tô Văn Khánh</div>
-            <div class="pub-venue">Computational Optimization and Applications (2026)</div>
-          </div>
-
-          <div class="pub-item">
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <span class="pub-badge q2">Q2 Scopus</span>
-              <span class="pub-badge">Tạp chí Quốc tế</span>
-            </div>
-            <div class="pub-title">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</div>
-            <div class="pub-authors">Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-venue">Cybernetics and Information Technologies 25(3), 2025</div>
-          </div>
-
-          <div class="pub-item">
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <span class="pub-badge q3">Q3 ISI</span>
-              <span class="pub-badge">Tạp chí Quốc tế</span>
-            </div>
-            <div class="pub-title">An Efficient SAT Encoding for Solving the Social Golfer Problem</div>
-            <div class="pub-authors">Kiều Văn Tuyên, Nguyễn Tân Nguyên, Tô Văn Khánh</div>
-            <div class="pub-venue">RAIRO - Operations Research 60(1): 173-199, 2026</div>
-          </div>
-
-          <div class="pub-item">
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <span class="pub-badge q2">Rank B</span>
-              <span class="pub-badge">Hội nghị Quốc tế</span>
-            </div>
-            <div class="pub-title">Sequential Counter Encoding for Staircase At-Most-One Constraints</div>
-            <div class="pub-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
-            <div class="pub-venue">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), SciTePress</div>
-          </div>
-
-          <div class="pub-item">
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <span class="pub-badge q4">Q4 Scopus</span>
-              <span class="pub-badge">Tạp chí Quốc tế</span>
-            </div>
-            <div class="pub-title">Efficient SAT and MaxSAT Techniques for Solving the Two-Dimensional Strip Packing Problem</div>
-            <div class="pub-authors">Kiều Văn Tuyên, Lê Quý Dương, Tô Văn Khánh</div>
-            <div class="pub-venue">Pesquisa Operacional 45: e297231, 2025</div>
-          </div>
-        </div>
-
-        <!-- Recruitment Banner -->
-        <div class="recruitment-card">
-          <h3>Tham gia SATLab & Lifelong Learning</h3>
-          <p>
-            “School shows us the key to knowledge; learning in life is a lifelong job.” SATLab liên tục tìm kiếm và chào đón các bạn Nghiên cứu sinh (PhD), Học viên Cao học (Master) và Sinh viên cử nhân (Undergraduate K67, K68, K69) đam mê nghiên cứu về Software Verification, SAT/MaxSAT Solvers, Planning, Scheduling và Optimization.
-          </p>
-          <a class="btn btn-primary" href="mailto:khanhtv@vnu.edu.vn">
-            ✉ Đăng ký tham gia SATLab
           </a>
         </div>
       </div>
