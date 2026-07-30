@@ -2,6 +2,12 @@
 \usepackage{satbook}
 \addbibresource{references.bib}
 
+\IfFontExistsTF{Baskerville}{%
+  \newfontfamily\TitleFont{Baskerville}%
+}{%
+  \newfontfamily\TitleFont{Libertinus Serif}%
+}
+
 \begin{document}
 \hypersetup{pageanchor=false}
 
@@ -51,16 +57,17 @@
 
 %--- Top Header: Transparent SATLab Logo + Institution (Left) & Authors (Right) ---
 \vspace*{-2mm}
-\begin{minipage}[c]{0.50\textwidth}
+\begin{minipage}[c]{0.48\textwidth}
   \raisebox{-0.32\height}{\includegraphics[height=16mm]{satlab_logo_transparent.png}}%
   \hspace{3mm}%
-  \begin{minipage}[c]{0.70\textwidth}
+  \begin{minipage}[c]{\dimexpr\linewidth-16mm-4mm\relax}
     {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{white}%
     ĐẠI HỌC QUỐC GIA HÀ NỘI\par
     TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
   \end{minipage}
 \end{minipage}%
-\begin{minipage}[c]{0.50\textwidth}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
   \raggedleft
   {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{15}\selectfont\color{Gold!95!white}%
   TÔ VĂN KHÁNH \enspace·\enspace KIỀU VĂN TUYÊN\par
@@ -73,9 +80,9 @@
 %--- Main Title: auto-fit single line ---
 \begin{center}
   {\color{Gold!98!white}\resizebox{0.92\textwidth}{!}{%
-    {\fontspec{Baskerville}\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[22mm]
+    {\TitleFont\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[12mm]
   {\color{white}\resizebox{0.88\textwidth}{!}{%
-    {\fontspec{Baskerville} CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
+    {\TitleFont CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
 \end{center}
 
 \vfill
@@ -120,16 +127,17 @@
 
 %--- Top Header: Logo + Institution (Left) & Authors (Right) ---
 \vspace*{-2mm}
-\begin{minipage}[c]{0.50\textwidth}
+\begin{minipage}[c]{0.48\textwidth}
   \raisebox{-0.32\height}{\includegraphics[height=16mm]{satlab_logo_transparent.png}}%
   \hspace{3mm}%
-  \begin{minipage}[c]{0.70\textwidth}
+  \begin{minipage}[c]{\dimexpr\linewidth-16mm-4mm\relax}
     {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{Ink}%
     ĐẠI HỌC QUỐC GIA HÀ NỘI\par
     TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
   \end{minipage}
 \end{minipage}%
-\begin{minipage}[c]{0.50\textwidth}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
   \raggedleft
   {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{15}\selectfont\color{Ink}%
   TÔ VĂN KHÁNH \enspace·\enspace KIỀU VĂN TUYÊN\par
@@ -142,9 +150,9 @@
 %--- Title block (mirrors cover) ---
 \begin{center}
   {\color{Ink}\resizebox{0.92\textwidth}{!}{%
-    {\fontspec{Baskerville}\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[22mm]
+    {\TitleFont\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[12mm]
   {\color{Ink!70}\resizebox{0.88\textwidth}{!}{%
-    {\fontspec{Baskerville} CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
+    {\TitleFont CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
 \end{center}
 
 \vfill
