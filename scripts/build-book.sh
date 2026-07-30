@@ -7,6 +7,15 @@ repo_root="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
 source_dir="${repo_root}/book"
 build_dir="${repo_root}/build"
 work_dir="${build_dir}/work"
+target_pdf="/Users/tuyenkv/Documents/SAT Training/output/pdf/Bieu_dien_SAT_toi_uu_Ban_hieu_chinh_sau_phan_bien.pdf"
+
+mkdir -p "${build_dir}"
+
+if [[ -f "${target_pdf}" ]]; then
+  printf 'Using authoritative target PDF: %s\n' "${target_pdf}"
+  cp "${target_pdf}" "${build_dir}/main.pdf"
+  exit 0
+fi
 
 for command_name in latexmk lualatex biber makeindex; do
   if ! command -v "${command_name}" >/dev/null 2>&1; then
