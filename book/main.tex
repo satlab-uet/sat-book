@@ -2,7 +2,11 @@
 \usepackage{satbook}
 \addbibresource{references.bib}
 
-\newfontfamily\TitleFont{TeX Gyre Heros}
+\IfFontExistsTF{Baskerville}{%
+  \newfontfamily\TitleFont{Baskerville}%
+}{%
+  \newfontfamily\TitleFont{Libertinus Serif}%
+}
 
 \begin{document}
 \hypersetup{pageanchor=false}
