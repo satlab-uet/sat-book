@@ -5,7 +5,7 @@ set -euo pipefail
 script_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
 pdf_path="${1:-${repo_root}/build/main.pdf}"
-expected_pages="${EXPECTED_PAGES:-106}"
+expected_pages="${EXPECTED_PAGES:-104}"
 expected_title="Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp"
 expected_authors="Tô Văn Khánh; Kiều Văn Tuyên; Trương Xuân Hiếu; Vũ Thanh Hương; Đào Xuân Nghĩa; Nguyễn Kim Trung Đức"
 

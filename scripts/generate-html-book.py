@@ -560,7 +560,7 @@ def build_reader_html(repo_root: Path):
         </a>
         <nav class="nav">
           <a href="./">Trang chủ</a>
-          <a href="./downloads/sat-book.pdf">Bản PDF (106 trang)</a>
+          <a href="./downloads/sat-book.pdf">Bản PDF (104 trang)</a>
         </nav>
       </div>
     </header>
