@@ -1,13 +1,13 @@
 \chapter{Thư viện PySAT và các Bộ giải Chuyên ngành}
 \label{ch:appendix-solvers}
 
-Phụ lục này giới thiệu tổng quan về thư viện **PySAT** và các lớp bộ giải (**SAT**, **MaxSAT**, **Constraint Programming -- CP**, và **Integer Linear Programming -- ILP/MIP**) được sử dụng phổ biến trong nghiên cứu thiết kế phép biểu diễn và tối ưu hóa tổ hợp.
+Phụ lục này giới thiệu tổng quan về thư viện \textbf{PySAT} và các lớp bộ giải (\textbf{SAT}, \textbf{MaxSAT}, \textbf{Constraint Programming -- CP}, và \textbf{Integer Linear Programming -- ILP/MIP}) được sử dụng phổ biến trong nghiên cứu thiết kế phép biểu diễn và tối ưu hóa tổ hợp.
 
 \section{Tổng quan Công cụ PySAT (Python Toolkit for SAT Oracles)}
 
 \subsection{Giới thiệu và Kiến trúc}
 
-Thư viện **PySAT** \parencite{ignatiev2018pysat} là bộ công cụ mã nguồn mở dựa trên Python cho phép xây dựng mô hình, biểu diễn các ràng buộc lôgic phức tạp và tương tác trực tiếp với các SAT solver hàng đầu qua giao diện C-API. Thay vì phải làm việc với các tệp tin lưu đĩa dạng \CNF (DIMACS format), PySAT liên kết trực tiếp vào bộ nhớ (in-memory bindings) giúp giảm thiểu chi phí I/O và hỗ trợ các luồng giải tăng dần (incremental solving).
+Thư viện \textbf{PySAT} \parencite{ignatiev2018pysat} là bộ công cụ mã nguồn mở dựa trên Python cho phép xây dựng mô hình, biểu diễn các ràng buộc lôgic phức tạp và tương tác trực tiếp với các SAT solver hàng đầu qua giao diện C-API. Thay vì phải làm việc với các tệp tin lưu đĩa dạng \CNF (DIMACS format), PySAT liên kết trực tiếp vào bộ nhớ (in-memory bindings) giúp giảm thiểu chi phí I/O và hỗ trợ các luồng giải tăng dần (incremental solving).
 
 Cấu trúc chính của PySAT bao gồm các mô-đun cốt lõi:
 \begin{itemize}
@@ -28,12 +28,12 @@ from pysat.formula import CNF
 from pysat.card import CardEnc, EncType
 from pysat.solvers import Solver
 
-# 1. Khởi tạo công thức CNF
+# 1. Initialize CNF formula
 cnf = CNF()
-cnf.append([1, 2, 3])  # Mệnh đề: x1 v x2 v x3
+cnf.append([1, 2, 3])  # Clause: x1 v x2 v x3
 
-# 2. Thêm ràng buộc Cardinality: AtMost1(x1, x2, x3, x4)
-# Sử dụng kiểu biểu diễn Sequential Counter (seqcounter)
+# 2. Add Cardinality constraint: AtMost1(x1, x2, x3, x4)
+# Use Sequential Counter (seqcounter) encoding
 card_clauses = CardEnc.atmost(
     lits=[1, 2, 3, 4],
     bound=1,
@@ -42,10 +42,10 @@ card_clauses = CardEnc.atmost(
 )
 cnf.extend(card_clauses)
 
-# 3. Gọi SAT Solver (Glucose 4)
+# 3. Call SAT Solver (Glucose 4)
 with Solver(name='g4', bootstrap_with=cnf) as solver:
     if solver.solve():
-        print("SAT - Mô hình tìm được:", solver.get_model())
+        print("SAT - Model found:", solver.get_model())
     else:
         print("UNSAT")
 \end{verbatim}
@@ -55,7 +55,7 @@ with Solver(name='g4', bootstrap_with=cnf) as solver:
 
 \subsection{Các Bộ giải SAT dựa trên CDCL}
 
-Các SAT solver hiện đại dựa trên kiến trúc **Conflict-Driven Clause Learning (CDCL)** \parencite{marquessilva2009cdcl} là động cơ giải quyết cốt lõi cho các mô hình \CNF:
+Các SAT solver hiện đại dựa trên kiến trúc \textbf{Conflict-Driven Clause Learning (CDCL)} \parencite{marquessilva2009cdcl} là động cơ giải quyết cốt lõi cho các mô hình \CNF:
 \begin{itemize}
   \item \textbf{MiniSat} \parencite{een2003minisat}: Bộ giải nền tảng có kiến trúc tối giản, sạch sẽ, làm chuẩn mực cho hầu hết các phát triển SAT solver sau này.
   \item \textbf{Glucose} \parencite{audemard2009lbd}: Nổi tiếng với chỉ số \emph{Literal Block Distance (LBD)} giúp đánh giá chính xác chất lượng mệnh đề xung đột và thực hiện dọn dẹp bộ nhớ hiệu quả.
@@ -74,7 +74,7 @@ Khi bài toán chứa cả các ràng buộc cứng (bắt buộc thỏa) và r�
 
 \section{Các Bộ giải Quy hoạch Ràng buộc (CP Solvers)}
 
-Quy hoạch ràng buộc (**Constraint Programming -- CP**) mở rộng khả năng biểu diễn sang các miền giá trị hữu hạn nguyên và các ràng buộc toàn cục (\emph{global constraints}):
+Quy hoạch ràng buộc (\textbf{Constraint Programming -- CP}) mở rộng khả năng biểu diễn sang các miền giá trị hữu hạn nguyên và các ràng buộc toàn cục (\emph{global constraints}):
 \begin{itemize}
   \item \textbf{Google OR-Tools CP-SAT}: Bộ giải CP thế hệ mới kết hợp kỹ thuật sinh mệnh đề lười (\emph{Lazy Clause Generation -- LCG}) với động cơ CDCL SAT solver bên dưới. CP-SAT đạt hiệu năng vượt trội trong các bài toán lập lịch (\emph{scheduling}) và đóng gói (\emph{packing}).
   \item \textbf{Choco Solver}: Thư viện CP mã nguồn mở dựa trên Java, hỗ trợ phong phú các ràng buộc toàn cục (\textsc{AllDifferent}, \textsc{Cumulative}, \textsc{Element}) và các chiến lược tìm kiếm tùy biến.
@@ -83,7 +83,7 @@ Quy hoạch ràng buộc (**Constraint Programming -- CP**) mở rộng khả n�
 
 \section{Các Bộ giải Quy hoạch Tuyến tính Số nguyên (ILP/MIP Solvers)}
 
-Phương pháp Quy hoạch tuyến tính số nguyên (**Mixed Integer Programming -- MIP / ILP**) tiếp cận bài toán thông qua các bất đẳng thức tuyến tính và hình học lồi:
+Phương pháp Quy hoạch tuyến tính số nguyên (\textbf{Mixed Integer Programming -- MIP / ILP}) tiếp cận bài toán thông qua các bất đẳng thức tuyến tính và hình học lồi:
 \begin{itemize}
   \item \textbf{Gurobi Optimizer}: Bộ giải thương mại hàng đầu thế giới về tốc độ cho các bài toán MIP, QP và QCP.
   \item \textbf{SCIP (Solving Constraint Integer Programs)} \parencite{bestuzheva2021scip}: Bộ giải mã nguồn mở mạnh mẽ nhất cho MIP và CIP, hỗ trợ mở rộng các quy tắc cắt (\emph{cutting planes}) và phân nhánh (\emph{branching rules}).
