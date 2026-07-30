@@ -37,45 +37,36 @@
     </script>
   </head>
   <body>
-    <!-- Institution Strip -->
-    <div class="institution-strip">
-      <div class="shell institution-inner">
-        <div class="institution-title">
-          <span class="institution-badge">UET - VNU</span>
-          <span>Trường Đại học Công nghệ — ĐHQGHN</span>
-        </div>
-        <div class="institution-actions">
-          <div class="lang-switch">
-            <a href="../">EN</a>
-            <span>|</span>
-            <a href="./" class="active">VI</a>
-          </div>
-          <a href="../search.html" style="color: #cbd5e1; font-size: 0.82rem;">Tìm kiếm</a>
-        </div>
-      </div>
-    </div>
-
     <!-- Top Announcement Banner -->
     <div class="top-banner">
       SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="./publications.html">Xem tất cả công bố ↗</a>
     </div>
 
-    <!-- Header Navbar -->
+    <!-- Header Navbar with Language Switcher & Search -->
     <header class="site-header">
       <div class="shell header-inner">
         <a class="brand" href="./">
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <nav class="nav">
-          <a href="./" class="active">Trang chủ</a>
-          <a href="./research.html">Nghiên cứu</a>
-          <a href="./publications.html">Công bố</a>
-          <a href="./projects.html">Dự án</a>
-          <a href="./people.html">Nhân sự</a>
-          <a href="./resources.html">Tài nguyên</a>
-          <a href="./join.html">Cơ hội tham gia</a>
-        </nav>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./" class="active">Trang chủ</a>
+            <a href="./research.html">Nghiên cứu</a>
+            <a href="./publications.html">Công bố</a>
+            <a href="./projects.html">Dự án</a>
+            <a href="./people.html">Nhân sự</a>
+            <a href="./resources.html">Tài nguyên</a>
+            <a href="./join.html">Cơ hội tham gia</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="../">EN</a>
+              <a href="./" class="active">VI</a>
+            </div>
+            <a href="../search.html" class="search-link">Tìm kiếm</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -93,10 +84,10 @@
           </p>
 
           <div class="hero-meta-card">
-            <p style="margin: 0; font-size: 0.95rem; color: var(--color-ink-800);">
+            <p style="margin: 0; font-size: 0.92rem; color: var(--color-ink-800);">
               <strong>Thành viên chủ chốt:</strong> TS. Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức
             </p>
-            <div style="font-size: 0.88rem; color: var(--color-ink-650); margin-top: 6px;">
+            <div style="font-size: 0.85rem; color: var(--color-ink-650); margin-top: 4px;">
               Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)
             </div>
           </div>
@@ -106,19 +97,19 @@
               Khám phá Nghiên cứu ↓
             </a>
             <a class="btn btn-outline" href="./publications.html">
-              Xem Công bố Khoa học ↗
+              Xem Công bố ↗
             </a>
             <a class="btn btn-primary-html" href="../read.html">
-              Đọc Sách Chuyên khảo (Web Reader) ↗
+              Đọc SAT Book Online ↗
             </a>
           </div>
         </div>
 
         <div class="cover-wrapper">
-          <a href="../read.html" title="Đọc sách trực tuyến">
+          <a href="../read.html" title="Đọc SAT Book Online">
             <img
               src="../assets/images/book-cover.webp"
-              alt="Bìa sách Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp"
+              alt="SAT Book Monograph Cover"
               class="book-cover-img"
             >
           </a>
@@ -126,49 +117,67 @@
       </div>
     </section>
 
-    <!-- Core Research Directions Section -->
+    <!-- Core Research Domains -->
     <section class="features-section" id="huong-nghien-cuu">
       <div class="shell" id="cong-trinh">
         <div class="section-header">
-          <div class="section-tag">RESEARCH DOMAINS</div>
-          <h2 class="section-title">Các hướng nghiên cứu trọng tâm</h2>
+          <div class="section-tag">HƯỚNG NGHIÊN CỨU TRỌNG TÂM</div>
+          <h2 class="section-title">Các hướng Nghiên cứu</h2>
           <p class="section-desc">
-            SATLab phát triển hệ thống biểu diễn và thuật toán giải tối ưu có khả năng vượt trội so với các công cụ thương mại MIP/CPLEX/Gurobi trên nhiều bài toán thực tế.
+            Chúng tôi xây dựng các phép mã hóa SAT và bộ giải chính xác có hiệu năng vượt trội so với các bộ giải thương mại MIP/CPLEX/Gurobi trên các bài toán tối ưu hóa tổ hợp khó.
           </p>
         </div>
 
         <div class="features-grid">
           <div class="feature-card">
-            <h3>Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h3>
-            <p>Bộ đếm tuần tự thích nghi (NSC), mã hóa ràng buộc đếm Cardinality, Pseudo-Boolean (PB), AMO/AMK/ALK dạng bậc thang và hệ sinh thái thư viện SCLib.</p>
+            <h3>Cơ chế Mã hóa & Bộ giải</h3>
+            <p>Bộ đếm tuần tự thích nghi (NSC), ràng buộc đếm Cardinality (AMO/AMK/ALK), Pseudo-Boolean và hệ sinh thái thư viện SCLib.</p>
           </div>
 
           <div class="feature-card">
-            <h3>Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h3>
-            <p>Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền sản xuất (SALB, UALBP), lập lịch Job-Shop (JSSP/FJSSP), lập lịch tàu hỏa (Train Rescheduling via MaxSAT-DDD).</p>
+            <h3>Lập lịch & Cân bằng Dây chuyền</h3>
+            <p>Tối ưu đỉnh công suất trong dây chuyền sản xuất (SALB, UALBP), Lập lịch Job-Shop (JSSP/FJSSP) và Điều hành tàu hỏa bằng MaxSAT-DDD.</p>
           </div>
 
           <div class="feature-card">
-            <h3>Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h3>
-            <p>Phương pháp SAT/MaxSAT giải chính xác bài toán đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và cắt cuộn nguyên liệu.</p>
+            <h3>Đóng gói 2D & Tối ưu Không gian</h3>
+            <p>Mô hình SAT/MaxSAT giải chính xác bài toán Đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và Cắt cuộn nguyên liệu.</p>
           </div>
 
           <div class="feature-card">
-            <h3>Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h3>
-            <p>Mã hóa SAT giải tối ưu bài toán Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling và Phân bổ tần số (MO-FAP).</p>
+            <h3>Gán nhãn Đồ thị & Phân bổ Tần số</h3>
+            <p>Thuật toán SAT giải chính xác bài toán Antibandwidth, Cyclic Antibandwidth, Tô đa màu, Radio-k Labeling và Phân bổ tần số (MO-FAP).</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Join CTA -->
+    <!-- Flagship Monograph Section -->
+    <section class="features-section" id="sach-chuyen-khao" style="background: #ffffff; border-bottom: 1px solid var(--color-border);">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-tag">SÁCH CHUYÊN KHẢO</div>
+          <h2 class="section-title">Sách Chuyên khảo SAT Book</h2>
+          <p class="section-desc">
+            Sách chuyên khảo tổng hợp cơ sở lý thuyết và kỹ thuật thực thi cho các phép mã hóa SAT tối ưu.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px;">
+          <a class="btn btn-primary-html" href="../read.html">Đọc bản Web HTML ↗</a>
+          <a class="btn btn-primary" href="../downloads/sat-book.pdf">Tải PDF (104 Trang)</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join CTA Section -->
     <section class="features-section" style="background: var(--color-ink-950); color: #ffffff;">
       <div class="shell" style="text-align: center; max-width: 800px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #ffffff; margin-bottom: 14px;">Bạn muốn tham gia nghiên cứu cùng SATLab?</h2>
-        <p style="color: #cbd5e1; font-size: 1.05rem; margin-bottom: 24px;">
-          Chúng tôi chào đón sinh viên cử nhân, thạc sĩ và nghiên cứu sinh đam mê thuật toán, toán rời rạc và phát triển phần mềm.
+        <h2 style="font-family: var(--font-display); font-size: 1.7rem; color: #ffffff; margin-bottom: 12px;">Bạn muốn tham gia nghiên cứu cùng SATLab?</h2>
+        <p style="color: #cbd5e1; font-size: 1rem; margin-bottom: 20px;">
+          Chúng tôi luôn chào đón các bạn sinh viên đại học, thạc sĩ và nghiên cứu sinh đam mê lĩnh vực thuật toán và tối ưu hóa tổ hợp.
         </p>
-        <a class="btn btn-primary" href="./join.html" style="background: #ffffff; color: var(--color-ink-950) !important;">Xem Đề tài & Vị trí Tuyển dụng ↗</a>
+        <a class="btn btn-primary" href="./join.html" style="background: #ffffff; color: var(--color-ink-950) !important;">Xem các Vị trí & Đề tài Mở ↗</a>
       </div>
     </section>
 
@@ -179,11 +188,13 @@
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Phòng nghiên cứu Biểu diễn SAT</div>
           <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
-          <p style="margin-top: 6px; font-size: 0.85rem;">© 2026 SATLab UET. All rights reserved.</p>
+          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">Giới thiệu</a>
-          <a href="../read.html" class="btn btn-outline" style="margin-left: 12px;">Đọc Sách HTML ↗</a>
+          <a href="../accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="../privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
+          <a href="../read.html" class="btn btn-outline" style="margin-left: 12px;">Đọc SAT Book ↗</a>
         </div>
       </div>
     </footer>
