@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>Đội ngũ Nhân sự | SATLab UET-VNU</title>
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <style>
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+        margin-top: 24px;
+      }
+      .team-card {
+        background: #ffffff;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.25s ease;
+      }
+      .team-card:hover {
+        border-color: var(--color-brand-500);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-3px);
+      }
+      .team-avatar-placeholder {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--gradient-brand);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+      }
+      .team-name {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--color-ink-900);
+        margin: 0 0 4px;
+      }
+      .team-role {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--color-brand-600);
+        margin-bottom: 12px;
+      }
+      .team-bio {
+        font-size: 0.95rem;
+        color: var(--color-ink-600);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .people-section-title {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--color-ink-900);
+        margin: 48px 0 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--color-brand-200);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Navbar -->
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./">
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
+          <span class="brand-title">SATLab</span>
+        </a>
+        <nav class="nav">
+          <a href="./">Trang chủ</a>
+          <a href="./about.html">Giới thiệu</a>
+          <a href="./research.html">Nghiên cứu</a>
+          <a href="./publications.html">Công bố</a>
+          <a href="./people.html" class="active">Nhân sự</a>
+          <a href="./read.html">Sách Chuyên khảo ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style="padding: 56px 0 40px;">
+        <div class="shell">
+          <div class="pill-badge">OUR TEAM</div>
+          <h1>Đội ngũ Trưởng phòng & Nghiên cứu viên</h1>
+          <p class="hero-subtitle">
+            Hội tụ các Giảng viên, Nghiên cứu sinh, Học viên Cao học và Sinh viên xuất sắc ngành Khoa học Máy tính tại Trường Đại học Công nghệ, ĐHQGHN.
+          </p>
+        </div>
+      </section>
+
+      <section class="features-section" style="padding-top: 0;">
+        <div class="shell">
+          <h2 class="people-section-title">1. Trưởng phòng & Mentors</h2>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="team-avatar-placeholder">TK</div>
+              <div class="team-name">TS. Tô Văn Khánh</div>
+              <div class="team-role">Trưởng phòng nghiên cứu (Lab Leader)</div>
+              <p class="team-bio">Chuyên gia về Software Verification, SAT/MaxSAT Encodings, Symbolic Execution và Tối ưu hóa tổ hợp tại UET-VNU.</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">KT</div>
+              <div class="team-name">Kiều Văn Tuyên</div>
+              <div class="team-role">Nghiên cứu sinh / Lead Researcher</div>
+              <p class="team-bio">Tác giả chính các công trình SAT-based Task Scheduling, Social Golfer, 2D Strip Packing và Assembly Line Balancing.</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">TH</div>
+              <div class="team-name">Trương Xuân Hiếu</div>
+              <div class="team-role">Nghiên cứu viên</div>
+              <p class="team-bio">Tác giả các công trình về Sequential Counter Staircase Encodings, Antibandwidth & Cyclic Antibandwidth trên Q1 ISI.</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">VH</div>
+              <div class="team-name">Vũ Thanh Hương</div>
+              <div class="team-role">Nghiên cứu viên</div>
+              <p class="team-bio">Chuyên gia nghiên cứu k-Safe Labeling, Incremental SAT Solving và các thuật toán gán nhãn đồ thị.</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">DN</div>
+              <div class="team-name">Đào Xuân Nghĩa</div>
+              <div class="team-role">Nghiên cứu viên</div>
+              <p class="team-bio">Nghiên cứu các thuật toán giải bài toán Phân bổ tần số (MO-FAP) và Sequence Constraints trong SAT.</p>
+            </div>
+          </div>
+
+          <h2 class="people-section-title">2. Sinh viên Nghiên cứu (Student Researchers)</h2>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="team-avatar-placeholder">NĐ</div>
+              <div class="team-name">Nguyễn Kim Trung Đức</div>
+              <div class="team-role">Sinh viên K68CS3</div>
+              <p class="team-bio">Tác giả các nghiên cứu Bandwidth Coloring, Bandwidth Multicoloring và k-Safe Labeling (CITA 2026).</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">HB</div>
+              <div class="team-name">Hoàng Gia Bảo</div>
+              <div class="team-role">Sinh viên K68IT20</div>
+              <p class="team-bio">Nghiên cứu Power Peak Minimization trong Assembly Line Balancing (J. Comb. Opt. Q2).</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">LD</div>
+              <div class="team-name">Lê Quý Dương</div>
+              <div class="team-role">Sinh viên K66CS</div>
+              <p class="team-bio">Đóng góp nghiên cứu SAT & MaxSAT cho Two-Dimensional Strip Packing (Pesquisa Operacional 2025).</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">HC</div>
+              <div class="team-name">Hoàng Linh Chi</div>
+              <div class="team-role">Sinh viên K67CS</div>
+              <p class="team-bio">Đóng góp nghiên cứu 2D Bin Packing (KSE 2025) và Cutting Stock Problem.</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">TN</div>
+              <div class="team-name">Nguyễn Tân Nguyên</div>
+              <div class="team-role">Sinh viên K67CC</div>
+              <p class="team-bio">Đồng tác giả nghiên cứu Social Golfer Problem (RAIRO-OR 2026 Q3 ISI).</p>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar-placeholder">AP</div>
+              <div class="team-name">Đặng Anh Phương</div>
+              <div class="team-role">Sinh viên K69IT5</div>
+              <p class="team-bio">Nghiên cứu Minimum Order Frequency Assignment (IEEE Latin Am. Trans. Q2).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
+          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

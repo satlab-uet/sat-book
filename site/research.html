@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>Hướng nghiên cứu | SATLab UET-VNU</title>
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="./assets/css/main.css">
+  </head>
+  <body>
+    <!-- Header Navbar -->
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./">
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
+          <span class="brand-title">SATLab</span>
+        </a>
+        <nav class="nav">
+          <a href="./">Trang chủ</a>
+          <a href="./about.html">Giới thiệu</a>
+          <a href="./research.html" class="active">Nghiên cứu</a>
+          <a href="./publications.html">Công bố</a>
+          <a href="./people.html">Nhân sự</a>
+          <a href="./read.html">Sách Chuyên khảo ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style="padding: 56px 0 40px;">
+        <div class="shell">
+          <div class="pill-badge">RESEARCH DOMAINS</div>
+          <h1>Hướng nghiên cứu & Ứng dụng trọng tâm</h1>
+          <p class="hero-subtitle">
+            SATLab tập trung vào việc nghiên cứu lý thuyết biểu diễn tối ưu (Optimal Encodings) và phát triển các bộ giải chính xác dựa trên SAT, MaxSAT, Pseudo-Boolean ứng dụng cho các bài toán tối ưu hóa quy mô lớn.
+          </p>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <div class="shell">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+              </div>
+              <h3>1. Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h3>
+              <p>
+                • <strong>New Sequential Counter (NSC)</strong>: Bộ đếm tuần tự thế hệ mới cho ràng buộc đếm Cardinality ($X_1 + \dots + X_n \le k$) và Pseudo-Boolean ($w_1X_1 + \dots + w_nX_n \le k$).<br>
+                • <strong>AMO / AMK / ALK Ladder Encodings</strong>: Phép mã hóa dạng bậc thang cho tập ràng buộc chuỗi.<br>
+                • <strong>Hệ sinh thái SCLib & SCPB Solver</strong>: Thư viện mã nguồn mở chuyên dụng thiết kế cho cộng đồng nghiên cứu SAT.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3>2. Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h3>
+              <p>
+                • <strong>Assembly Line Balancing (SALB, UALBP, TUALBP)</strong>: Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền lắp ráp công nghiệp.<br>
+                • <strong>Job-Shop Scheduling (JSSP & FJSSP)</strong>: Lập lịch xưởng sản xuất linh hoạt với ràng buộc điện năng tiêu thụ.<br>
+                • <strong>MaxSAT-DDD Train Rescheduling</strong>: Lập lịch tàu hỏa thời gian thực bằng kỹ thuật lan truyền thứ tự và nới lỏng mạng lưới (Domain Difference Descriptor).
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <h3>3. Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h3>
+              <p>
+                • <strong>Two-Dimensional Strip Packing Problem (2D-SPP)</strong>: Đóng gói dải chữ nhật không đè lấn.<br>
+                • <strong>Two-Dimensional Bin Packing Problem (2D-BPP)</strong>: Đóng gói thùng hàng tối thiểu.<br>
+                • <strong>Single Stock Size Cutting Stock Problem</strong>: Tối ưu hóa việc cắt cuộn vật liệu công nghiệp.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/></svg>
+              </div>
+              <h3>4. Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h3>
+              <p>
+                • <strong>Antibandwidth & Cyclic Antibandwidth Problem</strong>: Giải chính xác bài toán antibandwidth trên đồ thị tổng quát.<br>
+                • <strong>Bandwidth Multicoloring & Radio-k Labeling</strong>: Tô màu đa băng thông và gán nhãn khoảng an toàn k-Safe.<br>
+                • <strong>Minimum Order Frequency Assignment (MO-FAP)</strong>: Phân bổ tần số mạng truyền thông vô tuyến.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
+          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
