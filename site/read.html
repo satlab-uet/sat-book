@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="65d8db2652b60a01c180810010bbec192f77c0ae1e887f18fdb6e3eff4dbb05c">
+    <meta name="sat-book-source-sha256" content="3522ef4a7a2e94c952422e48ec9af29e56da8fb0af24d96a3b785bbd49ef715e">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -420,7 +420,7 @@ P(B)=\mathrm{SAT}\Longrightarrow P(B')=\mathrm{SAT}
 \]
 <p>Tính đơn điệu cho phép tìm nghiệm tối ưu trên đoạn \([LB, UB]\):</p>
 \[
-\mathrm{OPT}=\min\left\{B\mid P(B)=\mathrm{SAT\right\}}.
+\mathrm{OPT}=\min\left\{B\mid P(B)=\mathrm{SAT}\right\}.
 \]
 <p>Tìm kiếm tuyến tính từ cận trên thích hợp khi đã có nghiệm tốt và các cận kề
 nhau chia sẻ nhiều cấu trúc. Tìm kiếm nhị phân giảm số lần gọi bộ giải nhưng
@@ -1248,7 +1248,7 @@ r_{p, s}=
 \[
 \rho_s(\tau)=
   \frac{1}{|P|}
-  \left|\left\{p\in P\mid r_{p, s\right\\right|\le\tau}}
+  \left|\left\{p\in P\mid r_{p, s}\le\tau\right\}\right|
 \]
 <p>cho biết tỷ lệ bài mà cấu hình \(s\) nằm trong hệ số \(\tau\) so với tốt nhất
 <span class="cite">(Dolan & Moré, 2002)</span>. Giá trị tại \(\tau=1\) đo số lần thắng; phần
@@ -3050,7 +3050,7 @@ loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.</p>
 <p>Với một cận \(K\), công thức khả thi hỏi liệu có thể đáp ứng đủ nhu cầu trên
 \(K\) tấm. Hàm mục tiêu là</p>
 \[
-\min\left\{K\mid \Phi_{\mathrm{CSP\right\}}(K)\text{ là SAT}}.
+\min\left\{K\mid \Phi_{\mathrm{CSP}}(K)\text{ là SAT}\right\}.
 \]
 <p>Đối xứng xuất hiện ở hai tầng: các tấm đồng nhất và các bản sao cùng loại. Một
 cách phá đối xứng bền vững là buộc biến sử dụng tấm theo tiền tố và buộc chỉ
@@ -3545,10 +3545,10 @@ tuyển vì thế tương đương với điều kiện nằm ngoài khoảng. <
 <p>Trên miền rời rạc \(D_v\), không thể dùng trực tiếp chỉ số \(L, U\). Ta thay
 chúng bằng hai biên theo giá trị:</p>
 \[
-\lambda_v(a)=\min\left\{q\mid D_{v, q\right\}\ge L(a)},
+\lambda_v(a)=\min\left\{q\mid D_{v, q}\ge L(a)\right\},
 \]
 \[
-\rho_v(a)=\min\left\{q\mid D_{v, q\right\}&gt;U(a)}.
+\rho_v(a)=\min\left\{q\mid D_{v, q}&gt;U(a)\right\}.
 \]
 <p>Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.</p>
@@ -3709,12 +3709,12 @@ hướng FE/RE tạo khác biệt nhỏ hơn lựa chọn trực tiếp/thứ t�
 <h4 class="reader-h3">Miền rời rạc và hàm mục tiêu</h4>
 <p>Mỗi máy phát \(v\) có miền tần số đã sắp</p>
 \[
-D_v=\left\{D_{v, 1\right\}&lt;D_{v, 2}&lt;\cdots&lt;D_{v, m_v}}.
+D_v=\left\{D_{v, 1}&lt;D_{v, 2}&lt;\cdots&lt;D_{v, m_v}\right\}.
 \]
 <p>Các cạnh mang khoảng cách nhiễu; một số máy phát có giá trị gán trước. Hàm mục
 tiêu không phải tần số lớn nhất mà là số giá trị phân biệt được dùng:</p>
 \[
-\min\left|\left\{f_v\mid v\in V\right\\right|}.
+\min\left|\left\{f_v\mid v\in V\right\}\right|.
 \]
 <p>Do miền có lỗ và khác nhau giữa các máy phát, khoảng cấm phải được
 tính theo giá trị thực của tần số rồi ánh xạ về chỉ số miền.</p>
@@ -3742,7 +3742,7 @@ lặp đến <em>fixpoint</em> (điểm bất động, tức không còn giá tr
 \[
 D_v\leftarrow
   \left\{a\in D_v\mid
-    \exists b\in D_w:\left|a-b\right\\right|\ge d_{vw}}
+    \exists b\in D_w:\left|a-b\right|\ge d_{vw}\right\}
 \]
 <p>cho mọi cung ràng buộc. Tiền xử lý này không thay giá trị tối ưu vì chỉ loại giá
 trị không thể xuất hiện trong bất kỳ nghiệm khả thi nào.</p>

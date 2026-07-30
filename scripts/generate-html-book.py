@@ -114,24 +114,62 @@ def format_citations(text: str) -> str:
         return f'<span class="cite">({"; ".join(formatted)})</span>'
     return re.sub(r'\\(?:parencite|textcite|cite)\{([^}]+)\}', replace_cite, text)
 
+def _extract_brace_arg(tex: str, cmd: str):
+    """Find all occurrences of \\cmd{...} in tex, correctly handling nested braces.
+    Yields (start, end, content) for each match, where tex[start:end] is the
+    full \\cmd{...} token and content is everything between the outer braces."""
+    search = '\\' + cmd + '{'
+    i = 0
+    while True:
+        pos = tex.find(search, i)
+        if pos == -1:
+            break
+        j = pos + len(search)   # j now points to first char INSIDE the outer {
+        depth = 1
+        while j < len(tex) and depth > 0:
+            c = tex[j]
+            if c == '{':
+                depth += 1
+            elif c == '}':
+                depth -= 1
+            j += 1
+        # tex[pos+len(search) : j-1] is the content; tex[pos:j] is the whole token
+        yield pos, j, tex[pos + len(search): j - 1]
+        i = j
+
+
+def _replace_brace_macro(tex: str, cmd: str, replace_fn) -> str:
+    """Replace all \\cmd{...} (with proper nested-brace matching) using replace_fn(content)."""
+    parts = []
+    prev = 0
+    for start, end, content in _extract_brace_arg(tex, cmd):
+        parts.append(tex[prev:start])
+        parts.append(replace_fn(content))
+        prev = end
+    parts.append(tex[prev:])
+    return ''.join(parts)
+
+
 def expand_tex_math_macros(tex: str) -> str:
     """Pre-expand custom TeX macros into standard LaTeX for max compatibility."""
-    tex = re.sub(r'\\SAT\b', r'\\mathrm{SAT}', tex)
-    tex = re.sub(r'\\UNSAT\b', r'\\mathrm{UNSAT}', tex)
-    tex = re.sub(r'\\OPT\b', r'\\mathrm{OPT}', tex)
-    tex = re.sub(r'\\BKS\b', r'\\mathrm{BKS}', tex)
-    tex = re.sub(r'\\CNF\b', r'\\mathrm{CNF}', tex)
-    tex = re.sub(r'\\MaxSAT\b', r'\\mathrm{MaxSAT}', tex)
-    tex = re.sub(r'\\AMK\b', r'\\mathrm{AMK}', tex)
-    tex = re.sub(r'\\AMO\b', r'\\mathrm{AMO}', tex)
-    tex = re.sub(r'\\ALK\b', r'\\mathrm{ALK}', tex)
+    # Expand \\set{} and \\card{} FIRST with proper nested-brace extraction,
+    # so that inner macros like \\SAT do not yet carry extra braces.
+    tex = _replace_brace_macro(tex, 'set',  lambda c: r'\left\{' + c + r'\right\}')
+    tex = _replace_brace_macro(tex, 'card', lambda c: r'\left|'   + c + r'\right|')
+
+    # Now expand shorthand macros to their \\mathrm{} equivalents
+    tex = re.sub(r'\\SAT\b',        r'\\mathrm{SAT}',        tex)
+    tex = re.sub(r'\\UNSAT\b',      r'\\mathrm{UNSAT}',      tex)
+    tex = re.sub(r'\\OPT\b',        r'\\mathrm{OPT}',        tex)
+    tex = re.sub(r'\\BKS\b',        r'\\mathrm{BKS}',        tex)
+    tex = re.sub(r'\\CNF\b',        r'\\mathrm{CNF}',        tex)
+    tex = re.sub(r'\\MaxSAT\b',     r'\\mathrm{MaxSAT}',     tex)
+    tex = re.sub(r'\\AMK\b',        r'\\mathrm{AMK}',        tex)
+    tex = re.sub(r'\\AMO\b',        r'\\mathrm{AMO}',        tex)
+    tex = re.sub(r'\\ALK\b',        r'\\mathrm{ALK}',        tex)
     tex = re.sub(r'\\ExactlyOne\b', r'\\mathrm{ExactlyOne}', tex)
-    tex = re.sub(r'\\PySAT\b', r'\\mathrm{PySAT}', tex)
-    
-    # Expand sets and cards — use \1 (not \\1) for capture group backreference
-    tex = re.sub(r'\\set\{([^}]+)\}', lambda m: r'\left\{' + m.group(1) + r'\right\}', tex)
-    tex = re.sub(r'\\card\{([^}]+)\}', lambda m: r'\left|' + m.group(1) + r'\right|', tex)
-    
+    tex = re.sub(r'\\PySAT\b',      r'\\mathrm{PySAT}',      tex)
+
     # Format comma spacing inside inline bounds like (LB,UB) -> (LB, UB)
     tex = re.sub(r'([A-Za-z0-9]+),([A-Za-z0-9]+)', r'\1, \2', tex)
     return tex
