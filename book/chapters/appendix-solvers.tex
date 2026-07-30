@@ -1,0 +1,112 @@
+\chapter{Thư viện PySAT và các Bộ giải Chuyên ngành}
+\label{ch:appendix-solvers}
+
+Phụ lục này giới thiệu tổng quan về thư viện **PySAT** và các lớp bộ giải (**SAT**, **MaxSAT**, **Constraint Programming -- CP**, và **Integer Linear Programming -- ILP/MIP**) được sử dụng phổ biến trong nghiên cứu thiết kế phép biểu diễn và tối ưu hóa tổ hợp.
+
+\section{Tổng quan Công cụ PySAT (Python Toolkit for SAT Oracles)}
+
+\subsection{Giới thiệu và Kiến trúc}
+
+Thư viện **PySAT** \parencite{ignatiev2018pysat} là bộ công cụ mã nguồn mở dựa trên Python cho phép xây dựng mô hình, biểu diễn các ràng buộc lôgic phức tạp và tương tác trực tiếp với các SAT solver hàng đầu qua giao diện C-API. Thay vì phải làm việc với các tệp tin lưu đĩa dạng \CNF (DIMACS format), PySAT liên kết trực tiếp vào bộ nhớ (in-memory bindings) giúp giảm thiểu chi phí I/O và hỗ trợ các luồng giải tăng dần (incremental solving).
+
+Cấu trúc chính của PySAT bao gồm các mô-đun cốt lõi:
+\begin{itemize}
+  \item \texttt{pysat.formula}: Quản lý công thức lôgic (\texttt{CNF}, \texttt{WCNF}).
+  \item \texttt{pysat.card}: Xây dựng tự động các bộ biểu diễn ràng buộc đếm (Cardinality constraints).
+  \item \texttt{pysat.pb}: Xây dựng bộ biểu diễn bất đẳng thức tuyến tính Boolean (Pseudo-Boolean constraints).
+  \item \texttt{pysat.solvers}: Giao diện gọi trực tiếp các SAT solver (MiniSat, Glucose, CaDiCaL, Lingeling...).
+  \item \texttt{pysat.examples}: Tích hợp các thuật toán tối ưu nâng cao như bộ giải MaxSAT \textsc{RC2}.
+\end{itemize}
+
+\subsection{Minh họa Sử dụng PySAT}
+
+Ví dụ sau đây minh họa quy trình tạo công thức \CNF, tích hợp ràng buộc đếm \textsc{AtMostK} thông qua mạng sắp xếp (Sorting Network) hoặc bộ đếm chuỗi (Sequential Counter), và gọi bộ giải \textsc{Glucose4}:
+
+\begin{keyidea}{Ví dụ minh họa sử dụng PySAT trong Python}
+\begin{verbatim}
+from pysat.formula import CNF
+from pysat.card import CardEnc, EncType
+from pysat.solvers import Solver
+
+# 1. Khởi tạo công thức CNF
+cnf = CNF()
+cnf.append([1, 2, 3])  # Mệnh đề: x1 v x2 v x3
+
+# 2. Thêm ràng buộc Cardinality: AtMost1(x1, x2, x3, x4)
+# Sử dụng kiểu biểu diễn Sequential Counter (seqcounter)
+card_clauses = CardEnc.atmost(
+    lits=[1, 2, 3, 4],
+    bound=1,
+    top_id=cnf.nv,
+    encoding=EncType.seqcounter
+)
+cnf.extend(card_clauses)
+
+# 3. Gọi SAT Solver (Glucose 4)
+with Solver(name='g4', bootstrap_with=cnf) as solver:
+    if solver.solve():
+        print("SAT - Mô hình tìm được:", solver.get_model())
+    else:
+        print("UNSAT")
+\end{verbatim}
+\end{keyidea}
+
+\section{Các Bộ giải SAT và MaxSAT}
+
+\subsection{Các Bộ giải SAT dựa trên CDCL}
+
+Các SAT solver hiện đại dựa trên kiến trúc **Conflict-Driven Clause Learning (CDCL)** \parencite{marquessilva2009cdcl} là động cơ giải quyết cốt lõi cho các mô hình \CNF:
+\begin{itemize}
+  \item \textbf{MiniSat} \parencite{een2003minisat}: Bộ giải nền tảng có kiến trúc tối giản, sạch sẽ, làm chuẩn mực cho hầu hết các phát triển SAT solver sau này.
+  \item \textbf{Glucose} \parencite{audemard2009lbd}: Nổi tiếng với chỉ số \emph{Literal Block Distance (LBD)} giúp đánh giá chính xác chất lượng mệnh đề xung đột và thực hiện dọn dẹp bộ nhớ hiệu quả.
+  \item \textbf{CaDiCaL} \parencite{biere2019cadical}: Bộ giải CDCL hiện đại do Armin Biere phát triển, tích hợp sâu các kỹ thuật xử lý trước và trong khi giải (\emph{in-processing}, \emph{vivification}, \emph{subsumption}) cùng cơ chế xuất chứng minh \UNSAT (\emph{proof logging} DRAT/LRAT).
+  \item \textbf{Kissat} \parencite{biere2019cadical}: Bộ giải CDCL viết bằng C thuần túy, được tối ưu hóa ở mức mã máy để khai thác tối đa bộ nhớ đệm CPU (cache efficiency) và tốc độ lan truyền đơn vị (\emph{unit propagation}).
+  \item \textbf{CryptoMiniSat} \parencite{soos2009cryptominisat}: Tích hợp thuật toán khử Gaussian (Gaussian Elimination) cho các hệ phương trình XOR, thích hợp cho các bài toán mật mã và đại số Boolean.
+\end{itemize}
+
+\subsection{Các Bộ giải MaxSAT}
+
+Khi bài toán chứa cả các ràng buộc cứng (bắt buộc thỏa) và ràng buộc mềm (tối ưu hóa trọng số), các bộ giải MaxSAT được áp dụng:
+\begin{itemize}
+  \item \textbf{RC2} \parencite{ignatiev2018pysat}: Bộ giải MaxSAT dựa trên nới lỏng lõi xung đột (\emph{core-guided MaxSAT solver}) được cài đặt trực tiếp trong PySAT.
+  \item \textbf{Open-WBO} \parencite{martins2014openwbo}: Thư viện MaxSAT mã nguồn mở mô-đun hóa cao, hỗ trợ nhiều thuật toán nới lỏng lõi và tìm kiếm dựa trên cận.
+\end{itemize}
+
+\section{Các Bộ giải Quy hoạch Ràng buộc (CP Solvers)}
+
+Quy hoạch ràng buộc (**Constraint Programming -- CP**) mở rộng khả năng biểu diễn sang các miền giá trị hữu hạn nguyên và các ràng buộc toàn cục (\emph{global constraints}):
+\begin{itemize}
+  \item \textbf{Google OR-Tools CP-SAT}: Bộ giải CP thế hệ mới kết hợp kỹ thuật sinh mệnh đề lười (\emph{Lazy Clause Generation -- LCG}) với động cơ CDCL SAT solver bên dưới. CP-SAT đạt hiệu năng vượt trội trong các bài toán lập lịch (\emph{scheduling}) và xếp khối (\emph{packing}).
+  \item \textbf{Choco Solver}: Thư viện CP mã nguồn mở dựa trên Java, hỗ trợ phong phú các ràng buộc toàn cục (\textsc{AllDifferent}, \textsc{Cumulative}, \textsc{Element}) và các chiến lược tìm kiếm tùy biến.
+  \item \textbf{Gecode}: Hệ thống CP mã nguồn mở viết bằng C++ với hiệu năng cao, dựa trên kiến trúc nhân bản trạng thái (\emph{cloning-based search}).
+\end{itemize}
+
+\section{Các Bộ giải Quy hoạch Tuyến tính Số nguyên (ILP/MIP Solvers)}
+
+Phương pháp Quy hoạch tuyến tính số nguyên (**Mixed Integer Programming -- MIP / ILP**) tiếp cận bài toán thông qua các bất đẳng thức tuyến tính và hình học lồi:
+\begin{itemize}
+  \item \textbf{Gurobi Optimizer}: Bộ giải thương mại hàng đầu thế giới về tốc độ cho các bài toán MIP, QP và QCP.
+  \item \textbf{SCIP (Solving Constraint Integer Programs)} \parencite{bestuzheva2021scip}: Bộ giải mã nguồn mở mạnh mẽ nhất cho MIP và CIP, hỗ trợ mở rộng các quy tắc cắt (\emph{cutting planes}) và phân nhánh (\emph{branching rules}).
+  \item \textbf{HiGHS / COIN-OR CBC}: Các bộ giải MIP mã nguồn mở phổ biến, thích hợp cho tích hợp vào các hệ thống thương mại và nghiên cứu rộng rãi.
+\end{itemize}
+
+\section{Bảng Tổng hợp và Định hướng Lựa chọn Bộ giải}
+
+Bảng~\ref{tab:solver-comparison} tóm tắt đặc tính kỹ thuật và phạm vi ứng dụng đề xuất cho từng lớp bộ giải.
+
+\begin{table}[h]
+\centering
+\caption{So sánh đặc tính kỹ thuật của các lớp bộ giải tổ hợp.}
+\label{tab:solver-comparison}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}p{.22\textwidth}p{.22\textwidth}p{.26\textwidth}Y@{}}
+\toprule
+Lớp bộ giải & Dạng biểu diễn chính & Cơ chế xử lý chính & Bài toán phù hợp\\
+\midrule
+\textbf{SAT Solvers} (CaDiCaL, Kissat) & Công thức \CNF Boolean & CDCL, Unit Propagation, Conflict Learning & Mô hình lôgic thuần, ràng buộc phụ thuộc mạnh\\
+\textbf{MaxSAT Solvers} (RC2, Open-WBO) & WCNF (Cứng + Mềm) & Core-guided Relaxation, SAT Oracles & Tối ưu hóa tổ hợp với mục tiêu tuyến tính\\
+\textbf{CP Solvers} (OR-Tools CP-SAT) & Biến nguyên \& Ràng buộc toàn cục & Lazy Clause Generation, Domain Filtering & Lập lịch sản xuất, xếp khối 2D/3D, phân bổ tài nguyên\\
+\textbf{ILP/MIP Solvers} (Gurobi, SCIP) & Bất đẳng thức tuyến tính số nguyên & Branch-and-Bound, Cutting Planes, Simplex & Bài toán có ma trận thưa, mục tiêu số thực/nguyên rộng\\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -161,14 +161,14 @@
 \frontmatter
 \chapter*{Lời nói đầu}
 \addcontentsline{toc}{chapter}{Lời nói đầu}
-Cuốn sách trình bày \emph{SAT encoding}, sau đây gọi là \emph{phép mã hóa
+Cuốn sách trình bày \emph{SAT encoding}, sau đây gọi là \emph{phép biểu diễn
 SAT}, như một thành phần
-trung tâm của thuật toán giải chính xác. Phép mã hóa chuyển biến và ràng buộc
+trung tâm của thuật toán giải chính xác. Phép biểu diễn chuyển biến và ràng buộc
 của bài toán gốc thành công thức dạng chuẩn hội \CNF. Hai công thức cùng biểu
 diễn một ràng buộc có thể khác nhau đáng kể về kích thước, khả năng
 \emph{unit propagation} (lan truyền đơn vị), cấu trúc mệnh đề và mức độ phù
 hợp với \emph{incremental solving} (giải tăng dần). Vì thế người thiết kế cần
-đồng thời trả lời bốn câu hỏi: phép mã hóa có đúng không, trạng thái nào được
+đồng thời trả lời bốn câu hỏi: phép biểu diễn có đúng không, trạng thái nào được
 biểu diễn và chia sẻ, \emph{solver} (bộ giải SAT) nhìn thấy cấu trúc gì, và kết quả tối ưu được
 chứng nhận thế nào.
 
@@ -180,13 +180,13 @@ nghiệm. Phần II đặt \emph{shared counter} (bộ đếm dùng chung),
 \emph{register} (thanh ghi đếm) thích nghi,
 \emph{symmetry breaking} (phá đối xứng) và
 \emph{channeling} (liên kết biểu diễn) vào các dòng nghiên cứu rộng hơn về ràng buộc
-\textsc{Sequence}, phân rã ràng buộc toàn cục và cận dưới của phép mã hóa.
+\textsc{Sequence}, phân rã ràng buộc toàn cục và cận dưới của phép biểu diễn.
 Phần III khảo sát bốn miền ứng dụng: lập lịch, đóng gói, các bài toán
 bandwidth/antibandwidth và gán nhãn/phân bổ tần số.
 
 Các công trình của nhóm tác giả được dùng làm \emph{case study}
 (nghiên cứu tình huống) để
-minh họa trọn vẹn quá trình hình thành, chứng minh và đánh giá một phép mã hóa.
+minh họa trọn vẹn quá trình hình thành, chứng minh và đánh giá một phép biểu diễn.
 Mỗi chương bắt đầu từ hệ phân loại và các kết quả đại diện của cộng đồng, sau
 đó kết nối chúng với bài toán, kỹ thuật và bằng chứng thực nghiệm của nhóm.
 
@@ -224,9 +224,9 @@ Ký hiệu & Ý nghĩa\\
 \(x,y,z\in\set{0,1}\) & Biến Boolean\\
 \(C=\ell_1\lor\cdots\lor\ell_r\), \(F=\bigwedge C\) & Mệnh đề và công thức \CNF\\
 \(X,Y\) & Biến chính và biến phụ\\
-\(\operatorname{Enc}(\mathcal C;X,Y)\) & Phép mã hóa ràng buộc \(\mathcal C\)\\
+\(\operatorname{Enc}(\mathcal C;X,Y)\) & Phép biểu diễn ràng buộc \(\mathcal C\)\\
 \(F\equiv_X\mathcal C\) & Tương đương theo phép chiếu lên \(X\)\\
-\(\operatorname{UP}(F,A)\) & Bao đóng lan truyền đơn vị dưới phép gán bộ phận \(A\)\\
+\(\operatorname{UP}(F,A)\) & Bao đóng lan truyền đơn vị dưới phép gán một phần \(A\)\\
 \(\AMO,\ALO,\ExactlyOne\) & Nhiều nhất một, ít nhất một và đúng một\\
 \(LB,UB,\OPT\) & Cận dưới, cận trên và giá trị tối ưu được chứng nhận\\
 \(\BKS\), \emph{best known solution} & Nghiệm tốt nhất đã biết\\
@@ -237,7 +237,7 @@ Ký hiệu & Ý nghĩa\\
 Chỉ số toán học bắt đầu từ \(1\), trừ khi phần cài đặt ghi rõ khác. Các miền
 thời gian, tọa độ và nhãn là miền nguyên hữu hạn. Mỗi biến phụ được
 đọc theo \emph{contract} (đặc tả ngữ nghĩa) đã nêu; một literal phụ có ngữ
-nghĩa dùng chung khi phép mã hóa bảo đảm đặc tả tương ứng.
+nghĩa dùng chung khi phép biểu diễn bảo đảm đặc tả tương ứng.
 
 \tableofcontents
 \listoffigures
@@ -252,7 +252,7 @@ nghĩa dùng chung khi phép mã hóa bảo đảm đặc tả tương ứng.
 \include{chapters/ch03-cardinality}
 \include{chapters/ch04-experiments}
 
-\part{Tái sử dụng cấu trúc trong phép mã hóa SAT}
+\part{Tái sử dụng cấu trúc trong phép biểu diễn SAT}
 \include{chapters/ch05-shared-counters}
 \include{chapters/ch06-adaptive-counter}
 \include{chapters/ch07-symmetry-channeling}
@@ -264,6 +264,10 @@ nghĩa dùng chung khi phép mã hóa bảo đảm đặc tả tương ứng.
 \include{chapters/ch11-labeling}
 
 \include{chapters/conclusion}
+
+\appendix
+\include{chapters/appendix-solvers}
+
 \backmatter
 
 \renewcommand{\thetable}{T.\arabic{table}}
@@ -295,23 +299,23 @@ benchmark & bộ kiểm chuẩn: tập bài toán thử và quy trình đánh gi
 binary decision diagram & biểu đồ quyết định nhị phân, viết tắt BDD\\
 bound tightening & siết cận miền hoặc cận mục tiêu\\
 branch-and-bound & tìm kiếm phân nhánh và cận\\
-cactus plot & biểu đồ xương rồng: số bài giải được theo thời gian tích lũy\\
+cactus plot & biểu đồ Cactus (Cactus plot): số bài giải được theo thời gian tích lũy\\
 cardinality constraint & ràng buộc đếm số literal đúng\\
 certified optimum & nghiệm tối ưu có cận dưới tương ứng\\
 channeling & liên kết biểu diễn: các mệnh đề nối hai cách biểu diễn cùng một
 quyết định\\
 clause learning & học mệnh đề từ xung đột\\
 conflict-driven clause learning & học mệnh đề theo xung đột, viết tắt CDCL\\
-consistency & mức nhất quán hoặc lọc miền mà phép mã hóa/bộ lan truyền đạt được\\
+consistency & mức nhất quán hoặc lọc miền mà phép biểu diễn/bộ lan truyền đạt được\\
 connector & bộ nối: các mệnh đề ghép trạng thái do hai mô-đun cung cấp\\
 constraint programming & quy hoạch ràng buộc, viết tắt CP\\
 contract & đặc tả ngữ nghĩa mà một mô-đun cung cấp cho mô-đun sử dụng\\
 cross-validation & kiểm định chéo: luân phiên tập tinh chỉnh và tập đánh giá\\
 decoder & bộ giải mã mô hình Boolean thành nghiệm của bài toán gốc\\
-direct encoding & mã hóa trực tiếp: một literal giá trị cho mỗi giá trị miền\\
+direct encoding & biểu diễn trực tiếp: một literal giá trị cho mỗi giá trị miền\\
 dominance rule & quy tắc trội: loại nghiệm bị trội mà vẫn giữ ít nhất một
 nghiệm tối ưu\\
-encoding & phép mã hóa một ràng buộc hoặc mô hình thành \CNF\\
+encoding & phép biểu diễn một ràng buộc hoặc mô hình thành \CNF\\
 equisatisfiable & đồng khả thỏa: hai công thức cùng có nghiệm hoặc cùng vô nghiệm\\
 exactly-\(k\) & ràng buộc có đúng \(k\) literal đúng\\
 external validity & hiệu lực khái quát: kết luận còn giữ ngoài tập thử hay không\\
@@ -329,7 +333,7 @@ literal & biến Boolean hoặc phủ định của biến đó\\
 lower bound & cận dưới hợp lệ của giá trị mục tiêu\\
 model checker & bộ kiểm tra trực tiếp nghiệm đã giải mã\\
 non-preemption & tác vụ chạy trong một khoảng liên tục, không bị ngắt\\
-order encoding & mã hóa thứ tự: chuỗi literal ngưỡng biểu diễn thứ tự trong miền\\
+order encoding & biểu diễn thứ tự: chuỗi literal ngưỡng biểu diễn thứ tự trong miền\\
 performance profile & đồ thị tỷ lệ hiệu năng chuẩn hóa theo cấu hình tốt nhất\\
 population & quần thể bài toán hoặc cấu hình mà kết luận hướng đến\\
 proof logging & ghi chứng minh: xuất chứng cứ mệnh đề để bộ kiểm tra xác minh
@@ -349,7 +353,7 @@ selection network & mạng lựa chọn: mạng bộ so sánh chỉ tạo các �
 shifted geometric mean & trung bình nhân dịch chuyển để tổng hợp thời gian chạy\\
 sorting network & mạng sắp xếp xây từ các bộ so sánh Boolean\\
 soundness & tính đúng: mọi mô hình Boolean giải mã thành nghiệm hợp lệ\\
-support encoding & mã hóa hỗ trợ: liệt kê các giá trị hỗ trợ cho một lựa chọn\\
+support encoding & biểu diễn hỗ trợ: liệt kê các giá trị hỗ trợ cho một lựa chọn\\
 symmetry breaking & phá đối xứng: giữ đại diện chuẩn tắc của mỗi quỹ đạo\\
 symmetry breaking predicate & mệnh đề giữ ít nhất một đại diện của mỗi quỹ đạo\\
 timeout & quá thời hạn: lần chạy vượt giới hạn thời gian\\

@@ -2,88 +2,120 @@
 
 from __future__ import annotations
 
-import shutil
+import glob
+import os
+import re
 import subprocess
-import sys
 import tempfile
 from pathlib import Path
 from PIL import Image, ImageChops
 
-# Verified exact TikZ diagram bounding boxes (top_y, bottom_y) on 300 DPI page renders
-EXACT_FIGURE_CROP_MAP = {
-    "fig_ch01": {"page": 18, "top_y": 280, "bottom_y": 700, "title": "Sơ đồ vòng lặp CDCL trong bộ giải SAT"},
-    "fig_ch03": {"page": 30, "top_y": 440, "bottom_y": 760, "title": "Lưới trạng thái bộ đếm tuần tự (Sequential Counter)"},
-    "fig_ch04": {"page": 38, "top_y": 390, "bottom_y": 900, "title": "Hồ sơ hiệu năng dạng bậc thang (Performance Profile)"},
-    "fig_ch05": {"page": 45, "top_y": 900, "bottom_y": 1460, "title": "Bộ đếm dùng chung cho các cửa sổ chồng lấn (Shared Counter)"},
-    "fig_ch06": {"page": 51, "top_y": 2100, "bottom_y": 2480, "title": "Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)"},
-    "fig_ch07": {"page": 57, "top_y": 2120, "bottom_y": 2540, "title": "Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)"},
-    "fig_ch08": {"page": 67, "top_y": 1860, "bottom_y": 2080, "title": "Cửa sổ ALSC tái sử dụng trong bài toán lập lịch"},
-    "fig_ch09": {"page": 74, "top_y": 360, "bottom_y": 1020, "title": "Bố trí nguyên và biến chứng quan hệ tách trong đóng gói 2D"},
-    "fig_ch10": {"page": 82, "top_y": 350, "bottom_y": 640, "title": "Cặp nhãn bị cấm và bài toán Antibandwidth trên đồ thị"},
-    "fig_ch11": {"page": 88, "top_y": 350, "bottom_y": 540, "title": "Gán nhãn radio khả thi và nén khoảng cấm"},
+HEADER = r"""\documentclass[tikz,margin=10pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Serif}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows.meta,
+  positioning,
+  calc,
+  fit,
+  matrix,
+  shapes.geometric,
+  decorations.pathreplacing,
+  backgrounds
 }
 
-def crop_exact_tikz_diagram(im: Image.Image, top_y: int, bottom_y: int, padding: int = 24) -> Image.Image:
-    """Crop the precise TikZ diagram region without any page text paragraphs."""
-    width, height = im.size
-    
-    top = max(0, top_y)
-    bottom = min(height, bottom_y)
-    
-    cropped_page = im.crop((0, top, width, bottom))
-    
-    # Trim horizontal white background
-    bg = Image.new(cropped_page.mode, cropped_page.size, (255, 255, 255))
-    diff = ImageChops.difference(cropped_page, bg)
-    bbox = diff.getbbox()
-    if bbox:
-        left = max(0, bbox[0] - padding)
-        t_inner = max(0, bbox[1] - padding)
-        right = min(cropped_page.width, bbox[2] + padding)
-        b_inner = min(cropped_page.height, bbox[3] + padding)
-        return cropped_page.crop((left, t_inner, right, b_inner))
-    return cropped_page
+\definecolor{Ink}{HTML}{000000}
+\definecolor{Blue}{HTML}{1769AA}
+\definecolor{Teal}{HTML}{197278}
+\definecolor{Gold}{HTML}{B7791F}
+\definecolor{Rule}{HTML}{CBD5DC}
+\definecolor{PaleBlue}{HTML}{F1F6FA}
+\definecolor{PaleTeal}{HTML}{F0F7F6}
+\definecolor{PaleGold}{HTML}{FFF8E7}
+\definecolor{SoftGray}{HTML}{F6F7F8}
+
+\tikzset{
+  satfig/.style={font=\rmfamily\small,>=Stealth,node distance=8mm and 12mm},
+  satbox/.style={draw=black,thick,fill=white,rounded corners=2pt,inner sep=6pt,align=center,font=\rmfamily\small},
+  satedge/.style={draw=black,->,thick},
+  satnode/.style={circle,draw=black,thick,inner sep=2pt,minimum size=6mm,font=\rmfamily\small},
+  satlabel/.style={font=\rmfamily\tiny\color{black}}
+}
+\begin{document}
+"""
+FOOTER = r"\end{document}"
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    pdf_path = repo_root / "build" / "main.pdf"
     output_dir = repo_root / "site" / "assets" / "images" / "diagrams"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    pdftocairo = shutil.which("pdftocairo")
-    if not pdftocairo:
-        print("pdftocairo not found, skipping PDF figure extraction.", file=sys.stderr)
-        return
+    files = sorted(glob.glob(str(repo_root / "book" / "chapters" / "*.tex")))
+    fig_count = 0
+    rendered_count = 0
 
-    with tempfile.TemporaryDirectory(prefix="sat-fig-extract-") as temp_dir:
-        for fig_id, meta in EXACT_FIGURE_CROP_MAP.items():
-            page_num = meta["page"]
-            top_y = meta["top_y"]
-            bottom_y = meta["bottom_y"]
-            out_prefix = Path(temp_dir) / f"{fig_id}"
+    for f in files:
+        with open(f, "r", encoding="utf-8") as fp:
+            text = fp.read()
+        
+        figures = re.findall(r"\\begin\{figure\*?\}.*?\\end\{figure\*?\}", text, re.DOTALL)
+        for fig in figures:
+            fig_count += 1
+            label_m = re.search(r"\\label\{([^}]+)\}", fig)
+            label = label_m.group(1) if label_m else f"fig_{fig_count}"
+            label_clean = label.replace(":", "_").replace("-", "_")
             
-            subprocess.run(
-                [
-                    pdftocairo,
-                    "-f", str(page_num),
-                    "-l", str(page_num),
-                    "-singlefile",
-                    "-png",
-                    "-r", "300",
-                    str(pdf_path),
-                    str(out_prefix)
-                ],
-                check=True
-            )
+            tikz_m = re.search(r"(\\begin\{tikzpicture\}.*?\\end\{tikzpicture\})", fig, re.DOTALL)
+            if not tikz_m:
+                continue
             
-            rendered_png = out_prefix.with_suffix(".png")
-            if rendered_png.exists():
-                im = Image.open(rendered_png).convert("RGB")
-                trimmed = crop_exact_tikz_diagram(im, top_y, bottom_y)
+            tikz_code = tikz_m.group(1)
+            tex_content = HEADER + tikz_code + FOOTER
+            
+            with tempfile.TemporaryDirectory(prefix="sat-fig-") as tmpdir:
+                tmp_tex = Path(tmpdir) / "diag.tex"
+                tmp_tex.write_text(tex_content, encoding="utf-8")
                 
-                webp_path = output_dir / f"{fig_id}.webp"
-                trimmed.save(webp_path, format="WEBP", quality=95, method=6)
-                print(f"[✓] Extracted PRECISE TikZ diagram: {webp_path.name} (page {page_num}, {trimmed.width}x{trimmed.height}px)")
+                res = subprocess.run(
+                    ["lualatex", "-interaction=nonstopmode", "diag.tex"],
+                    cwd=tmpdir,
+                    capture_output=True,
+                    text=True
+                )
+                
+                diag_pdf = Path(tmpdir) / "diag.pdf"
+                if diag_pdf.exists():
+                    out_png_prefix = Path(tmpdir) / label_clean
+                    subprocess.run([
+                        "pdftocairo", "-singlefile", "-png", "-r", "300",
+                        str(diag_pdf), str(out_png_prefix)
+                    ], check=True)
+                    
+                    png_file = Path(tmpdir) / f"{label_clean}.png"
+                    if png_file.exists():
+                        im = Image.open(png_file).convert("RGB")
+                        bg = Image.new("RGB", im.size, (255, 255, 255))
+                        diff = ImageChops.difference(im, bg)
+                        bbox = diff.getbbox()
+                        if bbox:
+                            pad = 12
+                            left = max(0, bbox[0] - pad)
+                            top = max(0, bbox[1] - pad)
+                            right = min(im.width, bbox[2] + pad)
+                            bottom = min(im.height, bbox[3] + pad)
+                            im = im.crop((left, top, right, bottom))
+                        
+                        webp_path = output_dir / f"{label_clean}.webp"
+                        im.save(webp_path, format="WEBP", quality=95, method=6)
+                        rendered_count += 1
+                        print(f"[✓] Extracted TikZ diagram: {label_clean}.webp ({im.width}x{im.height}px)")
+                else:
+                    print(f"[X] Failed to compile TikZ diagram for {label}", file=sys.stderr)
+
+    print(f"\n[✓] Rendered {rendered_count}/{fig_count} TikZ diagrams into {output_dir}")
 
 if __name__ == "__main__":
     main()

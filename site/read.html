@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="9c0518ac85c26f9d609cd2a89428806184755958b5885afbeb471d74a9c6b261">
+    <meta name="sat-book-source-sha256" content="2ae87410308859f5e1386607dc6f7d08110704cb11a46c6a10ffc9b92961bae7">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -150,34 +150,58 @@
         margin-bottom: 10px;
       }
       .reader-callout {
-        border-radius: 8px;
+        border-radius: 6px;
         padding: 18px 22px;
         margin: 20px 0;
-        border: 1px solid #e2e8f0;
-        border-left-width: 5px;
-      }
-      .reader-callout.design-rule { background: #fdf4ff; border-left-color: #c026d3; }
-      .reader-callout.worked-example { background: #f0fdf4; border-left-color: #16a34a; }
-      .reader-callout.key-idea { background: #fffbebfb; border-left-color: #d97706; }
-      .reader-callout.summary-box { background: #f0f9ff; border-left-color: #0284c7; }
-      .reader-callout.result-box { background: #faf5ff; border-left-color: #9333ea; }
-      .reader-callout.theorem-box, .reader-callout.lemma-box, .reader-callout.proposition-box {
         background: #f8fafc;
-        border-left-color: #475569;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #000000;
       }
+      .reader-callout.design-rule,
+      .reader-callout.worked-example,
+      .reader-callout.key-idea,
+      .reader-callout.summary-box,
+      .reader-callout.result-box,
+      .reader-callout.theorem-box,
+      .reader-callout.lemma-box,
+      .reader-callout.proposition-box,
       .reader-callout.example-box {
-        background: #f1f5f9;
-        border-left-color: #0284c7;
+        background: #f8fafc;
+        border-left-color: #000000;
       }
       .callout-header {
         font-family: var(--font-display);
-        font-size: 1rem;
+        font-size: 1.02rem;
         margin-bottom: 8px;
-        color: #0f172a;
+        color: #000000;
+        font-weight: 700;
       }
       .callout-body {
         font-size: 0.95rem;
         line-height: 1.65;
+      }
+      .reader-figure-box {
+        margin: 28px 0;
+        text-align: center;
+      }
+      .reader-figure-img {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+      }
+      .reader-figure-img img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        padding: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      .reader-inline-caption {
+        font-size: 0.92rem;
+        color: #475569;
+        margin-top: 6px;
       }
       .reader-proof {
         background: #f8fafc;
@@ -362,13 +386,13 @@
             </div>
             
           <div class="chapter-lead">Bộ giải SAT trả lời một câu hỏi quyết định. Để giải tối ưu tổ hợp,
-ta cần thêm mô hình miền, phép mã hóa, cơ chế tìm cận và một
+ta cần thêm mô hình miền, phép biểu diễn, cơ chế tìm cận và một
 <em>model checker</em> (bộ kiểm tra độc lập). Bốn lớp này tạo thành một thuật
 toán hoàn chỉnh.</div>
 <div class="reader-flow-diagram">
  <div class="flow-box">Mô hình miền</div>
  <div class="flow-arrow">➔</div>
- <div class="flow-box">Mã hóa CNF</div>
+ <div class="flow-box">Biểu diễn CNF</div>
  <div class="flow-arrow">➔</div>
  <div class="flow-box highlight">Bộ giải SAT/MaxSAT</div>
  <div class="flow-branches">
@@ -377,7 +401,7 @@ toán hoàn chỉnh.</div>
  </div>
  </div>
 <h3 class="reader-h2">Ba dòng nghiên cứu hội tụ</h3>
-<p>Phép mã hóa SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
+<p>Phép biểu diễn SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
 nhất, <em>propositional reasoning</em> (lập luận mệnh đề) đưa bài toán về CNF
 để dùng lan truyền đơn vị, phân tích xung đột và học mệnh đề. Thứ hai,
 <em>Constraint Programming</em> (CP, quy hoạch ràng buộc) nhìn mô hình qua biến miền
@@ -386,7 +410,7 @@ hữu hạn, giá trị hỗ trợ và các mức nhất quán. Thứ ba,
 chứng nhận tối ưu ở vị trí trung tâm.</p>
 <p>Các công trình về <em>arc consistency</em> (nhất quán cung) trong SAT chỉ ra
 rằng chất lượng phép dịch còn phụ thuộc vào các suy luận miền mà bộ lan truyền
-tạo được <span class="cite">(Gent, 2002; Bacchus, 2007)</span>. Một phép mã hóa có thể đúng về
+tạo được <span class="cite">(Gent, 2002; Bacchus, 2007)</span>. Một phép biểu diễn có thể đúng về
 tập nghiệm nhưng làm mất suy luận vốn xuất hiện sớm trong bộ lan truyền của
 ràng buộc toàn cục. SAT bù lại bằng khả năng học mệnh đề xuyên qua nhiều ràng
 buộc. Vì vậy sách dùng hai cấp phân tích:
@@ -394,12 +418,12 @@ buộc. Vì vậy sách dùng hai cấp phân tích:
  lan truyền đơn vị;</li><li>ở cấp mô hình, xét tương tác giữa các mô-đun trong CDCL và vòng tối
  ưu.</li></ol></p>
 <p>Việc biên dịch CSP miền hữu hạn sang SAT đã phát triển thành một hướng độc lập,
-với mã hóa trực tiếp, hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
+với biểu diễn trực tiếp, hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
 buộc toàn cục <span class="cite">(Tamura et al., 2009; Petke, 2015)</span>. Trong góc nhìn này,
-“mã hóa SAT tối ưu” là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
+“biểu diễn SAT tối ưu” là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
 miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bài toán đang xét.</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Ba góc nhìn bổ sung khi đánh giá một phép mã hóa SAT.</div>
+ <div class="reader-table-caption">Bảng: Ba góc nhìn bổ sung khi đánh giá một phép biểu diễn SAT.</div>
  <table class="reader-table">
  <thead><tr><th>Góc nhìn</th><th>Đơn vị chính</th><th>Bằng chứng mạnh</th><th>Rủi ro khi đứng riêng</th></tr></thead>
  <tbody><tr><td>SAT/CDCL</td><td>Literal và mệnh đề</td><td>Xung đột, mệnh đề học được, chứng minh</td><td>Bỏ qua ngữ nghĩa miền</td></tr><tr><td>CP/CSP</td><td>Biến, miền, giá trị hỗ trợ</td><td>Nhất quán và lọc miền</td><td>Không dự báo hết việc học mệnh đề</td></tr><tr><td>Tối ưu</td><td>Cận và hàm mục tiêu</td><td>Khoảng cận, cận dưới, giá trị tối ưu</td><td>Mô hình Boolean có thể quá yếu</td></tr></tbody>
@@ -446,7 +470,12 @@ P(6)=\mathrm{UNSAT},\qquad P(7)=\mathrm{SAT},\qquad \mathrm{OPT}=7.
 <p>Mô hình thỏa ở cận \(7\) là chứng cứ cận trên; chứng minh UNSAT của \(P(6)\)
 là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị tối ưu \(7\).</div>
  </div></p>
+<div class="reader-figure-box" id="fig_bound_transition">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_bound_transition.webp" alt="Hình: Tính đơn điệu của bài toán quyết định theo cận \(B\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Tính đơn điệu của bài toán quyết định theo cận \(B\).</em></div>
+ </div>
 <h3 class="reader-h2">CNF và biến phụ</h3>
 <h4 class="reader-h3">Mệnh đề, literal và mô hình thỏa</h4>
 <p>Một <em>literal</em> là biến \(x\) hoặc phủ định \(\neg x\) của biến đó. Một
@@ -481,7 +510,7 @@ là tên tương đương của biểu thức.</p>
 <div class="reader-callout key-idea">
  <div class="callout-header"><strong>Vai trò của biến phụ</strong></div>
  <div class="callout-body">Biến phụ vừa làm gọn công thức vừa làm lộ trạng thái trung gian cho lan truyền
-đơn vị và học mệnh đề. Thiết kế phép mã hóa vì thế là thiết kế một không gian
+đơn vị và học mệnh đề. Thiết kế phép biểu diễn vì thế là thiết kế một không gian
 trạng thái cho bộ giải.</div>
  </div>
 <div class="reader-callout worked-example">
@@ -491,7 +520,7 @@ trạng thái cho bộ giải.</div>
 \(x=y=1\). Ngược lại, đặt \(x=y=1\); mệnh đề
 \((z\lor\neg x\lor\neg y)\) suy \(z=1\).
 <p>Nếu bỏ mệnh đề thứ ba, phép gán \(x=y=1, z=0\) vẫn thỏa. Khi đó hai mệnh đề còn
-lại chỉ mã hóa \(z\rightarrow x\land y\), không còn tương đương hai chiều.
+lại chỉ biểu diễn \(z\rightarrow x\land y\), không còn tương đương hai chiều.
 Ví dụ ba biến này là phép kiểm nhanh nên làm trước khi dùng một literal phụ
 trong mô-đun khác.</div>
  </div></p>
@@ -515,22 +544,27 @@ của nhánh đã thất bại. CDCL giữ bộ khung quyết định–lan truy
 ghi lý do của mỗi literal trên <em>trail</em> (vết gán theo thứ tự), phân tích đồ thị kéo theo, học
 một mệnh đề và thực hiện <em>backjump</em> (nhảy lùi đến mức quyết định thích
 hợp). <em>Restart</em> (khởi động lại)
-làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép mã hóa
+làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép biểu diễn
 không chỉ ảnh hưởng số nút: nó quyết định các cạnh lý do mà phân tích xung đột
 có thể sử dụng.</p>
 <p>Các bộ giải SAT hiện đại chủ yếu dựa trên
 <em>conflict-driven clause learning</em> (học mệnh đề theo xung đột, CDCL)
 <span class="cite">(Marques-Silva et al., 2009; Eén & Sörensson, 2003)</span>. Một vòng CDCL gồm:
 <ol class="reader-list"><li>chọn một literal quyết định;</li><li>chạy lan truyền đơn vị;</li><li>khi có xung đột, phân tích đồ thị kéo theo;</li><li>học mệnh đề và nhảy lùi;</li><li>tiếp tục cho đến mô hình thỏa hoặc chứng minh UNSAT.</li></ol></p>
-<p>Phép mã hóa ảnh hưởng trực tiếp ba lớp của vòng này. Mệnh đề nhị phân và tam
+<p>Phép biểu diễn ảnh hưởng trực tiếp ba lớp của vòng này. Mệnh đề nhị phân và tam
 phân tạo đường lan truyền ngắn. Biến phụ quyết định hình dạng đồ thị kéo theo.
 Cấu trúc mô-đun và tính địa phương ảnh hưởng chất lượng mệnh đề học được; chỉ số
 LBD là một trong các thước đo thường dùng để quản lý chúng
 <span class="cite">(Audemard & Simon, 2009)</span>.</p>
-<p>Vì vậy hai phép mã hóa có cùng số mệnh đề vẫn có thể khác về thời gian chạy.
-Phép mã hóa lớn hơn đôi khi chạy nhanh hơn nhờ các trạng thái trung gian giúp
+<p>Vì vậy hai phép biểu diễn có cùng số mệnh đề vẫn có thể khác về thời gian chạy.
+Phép biểu diễn lớn hơn đôi khi chạy nhanh hơn nhờ các trạng thái trung gian giúp
 bộ giải học mâu thuẫn có tính khái quát.</p>
-<div class="reader-inline-caption"><em>Hình: Một vòng CDCL nhìn từ góc độ thiết kế phép mã hóa.</em></div>
+<div class="reader-figure-box" id="fig_cdcl_loop">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_cdcl_loop.webp" alt="Hình: Một vòng CDCL nhìn từ góc độ thiết kế phép biểu diễn." loading="lazy" />
+ </div>
+<div class="reader-inline-caption"><em>Hình: Một vòng CDCL nhìn từ góc độ thiết kế phép biểu diễn.</em></div>
+ </div>
 <h3 class="reader-h2">SAT tăng dần</h3>
 <p>Một bộ giải tăng dần giữ các mệnh đề đã học qua nhiều lời gọi. Có hai cơ chế
 chính.</p>
@@ -565,7 +599,7 @@ thùng được dùng, số ràng buộc mềm bị vi phạm hoặc tổng mứ
 <span class="cite">(Li et al., 2009; Ansótegui et al., 2013)</span>.</p>
 <p>Một cách giải MaxSAT là chuyển hàm mục tiêu thành chuỗi bài toán SAT với cận chi phí
 <span class="cite">(Davies & Bacchus, 2011)</span>. Vì thế khác biệt giữa SAT tăng dần và MaxSAT
-thường nằm ở <em>giao diện hàm mục tiêu</em>, còn phần mã hóa tính khả thi có
+thường nằm ở <em>giao diện hàm mục tiêu</em>, còn phần biểu diễn tính khả thi có
 thể được dùng chung.</p>
 <p>Văn liệu MaxSAT hiện đại thường phân biệt ba kiến trúc. <em>Linear/binary
 search</em> (tìm kiếm tuyến tính/nhị phân) đặt cận lên tổng các literal nới lỏng.
@@ -573,7 +607,7 @@ search</em> (tìm kiếm tuyến tính/nhị phân) đặt cận lên tổng cá
 nhóm mệnh đề mềm không thể đồng thời thỏa, rồi nới chúng có kiểm soát.
 <em>Hitting-set</em> (tập đánh trúng) tách việc tìm lõi khỏi bài toán chọn các
 mệnh đề mềm cần vi phạm.
-Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép mã hóa đếm/PB ở trung tâm
+Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép biểu diễn đếm/PB ở trung tâm
 thuật toán: mô-đun này được dựng,
 mở rộng hoặc thay cận nhiều lần trong quá trình giải MaxSAT
 <span class="cite">(Martins et al., 2014; Ignatiev et al., 2019)</span>.</p>
@@ -600,7 +634,7 @@ x_{ij}\rightarrow u_j.
 <p>Mô hình thỏa của bộ giải chứa cả biến chính và biến phụ. Bộ giải mã chỉ đọc
 biến chính để tạo nghiệm miền. Bộ kiểm tra sau đó xác minh:
 <ol class="reader-list"><li>mọi giá trị nằm trong miền;</li><li>mọi ràng buộc của bài toán gốc;</li><li>hàm mục tiêu được tính lại từ nghiệm;</li><li>cận và trạng thái bộ giải nhất quán.</li></ol>
-Bộ kiểm tra được cài đặt độc lập với bộ mã hóa để hai thành phần tạo thành một phép
+Bộ kiểm tra được cài đặt độc lập với bộ biểu diễn để hai thành phần tạo thành một phép
 kiểm chéo.</p>
 <p>Với giá trị tối ưu \(B^\star\), chứng cứ cận trên là một nghiệm có chi phí
 \(B^\star\). Chứng cứ cận dưới có thể là chứng minh UNSAT của
@@ -622,18 +656,18 @@ thức của cận cần xét. Với giả định, ta vật hóa các giả đ�
  </div>
 <h3 class="reader-h2">Dây chuyền triển khai</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Đọc bài toán đầu vào và chuẩn hóa miền.</li><li>Tính cận dưới và cận trên.</li><li>Sinh biến, ánh xạ và CNF cơ sở.</li><li>Chạy SAT/MaxSAT theo một quy trình tìm cận.</li><li>Giải mã mô hình sau mỗi lần SAT.</li><li>Kiểm nghiệm và hàm mục tiêu bằng bộ kiểm tra độc lập.</li><li>Lưu nghiệm cùng chứng cứ cận dưới ở cận cuối.</li></ol></div>
  </div>
-<p>PySAT cung cấp môi trường thuận tiện để thử nghiệm nhiều bộ giải và phép mã hóa
+<p>PySAT cung cấp môi trường thuận tiện để thử nghiệm nhiều bộ giải và phép biểu diễn
 <span class="cite">(Ignatiev et al., 2018)</span>; ánh xạ biến và bộ kiểm tra vẫn thuộc về ứng
 dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ nguyên ngữ nghĩa.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>SAT là tầng quyết định; tối ưu cần quy trình tìm cận hoặc MaxSAT.</li><li>Biến phụ phải có đặc tả ngữ nghĩa, không chỉ có một số DIMACS.</li><li>Giải tăng dần hiệu quả khi công thức cơ sở ổn định và cận thay qua
  một giao diện rõ.</li><li>Bộ giải mã và bộ kiểm tra là một phần của thuật toán chính xác.</li><li>Chứng nhận tối ưu cần cả nghiệm và chứng cứ cận dưới.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Viết \(P(B)\) và quy tắc cập nhật cận cho một bài toán cực đại.</li><li>Bỏ từng mệnh đề trong phép mã hóa \(z\leftrightarrow(x\land y)\) và tìm
- phép gán làm mất một chiều tương đương.</li><li>Mô tả hai cách mã hóa “tối thiểu số nhóm được dùng”: SAT theo cận và
+<ol class="reader-list"><li>Viết \(P(B)\) và quy tắc cập nhật cận cho một bài toán cực đại.</li><li>Bỏ từng mệnh đề trong phép biểu diễn \(z\leftrightarrow(x\land y)\) và tìm
+ phép gán làm mất một chiều tương đương.</li><li>Mô tả hai cách biểu diễn “tối thiểu số nhóm được dùng”: SAT theo cận và
  <em>Partial MaxSAT</em> (MaxSAT bộ phận).</li></ol>
         </section>
         
@@ -641,7 +675,7 @@ dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ 
         <section id="chap-2" data-slug="ch02-quality" style="margin-bottom: 48px; scroll-margin-top: 100px;">
           <h2 class="chapter-title">Chương 2: Đánh giá Chất lượng và Tiêu chuẩn Mã hóa</h2>
           
-          <div class="chapter-lead">Chất lượng phép mã hóa được đánh giá trên nhiều trục. Đúng đắn là
+          <div class="chapter-lead">Chất lượng phép biểu diễn được đánh giá trên nhiều trục. Đúng đắn là
 điều kiện bắt buộc; các trục còn lại gồm kích thước, sức lan truyền, tính địa
 phương, chi phí tích hợp và bằng chứng thực nghiệm.</div>
 <div class="reader-flow-diagram">
@@ -655,7 +689,7 @@ phương, chi phí tích hợp và bằng chứng thực nghiệm.</div>
  <div class="flow-subbox">↘ Thực nghiệm</div>
  </div>
  </div>
-<h3 class="reader-h2">Phép mã hóa là một quan hệ có giao diện</h3>
+<h3 class="reader-h2">Phép biểu diễn là một quan hệ có giao diện</h3>
 <p>Cho ràng buộc \(\mathcal C\) trên tập biến chính \(X\), tập biến phụ \(Y\) và</p>
 \[
 F=\operatorname{Enc}(\mathcal C;X, Y).
@@ -688,18 +722,18 @@ biến phụ lưu một mức đếm) đúng theo tổng tiền tố thật.</p>
 mọi phép gán trên \(X\), nên tương đương theo phép chiếu. <span class="proof-qedsymbol">■</span>
  </div>
 <h3 class="reader-h2">Hệ phân loại theo cách biểu diễn miền</h3>
-<p>Trước khi so hai bộ mã hóa, cần xác định chúng có cùng “từ vựng Boolean” hay
+<p>Trước khi so hai bộ biểu diễn, cần xác định chúng có cùng “từ vựng Boolean” hay
 không. Với biến miền hữu hạn \(v\in D=\left\{d_1,\ldots, d_m\right\}\), bốn họ thường
 gặp là:
-<dl class="reader-dl"><dt><strong>Direct encoding (mã hóa trực tiếp)</strong></dt><dd>\(x_{v, a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
- hai giá trị được viết trực tiếp.</dd><dt><strong>Support encoding (mã hóa hỗ trợ)</strong></dt><dd>Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
+<dl class="reader-dl"><dt><strong>Direct encoding (biểu diễn trực tiếp)</strong></dt><dd>\(x_{v, a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
+ hai giá trị được viết trực tiếp.</dd><dt><strong>Support encoding (biểu diễn hỗ trợ)</strong></dt><dd>Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
  kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
- thể dài.</dd><dt><strong>Order encoding (mã hóa thứ tự)</strong></dt><dd>\(o_{v, t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
+ thể dài.</dd><dt><strong>Order encoding (biểu diễn thứ tự)</strong></dt><dd>\(o_{v, t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
  quan hệ trước–sau trở thành phép kéo theo giữa các ngưỡng
- <span class="cite">(Tamura et al., 2009)</span>.</dd><dt><strong>Log/binary encoding (mã hóa lôgarit/nhị phân)</strong></dt><dd>Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
+ <span class="cite">(Tamura et al., 2009)</span>.</dd><dt><strong>Log/binary encoding (biểu diễn lôgarit/nhị phân)</strong></dt><dd>Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
  khoảng thường không còn là một literal đơn; lan truyền miền có thể đi qua
  mạch sâu hơn.</dd></dl></p>
-<p>Mã hóa lai giữ hai góc nhìn, chẳng hạn biến giá trị để chọn một giá trị và biến
+<p>Biểu diễn lai giữ hai góc nhìn, chẳng hạn biến giá trị để chọn một giá trị và biến
 thứ tự để biểu diễn một khoảng. Chi phí liên kết hai biểu diễn chỉ đáng bỏ ra
 khi góc nhìn thứ hai rút ngắn một họ ràng buộc lớn hoặc tạo suy luận mới. Đây
 là kiến trúc được dùng lại trong Chương 7, 9–11.</p>
@@ -710,15 +744,20 @@ là kiến trúc được dùng lại trong Chương 7, 9–11.</p>
  <tbody><tr><td>Trực tiếp</td><td>\(v=a\)</td><td>Bảng cấm, miền nhỏ</td><td>Đúng-một và nhiều cặp xung đột</td></tr><tr><td>Hỗ trợ</td><td>“\(v=a\) có hỗ trợ”</td><td>Ràng buộc nhị phân dạng bảng</td><td>Độ dài mệnh đề hỗ trợ</td></tr><tr><td>Thứ tự</td><td>\(v\ge t\)</td><td>Cận, khoảng, hiệu</td><td>Miền rộng và liên kết với biến giá trị</td></tr><tr><td>Lôgarit</td><td>Bit của giá trị</td><td>Miền lớn, mạch số học</td><td>Giá trị ngoài miền, sức lan truyền</td></tr><tr><td>Lai</td><td>Giá trị + ngưỡng/quan hệ</td><td>Nhiều kiểu ràng buộc</td><td>Chi phí và chiều liên kết</td></tr></tbody>
  </table>
  </div>
+<div class="reader-figure-box" id="fig_direct_order_domain">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_direct_order_domain.webp" alt="Hình: Hai từ vựng Boolean cho biến \(v\in\left\{1, 2,3, 4\right\}\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Hai từ vựng Boolean cho biến \(v\in\left\{1, 2,3, 4\right\}\).</em></div>
+ </div>
 <div class="reader-callout worked-example">
- <div class="callout-header"><strong>Một bất đẳng thức trong mã hóa trực tiếp và thứ tự</strong></div>
- <div class="callout-body">Cho \(u, v\in\left\{0,\ldots, 4\right\}\) và \(u+2\le v\). Mã hóa trực tiếp cấm từng cặp
+ <div class="callout-header"><strong>Một bất đẳng thức trong biểu diễn trực tiếp và thứ tự</strong></div>
+ <div class="callout-body">Cho \(u, v\in\left\{0,\ldots, 4\right\}\) và \(u+2\le v\). Biểu diễn trực tiếp cấm từng cặp
 \((a, b)\) với \(a+2&gt;b\):
 \[
 \neg x_{u, a}\lor\neg x_{v, b}.
 \]
-<p>Mã hóa thứ tự dùng \(o_{z, t}\leftrightarrow(z\ge t)\) và các mệnh đề</p>
+<p>Biểu diễn thứ tự dùng \(o_{z, t}\leftrightarrow(z\ge t)\) và các mệnh đề</p>
 \[
 \neg o_{u, t}\lor o_{v, t+2},
   \qquad t=1, 2.
@@ -747,7 +786,12 @@ bộ nối đó không đúng dù khi đứng riêng hai công thức vẫn có 
 tả mà bên cung cấp bảo đảm. Nếu hai phía cần đọc cùng một biến theo hai cách,
 phải có mệnh đề liên kết tương ứng.</div>
  </div>
+<div class="reader-figure-box" id="fig_provider_client_contract">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_provider_client_contract.webp" alt="Hình: Đặc tả của literal phụ quyết định cách các mô-đun khác được sử dụng nó." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Đặc tả của literal phụ quyết định cách các mô-đun khác được sử dụng nó.</em></div>
+ </div>
 <h3 class="reader-h2">Đo kích thước</h3>
 <p>Bốn đại lượng nền tảng là:</p>
 \[
@@ -765,7 +809,7 @@ tổng số literal thường gần chi phí bộ nhớ hơn số mệnh đề.<
 nhỏ. Đây là một kiểm thử đơn vị cho phép đếm, đồng thời phát hiện mệnh đề bị lặp hoặc
 thanh ghi vô dụng.</p>
 <h3 class="reader-h2">Unit propagation: lan truyền đơn vị</h3>
-<p>Cho phép gán bộ phận \(A\). <em>Unit propagation</em> (lan truyền đơn vị, UP)
+<p>Cho phép gán một phần \(A\). <em>Unit propagation</em> (lan truyền đơn vị, UP)
 lặp việc thỏa một mệnh đề
 đơn vị cho
 đến điểm cố định hoặc xung đột. Có ba mức phát biểu thường gặp:</p>
@@ -774,7 +818,7 @@ lặp việc thỏa một mệnh đề
  trên toàn bộ biến; sách gọi tính chất này là <em>đầy đủ bác bỏ bằng lan
  truyền đơn vị</em>.</dd><dt><strong>Propagation completeness (PC)</strong></dt><dd>Mọi literal bị \(F\land A\) kéo theo trong phạm vi quan sát đều được UP suy
  ra, hoặc UP chứng minh bất khả thỏa; đây là <em>đầy đủ lan truyền</em>.</dd></dl>
-<p>Trong một phép mã hóa miền hữu hạn, <em>generalized arc consistency</em>
+<p>Trong một phép biểu diễn miền hữu hạn, <em>generalized arc consistency</em>
 (nhất quán cung tổng quát, GAC) loại mọi giá trị không còn giá trị hỗ trợ.
 Phát biểu GAC luôn đi cùng cách Boolean hóa miền và tập literal đại diện cho
 giá trị.</p>
@@ -796,43 +840,43 @@ thay đổi; phát biểu về GAC vì thế cũng được xác định lại t
 biến chính, đổi lại \(O(n^2)\) mệnh đề.</div>
  </div></p>
 <h3 class="reader-h2">Cận dưới kích thước và mặt Pareto</h3>
-<p>Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép mã hóa. Với AMO, các
-cận dưới đã biết cho thấy một phép mã hóa đầy đủ lan truyền cần số mệnh đề
+<p>Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép biểu diễn. Với AMO, các
+cận dưới đã biết cho thấy một phép biểu diễn đầy đủ lan truyền cần số mệnh đề
 tuyến tính với hệ số bị chặn, kể cả khi dùng biến phụ
 <span class="cite">(Kučera et al., 2019)</span>. Kết quả này dẫn đến ba nguyên tắc:
-<ol class="reader-list"><li>xác định rõ lớp mã hóa khi phát biểu về kích thước, biến phụ và sức lan
+<ol class="reader-list"><li>xác định rõ lớp biểu diễn khi phát biểu về kích thước, biến phụ và sức lan
  truyền;</li><li>một cải tiến vài mệnh đề có thể đáng kể nếu nó tiến gần cận dưới;</li><li>so sánh kích thước phải giữ cùng tiêu chuẩn lan truyền và cùng ngữ
  nghĩa của đầu ra.</li></ol></p>
 <p>Các kết quả về phép phân rã <span class="small-caps">AllDifferent</span> và ràng buộc đếm toàn cục
 còn liên hệ yêu cầu lan truyền với cận biểu diễn của mạch đơn điệu
 <span class="cite">(Bessiere et al., 2009)</span>. Khi một ràng buộc toàn cục có
-bộ lan truyền đạt mức nhất quán mạnh hơn phép mã hóa đa thức đang xét, phép so
+bộ lan truyền đạt mức nhất quán mạnh hơn phép biểu diễn đa thức đang xét, phép so
 sánh tập trung vào phần suy luận được chuyển sang học mệnh đề và chi phí
 để đạt phần suy luận đó.</p>
 <div class="reader-callout key-idea">
- <div class="callout-header"><strong>Mặt Pareto của phép mã hóa</strong></div>
- <div class="callout-body">Một bộ mã hóa được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
+ <div class="callout-header"><strong>Mặt Pareto của phép biểu diễn</strong></div>
+ <div class="callout-body">Một bộ biểu diễn được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
 xây dựng và khả năng tăng dần. Điểm Pareto là điểm mà cải thiện thêm một trục
 sẽ đánh đổi ít nhất một trục khác. <em>Benchmark</em> (bộ kiểm chuẩn) đo vị trí
 thực nghiệm của từng thiết kế trên mặt Pareto này.</div>
  </div>
 <h3 class="reader-h2">Mức độ phù hợp với bộ giải</h3>
-<p>Hai phép mã hóa có cùng tính đúng và kích thước vẫn có thể khác về:
+<p>Hai phép biểu diễn có cùng tính đúng và kích thước vẫn có thể khác về:
 <ul class="reader-list"><li><strong>tính địa phương</strong>: một ràng buộc cục bộ dùng các biến gần nhau
  hay đi qua một cấu trúc toàn cục;</li><li><strong>độ sâu kéo theo</strong>: số bước từ quyết định đến xung đột;</li><li><strong>khả năng học</strong>: xung đột có tạo mệnh đề tái sử dụng được không;</li><li><strong>đối xứng</strong>: trạng thái phụ có tạo nhiều mô hình tương đương;</li><li><strong>khả năng tăng dần</strong>: đầu ra có đọc được ở nhiều cận không.</li></ul></p>
 <p>Không có một công thức giải tích đơn giản cho các thuộc tính này. Ta dùng
 đại lượng thay thế như số mệnh đề nhị phân, đồ thị kéo theo trên bài toán nhỏ,
 hoặc số lần lan truyền/xung đột; kết luận cuối cùng cần bộ kiểm chuẩn có kiểm
 soát.</p>
-<h3 class="reader-h2">Tính mô-đun và mã hóa lại có cấu trúc</h3>
-<p>Một mô-đun mã hóa tốt có bốn thành phần:</p>
+<h3 class="reader-h2">Tính mô-đun và biểu diễn lại có cấu trúc</h3>
+<p>Một mô-đun biểu diễn tốt có bốn thành phần:</p>
 \[
 \texttt{variables}
   +\texttt{clauses}
   +\texttt{decoder}
   +\texttt{contract}.
 \]
-<p>Khi nhiều ràng buộc chia sẻ biểu thức con, mã hóa lại có cấu trúc tạo biến phụ
+<p>Khi nhiều ràng buộc chia sẻ biểu thức con, biểu diễn lại có cấu trúc tạo biến phụ
 cho phần chung thay vì Tseitin hóa từng công thức riêng
 <span class="cite">(Haberlandt et al., 2023)</span>. Lợi ích xuất hiện khi mô-đun thực sự được dùng
 chung trong CNF và bên sử dụng đọc đúng đặc tả.</p>
@@ -841,27 +885,27 @@ chung giảm lặp; bộ nối chỉ ghép các ngưỡng ở hai biên. Đây l
 của Chương 5.</p>
 <h3 class="reader-h2">Ma trận phát biểu–bằng chứng</h3>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Ma trận phát biểu–bằng chứng cho một phép mã hóa SAT.</div>
+ <div class="reader-table-caption">Bảng: Ma trận phát biểu–bằng chứng cho một phép biểu diễn SAT.</div>
  <table class="reader-table">
  <thead><tr><th>Phát biểu</th><th>Bằng chứng lý thuyết</th><th>Bằng chứng thực nghiệm</th></tr></thead>
- <tbody><tr><td>Mã hóa đúng</td><td>Chứng minh hai chiều</td><td>Kiểm thử vét cạn/vi sai trên miền nhỏ</td></tr><tr><td>Mã hóa nhỏ hơn</td><td>Công thức đếm</td><td>Kích thước CNF thực tế</td></tr><tr><td>Lan truyền mạnh hơn</td><td>Bổ đề UP/PC/GAC</td><td>Bộ đếm lan truyền/xung đột</td></tr><tr><td>Nhanh hơn</td><td>Phân tích cơ chế</td><td>Bộ kiểm chuẩn, nhiều <em>random seed</em>
+ <tbody><tr><td>Biểu diễn đúng</td><td>Chứng minh hai chiều</td><td>Kiểm thử vét cạn/vi sai trên miền nhỏ</td></tr><tr><td>Biểu diễn nhỏ hơn</td><td>Công thức đếm</td><td>Kích thước CNF thực tế</td></tr><tr><td>Lan truyền mạnh hơn</td><td>Bổ đề UP/PC/GAC</td><td>Bộ đếm lan truyền/xung đột</td></tr><tr><td>Nhanh hơn</td><td>Phân tích cơ chế</td><td>Bộ kiểm chuẩn, nhiều <em>random seed</em>
 (hạt giống ngẫu nhiên), <em>performance profile</em> (hồ sơ hiệu năng)</td></tr><tr><td>Chứng nhận tối ưu</td><td>Định lý về cận</td><td>Nghiệm và chứng minh ở hai cận kề</td></tr></tbody>
  </table>
  </div>
 <p>Ma trận đưa mỗi ý tưởng vào đúng loại đóng góp: định lý, thiết kế cấu trúc hay
 quan sát thực nghiệm.</p>
-<h3 class="reader-h2">Một quy trình đánh giá phép mã hóa</h3>
+<h3 class="reader-h2">Một quy trình đánh giá phép biểu diễn</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Viết rõ ngữ nghĩa của biến chính và biến phụ.</li><li>Chứng minh tính đúng và tính đầy đủ theo phép chiếu.</li><li>Đếm biến, mệnh đề, literal và độ rộng mệnh đề theo đúng biến thể.</li><li>Phân tích một số suy luận cốt lõi của lan truyền đơn vị (UP).</li><li>Xây dựng <em>oracle</em> (bộ đối chiếu nhỏ trên miền đã biết) để so sánh
  tập nghiệm sau phép chiếu.</li><li>Đánh giá trên bộ kiểm chuẩn theo quy trình của Chương 4.</li><li>Kiểm tra khả năng kết hợp mô-đun và giải tăng dần.</li></ol></div>
  </div>
 <h3 class="reader-h2">Bài học thiết kế</h3>
-<ol class="reader-list"><li>Tính đúng là quan hệ theo phép chiếu, không phải số mô hình của biến phụ.</li><li>Đặc tả ngữ nghĩa quyết định biến phụ có thể được tái sử dụng thế nào.</li><li>Đếm literal và cấu trúc mệnh đề quan trọng ngang với số mệnh đề.</li><li>Phát biểu về sức lan truyền phải nêu rõ phạm vi literal được quan sát.</li><li>Thời gian chạy là kết quả của tương tác giữa phép mã hóa, bộ giải và bài toán thử.</li></ol>
+<ol class="reader-list"><li>Tính đúng là quan hệ theo phép chiếu, không phải số mô hình của biến phụ.</li><li>Đặc tả ngữ nghĩa quyết định biến phụ có thể được tái sử dụng thế nào.</li><li>Đếm literal và cấu trúc mệnh đề quan trọng ngang với số mệnh đề.</li><li>Phát biểu về sức lan truyền phải nêu rõ phạm vi literal được quan sát.</li><li>Thời gian chạy là kết quả của tương tác giữa phép biểu diễn, bộ giải và bài toán thử.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Cho một phép mã hóa AMO có biến phụ, viết bộ giải mã và chứng
+<ol class="reader-list"><li>Cho một phép biểu diễn AMO có biến phụ, viết bộ giải mã và chứng
  minh theo phép chiếu.</li><li>Thiết kế một phép thử phân biệt đặc tả điều kiện đủ với đặc tả tương
- đương của thanh ghi ngưỡng.</li><li>Chọn ba thước đo để giải thích vì sao một phép mã hóa lớn hơn lại chạy
+ đương của thanh ghi ngưỡng.</li><li>Chọn ba thước đo để giải thích vì sao một phép biểu diễn lớn hơn lại chạy
  nhanh hơn trên các bài toán thử UNSAT.</li></ol>
         </section>
         
@@ -878,7 +922,7 @@ quan sát thực nghiệm.</p>
 đúng trong một tập; <em>pseudo-Boolean constraint</em> (ràng buộc giả Boolean)
 mở rộng nó
 bằng các trọng số nguyên. Hai lớp này xuất hiện trong ràng buộc gán, sức chứa,
-chuỗi, đối xứng và hàm mục tiêu. Không có một bộ mã hóa tốt nhất cho mọi miền;
+chuỗi, đối xứng và hàm mục tiêu. Không có một bộ biểu diễn tốt nhất cho mọi miền;
 cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách bộ giải thay cận.</div>
 <div class="reader-flow-diagram">
  <div class="flow-box">AMO/EXO</div>
@@ -888,16 +932,16 @@ cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách 
  <div class="flow-box highlight">Đúng \(K\)</div>
  <div class="flow-branches">
  <div class="flow-subbox">↙ Giả Boolean</div>
- <div class="flow-subbox">↘ Chọn bộ mã hóa</div>
+ <div class="flow-subbox">↘ Chọn bộ biểu diễn</div>
  </div>
  </div>
-<h3 class="reader-h2">Bản đồ phát triển của phép mã hóa ràng buộc đếm</h3>
-<p>Các phép mã hóa ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
-hóa mới thay thế hoàn toàn bộ mã hóa cũ. Mỗi họ giải quyết một kiểu đánh đổi:
-<ol class="reader-list"><li><em>pairwise encoding</em> (mã hóa từng cặp) và các phép phân rã AMO ưu tiên
+<h3 class="reader-h2">Bản đồ phát triển của phép biểu diễn ràng buộc đếm</h3>
+<p>Các phép biểu diễn ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
+hóa mới thay thế hoàn toàn bộ biểu diễn cũ. Mỗi họ giải quyết một kiểu đánh đổi:
+<ol class="reader-list"><li><em>pairwise encoding</em> (biểu diễn từng cặp) và các phép phân rã AMO ưu tiên
  phát hiện xung đột trực tiếp;</li><li><em>sequential counter</em> (bộ đếm tuần tự) vật hóa tổng trên từng tiền tố;</li><li><em>totalizer</em> (cây tổng) vật hóa tổng theo cấu trúc cây;</li><li><em>sorting/selection network</em> (mạng sắp xếp/lựa chọn) ưu tiên cấu
  trúc đều và độ sâu nhỏ;</li><li><em>binary decision diagram</em> (biểu đồ quyết định nhị phân, BDD)
- hợp nhất các trạng thái tổng tương đương;</li><li>cây tổng tổng quát và các biến thể PB xử lý trọng số;</li><li>danh mục phương pháp hoặc bộ chọn đã học chọn phép mã hóa theo đặc
+ hợp nhất các trạng thái tổng tương đương;</li><li>cây tổng tổng quát và các biến thể PB xử lý trọng số;</li><li>danh mục phương pháp hoặc bộ chọn đã học chọn phép biểu diễn theo đặc
  trưng của bài toán thử.</li></ol></p>
 <p>Các khảo cứu về ràng buộc đếm nhấn mạnh rằng phải tách ba thuộc tính: kích
 thước tiệm cận, mức nhất quán do lan truyền đơn vị duy trì và hiệu năng trong
@@ -928,20 +972,20 @@ tính giữa ba lựa chọn đó.</p>
   \sum_i(1-x_i)\le n-k.
 \]
 <p>Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
-mã hóa trực tiếp ALK và mã hóa AMK trên các literal phủ định phụ thuộc vào
+biểu diễn trực tiếp ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.</p>
 <h3 class="reader-h2">At-most-one (AMO): ràng buộc nhiều nhất một</h3>
-<h4 class="reader-h3">Mã hóa từng cặp</h4>
-<p>Mã hóa từng cặp sinh</p>
+<h4 class="reader-h3">Biểu diễn từng cặp</h4>
+<p>Biểu diễn từng cặp sinh</p>
 \[
 \neg x_i\lor\neg x_j
   \qquad\forall i&lt;j.
 \]
 <p>Nó không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
 tiếp. Đây là lựa chọn tốt khi miền nhỏ.</p>
-<h4 class="reader-h3">Mã hóa tuần tự</h4>
+<h4 class="reader-h3">Biểu diễn tuần tự</h4>
 <p>Đặt \(s_i=1\) khi ít nhất một trong \(x_1,\ldots, x_i\) đúng. Một biến thể
-mã hóa AMO tuần tự dùng:</p>
+biểu diễn AMO tuần tự dùng:</p>
 \[
 \neg x_i\lor s_i,
   \qquad
@@ -951,16 +995,16 @@ mã hóa AMO tuần tự dùng:</p>
 \]
 <p>Mệnh đề cuối cấm \(x_i\) khi tiền tố trước đó đã có một giá trị đúng. Kích thước
 tuyến tính theo \(n\) <span class="cite">(Sinz, 2005)</span>.</p>
-<h4 class="reader-h3">Mã hóa tích và mã hóa chỉ huy</h4>
-<p><em>Product encoding</em> (mã hóa tích) đặt biến vào ma trận rồi dùng AMO theo
-hàng và cột. <em>Commander encoding</em> (mã hóa chỉ huy) chia biến thành nhóm,
-tạo một biến đại diện cho mỗi nhóm rồi mã hóa AMO trên các đại diện. Hai cách
+<h4 class="reader-h3">Biểu diễn tích và biểu diễn chỉ huy</h4>
+<p><em>Product encoding</em> (biểu diễn tích) đặt biến vào ma trận rồi dùng AMO theo
+hàng và cột. <em>Commander encoding</em> (biểu diễn chỉ huy) chia biến thành nhóm,
+tạo một biến đại diện cho mỗi nhóm rồi biểu diễn AMO trên các đại diện. Hai cách
 này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc lớn
 <span class="cite">(Chen, 2010)</span>.</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: So sánh các bộ mã hóa AMO cơ bản.</div>
+ <div class="reader-table-caption">Bảng: So sánh các bộ biểu diễn AMO cơ bản.</div>
  <table class="reader-table">
- <thead><tr><th>Phép mã hóa AMO</th><th>Biến phụ</th><th>Mệnh đề</th><th>Điểm mạnh</th></tr></thead>
+ <thead><tr><th>Phép biểu diễn AMO</th><th>Biến phụ</th><th>Mệnh đề</th><th>Điểm mạnh</th></tr></thead>
  <tbody><tr><td>Từng cặp</td><td>\(0\)</td><td>\(O(n^2)\)</td><td>Nhị phân, đơn giản</td></tr><tr><td>Tuần tự</td><td>\(O(n)\)</td><td>\(O(n)\)</td><td>Lan truyền theo tiền tố</td></tr><tr><td>Tích</td><td>\(O(\sqrt n)\)</td><td>\(O(n)\)</td><td>Cân bằng hai chiều</td></tr><tr><td>Chỉ huy</td><td>\(O(n/g)\)</td><td>Phụ thuộc nhóm \(g\)</td><td>Cục bộ, dễ kết hợp</td></tr></tbody>
  </table>
  </div>
@@ -987,7 +1031,7 @@ kéo theo cục bộ và cho phép đọc nhiều ngưỡng tiền tố
 <span class="cite">(Sinz, 2005)</span>.</p>
 <div class="reader-callout proposition-box">
  <div class="callout-header"><strong>Mệnh đề (Ngữ nghĩa của bộ đếm)</strong></div>
- <div class="callout-body">Nếu các hệ thức truy hồi được mã hóa hai chiều thì, với mọi \(i, j\),
+ <div class="callout-body">Nếu các hệ thức truy hồi được biểu diễn hai chiều thì, với mọi \(i, j\),
 \[
 s_{i, j}=1\iff\sum_{q=1}^{i}x_q\ge j.
 \]</div>
@@ -996,7 +1040,12 @@ s_{i, j}=1\iff\sum_{q=1}^{i}x_q\ge j.
  <em>Chứng minh.</em> Quy nạp theo \(i\). Tiền tố \(i\) đạt \(j\) khi tiền tố \(i-1\) đã đạt \(j\),
 hoặc \(x_i=1\) và tiền tố trước đạt \(j-1\). Đây chính là hệ thức truy hồi. <span class="proof-qedsymbol">■</span>
  </div>
+<div class="reader-figure-box" id="fig_totalizer_tree">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_totalizer_tree.webp" alt="Hình: Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.</em></div>
+ </div>
 <h3 class="reader-h2">Mạng đếm</h3>
 <p>Mạng sắp xếp sắp các đầu vào Boolean thành các đầu ra đơn phân:</p>
 \[
@@ -1013,19 +1062,24 @@ o_1\ge o_2\ge\cdots\ge o_n,
 <span class="cite">(Batcher, 1968; Asín et al., 2011)</span>.</p>
 <p>So với bộ đếm tuần tự, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
 sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.</p>
+<div class="reader-figure-box" id="fig_boolean_comparator">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_boolean_comparator.webp" alt="Hình: Bộ so sánh Boolean là viên gạch của mạng sắp xếp và mạng đếm." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Bộ so sánh Boolean là viên gạch của mạng sắp xếp và mạng đếm.</em></div>
-<h3 class="reader-h2">Mã hóa bằng BDD</h3>
+ </div>
+<h3 class="reader-h2">Biểu diễn bằng BDD</h3>
 <p><em>Binary decision diagram</em> (biểu đồ quyết định nhị phân, BDD) biểu diễn
 trạng thái tổng tích lũy. Nút ở mức \(i\) và trạng thái \(s\) phân nhánh theo
 \(x_i\). Các trạng thái vượt \(k\) đi vào nút kết thúc sai. Một biến phụ cho
-mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành phép mã hóa
+mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành phép biểu diễn
 <span class="cite">(Bryant, 1986; Abío et al., 2012)</span>.</p>
 <p>Ưu điểm của BDD:
 <ul class="reader-list"><li>xử lý tự nhiên các ràng buộc giả Boolean có trọng số;</li><li>có thể đạt sức lan truyền mạnh;</li><li>hợp nhất các trạng thái tương đương.</li></ul>
 Nhược điểm là kích thước phụ thuộc thứ tự biến và số trạng thái tổng khác nhau.</p>
 <h3 class="reader-h2">Ràng buộc đúng \(K\) và đầu ra dùng chung</h3>
 <p>EXK có thể viết thành AMK và ALK, nhưng dựng hai bộ đếm độc lập sẽ lặp trạng
-thái. Nếu bộ mã hóa trả về các đầu ra đơn phân \(o_j\), chỉ cần</p>
+thái. Nếu bộ biểu diễn trả về các đầu ra đơn phân \(o_j\), chỉ cần</p>
 \[
 o_k\land\neg o_{k+1}.
 \]
@@ -1044,7 +1098,7 @@ mô-đun được phát triển ở Phần II.</div>
   \qquad a_i\in\mathbb Z_{\ge0},
 \]
 <p>không còn là cardinality khi trọng số khác nhau. Các hướng chính gồm:
-<ul class="reader-list"><li>mã hóa bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;</li><li>BDD cho các trạng thái tổng có thể đạt;</li><li>cây tổng tổng quát gom và cắt các tổng;</li><li>phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;</li><li>thư viện kết hợp như PBLib chọn bộ mã hóa theo cấu trúc
+<ul class="reader-list"><li>biểu diễn bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;</li><li>BDD cho các trạng thái tổng có thể đạt;</li><li>cây tổng tổng quát gom và cắt các tổng;</li><li>phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;</li><li>thư viện kết hợp như PBLib chọn bộ biểu diễn theo cấu trúc
  <span class="cite">(Eén & Sörensson, 2006; Philipp & Reimer, 2015)</span>.</li></ul></p>
 <p>Nếu hàm mục tiêu thay cận nhiều lần, các đầu ra hoặc giao diện kích hoạt quan
 trọng hơn vài phần trăm kích thước ở một cận duy nhất.</p>
@@ -1055,14 +1109,14 @@ nút cha giữ các giá trị</p>
 \[
 \min(a+b, B+1),\qquad a\in A,\ b\in B,
 \]
-<p>trong đó \(B+1\) gom mọi trạng thái tràn. Phép mã hóa đặc biệt hiệu quả khi
+<p>trong đó \(B+1\) gom mọi trạng thái tràn. Phép biểu diễn đặc biệt hiệu quả khi
 trọng số có cấu trúc và số tổng phân biệt sau phép cắt nhỏ hơn tổng số học thô
 <span class="cite">(Joshi et al., 2015)</span>. Hình dạng cây không còn là chi tiết vô hại: hai cách
 ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.</p>
 <h4 class="reader-h3">Khai thác các nhóm AMO trong PB</h4>
 <p>Trong nhiều mô hình, các hạng tử của ràng buộc PB đến từ một biến miền hữu hạn:
 trong mỗi nhóm, nhiều nhất một literal có thể đúng. Nếu trải phẳng mọi hạng tử
-như các biến độc lập, bộ mã hóa sẽ bỏ mất thông tin này. Các phép mã hóa
+như các biến độc lập, bộ biểu diễn sẽ bỏ mất thông tin này. Các phép biểu diễn
 PB(AMO) đưa nhóm AMO trực tiếp vào <em>multi-valued decision diagram</em>
 (biểu đồ quyết định đa trị, MDD), cây tổng
 tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo môđun
@@ -1070,7 +1124,7 @@ tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo m
 <ul class="reader-list"><li>ít trạng thái tổng hơn, vì tổ hợp chọn hai hạng tử cùng nhóm không bao
  giờ đạt được;</li><li>lan truyền dùng được cả cận PB lẫn tính loại trừ lẫn nhau trong nhóm.</li></ul></p>
 <p>Đây là một ví dụ tổng quát của <em>structure-aware encoding</em>
-(phép mã hóa có xét cấu trúc): trước khi chọn bộ mã hóa cho một biểu thức
+(phép biểu diễn có xét cấu trúc): trước khi chọn bộ biểu diễn cho một biểu thức
 tuyến tính, cần giữ nguồn gốc cấu trúc của các hạng tử thay vì chỉ truyền vào
 mảng hệ số.</p>
 <h3 class="reader-h2">Từ lựa chọn thủ công đến lựa chọn theo bài toán thử</h3>
@@ -1078,34 +1132,34 @@ mảng hệ số.</p>
 một đối chứng hữu ích, nhưng chưa bao quát tương tác giữa hệ số, nhóm AMO, độ
 rộng miền và bộ giải. Nghiên cứu về <em>algorithm selection</em>
 (lựa chọn thuật toán) đã dùng các đặc trưng của ràng buộc và bài toán
-thử để chọn giữa nhiều phép mã hóa SAT, kể cả trên những lớp bài toán chưa xuất
+thử để chọn giữa nhiều phép biểu diễn SAT, kể cả trên những lớp bài toán chưa xuất
 hiện trong dữ liệu huấn luyện <span class="cite">(Ulrich-Oltean et al., 2022)</span>. Kết quả này thay
-đổi cách xây dựng thư viện bộ mã hóa: mỗi mô-đun cần công bố đủ siêu dữ liệu để
+đổi cách xây dựng thư viện bộ biểu diễn: mỗi mô-đun cần công bố đủ siêu dữ liệu để
 một bộ chọn ra quyết định.</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Nhóm đặc trưng để lựa chọn bộ mã hóa theo bài toán thử.</div>
+ <div class="reader-table-caption">Bảng: Nhóm đặc trưng để lựa chọn bộ biểu diễn theo bài toán thử.</div>
  <table class="reader-table">
  <thead><tr><th>Nhóm đặc trưng</th><th>Ví dụ</th><th>Tác động tiềm năng</th></tr></thead>
- <tbody><tr><td>Kích thước</td><td>\(n, k,B\), số hạng tử</td><td>Loại bộ mã hóa chắc chắn quá lớn</td></tr><tr><td>Trọng số</td><td>Giá trị lớn nhất, ước chung lớn nhất, số tổng phân biệt</td><td>Không gian trạng thái BDD/GT</td></tr><tr><td>Cấu trúc</td><td>Nhóm AMO, hệ số lặp</td><td>Khả năng nén trạng thái</td></tr><tr><td>Giao diện</td><td>Số cận, thêm đầu vào, vật hóa</td><td>Giải tăng dần và kết hợp mô-đun</td></tr><tr><td>Mô hình</td><td>Mật độ, đối xứng, đồ thị ràng buộc</td><td>Tương tác với học mệnh đề</td></tr></tbody>
+ <tbody><tr><td>Kích thước</td><td>\(n, k,B\), số hạng tử</td><td>Loại bộ biểu diễn chắc chắn quá lớn</td></tr><tr><td>Trọng số</td><td>Giá trị lớn nhất, ước chung lớn nhất, số tổng phân biệt</td><td>Không gian trạng thái BDD/GT</td></tr><tr><td>Cấu trúc</td><td>Nhóm AMO, hệ số lặp</td><td>Khả năng nén trạng thái</td></tr><tr><td>Giao diện</td><td>Số cận, thêm đầu vào, vật hóa</td><td>Giải tăng dần và kết hợp mô-đun</td></tr><tr><td>Mô hình</td><td>Mật độ, đối xứng, đồ thị ràng buộc</td><td>Tương tác với học mệnh đề</td></tr></tbody>
  </table>
  </div>
 <p>Bộ chọn không loại bỏ nhu cầu chứng minh tính đúng: nó chỉ chọn giữa các
 mô-đun đã được kiểm chứng. Việc đánh giá cũng phải tách các họ dùng để huấn
 luyện khỏi các họ dùng để kiểm thử; nếu không, bộ chọn có thể chỉ nhận dạng tên
-bộ kiểm chuẩn thay vì học cấu trúc của phép mã hóa.</p>
+bộ kiểm chuẩn thay vì học cấu trúc của phép biểu diễn.</p>
 <h3 class="reader-h2">Bản đồ lựa chọn</h3>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Gợi ý lựa chọn bộ mã hóa ràng buộc đếm/PB.</div>
+ <div class="reader-table-caption">Bảng: Gợi ý lựa chọn bộ biểu diễn ràng buộc đếm/PB.</div>
  <table class="reader-table">
  <thead><tr><th>Tình huống</th><th>Lựa chọn khởi đầu</th><th>Lý do</th></tr></thead>
- <tbody><tr><td>AMO, \(n\) nhỏ</td><td>Từng cặp</td><td>Không biến phụ, mệnh đề nhị phân</td></tr><tr><td>AMO/AMK, \(k\) nhỏ</td><td>Tuần tự</td><td>\(O(nk)\), lan truyền theo tiền tố</td></tr><tr><td>Nhiều ngưỡng</td><td>Cây tổng/mạng đếm</td><td>Tái sử dụng đầu ra</td></tr><tr><td>Đúng \(K\)</td><td>Một vectơ đầu ra chung</td><td>Không lặp AMK/ALK</td></tr><tr><td>PB có trọng số, ít trạng thái</td><td>BDD</td><td>Hợp nhất trạng thái tổng</td></tr><tr><td>PB có trọng số tổng quát</td><td>PBLib/kết hợp</td><td>Chọn theo bài toán thử</td></tr><tr><td>PB có nhóm AMO</td><td>Bộ mã hóa PB(AMO)</td><td>Không vật hóa trạng thái bất khả</td></tr><tr><td>Cận thay đổi tăng dần</td><td>Cây tổng/đầu ra thứ tự</td><td>Giao diện cận ổn định</td></tr></tbody>
+ <tbody><tr><td>AMO, \(n\) nhỏ</td><td>Từng cặp</td><td>Không biến phụ, mệnh đề nhị phân</td></tr><tr><td>AMO/AMK, \(k\) nhỏ</td><td>Tuần tự</td><td>\(O(nk)\), lan truyền theo tiền tố</td></tr><tr><td>Nhiều ngưỡng</td><td>Cây tổng/mạng đếm</td><td>Tái sử dụng đầu ra</td></tr><tr><td>Đúng \(K\)</td><td>Một vectơ đầu ra chung</td><td>Không lặp AMK/ALK</td></tr><tr><td>PB có trọng số, ít trạng thái</td><td>BDD</td><td>Hợp nhất trạng thái tổng</td></tr><tr><td>PB có trọng số tổng quát</td><td>PBLib/kết hợp</td><td>Chọn theo bài toán thử</td></tr><tr><td>PB có nhóm AMO</td><td>Bộ biểu diễn PB(AMO)</td><td>Không vật hóa trạng thái bất khả</td></tr><tr><td>Cận thay đổi tăng dần</td><td>Cây tổng/đầu ra thứ tự</td><td>Giao diện cận ổn định</td></tr></tbody>
  </table>
  </div>
-<p>Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ mã hóa trên phân
+<p>Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ biểu diễn trên phân
 phối bài toán mục tiêu; Chương 5–6 phát triển các bộ đếm khi nhiều
 ràng buộc chia sẻ cấu trúc.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
-<ol class="reader-list"><li>Chọn bộ mã hóa theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.</li><li>Mã hóa AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.</li><li>Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.</li><li>Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.</li><li>Ràng buộc đúng \(K\) nên dùng chung một cấu trúc tổng nếu có thể.</li></ol>
+<ol class="reader-list"><li>Chọn bộ biểu diễn theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.</li><li>Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.</li><li>Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.</li><li>Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.</li><li>Ràng buộc đúng \(K\) nên dùng chung một cấu trúc tổng nếu có thể.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Dựng bộ đếm tuần tự cho \(n=5, k=2\) và liệt kê các thanh ghi.</li><li>So sánh EXK bằng hai bộ đếm độc lập với một cây tổng chung.</li><li>Với trọng số \((1, 2,3, 5)\), vẽ các trạng thái BDD cho cận \(B=5\).</li></ol>
         </section>
@@ -1119,7 +1173,7 @@ ràng buộc chia sẻ cấu trúc.</p>
               <div class="reader-inline-caption"><em>Hình 4.2 · Hồ sơ hiệu năng dạng bậc thang (Performance Profile)</em></div>
             </div>
             
-          <div class="chapter-lead">Đánh giá trên bộ kiểm chuẩn không chỉ trả lời bộ mã hóa nào nhanh
+          <div class="chapter-lead">Đánh giá trên bộ kiểm chuẩn không chỉ trả lời bộ biểu diễn nào nhanh
 hơn. Một thực nghiệm tốt còn phải giải thích hiệu ứng đến từ kích thước, sức
 lan truyền, bộ giải, đặc trưng hay cấu trúc của bài toán thử.</div>
 <div class="reader-flow-diagram">
@@ -1134,13 +1188,13 @@ lan truyền, bộ giải, đặc trưng hay cấu trúc của bài toán thử.
  </div>
  </div>
 <h3 class="reader-h2">Thực nghiệm là một phép đo có mô hình</h3>
-<p>Một bảng thời gian chạy không tự nói bộ mã hóa nào tốt hơn. Quan sát được tạo
+<p>Một bảng thời gian chạy không tự nói bộ biểu diễn nào tốt hơn. Quan sát được tạo
 bởi cả
 chuỗi</p>
 \[
 \text{bài toán thử}
   \rightarrow\text{mô hình}
-  \rightarrow\text{bộ mã hóa}
+  \rightarrow\text{bộ biểu diễn}
   \rightarrow\text{bộ tiền xử lý}
   \rightarrow\text{cấu hình bộ giải}
   \rightarrow\text{phần cứng}.
@@ -1151,7 +1205,7 @@ miền tham số, một bộ giải hay một danh mục bộ giải. Cần phâ
 <em>internal validity</em> (hiệu lực nội tại: hiệu ứng thật sự do yếu tố
 đang xét) với <em>external validity</em> (hiệu lực khái quát: hiệu ứng
 có còn giữ ngoài tập kiểm chuẩn hay không).</p>
-<p>Trong nghiên cứu phép mã hóa, ba loại bằng chứng bổ sung nhau:
+<p>Trong nghiên cứu phép biểu diễn, ba loại bằng chứng bổ sung nhau:
 <ul class="reader-list"><li><strong>bằng chứng cơ chế</strong>: công thức đếm, vết lan truyền và xung đột
  nhỏ giải thích vì sao hiệu ứng xuất hiện;</li><li><strong>bằng chứng có kiểm soát</strong>: <em>ablation</em>
  (thí nghiệm bóc tách) giữ cố định các yếu tố khác;</li><li><strong>bằng chứng so sánh</strong>: đánh giá trên nhiều họ bài toán và nhiều
@@ -1159,22 +1213,22 @@ có còn giữ ngoài tập kiểm chuẩn hay không).</p>
 Một kết quả có giá trị tham khảo cao cần ít nhất hai loại; thời gian chạy đơn
 lẻ chỉ là bằng chứng so sánh yếu nếu thiếu cơ chế và biến kiểm soát.</p>
 <h3 class="reader-h2">Bắt đầu từ một câu hỏi nhân quả</h3>
-<p>Một nghiên cứu về phép mã hóa thường có một trong bốn câu hỏi:
-<ol class="reader-list"><li>phép mã hóa mới giảm kích thước bao nhiêu;</li><li>sức lan truyền thay đổi như thế nào;</li><li>thời gian chạy và số bài giải được thay đổi ra sao;</li><li>một mô-đun có tương tác với phá đối xứng, giải tăng dần hoặc bộ giải không.</li></ol></p>
+<p>Một nghiên cứu về phép biểu diễn thường có một trong bốn câu hỏi:
+<ol class="reader-list"><li>phép biểu diễn mới giảm kích thước bao nhiêu;</li><li>sức lan truyền thay đổi như thế nào;</li><li>thời gian chạy và số bài giải được thay đổi ra sao;</li><li>một mô-đun có tương tác với phá đối xứng, giải tăng dần hoặc bộ giải không.</li></ol></p>
 <p>Câu hỏi càng rõ, ma trận thiết kế càng nhỏ. Nếu mục tiêu là đo bộ đếm dùng
 chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tìm kiếm và quy trình
 xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
 phá đối xứng, kết quả không cho biết hiệu ứng thuộc về đâu.</p>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Đơn vị của thí nghiệm bóc tách</strong></div>
- <div class="callout-body">Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép mã hóa.
+ <div class="callout-body">Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép biểu diễn.
 Trong trường hợp đó, dùng cấu hình
-\(\text{phép mã hóa}\times\text{đặc trưng}\) làm đơn vị so sánh.</div>
+\(\text{phép biểu diễn}\times\text{đặc trưng}\) làm đơn vị so sánh.</div>
  </div>
 <h3 class="reader-h2">Ma trận thiết kế</h3>
 <p>Một ma trận điển hình gồm:</p>
 \[
-\text{bộ mã hóa}
+\text{bộ biểu diễn}
   \times
   \text{bộ giải}
   \times
@@ -1190,14 +1244,14 @@ nhiên của một lần chạy.
 Không nhất thiết chạy tích Descartes đầy đủ. Có thể dùng hai giai đoạn:
 <ol class="reader-list"><li><strong>sàng lọc</strong>: chọn vài bộ giải đại diện và miền tham số rộng;</li><li><strong>xác nhận</strong>: giữ các cấu hình có triển vọng, tăng số bài toán
  thử và số hạt giống ngẫu nhiên.</li></ol></p>
-<p>Mọi cấu hình phải dùng cùng ngữ nghĩa và bộ kiểm tra. Nếu một bộ mã hóa có tiền
+<p>Mọi cấu hình phải dùng cùng ngữ nghĩa và bộ kiểm tra. Nếu một bộ biểu diễn có tiền
 xử lý riêng, thời gian tiền xử lý phải được tính vào tổng thời gian chạy hoặc
 được báo thành một cột riêng.</p>
 <h3 class="reader-h2">Bộ kiểm chuẩn và phân tầng</h3>
 <p>Một bộ kiểm chuẩn nên có siêu dữ liệu cấu trúc: số biến miền, mật độ ràng buộc,
 độ rộng cửa sổ, ngưỡng, lớp đối xứng, khoảng \(LB\)–\(UB\), hoặc các đặc trưng
 riêng của bài toán. Phân tầng theo những đặc trưng này giúp giải thích tại sao
-một phép mã hóa thắng trong một vùng.</p>
+một phép biểu diễn thắng trong một vùng.</p>
 <p>Ba nguồn bài toán thử thường dùng:
 <ul class="reader-list"><li>bài toán chuẩn từ văn liệu;</li><li>bài toán thực tế có nguồn gốc rõ ràng;</li><li>bài toán sinh tổng hợp để quét có kiểm soát một tham số.</li></ul></p>
 <p>Các bài toán sinh tổng hợp cho phép quan sát điểm chuyển theo \(n, k,w\), mật độ
@@ -1205,7 +1259,7 @@ hoặc độ rộng miền; dữ liệu thực cung cấp bối cảnh sử dụ
 tạo khả năng so sánh với kết quả trước. Báo riêng ba nguồn giúp người đọc hiểu
 đúng vai trò của từng tập.</p>
 <h3 class="reader-h2">Tách tinh chỉnh và đánh giá</h3>
-<p>Tùy chọn bộ giải, độ rộng khối, kích thước nhóm và ngưỡng mã hóa là các siêu
+<p>Tùy chọn bộ giải, độ rộng khối, kích thước nhóm và ngưỡng biểu diễn là các siêu
 tham số. Nếu chọn chúng trên chính tập kiểm thử, thời gian chạy báo cáo sẽ lạc
 quan quá mức. Một quy trình đơn giản:
 <ol class="reader-list"><li>chia bộ kiểm chuẩn thành tập tinh chỉnh và tập đánh giá;</li><li>khóa cấu hình sau khi tinh chỉnh;</li><li>chỉ dùng tập đánh giá cho kết luận cuối;</li><li>nếu dữ liệu ít, dùng <em>cross-validation</em> (kiểm định chéo) theo họ
@@ -1237,7 +1291,7 @@ giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:</p
 dữ liệu như vậy được gọi là <em>right-censored</em> (kiểm duyệt phải).
 Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và bài hết thời hạn
 bằng một trong các cách:
-<ul class="reader-list"><li>số bài giải được tại một giới hạn thời gian cố định;</li><li>PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;</li><li><em>cactus plot</em> (biểu đồ xương rồng);</li><li><em>performance profile</em> (hồ sơ hiệu năng);</li><li>thời gian đạt mục tiêu cho bài toán tối ưu.</li></ul></p>
+<ul class="reader-list"><li>số bài giải được tại một giới hạn thời gian cố định;</li><li>PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;</li><li><em>cactus plot</em> (biểu đồ Cactus (Cactus plot));</li><li><em>performance profile</em> (hồ sơ hiệu năng);</li><li>thời gian đạt mục tiêu cho bài toán tối ưu.</li></ul></p>
 <p>Hồ sơ hiệu năng của Dolan–Moré chuẩn hóa thời gian chạy theo cấu hình tốt nhất
 trên từng bài toán thử. Với tỷ số</p>
 \[
@@ -1279,14 +1333,20 @@ cả ba. Nếu PAR-2 gán \(60\) giây cho lần chạy hết thời hạn:</p>
 <p>Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây và cấu hình mới
 \(10.33\) giây, từ đó tạo kết luận ngược vì đã bỏ chính bài khó nhất.</div>
  </div></p>
+<div class="reader-figure-box" id="fig_performance_profile">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_performance_profile.webp" alt="Hình: Hồ sơ hiệu năng dạng bậc thang: phần trái cho số lần thắng, phần đuôi
+cho độ bền so với cấu hình tốt nhất trên từng bài toán thử." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Hồ sơ hiệu năng dạng bậc thang: phần trái cho số lần thắng, phần đuôi
 cho độ bền so với cấu hình tốt nhất trên từng bài toán thử.</em></div>
-<h4 class="reader-h3">Biểu đồ xương rồng và biểu đồ phân tán</h4>
+ </div>
+<h4 class="reader-h3">Biểu đồ Cactus (Cactus plot) và biểu đồ phân tán</h4>
 <p>Với một cấu hình \(s\), sắp tăng thời gian của các bài đã giải:</p>
 \[
 t_{(1),s}\le t_{(2),s}\le\cdots\le t_{(q_s),s}.
 \]
-<p>Biểu đồ xương rồng đặt số bài đã giải \(j\) trên trục ngang và
+<p>Biểu đồ Cactus (Cactus plot) đặt số bài đã giải \(j\) trên trục ngang và
 \(t_{(j),s}\) trên trục dọc. Đường đi xa hơn sang phải biểu thị độ bền; đường
 thấp hơn biểu thị giải nhanh hơn ở cùng số bài đã giải. Đường dừng ở \(q_s\),
 nên các bài hết thời hạn không bị âm thầm loại khỏi kết luận.</p>
@@ -1295,14 +1355,21 @@ có tọa độ \((t_{p, A},t_{p, B})\), thường trên thang lôgarit. Điểm
 \(t_A=t_B\) nghĩa là \(A\) nhanh hơn; điểm phía dưới nghĩa là \(B\) nhanh hơn.
 Bài hết thời hạn cần được đặt ở biên \(T\) bằng ký hiệu riêng hoặc mũi tên, và
 SAT/UNSAT nên dùng dấu điểm khác nhau. Biểu đồ phân tán cho biết <em>bài toán
-nào</em> tạo khác biệt; biểu đồ xương rồng cho biết <em>toàn tập</em> được bao phủ
+nào</em> tạo khác biệt; biểu đồ Cactus (Cactus plot) cho biết <em>toàn tập</em> được bao phủ
 đến đâu.</p>
-<div class="reader-inline-caption"><em>Hình: Biểu đồ xương rồng (trái) giữ số bài giải được trong hình; biểu đồ
+<div class="reader-figure-box" id="fig_cactus_scatter">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_cactus_scatter.webp" alt="Hình: Biểu đồ Cactus (Cactus plot) (trái) giữ số bài giải được trong hình; biểu đồ
+phân tán (phải) giữ ghép cặp theo bài toán thử. Các dấu ở biên minh họa lần
+chạy hết thời hạn của một cấu hình." loading="lazy" />
+ </div>
+<div class="reader-inline-caption"><em>Hình: Biểu đồ Cactus (Cactus plot) (trái) giữ số bài giải được trong hình; biểu đồ
 phân tán (phải) giữ ghép cặp theo bài toán thử. Các dấu ở biên minh họa lần
 chạy hết thời hạn của một cấu hình.</em></div>
+ </div>
 <h3 class="reader-h2">SAT và UNSAT là hai chế độ khác nhau</h3>
 <p>Các bài toán SAT cần tìm một nghiệm làm chứng; các bài toán UNSAT cần đóng toàn bộ
-không gian tìm kiếm. Một phép mã hóa có thể mạnh ở SAT nhưng yếu ở UNSAT hoặc
+không gian tìm kiếm. Một phép biểu diễn có thể mạnh ở SAT nhưng yếu ở UNSAT hoặc
 ngược lại.
 Bảng kết quả nên tách:</p>
 \[
@@ -1318,24 +1385,24 @@ của thuật toán. CDCL có yếu tố ngẫu nhiên trong phá hòa và tìm 
 toán khó, cần chạy nhiều hạt giống ngẫu nhiên và báo trung vị, các phân vị hoặc
 khoảng tin cậy. So sánh ghép cặp phải dùng cùng bài toán, cùng chỉ số hạt giống
 ngẫu nhiên và cùng giới hạn thời gian, bộ nhớ.</p>
-<p>Nếu bộ mã hóa là tất định nhưng bộ giải có yếu tố ngẫu nhiên, hạt giống ngẫu
+<p>Nếu bộ biểu diễn là tất định nhưng bộ giải có yếu tố ngẫu nhiên, hạt giống ngẫu
 nhiên thuộc về bộ giải. Nếu bộ sinh dùng thứ tự ngẫu nhiên, cần tách hạt giống
 ngẫu nhiên của bộ sinh khỏi hạt giống ngẫu nhiên của bộ giải.</p>
 <h3 class="reader-h2">So sánh ghép cặp và độ lớn hiệu ứng</h3>
-<p>Mỗi bài toán thử tạo một cặp quan sát tự nhiên giữa hai bộ mã hóa. Vì phân bố
+<p>Mỗi bài toán thử tạo một cặp quan sát tự nhiên giữa hai bộ biểu diễn. Vì phân bố
 thời gian chạy thường lệch và có dữ liệu hết thời hạn, chỉ báo trung bình và
 một kiểm định trên các lần chạy độc lập là chưa phù hợp. Nên báo đồng thời:
 <ul class="reader-list"><li>số lần thắng/hòa/thua trên cùng bài toán và cùng hạt giống ngẫu nhiên;</li><li>trung vị của lôgarit hệ số tăng tốc
  \(\log(t_{\mathrm{base}}/t_{\mathrm{new}})\);</li><li>khoảng bất định bằng <em>bootstrap</em> (lấy mẫu lại) theo <em>họ</em>, không chỉ
  theo từng bài toán;</li><li>chênh lệch số bài giải được tại nhiều mốc thời gian.</li></ul></p>
-<p>Độ lớn hiệu ứng quan trọng hơn một giá trị \(p\) đứng riêng. Một bộ mã hóa nhanh
+<p>Độ lớn hiệu ứng quan trọng hơn một giá trị \(p\) đứng riêng. Một bộ biểu diễn nhanh
 hơn \(3\%\) trên hàng nghìn bài dễ nhưng làm mất năm bài khó có ý nghĩa khác
-với bộ mã hóa chỉ giảm ít trung vị nhưng mở rộng vùng giải được. Với tối ưu,
+với bộ biểu diễn chỉ giảm ít trung vị nhưng mở rộng vùng giải được. Với tối ưu,
 nên so cả thời gian đạt nghiệm tốt nhất đã biết, thời gian hoàn tất chứng minh
 và khoảng cách tối ưu theo thời gian.</p>
 <h3 class="reader-h2">Phân tích theo vùng cấu trúc</h3>
 <p>Một kết luận toàn cục dễ che mất điểm chuyển ưu thế. Bộ đếm tuần tự có thể tốt
-khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; mã hóa thứ tự
+khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; biểu diễn thứ tự
 có thể thắng khi các khoảng cấm rộng. Vì vậy, trước khi vẽ kết quả, cần xác
 định trước các tầng theo đặc trưng có ý nghĩa thuật toán:</p>
 \[
@@ -1347,10 +1414,10 @@ có thể thắng khi các khoảng cấm rộng. Vì vậy, trước khi vẽ k
 \]
 <p>Sau đó dùng bản đồ nhiệt hoặc bảng theo tầng để tìm <em>miền ưu thế</em> thay vì
 chỉ tìm “người thắng”. Cách phân tích này cũng cung cấp dữ liệu cho bộ chọn
-phép mã hóa ở Chương 3.</p>
+phép biểu diễn ở Chương 3.</p>
 <h3 class="reader-h2">Kiểm đúng trước khi đo nhanh</h3>
 <p>Trước khi chạy bộ kiểm chuẩn lớn:
-<ol class="reader-list"><li>kiểm thử vét cạn trên các bài toán nhỏ;</li><li>kiểm thử vi sai giữa hai bộ mã hóa;</li><li>giải mã và kiểm tra mọi mô hình SAT dùng trong bảng;</li><li>tính lại hàm mục tiêu từ nghiệm, không đọc trực tiếp chi phí nội bộ;</li><li>giữ một số công thức CNF và chứng minh nhỏ làm phép thử hồi quy.</li></ol></p>
+<ol class="reader-list"><li>kiểm thử vét cạn trên các bài toán nhỏ;</li><li>kiểm thử vi sai giữa hai bộ biểu diễn;</li><li>giải mã và kiểm tra mọi mô hình SAT dùng trong bảng;</li><li>tính lại hàm mục tiêu từ nghiệm, không đọc trực tiếp chi phí nội bộ;</li><li>giữ một số công thức CNF và chứng minh nhỏ làm phép thử hồi quy.</li></ol></p>
 <p>Với \(n\) nhỏ, bộ liệt kê sinh mọi phép gán cho biến chính. So sánh phép chiếu
 của các mô hình CNF với tập nghiệm miền. Cách này phát hiện lỗi biên hiệu quả
 hơn việc chỉ chạy các bài toán kiểm chuẩn lớn.</p>
@@ -1358,7 +1425,12 @@ hơn việc chỉ chạy các bài toán kiểm chuẩn lớn.</p>
 <p><em>Artifact</em> (gói phần mềm–dữ liệu tái lập) tối thiểu gồm:
 <ul class="reader-list"><li>mã nguồn và mã định danh bản sửa đổi chính xác;</li><li>bản kê bài toán thử và mã kiểm tra toàn vẹn;</li><li>môi trường cùng phiên bản bộ giải;</li><li>lệnh chạy và giới hạn tài nguyên;</li><li>nhật ký thô, bộ phân tích nhật ký và chương trình tạo bảng;</li><li>bộ giải mã và bộ kiểm tra.</li></ul>
 Gói tái lập tạo một đường đi kiểm tra được từ phát biểu đến bằng chứng thô.</p>
+<div class="reader-figure-box" id="fig_claim_artifact_chain">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_claim_artifact_chain.webp" alt="Hình: Chuỗi truy vết tối thiểu của một phát biểu thực nghiệm." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Chuỗi truy vết tối thiểu của một phát biểu thực nghiệm.</em></div>
+ </div>
 <p>Số liệu thực nghiệm có thể được kiểm tra ở ba tầng:
 <ol class="reader-list"><li><strong>báo cáo</strong>: bài viết mô tả tập bài toán thử, giới hạn thời gian
  và các cấu hình đối chứng;</li><li><strong>tái tạo</strong>: mã nguồn, nhật ký và dữ liệu cho phép dựng lại các
@@ -1369,10 +1441,10 @@ nhật ký đến bảng; tầng tái lập độc lập đánh giá độ bền
 thay đổi.</p>
 <h3 class="reader-h2">Mẫu quy trình thực nghiệm</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><strong>Câu hỏi.</strong> Mô-đun nào được đánh giá?<br>
 <strong>Giả thuyết.</strong> Kỳ vọng tác động lên kích thước, sức lan truyền hay thời gian chạy?<br>
-<strong>Yếu tố.</strong> Bộ mã hóa, bộ giải, đặc trưng, họ bài toán, hạt giống ngẫu nhiên.<br>
+<strong>Yếu tố.</strong> Bộ biểu diễn, bộ giải, đặc trưng, họ bài toán, hạt giống ngẫu nhiên.<br>
 <strong>Biến kiểm soát.</strong> Ngữ nghĩa, bộ kiểm tra, cận, tiền xử lý, phần cứng.<br>
 <strong>Thước đo.</strong> Kích thước, thời gian dựng, bộ đếm tìm kiếm, số bài giải được/PAR/hồ sơ.<br>
 <strong>Kiểm đúng.</strong> Kiểm thử vét cạn, kiểm thử vi sai và bộ kiểm tra mô hình.<br>
@@ -1381,7 +1453,7 @@ thay đổi.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>Đánh giá thực nghiệm bắt đầu từ một câu hỏi, không bắt đầu từ một bảng cấu hình.</li><li>Tách tinh chỉnh khỏi đánh giá và phân tầng theo họ bài toán.</li><li>Báo cả kích thước, bộ đếm tìm kiếm và thời gian chạy có dữ liệu hết hạn.</li><li>Tách SAT/UNSAT và dùng nhiều hạt giống ngẫu nhiên ở vùng khó.</li><li>Bộ kiểm tra mô hình là điều kiện trước của mọi bảng hiệu năng.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Thiết kế thí nghiệm bóc tách \(2\times2\) cho bộ mã hóa và phá đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
+<ol class="reader-list"><li>Thiết kế thí nghiệm bóc tách \(2\times2\) cho bộ biểu diễn và phá đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
  trung bình trên các bài đã giải.</li><li>Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.</li></ol>
         </section>
         
@@ -1395,7 +1467,7 @@ thay đổi.</p>
             </div>
             
           <div class="chapter-lead">Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
-toàn bộ biến. Mã hóa từng cửa sổ độc lập sẽ lặp trạng thái;
+toàn bộ biến. Biểu diễn từng cửa sổ độc lập sẽ lặp trạng thái;
 <em>shared counter</em> (bộ đếm dùng chung) biến phần giao đó thành một mô-đun
 có thể tái sử dụng.</div>
 <div class="reader-flow-diagram">
@@ -1424,7 +1496,7 @@ một cửa sổ, mà còn là sự phụ thuộc giữa toàn bộ các cửa s
  ràng buộc <span class="small-caps">Regular</span> có thể biểu diễn việc chuỗi có thuộc một ngôn ngữ
  hữu hạn trạng thái hay không <span class="cite">(Pesant, 2004)</span>.</dd><dt><strong>Luồng hoặc đồ thị</strong></dt><dd>Biểu diễn các hiệu tiền tố và cận cửa sổ bằng mạng luồng, từ đó xây dựng
  bộ lan truyền toàn cục.</dd></dl></p>
-<p>So sánh có hệ thống các phép mã hóa <span class="small-caps">Sequence</span> cho thấy cách phân rã,
+<p>So sánh có hệ thống các phép biểu diễn <span class="small-caps">Sequence</span> cho thấy cách phân rã,
 ôtômát và phương pháp dựa trên tổng khác nhau rõ về kích thước và mức nhất quán
 <span class="cite">(Brand et al., 2007)</span>. Các bộ lan truyền dựa trên luồng tiếp tục khai
 thác cấu trúc toàn cục để đạt khả năng lọc mạnh <span class="cite">(Maher et al., 2008)</span>;
@@ -1435,7 +1507,7 @@ những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ h�
  <div class="reader-table-caption">Bảng: Các cách tái sử dụng trạng thái trong ràng buộc cửa sổ.</div>
  <table class="reader-table">
  <thead><tr><th>Họ</th><th>Trạng thái dùng chung</th><th>Điểm mạnh</th><th>Chi phí/rủi ro</th></tr></thead>
- <tbody><tr><td>Mỗi cửa sổ</td><td>Không hoặc ít</td><td>Đơn giản, dùng bộ mã hóa sẵn</td><td>Lặp trạng thái phụ</td></tr><tr><td>Tổng tiền tố</td><td>Tổng từ đầu chuỗi</td><td>Mọi cửa sổ là hiệu hai tiền tố</td><td>Miền tổng toàn cục</td></tr><tr><td>Ôtômát</td><td>Hậu tố/lịch sử</td><td>Xử lý mẫu phức tạp</td><td>Bùng nổ trạng thái theo \(w\)</td></tr><tr><td>Luồng</td><td>Nút và cung</td><td>Lọc toàn cục</td><td>Bộ lan truyền/phép mã hóa phức tạp</td></tr><tr><td>Bộ đếm theo khối</td><td>Tiền tố/hậu tố trong khối</td><td>Cục bộ và tái sử dụng có kiểm soát</td><td>Cần chọn phân hoạch</td></tr></tbody>
+ <tbody><tr><td>Mỗi cửa sổ</td><td>Không hoặc ít</td><td>Đơn giản, dùng bộ biểu diễn sẵn</td><td>Lặp trạng thái phụ</td></tr><tr><td>Tổng tiền tố</td><td>Tổng từ đầu chuỗi</td><td>Mọi cửa sổ là hiệu hai tiền tố</td><td>Miền tổng toàn cục</td></tr><tr><td>Ôtômát</td><td>Hậu tố/lịch sử</td><td>Xử lý mẫu phức tạp</td><td>Bùng nổ trạng thái theo \(w\)</td></tr><tr><td>Luồng</td><td>Nút và cung</td><td>Lọc toàn cục</td><td>Bộ lan truyền/phép biểu diễn phức tạp</td></tr><tr><td>Bộ đếm theo khối</td><td>Tiền tố/hậu tố trong khối</td><td>Cục bộ và tái sử dụng có kiểm soát</td><td>Cần chọn phân hoạch</td></tr></tbody>
  </table>
  </div>
 <p>Bộ đếm dùng chung theo khối của chương này nằm giữa hai cực. Nó không tạo một
@@ -1467,13 +1539,19 @@ W_i(w)=\langle x_i,\ldots, x_{i+w-1}\rangle.
 O((n-w+1)wk).
 \]
 <p>Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
-Mục tiêu của phép mã hóa dùng chung là đưa chi phí về gần</p>
+Mục tiêu của phép biểu diễn dùng chung là đưa chi phí về gần</p>
 \[
 O(nk)
 \]
 <p>hoặc \(O(nk+n_c)\), với \(n_c\) là số bộ nối.</p>
+<div class="reader-figure-box" id="fig_overlapping_windows">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_overlapping_windows.webp" alt="Hình: Ba cửa sổ độ rộng \(4\) chỉ dịch một vị trí: cửa sổ kề nhau giữ lại
+ba trong bốn biến. Xây lại một bộ đếm cho từng hàng sẽ lặp phần giao này." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Ba cửa sổ độ rộng \(4\) chỉ dịch một vị trí: cửa sổ kề nhau giữ lại
 ba trong bốn biến. Xây lại một bộ đếm cho từng hàng sẽ lặp phần giao này.</em></div>
+ </div>
 <h3 class="reader-h2">Phân hoạch thành khối</h3>
 <p>Chia chuỗi thành các khối liên tiếp</p>
 \[
@@ -1496,8 +1574,14 @@ R^b_{i, q}=1
 cửa sổ cắt biên giữa \(B_b, B_{b+1}\) là hợp của một hậu tố bên trái và một
 tiền tố bên phải. Số literal đúng trong cửa sổ được đọc từ \(R^b\) và
 \(F^{b+1}\).
+<div class="reader-figure-box" id="fig_block_connector">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_block_connector.webp" alt="Hình: Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
+của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
 của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.</em></div>
+ </div>
 <div class="reader-callout example-box">
  <div class="callout-header"><strong>Ví dụ minh họa</strong></div>
  <div class="callout-body">Giả sử cửa sổ gồm hậu tố \(A\) của khối trái và tiền tố \(B\) của khối phải.
@@ -1574,12 +1658,12 @@ SCL không lặp các cặp nằm trong phần giao.</p>
 bộ tuyến tính theo tổng kích thước khối, còn các bộ nối tuyến tính theo số biên và
 ngưỡng. Vì vậy kích thước toàn họ có thể giảm từ bậc hai về tuyến tính theo
 \(n\) ở các AMO bậc thang điển hình.</p>
-<p>Mã hóa Duplex dùng BDD tiến/lùi trong mỗi cửa sổ và liên kết các trạng thái
+<p>Biểu diễn Duplex dùng BDD tiến/lùi trong mỗi cửa sổ và liên kết các trạng thái
 <span class="cite">(Fazekas et al., 2020)</span>. SCL dùng trạng thái tuần tự, nhờ đó giảm số
 biến phụ và mệnh đề trong phân tích của
 <span class="cite">(Truong et al., 2025)</span>.</p>
 <p>Trong hệ phân loại trên, SCL phục vụ các tập xung đột có dạng khoảng dịch
-chuyển và phần giao lớn giữa các khoảng kề nhau. Mã hóa từng cặp và bộ đếm tuần
+chuyển và phần giao lớn giữa các khoảng kề nhau. Biểu diễn từng cặp và bộ đếm tuần
 tự độc lập phù hợp hơn với các tập AMO rời rạc hoặc thiếu một thứ tự tuyến tính
 ổn định. Độ chồng lấn vì thế là đặc trưng đầu tiên để chọn giữa trạng thái dùng
 chung và bộ đếm cục bộ.</p>
@@ -1587,7 +1671,7 @@ chung và bộ đếm cục bộ.</p>
  <div class="callout-header"><strong>SCAMO và Anti-Bandwidth</strong></div>
  <div class="callout-body">Trên họ SCAMO với \(n=1000\) và độ rộng cửa sổ thay đổi,
 <span class="cite">(Truong et al., 2025)</span> báo SCL dùng ít biến và mệnh đề hơn Duplex cùng các
-phép mã hóa từng cửa sổ. Khi đưa vào bài toán Anti-Bandwidth, SCL đạt kết quả
+phép biểu diễn từng cửa sổ. Khi đưa vào bài toán Anti-Bandwidth, SCL đạt kết quả
 cạnh tranh trên 24 đồ thị kiểm chuẩn, đặc biệt ở các bài toán lớn nơi chi phí
 lặp cửa sổ trở nên rõ rệt.</div>
  </div>
@@ -1618,7 +1702,7 @@ một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho c�
 <h4 class="reader-h3">Quan hệ với tổng tiền tố và ràng buộc chuỗi tổng quát</h4>
 <p>Ladder AMK có thể được mô tả bằng ma trận liên thuộc: mỗi hàng là một ràng
 buộc, mỗi cột là một đầu vào, và các giá trị \(1\) trong mỗi hàng tạo thành
-một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Mã hóa tổng tiền tố
+một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Biểu diễn tổng tiền tố
 dùng một trạng thái toàn cục cho mọi cột. Ladder AMK chỉ vật hóa những ngưỡng
 tiền tố/hậu tố mà các hàng thật sự đọc. Do đó tiêu chí lựa chọn không chỉ là
 \(n, k\), mà còn là độ phức tạp của hai đường biên bậc thang.</p>
@@ -1630,9 +1714,9 @@ buộc tách biệt nhưng dùng chung đại lượng trung gian. Đây là câ
 nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đề trên một cấu hình.</p>
 <h3 class="reader-h2">Đúng đắn</h3>
 <div class="reader-callout theorem-box">
- <div class="callout-header"><strong>Định lý (Tính đúng của phép mã hóa cửa sổ dùng chung)</strong></div>
+ <div class="callout-header"><strong>Định lý (Tính đúng của phép biểu diễn cửa sổ dùng chung)</strong></div>
  <div class="callout-body">Giả sử:
-<ol class="reader-list"><li>các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;</li><li>mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;</li><li>mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;</li><li>với cửa sổ \(A\cup B\) cắt biên, phép mã hóa chứa đủ các mệnh đề
+<ol class="reader-list"><li>các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;</li><li>mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;</li><li>mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;</li><li>với cửa sổ \(A\cup B\) cắt biên, phép biểu diễn chứa đủ các mệnh đề
 \[
 \neg T(A, q)\lor\neg T(B, k+1-q),
     \qquad q=0,\ldots, k+1.
@@ -1703,12 +1787,12 @@ dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục
 <h4 class="reader-h3">Miền hiệu quả của bộ đếm dùng chung</h4>
 <p>Bộ đếm dùng chung đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
 nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
-nhỏ, mã hóa từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
+nhỏ, biểu diễn từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
 có thể quyết định trước khi sinh CNF từ ba đại lượng: tổng số ngưỡng cục bộ,
 số bộ nối sau giản lược và số bước ghép của các cửa sổ nhiều biên.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Cửa sổ chồng lấn là tín hiệu nên dùng trạng thái chung.</li><li>Bộ đếm cục bộ cung cấp các ngưỡng; bộ nối mô tả ràng buộc.</li><li>Thanh ghi tiến và lùi tách một cửa sổ cắt biên thành hai phần.</li><li>Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ cắt biên.</li><li>Độ rộng khối cân bằng chi phí thanh ghi với chi phí bộ nối.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
@@ -1746,7 +1830,7 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
   \left(\sum X\le K\right)\land
   \left(\sum X\ge K\right),
 \]
-<p>nhưng hai vế không nhất thiết phải dùng hai bộ mã hóa độc lập. Một vectơ đơn
+<p>nhưng hai vế không nhất thiết phải dùng hai bộ biểu diễn độc lập. Một vectơ đơn
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
 trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
@@ -1793,8 +1877,14 @@ Với \(n&gt;k\), số biến phụ là</p>
 <p>So với bảng chữ nhật \(k(n-1)\), phần tiết kiệm chính xác là
 \(k(k-1)/2\) biến. Bậc tiệm cận được giữ nguyên, còn hệ số hữu hạn giảm đúng các
 trạng thái bất khả mà bộ giải phải duy trì.</p>
+<div class="reader-figure-box" id="fig_nsc_triangular_domain">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_nsc_triangular_domain.webp" alt="Hình: Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
+tạo ba ô bất khả \(R_{1, 2},R_{1, 3},R_{2, 3}\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
 tạo ba ô bất khả \(R_{1, 2},R_{1, 3},R_{2, 3}\).</em></div>
+ </div>
 <div class="reader-callout key-idea">
  <div class="callout-header"><strong>“Thích nghi” ở đây có nghĩa gì?</strong></div>
  <div class="callout-body">Độ rộng hàng \(i\) là \(\min(i, k)\), được quyết định bởi số trạng thái có thể
@@ -1814,6 +1904,7 @@ R_{i, j}
   \;\longleftrightarrow\;
   R_{i-1, j}\lor
   \bigl(x_i\land R_{i-1, j-1}\bigr).
+  \label{eq:nsc-recurrence}
 \]
 <p>Vế phải mô tả đúng hai cách để tiền tố mới đạt ngưỡng \(j\): tiền tố cũ đã đạt
 ngưỡng, hoặc \(x_i=1\) và tiền tố cũ đã đạt \(j-1\).</p>
@@ -1844,11 +1935,13 @@ tiến không đủ để diễn giải \(\neg R_{i, j}\) là “tiền tố ch�
 \[
 x_i\rightarrow\neg R_{i-1, k},
   \qquad i=k+1,\ldots, n.
+  \label{eq:nsc-overflow}
 \]
 <p>Phần ít nhất \(k\) yêu cầu tổng cuối đạt ngưỡng \(k\):</p>
 \[
 R_{n-1, k}\lor
   \bigl(x_n\land R_{n-1, k-1}\bigr).
+  \label{eq:nsc-lower}
 \]
 <p>Biểu thức (xem mục eq:nsc-lower) được phân phối thành CNF trước khi xuất. Khi
 \(k=1\), \(R_{n-1, 0}\equiv\top\); khi \(k=n\), có thể đơn giản hóa toàn bộ
@@ -1932,13 +2025,13 @@ ràng buộc và hàm mục tiêu.</p>
 lịch vừa là bài toán thiết kế tổ hợp. Ba
 nguồn khó đan xen với nhau: ràng buộc đúng kích thước nhóm, cấm lặp cặp người
 chơi và một nhóm đối xứng lớn do hoán vị tuần, nhóm, người. Vì vậy, hiệu quả
-của một phép mã hóa ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
+của một phép biểu diễn ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
 chính và cách phá đối xứng.</p>
 <p>Các mô hình SAT trước đó từng dùng thêm chỉ số vị trí trong nhóm, sau đó được
 sửa và rút gọn bằng biến người–nhóm–tuần cùng cấu trúc bậc thang
 <span class="cite">(Triska & Musliu, 2012)</span>. Dòng phát triển này minh họa một quy tắc quan
 trọng: bỏ một chỉ số không mang nghĩa thường tạo lợi ích lớn hơn tối ưu vài
-mệnh đề trong chính bộ mã hóa ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
+mệnh đề trong chính bộ biểu diễn ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
 khi phần biểu diễn đối tượng đã được chuẩn hóa.</p>
 <p>Một bài toán thử \(g\)-\(p\)-\(w\) có \(n=gp\) người chơi, \(g\) nhóm mỗi tuần,
 mỗi nhóm có \(p\) người và \(w\) tuần. Biến ba chỉ số</p>
@@ -1966,8 +2059,14 @@ bộ đếm tam giác riêng <span class="cite">(Kieu et al., 2026)</span>.</p>
 khối người chơi liên tiếp; ở các tuần sau, một số người chơi neo được gán vào
 các nhóm đã định. Chúng loại các hoán vị hiển nhiên của người chơi, nhóm và
 tuần mà không thêm biến phụ.</p>
+<div class="reader-figure-box" id="fig_social_golfer_small">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_social_golfer_small.webp" alt="Hình: Một lịch khả thi cho bài toán nhỏ \(3\)-\(2\)-\(2\). Mỗi ô nhóm là
+một ràng buộc đúng \(2\); tuần đầu có thể được cố định làm lát chuẩn." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một lịch khả thi cho bài toán nhỏ \(3\)-\(2\)-\(2\). Mỗi ô nhóm là
 một ràng buộc đúng \(2\); tuần đầu có thể được cố định làm lát chuẩn.</em></div>
+ </div>
 <div class="reader-callout result-box">
  <div class="callout-header"><strong>Kết quả trên 66 bài toán Social Golfer</strong></div>
  <div class="callout-body">Trong thí nghiệm của <span class="cite">(Kieu et al., 2026)</span>, cấu hình dùng NSC giải được
@@ -1978,7 +2077,7 @@ cân bằng số biến, số mệnh đề và cấu trúc lan truyền.</div>
  </div>
 <h4 class="reader-h3">Phân tích kết quả</h4>
 <p>Mô hình ba chỉ số loại đối xứng vị trí, còn trạng thái tuần tự tam giác cung
-cấp một phép mã hóa EXK cạnh tranh cho ràng buộc kích thước nhóm. Có thể đo
+cấp một phép biểu diễn EXK cạnh tranh cho ràng buộc kích thước nhóm. Có thể đo
 riêng tác động của NSC bằng cách giữ cố định mô hình SGP, chỉ thay mô-đun kích
 thước nhóm, phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UNSAT.</p>
 <h3 class="reader-h2">Cài đặt và kiểm thử</h3>
@@ -1986,7 +2085,7 @@ thước nhóm, phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UN
 <code>AMK</code>/<code>ALK</code>/<code>EXK</code>. Bảng ánh xạ
 \((i, j)\mapsto\texttt{varID}\) chỉ chứa ô hợp lệ. Ba lớp kiểm thử là đủ để bắt
 phần lớn lỗi biên:</p>
-<ol class="reader-list"><li>liệt kê toàn bộ vectơ đầu vào khi \(n\le8\) và so sánh với tổng thật;</li><li>với mỗi vectơ hợp lệ, kiểm tra có tồn tại phần mở rộng cho biến \(R\);</li><li>với mỗi phép gán bộ phận, so sánh literal đầu vào mà lan truyền đơn vị
+<ol class="reader-list"><li>liệt kê toàn bộ vectơ đầu vào khi \(n\le8\) và so sánh với tổng thật;</li><li>với mỗi vectơ hợp lệ, kiểm tra có tồn tại phần mở rộng cho biến \(R\);</li><li>với mỗi phép gán một phần, so sánh literal đầu vào mà lan truyền đơn vị
  suy ra với các hệ quả trực tiếp của hai cận.</li></ol>
 <p>Các trường hợp \(k=0\), \(k=1\), \(k=n-1\), \(k=n\) cần được kiểm thử riêng. Đây là nơi
 quy ước hằng biên và phạm vi chỉ số thường gây lỗi nhất.</p>
@@ -2023,11 +2122,11 @@ khi cần dùng chung nhiều đầu ra. Kết quả Social Golfer minh họa c�
 trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán tương ứng.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Miền trạng thái khả đạt quyết định hình dạng bộ đếm.</li><li>Thanh ghi \(R_{i, j}\) có đặc tả ngưỡng rõ ràng, không chỉ là biến
  Tseitin vô danh.</li><li>Ràng buộc đúng \(K\) là sự kết hợp của một biên tràn và một điều kiện đạt
  ngưỡng cuối.</li><li>Hiệu quả cần được đọc đồng thời qua kích thước, lan truyền và hành vi
- giải trên bài toán khó.</li><li>Social Golfer cho thấy lựa chọn biến chính và phép mã hóa ràng buộc đếm phải
+ giải trên bài toán khó.</li><li>Social Golfer cho thấy lựa chọn biến chính và phép biểu diễn ràng buộc đếm phải
  được thiết kế cùng nhau.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
@@ -2045,7 +2144,7 @@ trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán t
               <div class="reader-inline-caption"><em>Hình 7.2 · Quỹ đạo đại diện phá đối xứng (Symmetry Breaking)</em></div>
             </div>
             
-          <div class="chapter-lead">Một phép mã hóa tốt không chỉ mô tả nghiệm; nó còn quyết định cách
+          <div class="chapter-lead">Một phép biểu diễn tốt không chỉ mô tả nghiệm; nó còn quyết định cách
 bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
 <em>Symmetry breaking</em> (phá đối xứng) thu gọn không gian tìm kiếm, còn
 <em>channeling</em> (liên kết biểu diễn) nối các góc nhìn bổ sung của cùng một
@@ -2065,7 +2164,7 @@ quyết định.</div>
 <p>Một đối xứng của bài toán tác động lên đối tượng miền: đổi tên khung chứa, máy,
 nhóm, tuần, màu hoặc phản xạ hình học. Một đối xứng của CNF là hoán vị biến
 và literal bảo toàn tập mệnh đề. Hai nhóm này liên quan nhưng không trùng nhau.
-Phép mã hóa có thể:
+Phép biểu diễn có thể:
 <ul class="reader-list"><li>làm một đối xứng miền biến mất vì không biểu diễn chỉ số thừa;</li><li>làm một đối xứng miền trở nên khó phát hiện do biến phụ;</li><li>tạo đối xứng phụ mới giữa các trạng thái tương đương;</li><li>có đối xứng cú pháp không tương ứng với một phép biến đổi nghiệm dễ
  diễn giải.</li></ul></p>
 <p>Các vị từ phá đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
@@ -2103,10 +2202,16 @@ bảo toàn tính khả thi và giá trị mục tiêu. Hai nghiệm \(s, s'\in 
   \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
 \]
 <p>Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
-phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố mã hóa
+phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố biểu diễn
 một dạng chuẩn hoàn chỉnh <span class="cite">(Walsh, 2006; Gent et al., 2006)</span>.</p>
+<div class="reader-figure-box" id="fig_symmetry_orbit">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_symmetry_orbit.webp" alt="Hình: Một quỹ đạo gồm bốn cách biểu diễn tương đương. Ràng buộc phá đối
+xứng hợp lệ giữ ít nhất một nút; phép chuẩn hóa mạnh hơn sẽ cố giữ đúng một nút." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một quỹ đạo gồm bốn cách biểu diễn tương đương. Ràng buộc phá đối
 xứng hợp lệ giữ ít nhất một nút; phép chuẩn hóa mạnh hơn sẽ cố giữ đúng một nút.</em></div>
+ </div>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Chứng minh theo phép biến đổi</strong></div>
  <div class="callout-body">Chứng minh một ràng buộc phá đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
@@ -2180,7 +2285,7 @@ dụng tiền tố trong từng lớp khung chứa thật sự đồng nhất.</
 A=\langle a_1,\ldots, a_m\rangle,\qquad
   B=\langle b_1,\ldots, b_m\rangle,
 \]
-<p>ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép mã hóa dùng
+<p>ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép biểu diễn dùng
 các biến bằng nhau trên tiền tố \(e_i\):</p>
 \[
 e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
@@ -2228,7 +2333,7 @@ ràng buộc toàn cục thành các mệnh đề cục bộ quanh cặp đối 
 hệ được chọn, nó kích hoạt một quan hệ kéo theo trên tọa độ hoặc thời gian; khi
 miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giải chọn quan hệ còn lại.</p>
 <h4 class="reader-h3">Biến quan hệ và giá trị hỗ trợ</h4>
-<p>Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa mã hóa trực tiếp và mã
+<p>Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa biểu diễn trực tiếp và mã
 hóa hỗ trợ. Nó không chọn toàn bộ giá trị của hai biến; nó chọn một
 <em>lớp</em> cặp giá trị,
 chẳng hạn “trái”, “dưới” hoặc “trước”. Mỗi lớp sau đó được liên kết sang
@@ -2241,17 +2346,23 @@ các literal biên của miền. Đây là một phép phân tích thành nhân 
 <p>Nếu \(|Q|\) nhỏ và mỗi lớp được mô tả bằng vài bất đẳng thức, các biến quan hệ
 nén một bảng cấm lớn. Nếu các lớp chồng lấn quá nhiều hoặc không
 có mô tả ngắn, biến quan hệ chỉ thêm một tầng trung gian.</p>
+<div class="reader-figure-box" id="fig_four_spatial_relations">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_four_spatial_relations.webp" alt="Hình: Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
+Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
 Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ.</em></div>
-<h3 class="reader-h2">Mã hóa thứ tự và các literal so sánh</h3>
-<p>Cho biến nguyên \(z\in\{0,\ldots, U\}\). Mã hóa thứ tự dùng</p>
+ </div>
+<h3 class="reader-h2">Biểu diễn thứ tự và các literal so sánh</h3>
+<p>Cho biến nguyên \(z\in\{0,\ldots, U\}\). Biểu diễn thứ tự dùng</p>
 \[
 o_{z, t}=1
   \quad\Longleftrightarrow\quad
   z\ge t,
   \qquad t=1,\ldots, U.
 \]
-<p>Tính đơn điệu được mã hóa bởi</p>
+<p>Tính đơn điệu được biểu diễn bởi</p>
 \[
 o_{z, t+1}\rightarrow o_{z, t}.
 \]
@@ -2271,9 +2382,9 @@ s_i+p_i\le s_j.
 tự của \(s_i, s_j\), thay vì tạo một mạch cộng tổng quát
 <span class="cite">(Kieu & To, 2025)</span>.</p>
 <div class="reader-callout worked-example">
- <div class="callout-header"><strong>Liên kết mã hóa trực tiếp–thứ tự cho một giá trị nguyên</strong></div>
- <div class="callout-body">Cho \(z\in\{0, 1,2, 3,4\}\). Mã hóa trực tiếp có \(d_a\Leftrightarrow(z=a)\);
-mã hóa thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
+ <div class="callout-header"><strong>Liên kết biểu diễn trực tiếp–thứ tự cho một giá trị nguyên</strong></div>
+ <div class="callout-body">Cho \(z\in\{0, 1,2, 3,4\}\). Biểu diễn trực tiếp có \(d_a\Leftrightarrow(z=a)\);
+biểu diễn thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
 \[
 d_a\leftrightarrow o_a\land\neg o_{a+1},
   \qquad o_0\equiv\top,\quad o_5\equiv\bot.
@@ -2316,7 +2427,7 @@ biết \(s_i+p_i\le s_j\), chiều ngược
 mô-đun khác.</div>
  </div></p>
 <h4 class="reader-h3">Lan truyền qua vòng liên kết</h4>
-<p>Phép mã hóa kết hợp tạo một vòng suy luận:</p>
+<p>Phép biểu diễn kết hợp tạo một vòng suy luận:</p>
 \[
 \text{lựa chọn chính xác}
   \rightarrow
@@ -2328,14 +2439,20 @@ mô-đun khác.</div>
 \]
 <p>Mỗi chiều liên kết đóng một đường suy luận trong vòng trên. Phép đánh giá bắt
 đầu bằng danh sách các suy luận miền mong muốn, sau đó tìm tập chiều tối thiểu
-tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán bộ phận và lan truyền
+tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán một phần và lan truyền
 đơn vị như trong Chương 2.</p>
-<p>Việc giữ nhiều góc nhìn cũng liên quan đến mã hóa lại có cấu trúc: biến phụ có
+<p>Việc giữ nhiều góc nhìn cũng liên quan đến biểu diễn lại có cấu trúc: biến phụ có
 giá trị khi nó đặt tên cho một lớp hỗ trợ được nhiều ràng buộc dùng lại, thay
 vì chỉ thay một biểu thức xuất hiện một lần
 <span class="cite">(Haberlandt et al., 2023)</span>.</p>
-<div class="reader-inline-caption"><em>Hình: Vòng liên kết trong phép mã hóa kết hợp. Thiếu một chiều có thể làm
+<div class="reader-figure-box" id="fig_channeling_loop">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_channeling_loop.webp" alt="Hình: Vòng liên kết trong phép biểu diễn kết hợp. Thiếu một chiều có thể làm
+đứt một đường lan truyền đơn vị dù công thức vẫn đúng theo phép chiếu." loading="lazy" />
+ </div>
+<div class="reader-inline-caption"><em>Hình: Vòng liên kết trong phép biểu diễn kết hợp. Thiếu một chiều có thể làm
 đứt một đường lan truyền đơn vị dù công thức vẫn đúng theo phép chiếu.</em></div>
+ </div>
 <h3 class="reader-h2">Phép quay và kích thước có điều kiện</h3>
 <p>Khi vật \(i\) được phép quay, biến \(\rho_i\) chọn hướng đặt:</p>
 \[
@@ -2371,7 +2488,7 @@ chứa là ứng viên, nhưng cận miền và quan hệ trội có thể cố 
 quan hệ. Trong phân bổ tần số, cạnh là cặp máy phát có yêu cầu khoảng cách nhãn.</p>
 <p>Thiết kế theo đồ thị đem lại hai lợi ích: kích thước tỉ lệ với số tương tác
 thật, và mệnh đề học được thường nằm quanh một lân cận nhỏ. Đây là một tiêu chí
-cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép mã hóa “gọn”.</p>
+cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép biểu diễn “gọn”.</p>
 <h3 class="reader-h2">Kiến trúc kết hợp</h3>
 <p>Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:</p>
 <ol class="reader-list"><li>chọn biến chính loại các chỉ số không mang nghĩa;</li><li>tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;</li><li>tạo biến quan hệ trên đồ thị xung đột;</li><li>liên kết mỗi quan hệ với các literal miền;</li><li>thêm ràng buộc đếm hoặc bộ đếm dùng chung cho tài nguyên;</li><li>thêm các ràng buộc phá đối xứng có chứng minh quỹ đạo;</li><li>gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.</li></ol>
@@ -2381,8 +2498,8 @@ cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói ph
 chính kiến trúc này cho bốn họ bài toán.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
- <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Mã hóa thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
+ <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Chứng minh tiền tố sử dụng giữ một đại diện khi các khung chứa hoàn
@@ -2399,7 +2516,7 @@ chính kiến trúc này cho bốn họ bài toán.</p>
               <div class="reader-inline-caption"><em>Hình 8.3 · Cửa sổ ALSC tái sử dụng trong lập lịch</em></div>
             </div>
             
-          <div class="chapter-lead">Một phép mã hóa cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
+          <div class="chapter-lead">Một phép biểu diễn cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
 ba câu hỏi: quyết định nằm ở mốc nào, điều gì phải liên tục giữa các mốc, và
 cận mục tiêu được thay đổi ra sao trong quá trình giải.</div>
 <div class="reader-flow-diagram">
@@ -2435,7 +2552,7 @@ trong lập lịch nhân viên thành các mệnh đề mềm
  <tbody><tr><td>SAT theo mốc thời gian</td><td>Mốc rời rạc</td><td>Xung đột/ràng buộc đếm</td><td>UNSAT theo chân trời</td></tr><tr><td>SAT thứ tự</td><td>Ngưỡng thời gian</td><td>Quan hệ + cận dịch chuyển</td><td>Học mệnh đề</td></tr><tr><td>MaxSAT/PB</td><td>Như SAT + literal chi phí</td><td>Cứng/mềm hoặc PB</td><td>Lõi/cận chi phí</td></tr><tr><td>SMT</td><td>Biến nguyên/thực</td><td>Phép tuyển + lý thuyết</td><td>Lan truyền lý thuyết</td></tr><tr><td>CP/LCG</td><td>Miền và khoảng</td><td>Bộ lan truyền toàn cục</td><td>Lọc miền + mệnh đề</td></tr><tr><td>MIP</td><td>Biến nhị phân/liên tục</td><td>Bất đẳng thức tuyến tính</td><td>Thư giãn quy hoạch tuyến tính</td></tr></tbody>
  </table>
  </div>
-<p>Vì vậy, một phép mã hóa lập lịch được đánh giá trên cả kích thước, sức lan
+<p>Vì vậy, một phép biểu diễn lập lịch được đánh giá trên cả kích thước, sức lan
 truyền và biểu diễn đối chứng tương ứng: SAT theo mốc thời gian so với MIP mở
 rộng theo thời gian; SAT thứ tự so với lôgic sai phân/SMT; bộ đếm chuỗi dùng
 chung so với bộ lan truyền <span class="small-caps">Sequence</span>; và hàm mục tiêu MaxSAT so với PB
@@ -2443,13 +2560,13 @@ hay hàm mục tiêu tuyến tính.</p>
 <h3 class="reader-h2">Kiến trúc chung của mô hình thời gian</h3>
 <p>Các bài toán trong chương có bề mặt khác nhau: phân ca điều dưỡng, xếp tác vụ
 trên các máy đồng nhất, cân bằng dây chuyền theo đỉnh công suất và điều chỉnh
-lịch tàu. Tuy nhiên, phép mã hóa của chúng đều có thể tách thành bốn lớp:
+lịch tàu. Tuy nhiên, phép biểu diễn của chúng đều có thể tách thành bốn lớp:
 <ol class="reader-list"><li><strong>gán</strong>: tác vụ, người hoặc chuyến tàu sử dụng tài nguyên nào;</li><li><strong>thời gian/thứ tự</strong>: thời điểm bắt đầu, kết thúc hoặc thứ tự trước–sau;</li><li><strong>liên tục/chuỗi</strong>: các quyết định cục bộ ghép thành một
  khoảng hoặc một chuỗi hợp lệ;</li><li><strong>hàm mục tiêu</strong>: thời điểm hoàn tất toàn lịch, đỉnh công suất,
  độ trễ hay số vi phạm.</li></ol></p>
 <p>Việc tách lớp không chỉ giúp trình bày. Nó cho phép thay một mô-đun mà không
 đổi ngữ nghĩa của các mô-đun còn lại. Chẳng hạn, có thể giữ nguyên biến gán
-máy và thay phép mã hóa cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
+máy và thay phép biểu diễn cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
 và thay vòng lặp tối ưu bằng SAT tăng dần hay MaxSAT.</p>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Nguyên tắc thiết kế</strong></div>
@@ -2497,13 +2614,13 @@ lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:</p>
 \[
 z_{it}=1 \iff s_i\le t&lt;s_i+e_i .
 \]
-<p>Mã hóa trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
+<p>Biểu diễn trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
 \(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng</p>
 \[
 \mathrm{ExactlyOne}\bigl(b_{is}:s\in T_i\bigr).
 \]
 <p>Trong CNF, phần ít nhất một là mệnh đề
-\(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng mã hóa từng
+\(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng biểu diễn từng
 cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
 dùng</p>
 \[
@@ -2514,11 +2631,11 @@ b_{is}\rightarrow z_{it}
   \quad\text{ở ngoài khoảng.}
 \]
 <p>Cách này dễ hiểu nhưng lặp lại nhiều literal cho các thời điểm bắt đầu lân cận.
-Phép mã hóa gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa “tất
+Phép biểu diễn gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa “tất
 cả bằng 0” hoặc “tất cả bằng 1”. Hai thời điểm bắt đầu kế tiếp chia sẻ gần
 như toàn bộ cấu trúc; khác biệt của chúng chỉ nằm ở hai biên của khối.</p>
 <div class="reader-callout proposition-box">
- <div class="callout-header"><strong>Mệnh đề (Đúng đắn của phép mã hóa theo khối)</strong></div>
+ <div class="callout-header"><strong>Mệnh đề (Đúng đắn của phép biểu diễn theo khối)</strong></div>
  <div class="callout-body">Giả sử mô-đun khối bảo đảm: (i) tồn tại đúng một vị trí bắt đầu; (ii) từ vị
 trí đó có đúng \(e_i\) giá trị liên tiếp bằng \(1\); và (iii) mọi vị trí trước
 và sau khối đều bằng \(0\). Khi đó phép gán cho các biến \(z_{it}\) tương ứng
@@ -2531,8 +2648,14 @@ khác. Chiều ngược lại, từ một khoảng hợp lệ, đặt biến b�
 gán các biến tiền tố/hậu tố theo định nghĩa của chúng. Mọi mệnh đề của mô-đun
 đều được thỏa. <span class="proof-qedsymbol">■</span>
  </div>
+<div class="reader-figure-box" id="fig_nonpreemptive_block">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_nonpreemptive_block.webp" alt="Hình: Ràng buộc đếm \(\sum_tz_{it}=3\) không phân biệt một khối liên tục với
+ba mốc rời; tính không ngắt phải biểu diễn vị trí bắt đầu và hai biên khối." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Ràng buộc đếm \(\sum_tz_{it}=3\) không phân biệt một khối liên tục với
-ba mốc rời; tính không ngắt phải mã hóa vị trí bắt đầu và hai biên khối.</em></div>
+ba mốc rời; tính không ngắt phải biểu diễn vị trí bắt đầu và hai biên khối.</em></div>
+ </div>
 <div class="reader-callout worked-example">
  <div class="callout-header"><strong>Ba tác vụ trên hai máy</strong></div>
  <div class="callout-body">Cho \(J_1=(r=0, e=3, d=6)\), \(J_2=(0, 2,5)\), \(J_3=(1, 2,6)\).
@@ -2551,8 +2674,8 @@ và bị vi phạm. Ví dụ tách rõ hai lớp: \(z\) nói khi nào tác vụ 
 nói nó chạy ở đâu.</div>
  </div></p>
 <p>Kết quả của <span class="cite">(Kieu & To, 2025)</span> cho thấy lợi ích chính của phép mã
-hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp mã hóa theo
-khối với phá đối xứng và một phép mã hóa giả Boolean thích hợp đạt tổng thời
+hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp biểu diễn theo
+khối với phá đối xứng và một phép biểu diễn giả Boolean thích hợp đạt tổng thời
 gian thấp nhất trong nhiều nhóm bài toán của nghiên cứu đó. Điều cần rút ra cho
 thiết kế là: <em>tính không ngắt nên là một mô-đun độc lập</em>, thay vì được
 ngầm suy từ một ràng buộc đếm.</p>
@@ -2565,7 +2688,7 @@ cầu mọi cửa sổ độ rộng \(w\) chứa ít nhất \(k\) giá trị đ�
   \bigwedge_{i=0}^{n-w}
   \left(\sum_{j=i+1}^{i+w}x_j\ge k\right).
 \]
-<p>Nếu mã hóa từng cửa sổ bằng một phép mã hóa ràng buộc đếm độc lập, hai cửa sổ
+<p>Nếu biểu diễn từng cửa sổ bằng một phép biểu diễn ràng buộc đếm độc lập, hai cửa sổ
 kề nhau chia sẻ \(w-1\) biến gốc nhưng không chia sẻ biến phụ. Cấu trúc chuỗi
 vì thế đặt ra bài toán <em>tái sử dụng biểu thức con</em>.</p>
 <p>Chia một cửa sổ thành hai phần \(A\) và \(B\). Ta có</p>
@@ -2594,8 +2717,14 @@ cần
 \]
 <p>Các thanh ghi của \(B\) tiếp tục được dùng trong cửa sổ kế tiếp.</div>
  </div></p>
+<div class="reader-figure-box" id="fig_nurse_alsc">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_nurse_alsc.webp" alt="Hình: Ba cửa sổ ALSC \((w=4, k=2)\) trên bảy ngày. Mỗi cửa sổ kề nhau chỉ
+thay một ngày, nên các ngưỡng ở phần giao có thể dùng lại." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Ba cửa sổ ALSC \((w=4, k=2)\) trên bảy ngày. Mỗi cửa sổ kề nhau chỉ
 thay một ngày, nên các ngưỡng ở phần giao có thể dùng lại.</em></div>
+ </div>
 <h4 class="reader-h3">Đưa vào mô hình phân ca</h4>
 <p>Đặt \(x_{ids}=1\) khi điều dưỡng \(i\) làm loại ca \(s\) ở ngày \(d\). Mỗi cặp
 \((i, d)\) nhận đúng một trạng thái. Những quy tắc như “trong mọi \(w\) ngày có
@@ -2608,7 +2737,7 @@ thay một ngày, nên các ngưỡng ở phần giao có thể dùng lại.</em
 <p>Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận dưới cho cả hai hướng.</p>
 <p>Trong một mô hình phân ca đầy đủ, ràng buộc chuỗi chỉ là một lớp. Lớp độ phủ
 bảo đảm số nhân viên mỗi ca; ràng buộc hợp đồng giới hạn tổng giờ và số cuối
-tuần; ưu tiên tạo các chi phí mềm. Phép mã hóa cửa sổ dùng chung tác động trực
+tuần; ưu tiên tạo các chi phí mềm. Phép biểu diễn cửa sổ dùng chung tác động trực
 tiếp lên lớp chuỗi, còn MaxSAT có trọng số là một lựa chọn cho hàm mục tiêu của
 toàn mô hình <span class="cite">(Demirović et al., 2019)</span>. Ma trận thiết kế tách các lớp để
 đo riêng ảnh hưởng của ALSC, độ phủ và ưu tiên.</p>
@@ -2649,17 +2778,17 @@ buộc AMO về phép gán giảm từ dạng từng cặp bậc hai xuống m�
 quan hệ trước–sau giữa trạm hoặc giữa mốc thời gian cũng được viết bằng quan
 hệ kéo theo giữa các ngưỡng.</p>
 <h4 class="reader-h3">Bốn giao diện tối ưu</h4>
-<p>Cùng một phép mã hóa tính khả thi có thể kết nối với hàm mục tiêu theo bốn cách:</p>
+<p>Cùng một phép biểu diễn tính khả thi có thể kết nối với hàm mục tiêu theo bốn cách:</p>
 <div class="reader-table-wrapper">
  <div class="reader-table-caption">Bảng: Bốn giao diện tối ưu cho công suất đỉnh.</div>
  <table class="reader-table">
  <thead><tr><th>Cơ chế</th><th>Cách thay cận</th><th>Thành phần cần giữ cố định</th></tr></thead>
- <tbody><tr><td>Chặn bằng mệnh đề</td><td>Cấm mọi đỉnh không tốt hơn nghiệm đương nhiệm</td><td>Ngữ nghĩa của biến đỉnh</td></tr><tr><td>Tinh chỉnh PB</td><td>Siết \(\sum_iw_iA_{i\tau}\le B\) tại mọi \(\tau\)</td><td>Phép mã hóa giả Boolean</td></tr><tr><td>MaxSAT có trọng số</td><td>Đưa mức đỉnh vào mệnh đề mềm</td><td>Ánh xạ chi phí với giá trị \(P\)</td></tr><tr><td>Biến chỉ báo thứ tự</td><td>Kích hoạt cận bằng các giả định</td><td>Mệnh đề cơ sở và chuỗi thứ tự</td></tr></tbody>
+ <tbody><tr><td>Chặn bằng mệnh đề</td><td>Cấm mọi đỉnh không tốt hơn nghiệm đương nhiệm</td><td>Ngữ nghĩa của biến đỉnh</td></tr><tr><td>Tinh chỉnh PB</td><td>Siết \(\sum_iw_iA_{i\tau}\le B\) tại mọi \(\tau\)</td><td>Phép biểu diễn giả Boolean</td></tr><tr><td>MaxSAT có trọng số</td><td>Đưa mức đỉnh vào mệnh đề mềm</td><td>Ánh xạ chi phí với giá trị \(P\)</td></tr><tr><td>Biến chỉ báo thứ tự</td><td>Kích hoạt cận bằng các giả định</td><td>Mệnh đề cơ sở và chuỗi thứ tự</td></tr></tbody>
  </table>
  </div>
 <p>Biến chỉ báo thứ tự phù hợp với giải tăng dần: bộ giải được dựng một lần ở cận
 trên, sau mỗi nghiệm chỉ thay các giả định hoặc thêm mệnh đề chặn. Trong nghiên
-cứu của <span class="cite">(Kieu et al., 2025)</span>, phép mã hóa tuần tự gọn kết hợp giải tăng dần
+cứu của <span class="cite">(Kieu et al., 2025)</span>, phép biểu diễn tuần tự gọn kết hợp giải tăng dần
 chứng nhận được nhiều bài toán hơn cấu hình đối chiếu trên tập 89 bài kiểm
 chuẩn; lợi ích rõ nhất ở nhóm khó.</p>
 <div class="reader-callout key-idea">
@@ -2689,7 +2818,7 @@ và tinh chỉnh những mốc cần thiết <span class="cite">(Boland et al., 
 sang MaxSAT, điều phải bảo toàn là <em>tính hợp lệ của cận dưới</em> trong mô
 hình hạn chế và quy tắc tinh chỉnh hữu hạn; bộ giải bên trong có thể thay đổi.
 Đây là một ví dụ quan trọng của việc đưa một kiến trúc từ Nghiên cứu vận trù
-vào SAT, thay vì chỉ thay phép mã hóa của một ràng buộc.</p>
+vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.</p>
 <h4 class="reader-h3">Vòng lặp</h4>
 <ol class="reader-list"><li>Giải mô hình MaxSAT hạn chế trên phép rời rạc hóa hiện tại.</li><li>Giải mã lịch và kiểm tra mọi quan hệ trước–sau trên đường đi, xung
  đột tài nguyên và giá trị độ trễ.</li><li>Nếu có vi phạm, thêm các mốc cần thiết và lặp lại.</li><li>Nếu lịch khả thi và chi phí giải mã bằng giá trị tối ưu của mô hình
@@ -2734,11 +2863,17 @@ chỉnh vì thế phải thêm một mốc mới được bộ kiểm tra suy ra
 Với miền thời gian liên tục, một đối chứng thời gian liên tục hoặc một định lý
 về tập ứng viên hữu hạn cung cấp điều kiện dừng. Ba thành phần này—mốc mới, bộ kiểm tra và
 tập mốc đầy đủ—xác định đồng thời tính đúng đắn và tốc độ hội tụ.</p>
+<div class="reader-figure-box" id="fig_ddd_refinement">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_ddd_refinement.webp" alt="Hình: DDD chỉ thêm mốc tại nơi nghiệm của mô hình hạn chế thiếu thông tin.
+Lưới không được làm dày đồng loạt trên toàn chân trời thời gian." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: DDD chỉ thêm mốc tại nơi nghiệm của mô hình hạn chế thiếu thông tin.
 Lưới không được làm dày đồng loạt trên toàn chân trời thời gian.</em></div>
+ </div>
 <p>Lan truyền quan hệ trước–sau có vai trò thu hẹp miền trước khi sinh CNF. Nếu một
 lựa chọn thứ tự \(i\prec j\) kéo theo một chuỗi thời điểm tối thiểu, các mốc
-không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn phép mã hóa khác nhau
+không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn phép biểu diễn khác nhau
 theo kích thước miền: từng cặp cho tập rất nhỏ, tuần tự hoặc chỉ huy cho tập lớn hơn.</p>
 <div class="reader-callout result-box">
  <div class="callout-header"><strong>Điểm rút ra từ Train MaxSAT–DDD</strong></div>
@@ -2767,14 +2902,14 @@ một kiến trúc kết hợp.</p>
  chứng minh rõ tính hợp lệ của cận dưới.</li></ol>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Phân biệt biến thời điểm, biến hoạt động và biến thứ tự; viết phép
  liên kết trước khi tối ưu mệnh đề.</li><li>Tính không ngắt là một ràng buộc khối, không phải chỉ là ràng buộc đếm.</li><li>Với các cửa sổ chồng lấn, hiệu quả đến từ việc chia sẻ ngưỡng hoặc
  bộ đếm giữa các cửa sổ.</li><li>Hàm mục tiêu nên giao tiếp với mô-đun khả thi qua một giao diện cận.</li><li>Rời rạc hóa động phù hợp khi miền lớn nhưng nghiệm chỉ cần một số
  ít mốc quan trọng.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Với cùng ngữ nghĩa khối, hãy so sánh mã hóa bằng biến bắt đầu và mã hóa
+<ol class="reader-list"><li>Với cùng ngữ nghĩa khối, hãy so sánh biểu diễn bằng biến bắt đầu và biểu diễn
  bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.</li><li>Thiết kế một bộ đếm dùng chung cho hai ALSC có cửa sổ chồng lấn nhưng cận
  \(k\) khác nhau.</li><li>Viết điều kiện dừng chính xác cho một vòng DDD khi chi phí hạn chế là
  cận dưới và lịch giải mã cho cận trên.</li></ol>
@@ -2790,7 +2925,7 @@ một kiến trúc kết hợp.</p>
             </div>
             
           <div class="chapter-lead">Trong đóng gói, mệnh đề không làm việc trực tiếp với hình chữ
-nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép mã hóa
+nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép biểu diễn
 phụ thuộc vào việc chọn đúng giao diện giữa ba lớp đó.</div>
 <div class="reader-flow-diagram">
  <div class="flow-box">Vật và hướng đặt</div>
@@ -2817,7 +2952,7 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh–cận 
  trí tuyệt đối và đóng gói hoàn hảo khai thác nén tọa độ, tổng tập con và suy
  luận trên không gian trống
  <span class="cite">(Huang & Korf, 2013)</span>.</dd><dt><strong>Vị trí tương đối + tọa độ</strong></dt><dd>Mỗi vật có tọa độ; mỗi cặp có <em>witness variable</em> (biến làm chứng)
- trái/phải/trên/dưới. Mã hóa thứ tự
+ trái/phải/trên/dưới. Biểu diễn thứ tự
  nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.</dd></dl></p>
 <p>Ngoài SAT, quy hoạch ràng buộc dùng <span class="small-caps">NoOverlap</span>/diffn, các phép chiếu
 tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
@@ -2874,8 +3009,14 @@ dấu \(\le\) cho phép hai vật chạm cạnh. Quy ước này phải được
 <p>Hình (xem hình fig:packing-layout) dùng một ví dụ tự dựng để minh họa cách tọa độ
 thứ tự và quan hệ vị trí được dùng trong SAT cho đóng gói; cách tổ chức quan hệ
 này tiếp nối mô hình đóng gói dải của <span class="cite">(Soh et al., 2010)</span>.</p>
+<div class="reader-figure-box" id="fig_packing_layout">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_packing_layout.webp" alt="Hình: Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
+\(x_A+w_A=x_B=3\), nên biến làm chứng \(l_{AB}\) có thể nhận giá trị đúng." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
 \(x_A+w_A=x_B=3\), nên biến làm chứng \(l_{AB}\) có thể nhận giá trị đúng.</em></div>
+ </div>
 <div class="reader-callout worked-example">
  <div class="callout-header"><strong>Từ một cặp hình đến literal quan hệ</strong></div>
  <div class="callout-body">Trong (xem mục fig:packing-layout), \(A\) có \((x_A, y_A)=(0, 0)\),
@@ -2889,7 +3030,7 @@ này tiếp nối mô hình đóng gói dải của <span class="cite">(Soh et a
 buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn một hướng khác
 hoặc chứng minh cặp hình không thể cùng một bố trí.</div>
  </div></p>
-<h3 class="reader-h2">Mã hóa thứ tự cho tọa độ</h3>
+<h3 class="reader-h2">Biểu diễn thứ tự cho tọa độ</h3>
 <h4 class="reader-h3">Ngữ nghĩa</h4>
 <p>Với \(e\) trong miền ngang, đặt</p>
 \[
@@ -2977,7 +3118,7 @@ vì mọi số nguyên từ \(0\) đến \(W-w_i\).</p>
  <tbody><tr><td>SAT độc lập</td><td>Dựng lại \(\Phi(H)\) ở mỗi cận</td><td>Đơn giản, mỗi cận có một CNF riêng</td></tr><tr><td>SAT tăng dần</td><td>Miền lớn cố định, kích hoạt \(H\) bằng các giả định</td><td>Giữ mệnh đề đã học giữa các cận</td></tr><tr><td>MaxSAT có trọng số</td><td>Chiều cao được biểu diễn bằng mệnh đề mềm</td><td>Không cần vòng tìm kiếm ngoài</td></tr></tbody>
  </table>
  </div>
-<p>Mã hóa SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
+<p>Biểu diễn SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
 quan hệ vị trí và tái sử dụng mệnh đề đã học
 <span class="cite">(Soh et al., 2010)</span>. Vì vậy nghiên cứu tình huống của nhóm được định vị
 theo hai câu hỏi kế tiếp: phép quay/đối xứng làm đổi mô hình thế nào, và
@@ -3025,8 +3166,14 @@ q_{b+1}\rightarrow q_b.
 đúng bằng số khung. Có thể thêm phép gán chuẩn cho một số vật đầu, nhưng mọi
 ràng buộc đối xứng phải dựa trên phép hoán vị các khung đồng nhất, không dựa
 trên một bố trí kinh nghiệm cụ thể.</p>
+<div class="reader-figure-box" id="fig_stacking_nonstacking">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_stacking_nonstacking.webp" alt="Hình: Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
+toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
 toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng.</em></div>
+ </div>
 <p>Trong mô hình theo vị trí đặt, một cách khác là xây đồ thị xung đột cho mọi cặp
 vị trí–khung rồi thêm ràng buộc đúng một theo vật. Cách này tránh biến quan hệ
 nhưng có thể tạo số vị trí rất lớn. Mô hình tọa độ không xếp chồng làm ngược
@@ -3038,7 +3185,7 @@ hệ từng cặp còn lại.</p>
  <div class="callout-header"><strong>So sánh kiến trúc</strong></div>
  <div class="callout-body">Nghiên cứu của <span class="cite">(Kieu et al., 2025)</span> so sánh các mô hình SAT với MIP và CP
 trên cùng họ bài toán kiểm chuẩn. Kết quả nhấn mạnh hai yếu tố hơn là một phép
-mã hóa đơn lẻ: biến thứ tự giúp biểu diễn bất đẳng thức tọa độ, còn phá đối
+biểu diễn đơn lẻ: biến thứ tự giúp biểu diễn bất đẳng thức tọa độ, còn phá đối
 xứng cho khung/bản sao quyết định đáng kể kích thước không gian tìm kiếm.</div>
  </div>
 <h3 class="reader-h2">Bài toán cắt tấm một kích thước</h3>
@@ -3060,7 +3207,7 @@ số tấm của các bản sao cùng loại không giảm.</p>
 tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
 \(\sum_bq_b\). Hai cách dùng chung điều kiện nằm gọn, hướng đặt và không chồng
 lấn; chúng chỉ khác ở lớp hàm mục tiêu.</p>
-<p><span class="cite">(Kieu et al., 2026)</span> cho thấy phép mã hóa gọn với tọa độ thứ tự và đối
+<p><span class="cite">(Kieu et al., 2026)</span> cho thấy phép biểu diễn gọn với tọa độ thứ tự và đối
 xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
 thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun</p>
 \[
@@ -3077,9 +3224,9 @@ thước. Điểm chuyển giao sang các bài toán đóng gói khác là chu�
 <ul class="reader-list"><li>\(\rho_i=0\) cho vật vuông: đối xứng hướng đặt;</li><li>\(q_{b+1}\rightarrow q_b\): hoán vị khung/tấm;</li><li>thứ tự bản sao cùng loại: hoán vị các bản sao đồng nhất;</li><li>neo một vật lớn vào nửa khung chứa: phản xạ/tịnh tiến, nếu phép biến
  đổi giữ miền và hàm mục tiêu.</li></ul>
 Các nguyên tắc tổng quát về đối xứng được trình bày trong
-<span class="cite">(Walsh, 2006; Gent et al., 2006)</span>; phép mã hóa SAT cổ điển cho bài toán đóng gói khung 2D
+<span class="cite">(Walsh, 2006; Gent et al., 2006)</span>; phép biểu diễn SAT cổ điển cho bài toán đóng gói khung 2D
 Packing có rotation có thể xem ở <span class="cite">(Soh et al., 2010)</span>.</p>
-<h3 class="reader-h2">Tách ảnh hưởng của phép mã hóa, cận và quan hệ trội</h3>
+<h3 class="reader-h2">Tách ảnh hưởng của phép biểu diễn, cận và quan hệ trội</h3>
 <p>Ma trận thiết kế ghi riêng ảnh hưởng của các thành phần:
 <ul class="reader-list"><li>cận dưới theo diện tích, phép chiếu và đồ thị con đầy đủ của quan hệ
  không tương thích;</li><li>loại hướng đặt và vị trí bị trội;</li><li>cố định theo vật lớn hoặc thứ tự vật đồng nhất;</li><li>nén tọa độ;</li><li>khởi động ấm/cận trên từ phương pháp kinh nghiệm.</li></ul></p>
@@ -3089,7 +3236,7 @@ sang CNF. Phép so sánh CP, MIP và SAT dùng chung cách chuẩn hóa bài to�
 <span class="cite">(Iori et al., 2021; Clautiaux et al., 2007)</span>.</p>
 <h3 class="reader-h2">Một thư viện mô-đun cho hình học</h3>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><strong>OrderCoordinate</strong> cung cấp chuỗi ngưỡng và phép giải mã duy nhất.
 <strong>Orientation</strong> trả về kích thước hiệu dụng.
 <strong>Containment</strong> siết miền theo khung chứa đang chọn.
@@ -3101,7 +3248,7 @@ sang CNF. Phép so sánh CP, MIP và SAT dùng chung cách chuẩn hóa bài to�
 chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ kiểm tra đọc vật, hướng
 đặt, tọa độ và khung chứa, độc lập với biến phụ.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
-<ol class="reader-list"><li>Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép mã hóa.</li><li>Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
+<ol class="reader-list"><li>Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép biểu diễn.</li><li>Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
  quan hệ đầy đủ nếu phép giải mã không cần.</li><li>Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.</li><li>Phá đối xứng theo đúng phép hoán vị hoặc phản xạ của mô hình.</li><li>Chứng nhận tối ưu gồm bố trí hợp lệ và một cận dưới tương ứng.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Dẫn xuất các mệnh đề thứ tự cho quan hệ kéo theo
@@ -3164,7 +3311,7 @@ và nguồn gốc bộ kiểm chuẩn cần dùng làm đối chứng
  <tbody><tr><td>Bandwidth</td><td>Hoán vị</td><td>Cận bố trí/bậc</td><td>DP, B</td><td>B, MIP</td></tr><tr><td>Antibandwidth</td><td>Hoán vị</td><td>Cận ổn định/số sắc</td><td>MIP, CP, SAT</td></tr><tr><td>BCP</td><td>Một màu/đỉnh</td><td>Cận đồ thị con đầy đủ và tô màu</td><td>MIP, CP, SAT</td></tr><tr><td>BMCP</td><td>Nhiều màu/đỉnh</td><td>Cận ô màu/nhu cầu</td><td>MIP, tìm kiếm cục bộ, SAT</td></tr></tbody>
  </table>
  </div>
-<h3 class="reader-h2">Phân loại trước khi mã hóa</h3>
+<h3 class="reader-h2">Phân loại trước khi biểu diễn</h3>
 <div class="reader-table-wrapper">
  <div class="reader-table-caption">Bảng: Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.</div>
  <table class="reader-table">
@@ -3178,7 +3325,7 @@ dùng cùng màu; chỉ hàng cần \(\mathrm{ExactlyOne}\). Với BMCP, một �
 màu; thứ tự các ô là một phần của mô hình.</p>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Kiểm tra ngữ nghĩa trước AMO</strong></div>
- <div class="callout-body">Hai phép mã hóa có cùng biến \(x_{v,\ell}\) vẫn có thể mô tả hai bài toán khác
+ <div class="callout-body">Hai phép biểu diễn có cùng biến \(x_{v,\ell}\) vẫn có thể mô tả hai bài toán khác
 nhau. Hãy viết phép giải mã và ràng buộc đếm theo hàng/cột trước khi thêm các
 ràng buộc khoảng cách.</div>
  </div>
@@ -3222,10 +3369,16 @@ nằm trong cửa sổ</p>
 \[
 [a-k+1, a+k-1]\cap[1, n].
 \]
-<p>Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu mã hóa
+<p>Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu biểu diễn
 từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.</p>
+<div class="reader-figure-box" id="fig_abp_path_conflicts">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_abp_path_conflicts.webp" alt="Hình: Ở trái, nhãn \((2, 4,1, 3)\) cho \(P_4\) đạt antibandwidth \(2\).
+Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Ở trái, nhãn \((2, 4,1, 3)\) cho \(P_4\) đạt antibandwidth \(2\).
 Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh.</em></div>
+ </div>
 <h4 class="reader-h3">Thang bộ đếm tuần tự</h4>
 <p>SCL chia dãy biến thành các khối, xây bộ đếm tuần tự trong mỗi khối rồi nối
 trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:</p>
@@ -3234,7 +3387,7 @@ s_{i, j}=1\iff
   \sum_{q=1}^{i}x_q\ge j.
 \]
 <p>Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
-\(k=1\), đây là phép mã hóa cho AMO bậc thang; với AMK, bộ đếm giữ nhiều mức
+\(k=1\), đây là phép biểu diễn cho AMO bậc thang; với AMK, bộ đếm giữ nhiều mức
 \(j=1,\ldots, k\).</p>
 <div class="reader-callout proposition-box">
  <div class="callout-header"><strong>Mệnh đề (Tái sử dụng qua biên khối)</strong></div>
@@ -3249,13 +3402,13 @@ vi phạm ràng buộc đếm kích hoạt ít nhất một mệnh đề nối, 
 lệ mở rộng được bằng các giá trị đếm tiền tố thật. <span class="proof-qedsymbol">■</span>
  </div>
 <p><span class="cite">(Truong et al., 2025)</span> cho thấy SCL giảm cả biến phụ và mệnh đề so với
-nhiều phép mã hóa không chia sẻ trên họ AMO bậc thang. Hướng AMK được phát triển trong
+nhiều phép biểu diễn không chia sẻ trên họ AMO bậc thang. Hướng AMK được phát triển trong
 <span class="cite">(Truong et al., 2026)</span>; Duplex của <span class="cite">(Fazekas et al., 2020)</span> là một
 đối chiếu quan trọng theo hướng BDD hai chiều. Một cách nhìn rộng hơn về biến
 phụ có cấu trúc được thảo luận trong <span class="cite">(Haberlandt et al., 2023)</span>.</p>
 <p>SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
 CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
-cần mã hóa, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.</p>
+cần biểu diễn, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.</p>
 <h3 class="reader-h2">Antibandwidth tuần hoàn</h3>
 <h4 class="reader-h3">Khoảng cách vòng</h4>
 <p>Trong CABP, nhãn nằm trên vòng \(C_n\):</p>
@@ -3268,10 +3421,16 @@ qua điểm cắt nên dùng chỉ số môđun:</p>
 W(a, k)=\left\{a-k+1,\ldots, a+k-1\right\}\pmod n.
 \]
 <p>Xung đột theo nhãn chính xác vẫn đúng nhưng số mệnh đề lớn. Cửa sổ vòng tạo
-AMO tuần hoàn, có thể mã hóa bằng cách cắt vòng tại một vị trí neo rồi nối hai
+AMO tuần hoàn, có thể biểu diễn bằng cách cắt vòng tại một vị trí neo rồi nối hai
 đầu bằng bộ nối.</p>
+<div class="reader-figure-box" id="fig_cabp_cyclic_window">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_cabp_cyclic_window.webp" alt="Hình: Cửa sổ cấm trên vòng \(C_8\) với tâm \(1\) và \(k=3\). Hai nhánh
+\(7, 8\) và \(2, 3\) phải được nối khi tuyến tính hóa vòng." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Cửa sổ cấm trên vòng \(C_8\) với tâm \(1\) và \(k=3\). Hai nhánh
 \(7, 8\) và \(2, 3\) phải được nối khi tuyến tính hóa vòng.</em></div>
+ </div>
 <h4 class="reader-h3">Đối xứng của vòng</h4>
 <p>CABP bất biến dưới phép quay và phản xạ của nhãn. Ta có thể cố định một đỉnh
 đại diện tại nhãn \(1\), rồi chọn hướng chuẩn cho một đỉnh thứ hai. Đây là phá
@@ -3285,7 +3444,7 @@ F(k)=\mathrm{SAT} \Longrightarrow F(k-1)=\mathrm{SAT},
 <p>Một nghiệm tại \(k^\star\) và UNSAT tại \(k^\star+1\) chứng nhận tối ưu.</p>
 <div class="reader-callout result-box">
  <div class="callout-header"><strong>CABP và bộ kiểm chuẩn</strong></div>
- <div class="callout-body">Nghiên cứu của <span class="cite">(Truong & To, 2026)</span> xây dựng các phép mã hóa SAT cho CABP
+ <div class="callout-body">Nghiên cứu của <span class="cite">(Truong & To, 2026)</span> xây dựng các phép biểu diễn SAT cho CABP
 và khai thác cửa sổ tuần hoàn cùng đối xứng của vòng. Một tập công thức khả thi được
 chuẩn bị cho SAT Competition 2026 <span class="cite">(Truong & To, 2026)</span>; về mặt
 thiết kế, giá trị của bộ này là tách bài toán tối ưu thành chuỗi bài toán
@@ -3301,11 +3460,11 @@ vẫn cho cận dưới nhưng không mô tả đủ phép tách có trọng s�
 theo phép gán, đại diện hoặc phủ tập trong tô màu đỉnh là điểm khởi đầu; BCP
 phải bổ sung các xung đột có xét khoảng cách
 <span class="cite">(Malaguti & Toth, 2010)</span>.</p>
-<p>Từ góc nhìn mã hóa, biến trực tiếp mở rộng mô hình gán; biến thứ tự nén một dãy
+<p>Từ góc nhìn biểu diễn, biến trực tiếp mở rộng mô hình gán; biến thứ tự nén một dãy
 giá trị xung đột thành hai biên; biến khối tạo các đại diện khoảng. Sáu họ dưới
 đây khảo sát có hệ thống trục biểu diễn đó và kết nối với các cận lý thuyết đồ
 thị đã nêu.</p>
-<h4 class="reader-h3">Mô hình và sáu họ mã hóa</h4>
+<h4 class="reader-h3">Mô hình và sáu họ biểu diễn</h4>
 <p>BCP cho đồ thị có trọng số cạnh \(d_{uv}&gt;0\). Mỗi đỉnh nhận màu
 \(c(u)\in[1, H]\) và</p>
 \[
@@ -3319,7 +3478,7 @@ thị đã nêu.</p>
 <p>Nghiên cứu hệ thống của <span class="cite">(Nguyen et al., 2026)</span> tổ chức không gian thiết kế thành sáu
 họ:</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Sáu họ mã hóa cho tô màu theo bandwidth.</div>
+ <div class="reader-table-caption">Bảng: Sáu họ biểu diễn cho tô màu theo bandwidth.</div>
  <table class="reader-table">
  <thead><tr><th>Họ</th><th>Biến</th><th>Cơ chế khoảng cách</th></tr></thead>
  <tbody><tr><td>1G</td><td>\(g_{u, j}\iff c(u)\ge j\)</td><td>Một chuỗi thứ tự hướng lớn hơn</td></tr><tr><td>1L</td><td>\(l_{u, j}\iff c(u)\le j\)</td><td>Một chuỗi thứ tự hướng nhỏ hơn</td></tr><tr><td>2G</td><td>Giá trị đúng \(x_{u, j}\) và ngưỡng \(g_{u, j}\)</td><td>Giá trị chính xác kích hoạt hai biên khoảng cấm</td></tr><tr><td>2L</td><td>Giá trị đúng \(x_{u, j}\) và ngưỡng \(l_{u, j}\)</td><td>Như 2G với hướng thứ tự đảo</td></tr><tr><td>X</td><td>Biến khối</td><td>Chia sẻ cấu trúc khoảng cách theo khối</td></tr><tr><td>\(X_a\)</td><td>Khối và phép trừ phụ</td><td>Tái sử dụng hiệu/khoảng qua biến phụ</td></tr></tbody>
@@ -3342,8 +3501,8 @@ biên:</p>
 <p>Hai literal cuối lần lượt nói \(c(v)&lt;a-d_{uv}+1\) hoặc
 \(c(v)\ge a+d_{uv}\). Số mệnh đề không còn phụ thuộc vào độ rộng khoảng cấm;
 mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.</p>
-<p>Mã hóa theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
-hệ giữa các đoạn. CNF có thể lớn hơn mã hóa thứ tự, nhưng lan truyền trên bài
+<p>Biểu diễn theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
+hệ giữa các đoạn. CNF có thể lớn hơn biểu diễn thứ tự, nhưng lan truyền trên bài
 toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc khoảng được chia sẻ.</p>
 <div class="reader-callout worked-example">
  <div class="callout-header"><strong>Một khoảng cấm được nén thành hai biên</strong></div>
@@ -3356,17 +3515,17 @@ toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc k
 \neg x_{u, 4}\lor\neg g_{v, 3}\lor g_{v, 6}.
 \]
 <p>Khi \(x_{u, 4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
-\(c(v)\le2\) hoặc \(c(v)\ge6\). Mã hóa trực tiếp từng cặp phải cấm riêng
-\((4, 3),(4, 4),(4, 5)\); mã hóa theo biên giữ số mệnh đề không đổi khi khoảng
+\(c(v)\le2\) hoặc \(c(v)\ge6\). Biểu diễn trực tiếp từng cặp phải cấm riêng
+\((4, 3),(4, 4),(4, 5)\); biểu diễn theo biên giữ số mệnh đề không đổi khi khoảng
 cấm rộng hơn, miễn tập cấm vẫn là một khoảng.</div>
  </div></p>
 <div class="reader-callout result-box">
  <div class="callout-header"><strong>Hiệu ứng tương tác</strong></div>
  <div class="callout-body">Trên tập GEOM và MS-CAP của <span class="cite">(Nguyen et al., 2026)</span>, cấu hình theo khối giải
-được các bài toán khó mà mã hóa thứ tự không hoàn tất trong cùng giới hạn.
+được các bài toán khó mà biểu diễn thứ tự không hoàn tất trong cùng giới hạn.
 Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
-mã hóa. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
-\(\text{phép mã hóa}\times\text{đặc trưng}\), không chỉ so trung bình từng
+biểu diễn. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
+\(\text{phép biểu diễn}\times\text{đặc trưng}\), không chỉ so trung bình từng
 đặc trưng.</div>
  </div>
 <h3 class="reader-h2">Tô đa màu theo bandwidth</h3>
@@ -3392,13 +3551,13 @@ loại \(w(u)!\) hoán vị; trong mô hình tập, đối xứng đó không đ
 ràng buộc “chọn đúng \(w(u)\) màu” cần ràng buộc đếm. So sánh FE/SBE/OBE vì
 vậy phải bao gồm cả số trạng thái gán trước các mệnh đề khoảng cách.</p>
 <h4 class="reader-h3">FE, SBE và OBE</h4>
-<p><strong>Flat Encoding (mã hóa phẳng, FE).</strong>
+<p><strong>Flat Encoding (biểu diễn phẳng, FE).</strong>
 Biến \(x_{u, m}\) cho biết màu \(m\) được dùng tại \(u\). Ràng buộc đếm bảo đảm
 đúng \(w(u)\) màu; xung đột từng cặp cấm các cặp quá gần.</p>
-<p><strong>Slot-Based Encoding (mã hóa theo ô màu, SBE).</strong>
+<p><strong>Slot-Based Encoding (biểu diễn theo ô màu, SBE).</strong>
 Biến \(x_{u, i,m}\) nói ô \(i\) bằng \(m\). Mỗi ô có ràng buộc đúng một và các
 cặp ô vi phạm khoảng cách bị cấm trực tiếp.</p>
-<p><strong>Order-Based Encoding (mã hóa theo thứ tự, OBE).</strong>
+<p><strong>Order-Based Encoding (biểu diễn theo thứ tự, OBE).</strong>
 Thêm \(g_{u, i,m}=1\iff c(u)_i\ge m\). Giá trị chính xác tại một ô kích hoạt
 hai biên khoảng cấm của ô ở đỉnh khác:</p>
 \[
@@ -3437,13 +3596,13 @@ mô-đun <code>ForbiddenInterval</code> có thể dùng lại, còn
 <h3 class="reader-h2">Quy trình chính xác kết hợp</h3>
 <p>Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
 <ol class="reader-list"><li>dùng cận lý thuyết đồ thị và phương pháp kinh nghiệm để tạo khoảng
- \([LB, UB]\);</li><li>chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;</li><li>lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;</li><li>chọn mã hóa trực tiếp/thứ tự/khối theo hình dạng tập cấm;</li><li>giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;</li><li>tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh UNSAT độc lập.</li></ol></p>
+ \([LB, UB]\);</li><li>chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;</li><li>lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;</li><li>chọn biểu diễn trực tiếp/thứ tự/khối theo hình dạng tập cấm;</li><li>giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;</li><li>tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh UNSAT độc lập.</li></ol></p>
 <p>Kiến trúc này đặt SAT trong một khung giải chính xác thay vì coi bộ giải SAT là
 toàn bộ thuật toán. Nó cũng làm rõ nơi một nghiên cứu mới đóng góp: cận, mô
-hình, phép mã hóa, quy trình tìm kiếm hay chứng nhận.</p>
+hình, phép biểu diễn, quy trình tìm kiếm hay chứng nhận.</p>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
- <div class="callout-body"><strong>Bài học trung tâm.</strong> Chọn mã hóa trực tiếp, thứ tự hay theo khối không
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
+ <div class="callout-body"><strong>Bài học trung tâm.</strong> Chọn biểu diễn trực tiếp, thứ tự hay theo khối không
 chỉ là chọn kích thước CNF. Biến trực tiếp làm phép giải mã và xung đột cục bộ
 rõ; biến thứ tự nén bất đẳng thức và khoảng; biến khối tạo điểm chia sẻ mới cho
 lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những lớp khác nhau.</div>
@@ -3452,7 +3611,7 @@ lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những
 <ol class="reader-list"><li>Với ABP trên đường \(P_4\), dựng \(F(k)\) tại \(k=2\) và chỉ rõ
  exactly-one theo hàng lẫn cột.</li><li>Dẫn xuất mệnh đề biên BCP cho ba trường hợp: khoảng nằm trong
  miền, chạm biên trái và chạm biên phải.</li><li>Thiết kế thí nghiệm bóc tách \(2\times2\) cho giải tăng dần và đối xứng
- trên hai họ mã hóa BCP.</li></ol>
+ trên hai họ biểu diễn BCP.</li></ol>
         </section>
         
 
@@ -3527,7 +3686,7 @@ f(v)&lt;L(a)
   \neg g_{v, L(a)}
   \lor
   g_{v, U(a)+1}.
-  \tag{11.1}
+  \tag{11.1}\label{eq:boundary}
 \]
 <div class="reader-callout lemma-box">
  <div class="callout-header"><strong>Bổ đề (Mệnh đề biên)</strong></div>
@@ -3552,8 +3711,8 @@ chúng bằng hai biên theo giá trị:</p>
 \]
 <p>Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.</p>
-<h4 class="reader-h3">Quan hệ với mã hóa hỗ trợ</h4>
-<p>Trong mã hóa trực tiếp/hỗ trợ, lựa chọn \(x_{u, a}\) yêu cầu \(v\) nhận một
+<h4 class="reader-h3">Quan hệ với biểu diễn hỗ trợ</h4>
+<p>Trong biểu diễn trực tiếp/hỗ trợ, lựa chọn \(x_{u, a}\) yêu cầu \(v\) nhận một
 trong các giá trị còn hỗ trợ:</p>
 \[
 \neg x_{u, a}
@@ -3565,11 +3724,17 @@ tiền tố và một hậu tố. Nó không phải một mẹo riêng của rad
 phân tích mệnh đề hỗ trợ dựa trên tính lồi của tập cấm. Nếu tập cấm có nhiều
 khoảng rời nhau, cần nhiều cặp biên hoặc một
 biểu diễn BDD/MDD khác.</p>
+<div class="reader-figure-box" id="fig_forbidden_interval_boundaries">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_forbidden_interval_boundaries.webp" alt="Hình: Một khoảng cấm liên tục được nén thành hai literal biên:
+\(\neg g_{v, 4}\lor g_{v, 7}\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một khoảng cấm liên tục được nén thành hai literal biên:
 \(\neg g_{v, 4}\lor g_{v, 7}\).</em></div>
+ </div>
 <p>Phép so sánh lan truyền theo dõi đường suy luận của từng biểu diễn. Mệnh đề hỗ
 trợ trực tiếp loại giá trị chính xác; mệnh đề biên suy qua chuỗi thứ tự và liên
-kết giá trị chính xác–thứ tự. Hai phép mã hóa đạt cùng mức cắt tỉa khi đặc tả của các
+kết giá trị chính xác–thứ tự. Hai phép biểu diễn đạt cùng mức cắt tỉa khi đặc tả của các
 chuỗi đó cung cấp đủ các bước suy luận
 <span class="cite">(Gent, 2002; Bacchus, 2007)</span>.</p>
 <div class="reader-callout key-idea">
@@ -3600,11 +3765,17 @@ tham số \(k\). Phép gán nhãn radio \(k\) là ánh xạ
 <p>Khoảng cách đồ thị tạo một đồ thị ràng buộc dày hơn đồ thị gốc: mọi cặp có
 \(d(u, v)\le k\) đều bị ràng buộc, với mức phân cách giảm khi khoảng cách đồ
 thị tăng. Bước tìm đường đi ngắn nhất cho mọi cặp vì thế không chỉ dành cho bộ
-kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép mã hóa. Các cặp có
+kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép biểu diễn. Các cặp có
 \(\Delta_{uv}\le0\) được bỏ, còn các đỉnh trong cùng quỹ đạo có thể hỗ trợ phá
 đối xứng.</p>
+<div class="reader-figure-box" id="fig_radio_p4">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_radio_p4.webp" alt="Hình: Một phép gán nhãn radio \(3\) khả thi cho \(P_4\). Hai đỉnh kề nhau
+cần chênh ít nhất \(3\), cặp cách hai cạnh cần \(2\), và hai đầu mút cần \(1\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Một phép gán nhãn radio \(3\) khả thi cho \(P_4\). Hai đỉnh kề nhau
 cần chênh ít nhất \(3\), cặp cách hai cạnh cần \(2\), và hai đầu mút cần \(1\).</em></div>
+ </div>
 <h4 class="reader-h3">SAT trực tiếp</h4>
 <p>Với một cận trên \(B\), đặt</p>
 \[
@@ -3616,7 +3787,7 @@ x_{v,\ell}=1\iff f(v)=\ell,
 \[
 \neg x_{u, a}\lor\neg x_{v, b}.
 \]
-<p>Mã hóa trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+<p>Biểu diễn trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
 khoảng cấm.</p>
 <h4 class="reader-h3">SAT thứ tự</h4>
 <p>Thêm</p>
@@ -3682,13 +3853,13 @@ gán nhãn đơn ánh; nó không phải tô màu đồ thị chuẩn. Biến th
 một mô hình khác.</div>
  </div>
 <h4 class="reader-h3">Direct, forward order và reverse order encoding</h4>
-<p><strong>Direct Encoding (mã hóa trực tiếp, DE).</strong>
+<p><strong>Direct Encoding (biểu diễn trực tiếp, DE).</strong>
 \(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
 thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).</p>
-<p><strong>Forward Order Encoding (mã hóa thứ tự xuôi, FE).</strong>
+<p><strong>Forward Order Encoding (biểu diễn thứ tự xuôi, FE).</strong>
 \(X_{v, j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
 hoạt hai biên của khoảng \([j-k+1, j+k-1]\).</p>
-<p><strong>Reverse Order Encoding (mã hóa thứ tự ngược, RE).</strong>
+<p><strong>Reverse Order Encoding (biểu diễn thứ tự ngược, RE).</strong>
 \(X_{v, j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.</p>
 <p>FE và RE có cùng tập phép gán nhãn nhưng có thể dẫn bộ giải đi theo các nhánh
@@ -3699,7 +3870,7 @@ L'_v=S+1-L_v
 <p>giữ mọi khoảng cách và tính đơn ánh trên miền \([1, S]\). Có thể chọn một đỉnh
 đại diện và đặt nó ở nửa dưới miền để giữ một đại diện của cặp phản xạ.</p>
 <div class="reader-callout result-box">
- <div class="callout-header"><strong>So sánh ba phép mã hóa</strong></div>
+ <div class="callout-header"><strong>So sánh ba phép biểu diễn</strong></div>
  <div class="callout-body">Trên 16 đồ thị Erdős–Rényi của <span class="cite">(Thanh et al., 2026)</span>, FE và RE tìm nghiệm
 cho toàn bộ tập và chứng nhận 13 giá trị tối ưu; DE tìm nghiệm cho 15 và chứng
 nhận 8. Kết quả cho thấy biên thứ tự phù hợp với ràng buộc khoảng cách, còn
@@ -3752,9 +3923,9 @@ không có hỗ trợ đồng thời toàn cục. Sau tiền xử lý, học m�
 tổ hợp xung đột còn lại. Vì vậy nên báo kích thước miền tại điểm bất động và
 thời gian AC riêng; không gán toàn bộ mức giảm thời gian chạy cho POSE.</p>
 <h4 class="reader-h3">DSE và POSE</h4>
-<p>Mã hóa SAT trực tiếp dùng \(x_{v, q}=1\iff f_v=D_{v, q}\), ràng buộc đúng một
+<p>Biểu diễn SAT trực tiếp dùng \(x_{v, q}=1\iff f_v=D_{v, q}\), ràng buộc đúng một
 theo máy phát và xung đột từng cặp cho các cặp giá trị vi phạm.</p>
-<p>Mã hóa SAT thứ tự bộ phận thêm</p>
+<p>Biểu diễn SAT thứ tự bộ phận thêm</p>
 \[
 g_{v, q}=1\iff
   \text{chỉ số tần số của }v\text{ không nhỏ hơn }q.
@@ -3770,8 +3941,14 @@ g_{v, q}=1\iff
   g_{w,\rho_w(q)}.
 \]
 <p>POSE vì thế loại sự phụ thuộc vào số giá trị nằm bên trong khoảng cấm.</p>
+<div class="reader-figure-box" id="fig_fap_discrete_boundaries">
+<div class="reader-figure-img">
+ <img src="assets/images/diagrams/fig_fap_discrete_boundaries.webp" alt="Hình: Ánh xạ khoảng giá trị \([4, 10]\) vào hai biên của miền rời rạc
+\(D_w=\{2, 5,8, 11\}\)." loading="lazy" />
+ </div>
 <div class="reader-inline-caption"><em>Hình: Ánh xạ khoảng giá trị \([4, 10]\) vào hai biên của miền rời rạc
 \(D_w=\{2, 5,8, 11\}\).</em></div>
+ </div>
 <div class="reader-callout worked-example">
  <div class="callout-header"><strong>Mệnh đề biên trên miền có lỗ</strong></div>
  <div class="callout-body">Với các miền trong (xem mục fig:fap-discrete-boundaries), chọn giá trị thứ ba của
@@ -3839,13 +4016,13 @@ khoảng \([LB, UB]\).</p>
  \(\Delta_{uv}&gt;0\);</li><li>\(k\)-safe: kiểm miền, tính đơn ánh và phân cách trên cạnh;</li><li>MO-FAP: kiểm \(f_v\in D_v\), giá trị gán trước, mọi ràng buộc
  và số tần số phân biệt.</li></ul>
 Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
-phép mã hóa.</p>
+phép biểu diễn.</p>
 <p>Chứng nhận tối ưu gồm một nghiệm làm chứng tại cận trên và bằng chứng cận dưới:
 UNSAT ở độ trải/số giá trị kề trước, hoặc một cận dưới toán học bằng cận trên.
 Với các giả định tăng dần, có thể vật hóa các giả định cuối thành mệnh đề đơn
 vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
 <div class="reader-callout summary-box">
- <div class="callout-header"><strong>📌 Tổng kết Bài học</strong></div>
+ <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
  <div class="callout-body"><ol class="reader-list"><li>Khoảng cấm là trừu tượng chung của cả ba bài toán.</li><li>Trên miền liên tục, khoảng dùng hai ngưỡng trực tiếp; trên miền
  rời rạc, phải tìm biên theo giá trị.</li><li>Tối thiểu hóa độ trải và tối thiểu hóa số giá trị phân biệt cần hai mô
  đun hàm mục tiêu khác nhau.</li><li>Biến trực tiếp phục vụ lựa chọn chính xác và giải mã; biến thứ tự nén
@@ -3861,12 +4038,12 @@ vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
           <h2 class="chapter-title">Kết luận và Hướng phát triển</h2>
           
           <div class="chapter-lead">Chương kết nối các kết quả kỹ thuật thành một luận điểm chung:
-một phép mã hóa SAT tốt là một giao diện có ngữ nghĩa, được chọn theo cấu trúc
+một phép biểu diễn SAT tốt là một giao diện có ngữ nghĩa, được chọn theo cấu trúc
 bài toán và được đánh giá bằng một chuỗi bằng chứng có thể kiểm tra. Từ đó,
 chương tổng hợp miền hiệu quả của từng họ phương pháp và xây dựng chương trình
 nghiên cứu tiếp theo.</div>
 <h3 class="reader-h2">Những kết luận bền vững</h3>
-<p>Các họ bộ mã hóa tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
+<p>Các họ bộ biểu diễn tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
 trình lựa chọn có thể dùng lại gồm bốn lớp.</p>
 <p><strong>Lớp ngữ nghĩa.</strong>
 Trước khi đếm biến và mệnh đề, phải viết đặc tả cho biến chính, biến phụ, bộ
@@ -3875,7 +4052,7 @@ literal phụ ở mô-đun khác là ba yêu cầu khác nhau. Một biến Tsei
 xem như ngưỡng, biến làm chứng hay trạng thái khi các mệnh đề thật sự bảo đảm ngữ
 nghĩa đó.</p>
 <p><strong>Lớp cấu trúc.</strong>
-Phép mã hóa nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
+Phép biểu diễn nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
 thái dùng chung; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
 ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
 Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
@@ -3883,7 +4060,7 @@ phép ánh xạ bảo toàn nghiệm.</p>
 <p><strong>Lớp giải.</strong>
 Đánh giá ở lớp giải kết hợp số mệnh đề với lan truyền đơn vị, đường truyền qua
 biến phụ, khả năng giữ mệnh đề đã học khi thay cận, chi phí của bộ giải mã/bộ
-kiểm tra và tương tác với tiền xử lý. Cùng một phép mã hóa khả thi có thể cư xử
+kiểm tra và tương tác với tiền xử lý. Cùng một phép biểu diễn khả thi có thể cư xử
 khác nhau dưới SAT độc lập, SAT tăng dần, MaxSAT hay một kiến trúc kết hợp.</p>
 <p><strong>Lớp bằng chứng.</strong>
 Phát biểu về tính đúng cần chứng minh hoặc kiểm tra vét cạn trên miền nhỏ; phát
@@ -3894,12 +4071,12 @@ lệ, thường là một kết quả
 UNSAT ở cận kế tiếp.</p>
 <h3 class="reader-h2">Tổng hợp các nghiên cứu tình huống</h3>
 <p>Bảng~(xem hình tab:reported-evidence-map) tổng hợp thiết kế đánh giá, kết quả và cơ
-chế mã hóa nổi bật của các nghiên cứu tình huống.</p>
+chế biểu diễn nổi bật của các nghiên cứu tình huống.</p>
 <h3 class="reader-h2">Miền hiệu quả và điểm chuyển thiết kế</h3>
 <p><strong>Bộ đếm dùng chung và Ladder AMK.</strong>
 Bộ đếm dùng chung được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
 mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
-với các tập gần rời nhau, một phép mã hóa cục bộ thường gọn hơn.</p>
+với các tập gần rời nhau, một phép biểu diễn cục bộ thường gọn hơn.</p>
 <p><strong>NSC.</strong>
 NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Nó
 phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
@@ -3910,7 +4087,7 @@ Mỗi ràng buộc phá đối xứng được suy từ một nhóm tự đẳng
 buộc và hàm mục tiêu. Sức chứa, miền quay và cách hàm mục tiêu đọc chỉ số quyết
 định những hoán vị nào thuộc nhóm này. Mức phá đối xứng được chọn cùng độ dài
 mệnh đề và chiến lược phân nhánh.</p>
-<p><strong>Mã hóa thời gian và đóng gói.</strong>
+<p><strong>Biểu diễn thời gian và đóng gói.</strong>
 SAT theo mốc thời gian phù hợp với chân trời vừa phải và miền bắt đầu đã được
 lọc. Tọa độ thứ tự nén tốt các so sánh trên miền nguyên. DDD mở rộng lựa chọn
 cho chân trời lớn khi có tập mốc đầy đủ hữu hạn, cận dưới hợp lệ và bước tinh
@@ -3921,7 +4098,7 @@ tự hai chiều. Miền rời rạc dùng ánh xạ phần tử trước/sau; m
 bổ sung một cặp biên. Nhất quán cung tạo nhiều giá trị nhất trước SAT khi miền
 lớn hoặc đồ thị ràng buộc đủ dày.</p>
 <h3 class="reader-h2">Hướng nghiên cứu tiếp theo</h3>
-<ol class="reader-list"><li><strong>Lựa chọn bộ mã hóa theo bài toán.</strong> Xây bộ chọn có thể giải thích
+<ol class="reader-list"><li><strong>Lựa chọn bộ biểu diễn theo bài toán.</strong> Xây bộ chọn có thể giải thích
  quyết định bằng các đặc trưng như \(n, k\), độ chồng lấn, độ thưa của miền và
  số cận sẽ truy vấn; đánh giá bộ chọn so với bộ giải tốt nhất ảo.</li><li><strong>Đặc tả và kết hợp.</strong> Phát triển thư viện mô-đun mà mỗi literal
  đầu ra có ngữ nghĩa máy đọc được, cho phép kiểm tự động việc ghép bộ đếm,
@@ -3935,7 +4112,7 @@ lớn hoặc đồ thị ràng buộc đủ dày.</p>
  mã băm, giấy phép và quy trình tái lập; tách kết luận đã công bố khỏi kết quả
  thăm dò.</li></ol>
 <h3 class="reader-h2">Kết luận cuối</h3>
-<p>Giá trị của phép mã hóa SAT nằm ở khả năng chọn đúng trạng thái trung gian để
+<p>Giá trị của phép biểu diễn SAT nằm ở khả năng chọn đúng trạng thái trung gian để
 CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm dùng chung, thanh ghi tam giác,
 biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
 cùng một nguyên tắc: chỉ vật hóa thông tin vừa đủ, đặt đặc tả rõ cho thông tin

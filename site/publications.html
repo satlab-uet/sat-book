@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="SATLab Publications — Peer-reviewed journals (COAP, J. Comb. Opt., RAIRO-OR, IEEE), international conference proceedings, and student research papers.">
+    <meta name="description" content="SATLab Publications — Peer-reviewed journals (COAP, JCO, RAIRO-OR, IEEE, DAM), international conference proceedings (ICAART, ISCIT, KSE, CSoNet), and student research papers.">
     <title>Publications | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -20,15 +20,15 @@
         align-items: center;
         gap: 10px;
         flex-wrap: wrap;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
       }
       .filter-pill {
-        padding: 6px 14px;
+        padding: 7px 16px;
         border-radius: var(--radius-full);
         border: 1px solid var(--color-border);
         background: #ffffff;
         color: var(--color-ink-800);
-        font-size: 0.85rem;
+        font-size: 0.88rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -42,13 +42,18 @@
         background: #ffffff;
         border: 1px solid var(--color-border);
         border-radius: var(--radius-card);
-        padding: 20px;
-        margin-bottom: 16px;
+        padding: 22px;
+        margin-bottom: 18px;
         box-shadow: var(--shadow-xs);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .pub-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
       }
       .pub-badge {
         display: inline-block;
-        padding: 2px 6px;
+        padding: 3px 8px;
         border-radius: 4px;
         font-family: var(--font-mono);
         font-size: 0.72rem;
@@ -61,13 +66,14 @@
       .bibtex-drawer {
         display: none;
         margin-top: 12px;
-        padding: 12px;
+        padding: 14px;
         background: #0f172a;
         color: #f8fafc;
         border-radius: var(--radius-sm);
         font-family: var(--font-mono);
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         white-space: pre-wrap;
+        overflow-x: auto;
       }
     </style>
   </head>
@@ -117,78 +123,421 @@
 
     <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Publications & Artifacts</h1>
-      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 24px;">
-        Peer-reviewed journal articles, international conference papers, and verified software artifacts produced by SATLab researchers.
+      <h1 style="font-family: var(--font-display); font-size: 2.1rem; color: var(--color-ink-950); margin-bottom: 10px;">Publications & Research Output</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 820px; margin-bottom: 24px;">
+        Complete catalog of peer-reviewed journal articles (Q1/Q2/Q3 ISI/Scopus), international conference papers, and active manuscripts led by SATLab researchers and students.
       </p>
 
       <!-- Search & Filter Controls -->
-      <input type="text" id="pub-search" class="search-box" style="margin-bottom: 20px;" placeholder="Search publications by title, author, keyword...">
+      <input type="text" id="pub-search" class="search-box" style="margin-bottom: 20px;" placeholder="Search publications by title, author, journal, venue, or keyword..." oninput="searchPubs()">
 
       <div class="pub-filter-bar">
-        <button class="filter-pill active" onclick="filterPubs('all', this)">All Publications</button>
+        <button class="filter-pill active" onclick="filterPubs('all', this)">All (21)</button>
         <button class="filter-pill" onclick="filterPubs('isi', this)">Q1/Q2/Q3 ISI Journals</button>
         <button class="filter-pill" onclick="filterPubs('conf', this)">International Conferences</button>
         <button class="filter-pill" onclick="filterPubs('student', this)">Student Lead Papers</button>
+        <button class="filter-pill" onclick="filterPubs('review', this)">Under Review & Preprints</button>
       </div>
 
       <!-- Publication List -->
       <div id="pub-list">
-        <!-- Item 1 -->
+
         <article class="pub-card" data-cat="isi">
           <span class="pub-badge q1">Q1 ISI JOURNAL</span>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 6px;">Solving Cyclic Antibandwidth Problem by SAT</h3>
-          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800);">Truong Xuan Hieu, To Van Khanh</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Solving Cyclic Antibandwidth Problem by SAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Truong Xuan Hieu, To Van Khanh</p>
           <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Computational Optimization and Applications (COAP), Springer, 2026.</p>
           <div style="display: flex; gap: 10px; font-size: 0.85rem;">
-            <button onclick="toggleBib('bib-1')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+            <button onclick="toggleBib('bib-coap2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
           </div>
-          <div id="bib-1" class="bibtex-drawer">@article{truong2026cyclic,
+          <div id="bib-coap2026" class="bibtex-drawer">@article{truong2026cyclic,
   title={Solving Cyclic Antibandwidth Problem by SAT},
   author={Truong, Xuan Hieu and To, Van Khanh},
   journal={Computational Optimization and Applications},
-  year={2026},
-  publisher={Springer}
+  publisher={Springer},
+  year={2026}
 }</div>
         </article>
+        
 
-        <!-- Item 2 -->
         <article class="pub-card" data-cat="isi student">
-          <span class="pub-badge q2">Q2 SCOPUS JOURNAL</span>
-          <span class="pub-badge" style="background: #fef3c7; color: #92400e;">STUDENT LEAD</span>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 6px;">Compact SAT Encodings for Power Peak Minimization in Assembly Line Balancing</h3>
-          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800);">Kieu Van Tuyen, To Van Khanh</p>
-          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Journal of Combinatorial Optimization (JCO), 2025.</p>
+          <span class="pub-badge q2">Q3 ISI JOURNAL</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">An efficient SAT encoding for solving the Social Golfer Problem</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Nguyen Tan Nguyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">RAIRO - Operations Research, Vol. 60, No. 1, pp. 173–199, 2026.</p>
           <div style="display: flex; gap: 10px; font-size: 0.85rem;">
-            <button onclick="toggleBib('bib-2')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+            <button onclick="toggleBib('bib-rairo2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
           </div>
-          <div id="bib-2" class="bibtex-drawer">@article{kieu2025compact,
-  title={Compact SAT Encodings for Power Peak Minimization in Assembly Line Balancing},
-  author={Kieu, Van Tuyen and To, Van Khanh},
-  journal={Journal of Combinatorial Optimization},
-  year={2025}
+          <div id="bib-rairo2026" class="bibtex-drawer">@article{kieu2026sgp,
+  title={An efficient SAT encoding for solving the Social Golfer Problem},
+  author={Kieu, Van Tuyen and Nguyen, Tan Nguyen and To, Van Khanh},
+  journal={RAIRO - Operations Research},
+  volume={60},
+  number={1},
+  pages={173--199},
+  year={2026}
 }</div>
         </article>
+        
 
-        <!-- Item 3 -->
-        <article class="pub-card" data-cat="conf student">
-          <span class="pub-badge conf">ICAART 2025 (RANK B)</span>
-          <span class="pub-badge" style="background: #fef3c7; color: #92400e;">STUDENT LEAD</span>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 6px;">SAT Encodings for 2D Strip Packing Problems with Non-Overlapping Constraints</h3>
-          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800);">Kieu Van Tuyen, Truong Xuan Hieu, To Van Khanh</p>
-          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Proceedings of ICAART 2025.</p>
+        <article class="pub-card" data-cat="isi student">
+          <span class="pub-badge q2">Q2 SCOPUS JOURNAL</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Cybernetics and Information Technologies, Vol. 25, No. 3, 2025.</p>
           <div style="display: flex; gap: 10px; font-size: 0.85rem;">
-            <button onclick="toggleBib('bib-3')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+            <button onclick="toggleBib('bib-cit2025')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
           </div>
-          <div id="bib-3" class="bibtex-drawer">@inproceedings{kieu2025packing,
-  title={SAT Encodings for 2D Strip Packing Problems},
-  author={Kieu, Van Tuyen and Truong, Xuan Hieu and To, Van Khanh},
-  booktitle={ICAART},
+          <div id="bib-cit2025" class="bibtex-drawer">@article{kieu2025task,
+  title={A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources},
+  author={Kieu, Van Tuyen and To, Van Khanh},
+  journal={Cybernetics and Information Technologies},
+  volume={25},
+  number={3},
   year={2025}
 }</div>
         </article>
+        
+
+        <article class="pub-card" data-cat="isi student">
+          <span class="pub-badge q2">Q4 SCOPUS JOURNAL</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Efficient SAT and MaxSAT techniques for solving the Two-Dimensional Strip Packing Problem</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Le Quy Duong, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Pesquisa Operacional, Vol. 45, e297231, 2025.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-pesquisa2025')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-pesquisa2025" class="bibtex-drawer">@article{kieu2025packing,
+  title={Efficient SAT and MaxSAT techniques for solving the Two-Dimensional Strip Packing Problem},
+  author={Kieu, Van Tuyen and Le, Quy Duong and To, Van Khanh},
+  journal={Pesquisa Operacional},
+  volume={45},
+  pages={e297231},
+  year={2025}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="conf">
+          <span class="pub-badge conf">ICAART 2025 (RANK B)</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Sequential counter encoding for staircase at-most-one constraints</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Truong Xuan Hieu, Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), Vol. 2, pp. 164–175, SciTePress, 2025.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-icaart2025')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-icaart2025" class="bibtex-drawer">@inproceedings{truong2025staircase,
+  title={Sequential counter encoding for staircase at-most-one constraints},
+  author={Truong, Xuan Hieu and Kieu, Van Tuyen and To, Van Khanh},
+  booktitle={Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025)},
+  volume={2},
+  pages={164--175},
+  year={2025}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="conf student">
+          <span class="pub-badge conf">ISCIT 2025 (RANK B)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Solving at-Least Sequence Constraints in Nurse Rostering Problem Using SAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Truong Xuan Hieu, Nguyen Hong Quan, Dao Xuan Nghia, Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Proceedings of the 24th International Symposium on Communications and Information Technologies (ISCIT 2025), IEEE, 2025.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-iscit2025')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-iscit2025" class="bibtex-drawer">@inproceedings{truong2025iscit,
+  title={Solving at-Least Sequence Constraints in Nurse Rostering Problem Using SAT},
+  author={Truong, Xuan Hieu and Nguyen, Hong Quan and Dao, Xuan Nghia and Kieu, Van Tuyen and To, Van Khanh},
+  booktitle={24th International Symposium on Communications and Information Technologies (ISCIT 2025)},
+  year={2025}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="conf student">
+          <span class="pub-badge conf">KSE 2025 (SCOPUS)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">SAT-Based Approaches for Two-Dimensional Bin Packing: A Comprehensive Comparison with MIP and CP Methods</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Hoang Linh Chi, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Proceedings of the 17th International Conference on Knowledge and Systems Engineering (KSE 2025), IEEE, 2025.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-kse2025')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-kse2025" class="bibtex-drawer">@inproceedings{kieu2025kse,
+  title={SAT-Based Approaches for Two-Dimensional Bin Packing: A Comprehensive Comparison with MIP and CP Methods},
+  author={Kieu, Van Tuyen and Hoang, Linh Chi and To, Van Khanh},
+  booktitle={17th International Conference on Knowledge and Systems Engineering (KSE 2025)},
+  year={2025}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="conf student">
+          <span class="pub-badge conf">CITA 2026 (ACCEPTED)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Exact k-Safe Labeling via Incremental SAT Solving</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Vu Thanh Huong, Nguyen Kim Trung Duc, Do Duc Long, Duong Thi Huong, Tran Ngoc Thuan, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">13th Conference on Information Technology and its Applications (CITA 2026), Accepted.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-cita2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-cita2026" class="bibtex-drawer">@inproceedings{huong2026cita,
+  title={Exact k-Safe Labeling via Incremental SAT Solving},
+  author={Vu, Thanh Huong and Nguyen, Kim Trung Duc and Do, Duc Long and Duong, Thi Huong and Tran, Ngoc Thuan and To, Van Khanh},
+  booktitle={13th Conference on Information Technology and its Applications (CITA 2026)},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2/Q3 ISI (MAJOR REVISIONS)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Compact SAT Encoding for Power Peak Minimization in Assembly Line Balancing</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Nguyen Chi Phong, Hoang Gia Bao, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Journal of Combinatorial Optimization (JCO), Springer (Major Revisions June 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-jco2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-jco2026" class="bibtex-drawer">@article{kieu2026jco,
+  title={Compact SAT Encoding for Power Peak Minimization in Assembly Line Balancing},
+  author={Kieu, Van Tuyen and Nguyen, Chi Phong and Hoang, Gia Bao and To, Van Khanh},
+  journal={Journal of Combinatorial Optimization},
+  publisher={Springer},
+  year={2026},
+  note={Under Major Revisions}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi review">
+          <span class="pub-badge q2">Q3 ISI (MAJOR REVISIONS)</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">SAT Encoding for Set of At-Most-K Cardinality Constraints with Ladder Shape</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Truong Xuan Hieu, Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Constraints, Springer (Major Revisions March 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-constraints2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-constraints2026" class="bibtex-drawer">@article{truong2026constraints,
+  title={SAT Encoding for Set of At-Most-K Cardinality Constraints with Ladder Shape},
+  author={Truong, Xuan Hieu and Kieu, Van Tuyen and To, Van Khanh},
+  journal={Constraints},
+  publisher={Springer},
+  year={2026},
+  note={Under Major Revisions}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2 ISI (MAJOR REVISIONS)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">A SAT-Based Exact Approach for the Minimum Order Frequency Assignment Problem</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Dao Xuan Nghia, Dang Anh Phuong, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">IEEE Latin America Transactions (Major Revisions June 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-ieee2026fap')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-ieee2026fap" class="bibtex-drawer">@article{dao2026ieee,
+  title={A SAT-Based Exact Approach for the Minimum Order Frequency Assignment Problem},
+  author={Dao, Xuan Nghia and Dang, Anh Phuong and To, Van Khanh},
+  journal={IEEE Latin America Transactions},
+  year={2026},
+  note={Under Major Revisions}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q3 SCOPUS (SUBMITTED)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">An exact approach solving no hole anti-k-labeling of graphs</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Pham Ngoc Hai Duong, Dao Xuan Nghia, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Discrete Mathematics, Algorithms and Applications (DMAA), World Scientific (Submitted Feb 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-dmaa2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-dmaa2026" class="bibtex-drawer">@article{duong2026dmaa,
+  title={An exact approach solving no hole anti-k-labeling of graphs},
+  author={Pham, Ngoc Hai Duong and Dao, Xuan Nghia and To, Van Khanh},
+  journal={Discrete Mathematics, Algorithms and Applications},
+  publisher={World Scientific},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q4 SCOPUS (SUBMITTED)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Sat encodings for bandwidth coloring: a systematic design study</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Nguyen Kim Trung Duc, Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Pesquisa Operacional (Submitted Feb 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-pesquisa2026band')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-pesquisa2026band" class="bibtex-drawer">@article{duc2026bandwidth,
+  title={Sat encodings for bandwidth coloring: a systematic design study},
+  author={Nguyen, Kim Trung Duc and Kieu, Van Tuyen and To, Van Khanh},
+  journal={Pesquisa Operacional},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="student review">
+          <span class="pub-badge q2">JCSC (SUBMITTED)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Solving the Two-Dimensional Single Stock Size Cutting Stock Problem with SAT and MaxSAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Hoang Linh Chi, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Journal of Computer Science and Cybernetics (Submitted April 2026).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-jcsc2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-jcsc2026" class="bibtex-drawer">@article{kieu2026jcsc,
+  title={Solving the Two-Dimensional Single Stock Size Cutting Stock Problem with SAT and MaxSAT},
+  author={Kieu, Van Tuyen and Hoang, Linh Chi and To, Van Khanh},
+  journal={Journal of Computer Science and Cybernetics},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="conf student review">
+          <span class="pub-badge conf">CSONET 2026 (SUBMITTED)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">An Efficient MaxSAT-DDD Approach for Train Rescheduling via Precedence Propagation and Hybrid AMO Encodings</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Kieu Van Tuyen, Nguyen Huu Tan, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">15th International Conference on Computational Social Networks (CSoNet 2026), Submitted June 2026.</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-csonet2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-csonet2026" class="bibtex-drawer">@inproceedings{kieu2026csonet,
+  title={An Efficient MaxSAT-DDD Approach for Train Rescheduling via Precedence Propagation and Hybrid AMO Encodings},
+  author={Kieu, Van Tuyen and Nguyen, Huu Tan and To, Van Khanh},
+  booktitle={15th International Conference on Computational Social Networks (CSoNet 2026)},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2 ISI (MANUSCRIPT)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">An exact approach for Radio–k labeling of general graphs</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Vu Thanh Huong, Dao Van Duc, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Wireless Networks, Springer (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-wireless2026')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-wireless2026" class="bibtex-drawer">@article{huong2026radio,
+  title={An exact approach for Radio-k labeling of general graphs},
+  author={Vu, Thanh Huong and Dao, Van Duc and To, Van Khanh},
+  journal={Wireless Networks},
+  publisher={Springer},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2 ISI (MANUSCRIPT)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Exact SAT Solving for the Two-Dimensional Bandwidth Minimization Problem</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Pham Quang Minh, Dao Xuan Nghia, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Discrete Applied Mathematics, Elsevier (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-dam2026minh')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-dam2026minh" class="bibtex-drawer">@article{minh2026bandwidth,
+  title={Exact SAT Solving for the Two-Dimensional Bandwidth Minimization Problem},
+  author={Pham, Quang Minh and Dao, Xuan Nghia and To, Van Khanh},
+  journal={Discrete Applied Mathematics},
+  publisher={Elsevier},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q3 ISI (MANUSCRIPT)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Providing optimality of the bandwidth multicoloring problem by SAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Nguyen Kim Trung Duc, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">RAIRO - Operations Research, EDP Sciences (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-rairo2026duc')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-rairo2026duc" class="bibtex-drawer">@article{duc2026multicoloring,
+  title={Providing optimality of the bandwidth multicoloring problem by SAT},
+  author={Nguyen, Kim Trung Duc and To, Van Khanh},
+  journal={RAIRO - Operations Research},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2 ISI (MANUSCRIPT)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Makespan minimization for Simple Assembly Line Balancing Problem with power peak consumption constraints: modeling and solving in SAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Hoang Gia Bao, Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Engineering Optimization, Taylor &amp; Francis (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-engopt2026bao')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-engopt2026bao" class="bibtex-drawer">@article{bao2026salbp,
+  title={Makespan minimization for Simple Assembly Line Balancing Problem with power peak consumption constraints: modeling and solving in SAT},
+  author={Hoang, Gia Bao and Kieu, Van Tuyen and To, Van Khanh},
+  journal={Engineering Optimization},
+  publisher={Taylor &amp; Francis},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi review">
+          <span class="pub-badge q2">Q2 ISI (MANUSCRIPT)</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Minimum-Span Antibandwidth and Cyclic Antibandwidth Labeling Problems</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Truong Xuan Hieu, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Discrete Applied Mathematics, Elsevier (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-dam2026hieu')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-dam2026hieu" class="bibtex-drawer">@article{truong2026antibandwidth,
+  title={Minimum-Span Antibandwidth and Cyclic Antibandwidth Labeling Problems},
+  author={Truong, Xuan Hieu and To, Van Khanh},
+  journal={Discrete Applied Mathematics},
+  publisher={Elsevier},
+  year={2026}
+}</div>
+        </article>
+        
+
+        <article class="pub-card" data-cat="isi student review">
+          <span class="pub-badge q2">Q2/Q3 ISI (MANUSCRIPT)</span><span class="pub-badge" style="background: #fef3c7; color: #92400e; margin-left: 6px;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--color-ink-950); margin: 6px 0 6px;">Solving Sequence Constraints in SAT</h3>
+          <p style="margin: 0 0 6px; font-size: 0.92rem; color: var(--color-ink-800); font-weight: 600;">Dao Xuan Nghia, To Van Khanh</p>
+          <p style="margin: 0 0 10px; font-size: 0.88rem; color: var(--color-ink-650); font-style: italic;">Constraints / Journal of Automated Reasoning, Springer (In preparation for submission).</p>
+          <div style="display: flex; gap: 10px; font-size: 0.85rem;">
+            <button onclick="toggleBib('bib-seq2026nghia')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">[BibTeX]</button>
+          </div>
+          <div id="bib-seq2026nghia" class="bibtex-drawer">@article{dao2026sequence,
+  title={Solving Sequence Constraints in SAT},
+  author={Dao, Xuan Nghia and To, Van Khanh},
+  journal={Constraints},
+  publisher={Springer},
+  year={2026}
+}</div>
+        </article>
+        
       </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">SATLab UET — SAT Encoding & Combinatorial Optimization Lab</div>
+          <p>© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About SATLab</a>
+          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
+        </div>
+      </div>
+    </footer>
 
     <script>
       function toggleBib(id) {
@@ -196,47 +545,33 @@
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
       }
 
-      function filterPubs(cat, btn) {
-        var buttons = document.querySelectorAll('.filter-pill');
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      var currentFilter = 'all';
 
+      function filterPubs(cat, btn) {
+        currentFilter = cat;
+        var buttons = document.querySelectorAll('.filter-pill');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+        applyFilterAndSearch();
+      }
+
+      function searchPubs() {
+        applyFilterAndSearch();
+      }
+
+      function applyFilterAndSearch() {
+        var q = document.getElementById('pub-search').value.toLowerCase().strip ? document.getElementById('pub-search').value.toLowerCase().strip() : document.getElementById('pub-search').value.toLowerCase();
         var cards = document.querySelectorAll('.pub-card');
-        cards.forEach(c => {
-          if (cat === 'all' || c.dataset.cat.includes(cat)) {
-            c.style.display = 'block';
+        cards.forEach(function(card) {
+          var catMatch = (currentFilter === 'all') || card.getAttribute('data-cat').includes(currentFilter);
+          var textMatch = !q || card.innerText.toLowerCase().includes(q);
+          if (catMatch && textMatch) {
+            card.style.display = 'block';
           } else {
-            c.style.display = 'none';
+            card.style.display = 'none';
           }
         });
       }
-
-      document.getElementById('pub-search').addEventListener('keyup', function() {
-        var query = this.value.toLowerCase();
-        var cards = document.querySelectorAll('.pub-card');
-        cards.forEach(c => {
-          var text = c.innerText.toLowerCase();
-          c.style.display = text.includes(query) ? 'block' : 'none';
-        });
-      });
     </script>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="shell footer-grid">
-        <div>
-          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">SATLab UET</div>
-          <p>VNU University of Engineering and Technology (UET-VNU)</p>
-          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
-        </div>
-        <div>
-          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
-          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
-          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
-          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>

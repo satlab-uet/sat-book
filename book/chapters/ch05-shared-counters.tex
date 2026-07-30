@@ -1,6 +1,6 @@
 \chapter{Bộ đếm dùng chung cho các cửa sổ chồng lấn}
 \chapterlead{Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
-toàn bộ biến. Mã hóa từng cửa sổ độc lập sẽ lặp trạng thái;
+toàn bộ biến. Biểu diễn từng cửa sổ độc lập sẽ lặp trạng thái;
 \emph{shared counter} (bộ đếm dùng chung) biến phần giao đó thành một mô-đun
 có thể tái sử dụng.}
 
@@ -41,7 +41,7 @@ Văn liệu đã phát triển ít nhất bốn cách nhìn:
   bộ lan truyền toàn cục.
 \end{description}
 
-So sánh có hệ thống các phép mã hóa \textsc{Sequence} cho thấy cách phân rã,
+So sánh có hệ thống các phép biểu diễn \textsc{Sequence} cho thấy cách phân rã,
 ôtômát và phương pháp dựa trên tổng khác nhau rõ về kích thước và mức nhất quán
 \parencite{brand2007sequence}. Các bộ lan truyền dựa trên luồng tiếp tục khai
 thác cấu trúc toàn cục để đạt khả năng lọc mạnh \parencite{maher2008sequence};
@@ -56,10 +56,10 @@ những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ h�
 \toprule
 Họ & Trạng thái dùng chung & Điểm mạnh & Chi phí/rủi ro\\
 \midrule
-Mỗi cửa sổ & Không hoặc ít & Đơn giản, dùng bộ mã hóa sẵn & Lặp trạng thái phụ\\
+Mỗi cửa sổ & Không hoặc ít & Đơn giản, dùng bộ biểu diễn sẵn & Lặp trạng thái phụ\\
 Tổng tiền tố & Tổng từ đầu chuỗi & Mọi cửa sổ là hiệu hai tiền tố & Miền tổng toàn cục\\
 Ôtômát & Hậu tố/lịch sử & Xử lý mẫu phức tạp & Bùng nổ trạng thái theo \(w\)\\
-Luồng & Nút và cung & Lọc toàn cục & Bộ lan truyền/phép mã hóa phức tạp\\
+Luồng & Nút và cung & Lọc toàn cục & Bộ lan truyền/phép biểu diễn phức tạp\\
 Bộ đếm theo khối & Tiền tố/hậu tố trong khối & Cục bộ và tái sử dụng có kiểm soát &
 Cần chọn phân hoạch\\
 \bottomrule
@@ -98,7 +98,7 @@ Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thướ
   O((n-w+1)wk).
 \]
 Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
-Mục tiêu của phép mã hóa dùng chung là đưa chi phí về gần
+Mục tiêu của phép biểu diễn dùng chung là đưa chi phí về gần
 \[
   O(nk)
 \]
@@ -260,13 +260,13 @@ bộ tuyến tính theo tổng kích thước khối, còn các bộ nối tuy�
 ngưỡng. Vì vậy kích thước toàn họ có thể giảm từ bậc hai về tuyến tính theo
 \(n\) ở các AMO bậc thang điển hình.
 
-Mã hóa Duplex dùng BDD tiến/lùi trong mỗi cửa sổ và liên kết các trạng thái
+Biểu diễn Duplex dùng BDD tiến/lùi trong mỗi cửa sổ và liên kết các trạng thái
 \parencite{fazekas2020duplex}. SCL dùng trạng thái tuần tự, nhờ đó giảm số
 biến phụ và mệnh đề trong phân tích của
 \textcite{truong2025scamo}.
 
 Trong hệ phân loại trên, SCL phục vụ các tập xung đột có dạng khoảng dịch
-chuyển và phần giao lớn giữa các khoảng kề nhau. Mã hóa từng cặp và bộ đếm tuần
+chuyển và phần giao lớn giữa các khoảng kề nhau. Biểu diễn từng cặp và bộ đếm tuần
 tự độc lập phù hợp hơn với các tập AMO rời rạc hoặc thiếu một thứ tự tuyến tính
 ổn định. Độ chồng lấn vì thế là đặc trưng đầu tiên để chọn giữa trạng thái dùng
 chung và bộ đếm cục bộ.
@@ -274,7 +274,7 @@ chung và bộ đếm cục bộ.
 \begin{resultbox}{SCAMO và Anti-Bandwidth}
 Trên họ SCAMO với \(n=1000\) và độ rộng cửa sổ thay đổi,
 \textcite{truong2025scamo} báo SCL dùng ít biến và mệnh đề hơn Duplex cùng các
-phép mã hóa từng cửa sổ. Khi đưa vào bài toán Anti-Bandwidth, SCL đạt kết quả
+phép biểu diễn từng cửa sổ. Khi đưa vào bài toán Anti-Bandwidth, SCL đạt kết quả
 cạnh tranh trên 24 đồ thị kiểm chuẩn, đặc biệt ở các bài toán lớn nơi chi phí
 lặp cửa sổ trở nên rõ rệt.
 \end{resultbox}
@@ -314,7 +314,7 @@ một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho c�
 
 Ladder AMK có thể được mô tả bằng ma trận liên thuộc: mỗi hàng là một ràng
 buộc, mỗi cột là một đầu vào, và các giá trị \(1\) trong mỗi hàng tạo thành
-một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Mã hóa tổng tiền tố
+một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Biểu diễn tổng tiền tố
 dùng một trạng thái toàn cục cho mọi cột. Ladder AMK chỉ vật hóa những ngưỡng
 tiền tố/hậu tố mà các hàng thật sự đọc. Do đó tiêu chí lựa chọn không chỉ là
 \(n,k\), mà còn là độ phức tạp của hai đường biên bậc thang.
@@ -328,14 +328,14 @@ nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đ�
 
 \section{Đúng đắn}
 
-\begin{theorem}[Tính đúng của phép mã hóa cửa sổ dùng chung]
+\begin{theorem}[Tính đúng của phép biểu diễn cửa sổ dùng chung]
 \label{thm:shared-window-correct}
 Giả sử:
 \begin{enumerate}
   \item các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;
   \item mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;
   \item mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;
-  \item với cửa sổ \(A\cup B\) cắt biên, phép mã hóa chứa đủ các mệnh đề
+  \item với cửa sổ \(A\cup B\) cắt biên, phép biểu diễn chứa đủ các mệnh đề
   \[
     \neg T(A,q)\lor\neg T(B,k+1-q),
     \qquad q=0,\ldots,k+1.
@@ -438,7 +438,7 @@ dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục
 
 Bộ đếm dùng chung đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
 nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
-nhỏ, mã hóa từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
+nhỏ, biểu diễn từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
 có thể quyết định trước khi sinh \CNF từ ba đại lượng: tổng số ngưỡng cục bộ,
 số bộ nối sau giản lược và số bước ghép của các cửa sổ nhiều biên.
 

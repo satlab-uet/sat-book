@@ -1,5 +1,5 @@
 \chapter{Lập lịch và cân bằng dây chuyền}
-\chapterlead{Một phép mã hóa cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
+\chapterlead{Một phép biểu diễn cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
 ba câu hỏi: quyết định nằm ở mốc nào, điều gì phải liên tục giữa các mốc, và
 cận mục tiêu được thay đổi ra sao trong quá trình giải.}
 
@@ -48,7 +48,7 @@ MIP & Biến nhị phân/liên tục & Bất đẳng thức tuyến tính & Thư
 \end{tabularx}
 \end{center}
 
-Vì vậy, một phép mã hóa lập lịch được đánh giá trên cả kích thước, sức lan
+Vì vậy, một phép biểu diễn lập lịch được đánh giá trên cả kích thước, sức lan
 truyền và biểu diễn đối chứng tương ứng: SAT theo mốc thời gian so với MIP mở
 rộng theo thời gian; SAT thứ tự so với lôgic sai phân/SMT; bộ đếm chuỗi dùng
 chung so với bộ lan truyền \textsc{Sequence}; và hàm mục tiêu MaxSAT so với PB
@@ -58,7 +58,7 @@ hay hàm mục tiêu tuyến tính.
 
 Các bài toán trong chương có bề mặt khác nhau: phân ca điều dưỡng, xếp tác vụ
 trên các máy đồng nhất, cân bằng dây chuyền theo đỉnh công suất và điều chỉnh
-lịch tàu. Tuy nhiên, phép mã hóa của chúng đều có thể tách thành bốn lớp:
+lịch tàu. Tuy nhiên, phép biểu diễn của chúng đều có thể tách thành bốn lớp:
 \begin{enumerate}
   \item \textbf{gán}: tác vụ, người hoặc chuyến tàu sử dụng tài nguyên nào;
   \item \textbf{thời gian/thứ tự}: thời điểm bắt đầu, kết thúc hoặc thứ tự trước--sau;
@@ -70,7 +70,7 @@ lịch tàu. Tuy nhiên, phép mã hóa của chúng đều có thể tách thà
 
 Việc tách lớp không chỉ giúp trình bày. Nó cho phép thay một mô-đun mà không
 đổi ngữ nghĩa của các mô-đun còn lại. Chẳng hạn, có thể giữ nguyên biến gán
-máy và thay phép mã hóa cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
+máy và thay phép biểu diễn cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
 và thay vòng lặp tối ưu bằng \SAT tăng dần hay \MaxSAT.
 
 \begin{designrule}{Nguyên tắc thiết kế}
@@ -125,13 +125,13 @@ lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:
   z_{it}=1 \iff s_i\le t<s_i+e_i .
 \]
 
-Mã hóa trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
+Biểu diễn trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
 \(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng
 \[
   \ExactlyOne\bigl(b_{is}:s\in T_i\bigr).
 \]
 Trong \CNF, phần ít nhất một là mệnh đề
-\(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng mã hóa từng
+\(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng biểu diễn từng
 cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
 dùng
 \[
@@ -142,11 +142,11 @@ dùng
   \quad\text{ở ngoài khoảng.}
 \]
 Cách này dễ hiểu nhưng lặp lại nhiều literal cho các thời điểm bắt đầu lân cận.
-Phép mã hóa gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa ``tất
+Phép biểu diễn gọn thay phần lặp bằng các biến tiền tố/hậu tố có ngữ nghĩa ``tất
 cả bằng 0'' hoặc ``tất cả bằng 1''. Hai thời điểm bắt đầu kế tiếp chia sẻ gần
 như toàn bộ cấu trúc; khác biệt của chúng chỉ nằm ở hai biên của khối.
 
-\begin{proposition}[Đúng đắn của phép mã hóa theo khối]
+\begin{proposition}[Đúng đắn của phép biểu diễn theo khối]
 \label{prop:nonpreemptive-block}
 Giả sử mô-đun khối bảo đảm: (i) tồn tại đúng một vị trí bắt đầu; (ii) từ vị
 trí đó có đúng \(e_i\) giá trị liên tiếp bằng \(1\); và (iii) mọi vị trí trước
@@ -180,7 +180,7 @@ gán các biến tiền tố/hậu tố theo định nghĩa của chúng. Mọi 
     {đủ \(3\) mốc nhưng bị ngắt};
 \end{tikzpicture}
 \caption{Ràng buộc đếm \(\sum_tz_{it}=3\) không phân biệt một khối liên tục với
-ba mốc rời; tính không ngắt phải mã hóa vị trí bắt đầu và hai biên khối.}
+ba mốc rời; tính không ngắt phải biểu diễn vị trí bắt đầu và hai biên khối.}
 \label{fig:nonpreemptive-block}
 \end{figure}
 
@@ -204,8 +204,8 @@ nói nó chạy ở đâu.
 \end{workedexample}
 
 Kết quả của \textcite{kieu2025scheduling} cho thấy lợi ích chính của phép mã
-hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp mã hóa theo
-khối với phá đối xứng và một phép mã hóa giả Boolean thích hợp đạt tổng thời
+hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp biểu diễn theo
+khối với phá đối xứng và một phép biểu diễn giả Boolean thích hợp đạt tổng thời
 gian thấp nhất trong nhiều nhóm bài toán của nghiên cứu đó. Điều cần rút ra cho
 thiết kế là: \emph{tính không ngắt nên là một mô-đun độc lập}, thay vì được
 ngầm suy từ một ràng buộc đếm.
@@ -221,7 +221,7 @@ cầu mọi cửa sổ độ rộng \(w\) chứa ít nhất \(k\) giá trị đ�
   \bigwedge_{i=0}^{n-w}
   \left(\sum_{j=i+1}^{i+w}x_j\ge k\right).
 \]
-Nếu mã hóa từng cửa sổ bằng một phép mã hóa ràng buộc đếm độc lập, hai cửa sổ
+Nếu biểu diễn từng cửa sổ bằng một phép biểu diễn ràng buộc đếm độc lập, hai cửa sổ
 kề nhau chia sẻ \(w-1\) biến gốc nhưng không chia sẻ biến phụ. Cấu trúc chuỗi
 vì thế đặt ra bài toán \emph{tái sử dụng biểu thức con}.
 
@@ -289,7 +289,7 @@ Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận d�
 
 Trong một mô hình phân ca đầy đủ, ràng buộc chuỗi chỉ là một lớp. Lớp độ phủ
 bảo đảm số nhân viên mỗi ca; ràng buộc hợp đồng giới hạn tổng giờ và số cuối
-tuần; ưu tiên tạo các chi phí mềm. Phép mã hóa cửa sổ dùng chung tác động trực
+tuần; ưu tiên tạo các chi phí mềm. Phép biểu diễn cửa sổ dùng chung tác động trực
 tiếp lên lớp chuỗi, còn MaxSAT có trọng số là một lựa chọn cho hàm mục tiêu của
 toàn mô hình \parencite{demirovic2019staff}. Ma trận thiết kế tách các lớp để
 đo riêng ảnh hưởng của ALSC, độ phủ và ưu tiên.
@@ -336,7 +336,7 @@ hệ kéo theo giữa các ngưỡng.
 
 \subsection{Bốn giao diện tối ưu}
 
-Cùng một phép mã hóa tính khả thi có thể kết nối với hàm mục tiêu theo bốn cách:
+Cùng một phép biểu diễn tính khả thi có thể kết nối với hàm mục tiêu theo bốn cách:
 \begin{center}
 \captionof{table}{Bốn giao diện tối ưu cho công suất đỉnh.}
 \label{tab:peak-interfaces}
@@ -347,7 +347,7 @@ Cơ chế & Cách thay cận & Thành phần cần giữ cố định\\
 Chặn bằng mệnh đề & Cấm mọi đỉnh không tốt hơn nghiệm đương nhiệm &
 Ngữ nghĩa của biến đỉnh\\
 Tinh chỉnh PB & Siết \(\sum_iw_iA_{i\tau}\le B\) tại mọi \(\tau\) &
-Phép mã hóa giả Boolean\\
+Phép biểu diễn giả Boolean\\
 \MaxSAT có trọng số & Đưa mức đỉnh vào mệnh đề mềm &
 Ánh xạ chi phí với giá trị \(P\)\\
 Biến chỉ báo thứ tự & Kích hoạt cận bằng các giả định &
@@ -358,7 +358,7 @@ Mệnh đề cơ sở và chuỗi thứ tự\\
 
 Biến chỉ báo thứ tự phù hợp với giải tăng dần: bộ giải được dựng một lần ở cận
 trên, sau mỗi nghiệm chỉ thay các giả định hoặc thêm mệnh đề chặn. Trong nghiên
-cứu của \textcite{kieu2025power}, phép mã hóa tuần tự gọn kết hợp giải tăng dần
+cứu của \textcite{kieu2025power}, phép biểu diễn tuần tự gọn kết hợp giải tăng dần
 chứng nhận được nhiều bài toán hơn cấu hình đối chiếu trên tập 89 bài kiểm
 chuẩn; lợi ích rõ nhất ở nhóm khó.
 
@@ -393,7 +393,7 @@ và tinh chỉnh những mốc cần thiết \parencite{boland2017ddd}. Khi chuy
 sang MaxSAT, điều phải bảo toàn là \emph{tính hợp lệ của cận dưới} trong mô
 hình hạn chế và quy tắc tinh chỉnh hữu hạn; bộ giải bên trong có thể thay đổi.
 Đây là một ví dụ quan trọng của việc đưa một kiến trúc từ Nghiên cứu vận trù
-vào SAT, thay vì chỉ thay phép mã hóa của một ràng buộc.
+vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.
 
 \subsection{Vòng lặp}
 
@@ -488,7 +488,7 @@ Lưới không được làm dày đồng loạt trên toàn chân trời thời
 
 Lan truyền quan hệ trước--sau có vai trò thu hẹp miền trước khi sinh \CNF. Nếu một
 lựa chọn thứ tự \(i\prec j\) kéo theo một chuỗi thời điểm tối thiểu, các mốc
-không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn phép mã hóa khác nhau
+không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn phép biểu diễn khác nhau
 theo kích thước miền: từng cặp cho tập rất nhỏ, tuần tự hoặc chỉ huy cho tập lớn hơn.
 
 \begin{resultbox}{Điểm rút ra từ Train MaxSAT--DDD}
@@ -549,7 +549,7 @@ một kiến trúc kết hợp.
 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
-  \item Với cùng ngữ nghĩa khối, hãy so sánh mã hóa bằng biến bắt đầu và mã hóa
+  \item Với cùng ngữ nghĩa khối, hãy so sánh biểu diễn bằng biến bắt đầu và biểu diễn
         bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.
   \item Thiết kế một bộ đếm dùng chung cho hai ALSC có cửa sổ chồng lấn nhưng cận
         \(k\) khác nhau.

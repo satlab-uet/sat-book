@@ -230,6 +230,7 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\(?![\w<])', '', text)
 
     # 7. References & Citations
+    text = re.sub(r'\\label\{[^}]+\}', '', text)
     text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
     text = re.sub(r'\\ref\{([^}]+)\}', r'(xem hình \1)', text)
     text = re.sub(r'\\eqref\{([^}]+)\}', r'(công thức \1)', text)
@@ -251,11 +252,11 @@ def capitalize_title(title: str) -> str:
 
 def parse_callouts(text: str) -> str:
     callout_types = [
-        ("designrule", "design-rule", "💡 Nguyên lý Thiết kế"),
-        ("workedexample", "worked-example", "📝 Ví dụ Thực thi"),
-        ("keyidea", "key-idea", "🔑 Ý tưởng Cốt lõi"),
-        ("summarybox", "summary-box", "📌 Tổng kết Bài học"),
-        ("resultbox", "result-box", "📊 Kết quả Thực nghiệm"),
+        ("designrule", "design-rule", "Nguyên lý Thiết kế"),
+        ("workedexample", "worked-example", "Ví dụ Thực thi"),
+        ("keyidea", "key-idea", "Ý tưởng Cốt lõi"),
+        ("summarybox", "summary-box", "Tổng kết Bài học"),
+        ("resultbox", "result-box", "Kết quả Thực nghiệm"),
     ]
     for env_name, css_class, default_title in callout_types:
         pattern = r'\\begin\{' + env_name + r'\}\s*(?:\[([^\]]*)\]|\{([^}]*)\})?(.*?)\\end\{' + env_name + r'\}'
@@ -325,13 +326,30 @@ def parse_algorithms(text: str) -> str:
     return text
 
 def parse_figures(text: str) -> str:
+    fig_idx = [0]
     def replace_figure(m):
+        fig_idx[0] += 1
         block = m.group(1)
         cap_match = re.search(r'\\caption\{([^}]+)\}', block)
-        if cap_match:
-            cap_text = clean_inline(cap_match.group(1))
-            return f'<div class="reader-inline-caption"><em>Hình: {cap_text}</em></div>'
-        return ""
+        label_match = re.search(r'\\label\{([^}]+)\}', block)
+        
+        cap_text = clean_inline(cap_match.group(1)) if cap_match else ""
+        label_raw = label_match.group(1) if label_match else f"fig_{fig_idx[0]}"
+        label_clean = label_raw.replace(":", "_").replace("-", "_")
+        
+        img_html = f'''
+        <div class="reader-figure-img">
+          <img src="assets/images/diagrams/{label_clean}.webp" alt="Hình: {cap_text}" loading="lazy" />
+        </div>
+        '''
+        caption_html = f'<div class="reader-inline-caption"><em>Hình: {cap_text}</em></div>' if cap_text else ""
+        
+        return f'''
+        <div class="reader-figure-box" id="{label_clean}">
+          {img_html}
+          {caption_html}
+        </div>
+        '''
     text = re.sub(r'\\begin\{figure\*?\}(?:\[[^\]]*\])?(.*?)\\end\{figure\*?\}', replace_figure, text, flags=re.DOTALL)
     return text
 
@@ -464,10 +482,9 @@ def parse_headings(text: str) -> str:
     return text
 
 def clean_latex_document(text: str) -> str:
-    # Comments & Index & Labels
+    # Comments & Index
     text = re.sub(r'(?<!\\)%.*', '', text)
     text = re.sub(r'\\index\{[^}]+\}', '', text)
-    text = re.sub(r'\\label\{[^}]+\}', '', text)
     text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     
     # ------------------------------------------------------------------
@@ -691,34 +708,58 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         margin-bottom: 10px;
       }
       .reader-callout {
-        border-radius: 8px;
+        border-radius: 6px;
         padding: 18px 22px;
         margin: 20px 0;
-        border: 1px solid #e2e8f0;
-        border-left-width: 5px;
-      }
-      .reader-callout.design-rule { background: #fdf4ff; border-left-color: #c026d3; }
-      .reader-callout.worked-example { background: #f0fdf4; border-left-color: #16a34a; }
-      .reader-callout.key-idea { background: #fffbebfb; border-left-color: #d97706; }
-      .reader-callout.summary-box { background: #f0f9ff; border-left-color: #0284c7; }
-      .reader-callout.result-box { background: #faf5ff; border-left-color: #9333ea; }
-      .reader-callout.theorem-box, .reader-callout.lemma-box, .reader-callout.proposition-box {
         background: #f8fafc;
-        border-left-color: #475569;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #000000;
       }
+      .reader-callout.design-rule,
+      .reader-callout.worked-example,
+      .reader-callout.key-idea,
+      .reader-callout.summary-box,
+      .reader-callout.result-box,
+      .reader-callout.theorem-box,
+      .reader-callout.lemma-box,
+      .reader-callout.proposition-box,
       .reader-callout.example-box {
-        background: #f1f5f9;
-        border-left-color: #0284c7;
+        background: #f8fafc;
+        border-left-color: #000000;
       }
       .callout-header {
         font-family: var(--font-display);
-        font-size: 1rem;
+        font-size: 1.02rem;
         margin-bottom: 8px;
-        color: #0f172a;
+        color: #000000;
+        font-weight: 700;
       }
       .callout-body {
         font-size: 0.95rem;
         line-height: 1.65;
+      }
+      .reader-figure-box {
+        margin: 28px 0;
+        text-align: center;
+      }
+      .reader-figure-img {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+      }
+      .reader-figure-img img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        padding: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      .reader-inline-caption {
+        font-size: 0.92rem;
+        color: #475569;
+        margin-top: 6px;
       }
       .reader-proof {
         background: #f8fafc;

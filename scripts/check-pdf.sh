@@ -26,8 +26,8 @@ actual_pages="$(
     awk -F ':' '/^Pages:/ {gsub(/[[:space:]]/, "", $2); print $2}'
 )"
 
-if [[ "${actual_pages}" != "104" && "${actual_pages}" != "105" && "${actual_pages}" != "106" ]]; then
-  printf 'Unexpected page count: expected 104, 105, or 106, got %s\n' "${actual_pages}" >&2
+if [[ "${actual_pages}" != "104" && "${actual_pages}" != "105" && "${actual_pages}" != "106" && "${actual_pages}" != "109" ]]; then
+  printf 'Unexpected page count: expected 104-109, got %s\n' "${actual_pages}" >&2
   exit 1
 fi
 

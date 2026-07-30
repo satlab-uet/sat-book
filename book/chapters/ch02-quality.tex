@@ -1,5 +1,5 @@
-\chapter{Thế nào là một phép mã hóa SAT tốt?}
-\chapterlead{Chất lượng phép mã hóa được đánh giá trên nhiều trục. Đúng đắn là
+\chapter{Thế nào là một phép biểu diễn SAT tốt?}
+\chapterlead{Chất lượng phép biểu diễn được đánh giá trên nhiều trục. Đúng đắn là
 điều kiện bắt buộc; các trục còn lại gồm kích thước, sức lan truyền, tính địa
 phương, chi phí tích hợp và bằng chứng thực nghiệm.}
 
@@ -9,7 +9,7 @@ phương, chi phí tích hợp và bằng chứng thực nghiệm.}
 \flowdiagram{Tính đúng}{Kích thước}{Lan truyền}
   {Cấu trúc bộ giải}{Thực nghiệm}
 
-\section{Phép mã hóa là một quan hệ có giao diện}
+\section{Phép biểu diễn là một quan hệ có giao diện}
 
 Cho ràng buộc \(\mathcal C\) trên tập biến chính \(X\), tập biến phụ \(Y\) và
 \[
@@ -50,31 +50,31 @@ mọi phép gán trên \(X\), nên tương đương theo phép chiếu.
 
 \section{Hệ phân loại theo cách biểu diễn miền}
 
-Trước khi so hai bộ mã hóa, cần xác định chúng có cùng ``từ vựng Boolean'' hay
+Trước khi so hai bộ biểu diễn, cần xác định chúng có cùng ``từ vựng Boolean'' hay
 không. Với biến miền hữu hạn \(v\in D=\set{d_1,\ldots,d_m}\), bốn họ thường
 gặp là:
 \begin{description}[style=nextline]
-  \item[Direct encoding (mã hóa trực tiếp)]
+  \item[Direct encoding (biểu diễn trực tiếp)]
   \(x_{v,a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
   hai giá trị được viết trực tiếp.
 
-  \item[Support encoding (mã hóa hỗ trợ)]
+  \item[Support encoding (biểu diễn hỗ trợ)]
   Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
   kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
   thể dài.
 
-  \item[Order encoding (mã hóa thứ tự)]
+  \item[Order encoding (biểu diễn thứ tự)]
   \(o_{v,t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
   quan hệ trước--sau trở thành phép kéo theo giữa các ngưỡng
   \parencite{tamura2009csp}.
 
-  \item[Log/binary encoding (mã hóa lôgarit/nhị phân)]
+  \item[Log/binary encoding (biểu diễn lôgarit/nhị phân)]
   Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
   khoảng thường không còn là một literal đơn; lan truyền miền có thể đi qua
   mạch sâu hơn.
 \end{description}
 
-Mã hóa lai giữ hai góc nhìn, chẳng hạn biến giá trị để chọn một giá trị và biến
+Biểu diễn lai giữ hai góc nhìn, chẳng hạn biến giá trị để chọn một giá trị và biến
 thứ tự để biểu diễn một khoảng. Chi phí liên kết hai biểu diễn chỉ đáng bỏ ra
 khi góc nhìn thứ hai rút ngắn một họ ràng buộc lớn hoặc tạo suy luận mới. Đây
 là kiến trúc được dùng lại trong Chương 7, 9--11.
@@ -116,13 +116,13 @@ Lai & Giá trị + ngưỡng/quan hệ & Nhiều kiểu ràng buộc & Chi phí 
 \label{fig:direct-order-domain}
 \end{figure}
 
-\begin{workedexample}{một bất đẳng thức trong mã hóa trực tiếp và thứ tự}
-Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Mã hóa trực tiếp cấm từng cặp
+\begin{workedexample}{một bất đẳng thức trong biểu diễn trực tiếp và thứ tự}
+Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Biểu diễn trực tiếp cấm từng cặp
 \((a,b)\) với \(a+2>b\):
 \[
   \neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Mã hóa thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
+Biểu diễn thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
 \[
   \neg o_{u,t}\lor o_{v,t+2},
   \qquad t=1,2.
@@ -210,7 +210,7 @@ thanh ghi vô dụng.
 
 \section{Unit propagation: lan truyền đơn vị}
 
-Cho phép gán bộ phận \(A\). \emph{Unit propagation} (lan truyền đơn vị, UP)
+Cho phép gán một phần \(A\). \emph{Unit propagation} (lan truyền đơn vị, UP)
 lặp việc thỏa một mệnh đề
 đơn vị cho
 đến điểm cố định hoặc xung đột. Có ba mức phát biểu thường gặp:
@@ -230,7 +230,7 @@ lặp việc thỏa một mệnh đề
   ra, hoặc UP chứng minh bất khả thỏa; đây là \emph{đầy đủ lan truyền}.
 \end{description}
 
-Trong một phép mã hóa miền hữu hạn, \emph{generalized arc consistency}
+Trong một phép biểu diễn miền hữu hạn, \emph{generalized arc consistency}
 (nhất quán cung tổng quát, GAC) loại mọi giá trị không còn giá trị hỗ trợ.
 Phát biểu GAC luôn đi cùng cách Boolean hóa miền và tập literal đại diện cho
 giá trị.
@@ -255,12 +255,12 @@ biến chính, đổi lại \(O(n^2)\) mệnh đề.
 
 \section{Cận dưới kích thước và mặt Pareto}
 
-Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép mã hóa. Với AMO, các
-cận dưới đã biết cho thấy một phép mã hóa đầy đủ lan truyền cần số mệnh đề
+Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép biểu diễn. Với AMO, các
+cận dưới đã biết cho thấy một phép biểu diễn đầy đủ lan truyền cần số mệnh đề
 tuyến tính với hệ số bị chặn, kể cả khi dùng biến phụ
 \parencite{kucera2019lower}. Kết quả này dẫn đến ba nguyên tắc:
 \begin{enumerate}
-  \item xác định rõ lớp mã hóa khi phát biểu về kích thước, biến phụ và sức lan
+  \item xác định rõ lớp biểu diễn khi phát biểu về kích thước, biến phụ và sức lan
         truyền;
   \item một cải tiến vài mệnh đề có thể đáng kể nếu nó tiến gần cận dưới;
   \item so sánh kích thước phải giữ cùng tiêu chuẩn lan truyền và cùng ngữ
@@ -270,12 +270,12 @@ tuyến tính với hệ số bị chặn, kể cả khi dùng biến phụ
 Các kết quả về phép phân rã \textsc{AllDifferent} và ràng buộc đếm toàn cục
 còn liên hệ yêu cầu lan truyền với cận biểu diễn của mạch đơn điệu
 \parencite{bessiere2009decompositions}. Khi một ràng buộc toàn cục có
-bộ lan truyền đạt mức nhất quán mạnh hơn phép mã hóa đa thức đang xét, phép so
+bộ lan truyền đạt mức nhất quán mạnh hơn phép biểu diễn đa thức đang xét, phép so
 sánh tập trung vào phần suy luận được chuyển sang học mệnh đề và chi phí
 để đạt phần suy luận đó.
 
-\begin{keyidea}{Mặt Pareto của phép mã hóa}
-Một bộ mã hóa được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
+\begin{keyidea}{Mặt Pareto của phép biểu diễn}
+Một bộ biểu diễn được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
 xây dựng và khả năng tăng dần. Điểm Pareto là điểm mà cải thiện thêm một trục
 sẽ đánh đổi ít nhất một trục khác. \emph{Benchmark} (bộ kiểm chuẩn) đo vị trí
 thực nghiệm của từng thiết kế trên mặt Pareto này.
@@ -283,7 +283,7 @@ thực nghiệm của từng thiết kế trên mặt Pareto này.
 
 \section{Mức độ phù hợp với bộ giải}
 
-Hai phép mã hóa có cùng tính đúng và kích thước vẫn có thể khác về:
+Hai phép biểu diễn có cùng tính đúng và kích thước vẫn có thể khác về:
 \begin{itemize}
   \item \textbf{tính địa phương}: một ràng buộc cục bộ dùng các biến gần nhau
         hay đi qua một cấu trúc toàn cục;
@@ -298,16 +298,16 @@ Không có một công thức giải tích đơn giản cho các thuộc tính n
 hoặc số lần lan truyền/xung đột; kết luận cuối cùng cần bộ kiểm chuẩn có kiểm
 soát.
 
-\section{Tính mô-đun và mã hóa lại có cấu trúc}
+\section{Tính mô-đun và biểu diễn lại có cấu trúc}
 
-Một mô-đun mã hóa tốt có bốn thành phần:
+Một mô-đun biểu diễn tốt có bốn thành phần:
 \[
   \texttt{variables}
   +\texttt{clauses}
   +\texttt{decoder}
   +\texttt{contract}.
 \]
-Khi nhiều ràng buộc chia sẻ biểu thức con, mã hóa lại có cấu trúc tạo biến phụ
+Khi nhiều ràng buộc chia sẻ biểu thức con, biểu diễn lại có cấu trúc tạo biến phụ
 cho phần chung thay vì Tseitin hóa từng công thức riêng
 \parencite{haberlandt2023aux}. Lợi ích xuất hiện khi mô-đun thực sự được dùng
 chung trong \CNF và bên sử dụng đọc đúng đặc tả.
@@ -319,14 +319,14 @@ của Chương 5.
 \section{Ma trận phát biểu--bằng chứng}
 
 \begin{center}
-\captionof{table}{Ma trận phát biểu--bằng chứng cho một phép mã hóa SAT.}
+\captionof{table}{Ma trận phát biểu--bằng chứng cho một phép biểu diễn SAT.}
 \label{tab:claim-evidence}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.24\textwidth}YY@{}}
 \toprule
 Phát biểu & Bằng chứng lý thuyết & Bằng chứng thực nghiệm\\
 \midrule
-Mã hóa đúng & Chứng minh hai chiều & Kiểm thử vét cạn/vi sai trên miền nhỏ\\
-Mã hóa nhỏ hơn & Công thức đếm & Kích thước \CNF thực tế\\
+Biểu diễn đúng & Chứng minh hai chiều & Kiểm thử vét cạn/vi sai trên miền nhỏ\\
+Biểu diễn nhỏ hơn & Công thức đếm & Kích thước \CNF thực tế\\
 Lan truyền mạnh hơn & Bổ đề UP/PC/GAC & Bộ đếm lan truyền/xung đột\\
 Nhanh hơn & Phân tích cơ chế & Bộ kiểm chuẩn, nhiều \emph{random seed}
 (hạt giống ngẫu nhiên), \emph{performance profile} (hồ sơ hiệu năng)\\
@@ -338,7 +338,7 @@ Chứng nhận tối ưu & Định lý về cận & Nghiệm và chứng minh �
 Ma trận đưa mỗi ý tưởng vào đúng loại đóng góp: định lý, thiết kế cấu trúc hay
 quan sát thực nghiệm.
 
-\section{Một quy trình đánh giá phép mã hóa}
+\section{Một quy trình đánh giá phép biểu diễn}
 
 \begin{summarybox}
 \begin{enumerate}
@@ -360,15 +360,15 @@ quan sát thực nghiệm.
   \item Đặc tả ngữ nghĩa quyết định biến phụ có thể được tái sử dụng thế nào.
   \item Đếm literal và cấu trúc mệnh đề quan trọng ngang với số mệnh đề.
   \item Phát biểu về sức lan truyền phải nêu rõ phạm vi literal được quan sát.
-  \item Thời gian chạy là kết quả của tương tác giữa phép mã hóa, bộ giải và bài toán thử.
+  \item Thời gian chạy là kết quả của tương tác giữa phép biểu diễn, bộ giải và bài toán thử.
 \end{enumerate}
 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
-  \item Cho một phép mã hóa AMO có biến phụ, viết bộ giải mã và chứng
+  \item Cho một phép biểu diễn AMO có biến phụ, viết bộ giải mã và chứng
         minh theo phép chiếu.
   \item Thiết kế một phép thử phân biệt đặc tả điều kiện đủ với đặc tả tương
         đương của thanh ghi ngưỡng.
-  \item Chọn ba thước đo để giải thích vì sao một phép mã hóa lớn hơn lại chạy
+  \item Chọn ba thước đo để giải thích vì sao một phép biểu diễn lớn hơn lại chạy
         nhanh hơn trên các bài toán thử \UNSAT.
 \end{enumerate}

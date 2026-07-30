@@ -105,9 +105,9 @@ chúng bằng hai biên theo giá trị:
 Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.
 
-\subsection{Quan hệ với mã hóa hỗ trợ}
+\subsection{Quan hệ với biểu diễn hỗ trợ}
 
-Trong mã hóa trực tiếp/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
+Trong biểu diễn trực tiếp/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
 trong các giá trị còn hỗ trợ:
 \[
   \neg x_{u,a}
@@ -149,7 +149,7 @@ biểu diễn BDD/MDD khác.
 
 Phép so sánh lan truyền theo dõi đường suy luận của từng biểu diễn. Mệnh đề hỗ
 trợ trực tiếp loại giá trị chính xác; mệnh đề biên suy qua chuỗi thứ tự và liên
-kết giá trị chính xác--thứ tự. Hai phép mã hóa đạt cùng mức cắt tỉa khi đặc tả của các
+kết giá trị chính xác--thứ tự. Hai phép biểu diễn đạt cùng mức cắt tỉa khi đặc tả của các
 chuỗi đó cung cấp đủ các bước suy luận
 \parencite{gent2002arc,bacchus2007gac}.
 
@@ -184,7 +184,7 @@ Trong bài toán gán nhãn radio chuẩn, người ta thường xét
 Khoảng cách đồ thị tạo một đồ thị ràng buộc dày hơn đồ thị gốc: mọi cặp có
 \(d(u,v)\le k\) đều bị ràng buộc, với mức phân cách giảm khi khoảng cách đồ
 thị tăng. Bước tìm đường đi ngắn nhất cho mọi cặp vì thế không chỉ dành cho bộ
-kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép mã hóa. Các cặp có
+kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép biểu diễn. Các cặp có
 \(\Delta_{uv}\le0\) được bỏ, còn các đỉnh trong cùng quỹ đạo có thể hỗ trợ phá
 đối xứng.
 
@@ -222,7 +222,7 @@ Mỗi đỉnh nhận đúng một nhãn. Với cặp \(u,v\), mọi cặp nhãn
 \[
   \neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Mã hóa trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+Biểu diễn trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
 khoảng cấm.
 
 \subsection{SAT thứ tự}
@@ -298,15 +298,15 @@ một mô hình khác.
 
 \subsection{Direct, forward order và reverse order encoding}
 
-\paragraph{Direct Encoding (mã hóa trực tiếp, DE).}
+\paragraph{Direct Encoding (biểu diễn trực tiếp, DE).}
 \(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
 thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).
 
-\paragraph{Forward Order Encoding (mã hóa thứ tự xuôi, FE).}
+\paragraph{Forward Order Encoding (biểu diễn thứ tự xuôi, FE).}
 \(X_{v,j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
 hoạt hai biên của khoảng \([j-k+1,j+k-1]\).
 
-\paragraph{Reverse Order Encoding (mã hóa thứ tự ngược, RE).}
+\paragraph{Reverse Order Encoding (biểu diễn thứ tự ngược, RE).}
 \(X_{v,j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.
 
@@ -318,7 +318,7 @@ khác nhau. Đối xứng phản xạ
 giữ mọi khoảng cách và tính đơn ánh trên miền \([1,S]\). Có thể chọn một đỉnh
 đại diện và đặt nó ở nửa dưới miền để giữ một đại diện của cặp phản xạ.
 
-\begin{resultbox}{So sánh ba phép mã hóa}
+\begin{resultbox}{So sánh ba phép biểu diễn}
 Trên 16 đồ thị Erdős--Rényi của \textcite{thanh2026ksafe}, FE và RE tìm nghiệm
 cho toàn bộ tập và chứng nhận 13 giá trị tối ưu; DE tìm nghiệm cho 15 và chứng
 nhận 8. Kết quả cho thấy biên thứ tự phù hợp với ràng buộc khoảng cách, còn
@@ -380,10 +380,10 @@ thời gian AC riêng; không gán toàn bộ mức giảm thời gian chạy ch
 
 \subsection{DSE và POSE}
 
-Mã hóa SAT trực tiếp dùng \(x_{v,q}=1\iff f_v=D_{v,q}\), ràng buộc đúng một
+Biểu diễn SAT trực tiếp dùng \(x_{v,q}=1\iff f_v=D_{v,q}\), ràng buộc đúng một
 theo máy phát và xung đột từng cặp cho các cặp giá trị vi phạm.
 
-Mã hóa SAT thứ tự bộ phận thêm
+Biểu diễn SAT thứ tự bộ phận thêm
 \[
   g_{v,q}=1\iff
   \text{chỉ số tần số của }v\text{ không nhỏ hơn }q.
@@ -530,7 +530,7 @@ Bộ kiểm tra khả thi đọc trực tiếp nghiệm:
         và số tần số phân biệt.
 \end{itemize}
 Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
-phép mã hóa.
+phép biểu diễn.
 
 Chứng nhận tối ưu gồm một nghiệm làm chứng tại cận trên và bằng chứng cận dưới:
 \UNSAT ở độ trải/số giá trị kề trước, hoặc một cận dưới toán học bằng cận trên.

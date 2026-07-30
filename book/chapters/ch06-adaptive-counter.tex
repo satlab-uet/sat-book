@@ -19,7 +19,7 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
   \left(\sum X\le K\right)\land
   \left(\sum X\ge K\right),
 \]
-nhưng hai vế không nhất thiết phải dùng hai bộ mã hóa độc lập. Một vectơ đơn
+nhưng hai vế không nhất thiết phải dùng hai bộ biểu diễn độc lập. Một vectơ đơn
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
 trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
@@ -276,14 +276,14 @@ ràng buộc và hàm mục tiêu.
 lịch vừa là bài toán thiết kế tổ hợp. Ba
 nguồn khó đan xen với nhau: ràng buộc đúng kích thước nhóm, cấm lặp cặp người
 chơi và một nhóm đối xứng lớn do hoán vị tuần, nhóm, người. Vì vậy, hiệu quả
-của một phép mã hóa ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
+của một phép biểu diễn ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
 chính và cách phá đối xứng.
 
 Các mô hình SAT trước đó từng dùng thêm chỉ số vị trí trong nhóm, sau đó được
 sửa và rút gọn bằng biến người--nhóm--tuần cùng cấu trúc bậc thang
 \parencite{triska2012golfer}. Dòng phát triển này minh họa một quy tắc quan
 trọng: bỏ một chỉ số không mang nghĩa thường tạo lợi ích lớn hơn tối ưu vài
-mệnh đề trong chính bộ mã hóa ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
+mệnh đề trong chính bộ biểu diễn ràng buộc đếm. Phép đánh giá NSC vì thế bắt đầu sau
 khi phần biểu diễn đối tượng đã được chuẩn hóa.
 
 Một bài toán thử \(g\)-\(p\)-\(w\) có \(n=gp\) người chơi, \(g\) nhóm mỗi tuần,
@@ -350,7 +350,7 @@ cân bằng số biến, số mệnh đề và cấu trúc lan truyền.
 \subsection{Phân tích kết quả}
 
 Mô hình ba chỉ số loại đối xứng vị trí, còn trạng thái tuần tự tam giác cung
-cấp một phép mã hóa EXK cạnh tranh cho ràng buộc kích thước nhóm. Có thể đo
+cấp một phép biểu diễn EXK cạnh tranh cho ràng buộc kích thước nhóm. Có thể đo
 riêng tác động của NSC bằng cách giữ cố định mô hình SGP, chỉ thay mô-đun kích
 thước nhóm, phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UNSAT.
 
@@ -364,7 +364,7 @@ phần lớn lỗi biên:
 \begin{enumerate}
   \item liệt kê toàn bộ vectơ đầu vào khi \(n\le8\) và so sánh với tổng thật;
   \item với mỗi vectơ hợp lệ, kiểm tra có tồn tại phần mở rộng cho biến \(R\);
-  \item với mỗi phép gán bộ phận, so sánh literal đầu vào mà lan truyền đơn vị
+  \item với mỗi phép gán một phần, so sánh literal đầu vào mà lan truyền đơn vị
   suy ra với các hệ quả trực tiếp của hai cận.
 \end{enumerate}
 
@@ -426,7 +426,7 @@ trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán t
   ngưỡng cuối.
   \item Hiệu quả cần được đọc đồng thời qua kích thước, lan truyền và hành vi
   giải trên bài toán khó.
-  \item Social Golfer cho thấy lựa chọn biến chính và phép mã hóa ràng buộc đếm phải
+  \item Social Golfer cho thấy lựa chọn biến chính và phép biểu diễn ràng buộc đếm phải
   được thiết kế cùng nhau.
 \end{enumerate}
 \end{summarybox}

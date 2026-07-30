@@ -1,5 +1,5 @@
 \chapter{Đối xứng, biến quan hệ và liên kết biểu diễn}
-\chapterlead{Một phép mã hóa tốt không chỉ mô tả nghiệm; nó còn quyết định cách
+\chapterlead{Một phép biểu diễn tốt không chỉ mô tả nghiệm; nó còn quyết định cách
 bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
 \emph{Symmetry breaking} (phá đối xứng) thu gọn không gian tìm kiếm, còn
 \emph{channeling} (liên kết biểu diễn) nối các góc nhìn bổ sung của cùng một
@@ -16,7 +16,7 @@ quyết định.}
 Một đối xứng của bài toán tác động lên đối tượng miền: đổi tên khung chứa, máy,
 nhóm, tuần, màu hoặc phản xạ hình học. Một đối xứng của \CNF là hoán vị biến
 và literal bảo toàn tập mệnh đề. Hai nhóm này liên quan nhưng không trùng nhau.
-Phép mã hóa có thể:
+Phép biểu diễn có thể:
 \begin{itemize}
   \item làm một đối xứng miền biến mất vì không biểu diễn chỉ số thừa;
   \item làm một đối xứng miền trở nên khó phát hiện do biến phụ;
@@ -74,7 +74,7 @@ Phá đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít 
   \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
 \]
 Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
-phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố mã hóa
+phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố biểu diễn
 một dạng chuẩn hoàn chỉnh \parencite{walsh2006symmetry,gent2006symmetry}.
 
 \begin{figure}[tb]
@@ -183,7 +183,7 @@ Với hai vector đại diện các đối tượng hoán vị được,
   A=\langle a_1,\ldots,a_m\rangle,\qquad
   B=\langle b_1,\ldots,b_m\rangle,
 \]
-ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép mã hóa dùng
+ràng buộc \(A\le_{\mathrm{lex}}B\) chọn thứ tự từ điển. Một phép biểu diễn dùng
 các biến bằng nhau trên tiền tố \(e_i\):
 \[
   e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
@@ -238,7 +238,7 @@ miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giả
 
 \subsection{Biến quan hệ và giá trị hỗ trợ}
 
-Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa mã hóa trực tiếp và mã
+Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa biểu diễn trực tiếp và mã
 hóa hỗ trợ. Nó không chọn toàn bộ giá trị của hai biến; nó chọn một
 \emph{lớp} cặp giá trị,
 chẳng hạn ``trái'', ``dưới'' hoặc ``trước''. Mỗi lớp sau đó được liên kết sang
@@ -281,16 +281,16 @@ Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ.}
 \label{fig:four-spatial-relations}
 \end{figure}
 
-\section{Mã hóa thứ tự và các literal so sánh}
+\section{Biểu diễn thứ tự và các literal so sánh}
 
-Cho biến nguyên \(z\in\{0,\ldots,U\}\). Mã hóa thứ tự dùng
+Cho biến nguyên \(z\in\{0,\ldots,U\}\). Biểu diễn thứ tự dùng
 \[
   o_{z,t}=1
   \quad\Longleftrightarrow\quad
   z\ge t,
   \qquad t=1,\ldots,U.
 \]
-Tính đơn điệu được mã hóa bởi
+Tính đơn điệu được biểu diễn bởi
 \[
   o_{z,t+1}\rightarrow o_{z,t}.
 \]
@@ -311,9 +311,9 @@ Nhờ vậy, biến quan hệ \(P_{ij}\) có thể liên kết trực tiếp v�
 tự của \(s_i,s_j\), thay vì tạo một mạch cộng tổng quát
 \parencite{kieu2025scheduling}.
 
-\begin{workedexample}{Liên kết mã hóa trực tiếp--thứ tự cho một giá trị nguyên}
-Cho \(z\in\{0,1,2,3,4\}\). Mã hóa trực tiếp có \(d_a\Leftrightarrow(z=a)\);
-mã hóa thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
+\begin{workedexample}{Liên kết biểu diễn trực tiếp--thứ tự cho một giá trị nguyên}
+Cho \(z\in\{0,1,2,3,4\}\). Biểu diễn trực tiếp có \(d_a\Leftrightarrow(z=a)\);
+biểu diễn thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
 \[
   d_a\leftrightarrow o_a\land\neg o_{a+1},
   \qquad o_0\equiv\top,\quad o_5\equiv\bot.
@@ -366,7 +366,7 @@ mô-đun khác.
 
 \subsection{Lan truyền qua vòng liên kết}
 
-Phép mã hóa kết hợp tạo một vòng suy luận:
+Phép biểu diễn kết hợp tạo một vòng suy luận:
 \[
   \text{lựa chọn chính xác}
   \rightarrow
@@ -378,10 +378,10 @@ Phép mã hóa kết hợp tạo một vòng suy luận:
 \]
 Mỗi chiều liên kết đóng một đường suy luận trong vòng trên. Phép đánh giá bắt
 đầu bằng danh sách các suy luận miền mong muốn, sau đó tìm tập chiều tối thiểu
-tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán bộ phận và lan truyền
+tạo được chúng. Đặc tả này có thể kiểm bằng các phép gán một phần và lan truyền
 đơn vị như trong Chương 2.
 
-Việc giữ nhiều góc nhìn cũng liên quan đến mã hóa lại có cấu trúc: biến phụ có
+Việc giữ nhiều góc nhìn cũng liên quan đến biểu diễn lại có cấu trúc: biến phụ có
 giá trị khi nó đặt tên cho một lớp hỗ trợ được nhiều ràng buộc dùng lại, thay
 vì chỉ thay một biểu thức xuất hiện một lần
 \parencite{haberlandt2023aux}.
@@ -399,7 +399,7 @@ vì chỉ thay một biểu thức xuất hiện một lần
   \draw[satedge] (v)--node[left,satlabel]{loại cận}(d);
   \draw[satdash,bend left=20] (o) to node[below,satlabel]{chiều ngược}(d);
 \end{tikzpicture}
-\caption{Vòng liên kết trong phép mã hóa kết hợp. Thiếu một chiều có thể làm
+\caption{Vòng liên kết trong phép biểu diễn kết hợp. Thiếu một chiều có thể làm
 đứt một đường lan truyền đơn vị dù công thức vẫn đúng theo phép chiếu.}
 \label{fig:channeling-loop}
 \end{figure}
@@ -445,7 +445,7 @@ quan hệ. Trong phân bổ tần số, cạnh là cặp máy phát có yêu c�
 
 Thiết kế theo đồ thị đem lại hai lợi ích: kích thước tỉ lệ với số tương tác
 thật, và mệnh đề học được thường nằm quanh một lân cận nhỏ. Đây là một tiêu chí
-cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép mã hóa ``gọn''.
+cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép biểu diễn ``gọn''.
 
 \section{Kiến trúc kết hợp}
 
@@ -474,7 +474,7 @@ chính kiến trúc này cho bốn họ bài toán.
   \item Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.
   \item Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
   \item Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.
-  \item Mã hóa thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.
+  \item Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.
   \item Đồ thị xung đột xác định nơi thật sự cần biến phụ.
 \end{enumerate}
 \end{summarybox}

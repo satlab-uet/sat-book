@@ -1,18 +1,18 @@
 \chapter{SAT và MaxSAT như một nền tảng giải chính xác}
 \chapterlead{Bộ giải SAT trả lời một câu hỏi quyết định. Để giải tối ưu tổ hợp,
-ta cần thêm mô hình miền, phép mã hóa, cơ chế tìm cận và một
+ta cần thêm mô hình miền, phép biểu diễn, cơ chế tìm cận và một
 \emph{model checker} (bộ kiểm tra độc lập). Bốn lớp này tạo thành một thuật
 toán hoàn chỉnh.}
 
 \index{SAT}\index{DPLL}\index{CDCL}\index{MaxSAT}
 \index{incremental SAT}\index{proof logging}\index{model checker}
 
-\flowdiagram{Mô hình miền}{Mã hóa \CNF}{Bộ giải SAT/MaxSAT}
+\flowdiagram{Mô hình miền}{Biểu diễn \CNF}{Bộ giải SAT/MaxSAT}
   {Giải mã nghiệm}{Kiểm tra và cận}
 
 \section{Ba dòng nghiên cứu hội tụ}
 
-Phép mã hóa SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
+Phép biểu diễn SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
 nhất, \emph{propositional reasoning} (lập luận mệnh đề) đưa bài toán về \CNF
 để dùng lan truyền đơn vị, phân tích xung đột và học mệnh đề. Thứ hai,
 \emph{Constraint Programming} (CP, quy hoạch ràng buộc) nhìn mô hình qua biến miền
@@ -22,7 +22,7 @@ chứng nhận tối ưu ở vị trí trung tâm.
 
 Các công trình về \emph{arc consistency} (nhất quán cung) trong SAT chỉ ra
 rằng chất lượng phép dịch còn phụ thuộc vào các suy luận miền mà bộ lan truyền
-tạo được \parencite{gent2002arc,bacchus2007gac}. Một phép mã hóa có thể đúng về
+tạo được \parencite{gent2002arc,bacchus2007gac}. Một phép biểu diễn có thể đúng về
 tập nghiệm nhưng làm mất suy luận vốn xuất hiện sớm trong bộ lan truyền của
 ràng buộc toàn cục. SAT bù lại bằng khả năng học mệnh đề xuyên qua nhiều ràng
 buộc. Vì vậy sách dùng hai cấp phân tích:
@@ -34,13 +34,13 @@ buộc. Vì vậy sách dùng hai cấp phân tích:
 \end{enumerate}
 
 Việc biên dịch CSP miền hữu hạn sang SAT đã phát triển thành một hướng độc lập,
-với mã hóa trực tiếp, hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
+với biểu diễn trực tiếp, hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
 buộc toàn cục \parencite{tamura2009csp,petke2015bridging}. Trong góc nhìn này,
-``mã hóa SAT tối ưu'' là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
+``biểu diễn SAT tối ưu'' là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
 miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bài toán đang xét.
 
 \begin{center}
-\captionof{table}{Ba góc nhìn bổ sung khi đánh giá một phép mã hóa SAT.}
+\captionof{table}{Ba góc nhìn bổ sung khi đánh giá một phép biểu diễn SAT.}
 \label{tab:three-perspectives}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
 \toprule
@@ -159,7 +159,7 @@ là tên tương đương của biểu thức.
 
 \begin{keyidea}{Vai trò của biến phụ}
 Biến phụ vừa làm gọn công thức vừa làm lộ trạng thái trung gian cho lan truyền
-đơn vị và học mệnh đề. Thiết kế phép mã hóa vì thế là thiết kế một không gian
+đơn vị và học mệnh đề. Thiết kế phép biểu diễn vì thế là thiết kế một không gian
 trạng thái cho bộ giải.
 \end{keyidea}
 
@@ -170,7 +170,7 @@ Với \(z\leftrightarrow(x\land y)\), đặt \(z=1\). Hai mệnh đề
 \((z\lor\neg x\lor\neg y)\) suy \(z=1\).
 
 Nếu bỏ mệnh đề thứ ba, phép gán \(x=y=1,z=0\) vẫn thỏa. Khi đó hai mệnh đề còn
-lại chỉ mã hóa \(z\rightarrow x\land y\), không còn tương đương hai chiều.
+lại chỉ biểu diễn \(z\rightarrow x\land y\), không còn tương đương hai chiều.
 Ví dụ ba biến này là phép kiểm nhanh nên làm trước khi dùng một literal phụ
 trong mô-đun khác.
 \end{workedexample}
@@ -206,7 +206,7 @@ của nhánh đã thất bại. CDCL giữ bộ khung quyết định--lan truy�
 ghi lý do của mỗi literal trên \emph{trail} (vết gán theo thứ tự), phân tích đồ thị kéo theo, học
 một mệnh đề và thực hiện \emph{backjump} (nhảy lùi đến mức quyết định thích
 hợp). \emph{Restart} (khởi động lại)
-làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép mã hóa
+làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép biểu diễn
 không chỉ ảnh hưởng số nút: nó quyết định các cạnh lý do mà phân tích xung đột
 có thể sử dụng.
 
@@ -221,14 +221,14 @@ Các bộ giải SAT hiện đại chủ yếu dựa trên
   \item tiếp tục cho đến mô hình thỏa hoặc chứng minh \UNSAT.
 \end{enumerate}
 
-Phép mã hóa ảnh hưởng trực tiếp ba lớp của vòng này. Mệnh đề nhị phân và tam
+Phép biểu diễn ảnh hưởng trực tiếp ba lớp của vòng này. Mệnh đề nhị phân và tam
 phân tạo đường lan truyền ngắn. Biến phụ quyết định hình dạng đồ thị kéo theo.
 Cấu trúc mô-đun và tính địa phương ảnh hưởng chất lượng mệnh đề học được; chỉ số
 LBD là một trong các thước đo thường dùng để quản lý chúng
 \parencite{audemard2009lbd}.
 
-Vì vậy hai phép mã hóa có cùng số mệnh đề vẫn có thể khác về thời gian chạy.
-Phép mã hóa lớn hơn đôi khi chạy nhanh hơn nhờ các trạng thái trung gian giúp
+Vì vậy hai phép biểu diễn có cùng số mệnh đề vẫn có thể khác về thời gian chạy.
+Phép biểu diễn lớn hơn đôi khi chạy nhanh hơn nhờ các trạng thái trung gian giúp
 bộ giải học mâu thuẫn có tính khái quát.
 
 \begin{figure}[tb]
@@ -246,10 +246,10 @@ bộ giải học mâu thuẫn có tính khái quát.
   \draw[satedge] (a)--(l);
   \draw[satedge] (l)--(b);
   \draw[satedge] (b)--(d);
-  \node[satlabel,below=5mm of l] {Phép mã hóa quyết định độ ngắn của đường suy luận\\
+  \node[satlabel,below=5mm of l] {Phép biểu diễn quyết định độ ngắn của đường suy luận\\
     và phạm vi áp dụng của mệnh đề học được.};
 \end{tikzpicture}
-\caption{Một vòng CDCL nhìn từ góc độ thiết kế phép mã hóa.}
+\caption{Một vòng CDCL nhìn từ góc độ thiết kế phép biểu diễn.}
 \label{fig:cdcl-loop}
 \end{figure}
 
@@ -294,7 +294,7 @@ thùng được dùng, số ràng buộc mềm bị vi phạm hoặc tổng mứ
 
 Một cách giải MaxSAT là chuyển hàm mục tiêu thành chuỗi bài toán \SAT với cận chi phí
 \parencite{davies2011maxsat}. Vì thế khác biệt giữa SAT tăng dần và MaxSAT
-thường nằm ở \emph{giao diện hàm mục tiêu}, còn phần mã hóa tính khả thi có
+thường nằm ở \emph{giao diện hàm mục tiêu}, còn phần biểu diễn tính khả thi có
 thể được dùng chung.
 
 Văn liệu MaxSAT hiện đại thường phân biệt ba kiến trúc. \emph{Linear/binary
@@ -303,7 +303,7 @@ search} (tìm kiếm tuyến tính/nhị phân) đặt cận lên tổng các li
 nhóm mệnh đề mềm không thể đồng thời thỏa, rồi nới chúng có kiểm soát.
 \emph{Hitting-set} (tập đánh trúng) tách việc tìm lõi khỏi bài toán chọn các
 mệnh đề mềm cần vi phạm.
-Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép mã hóa đếm/PB ở trung tâm
+Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép biểu diễn đếm/PB ở trung tâm
 thuật toán: mô-đun này được dựng,
 mở rộng hoặc thay cận nhiều lần trong quá trình giải MaxSAT
 \parencite{martins2014openwbo,ignatiev2019rc2}.
@@ -338,7 +338,7 @@ biến chính để tạo nghiệm miền. Bộ kiểm tra sau đó xác minh:
   \item hàm mục tiêu được tính lại từ nghiệm;
   \item cận và trạng thái bộ giải nhất quán.
 \end{enumerate}
-Bộ kiểm tra được cài đặt độc lập với bộ mã hóa để hai thành phần tạo thành một phép
+Bộ kiểm tra được cài đặt độc lập với bộ biểu diễn để hai thành phần tạo thành một phép
 kiểm chéo.
 
 Với giá trị tối ưu \(B^\star\), chứng cứ cận trên là một nghiệm có chi phí
@@ -384,7 +384,7 @@ Bộ kiểm nghiệm và bộ kiểm chứng cận\\
 \end{enumerate}
 \end{summarybox}
 
-PySAT cung cấp môi trường thuận tiện để thử nghiệm nhiều bộ giải và phép mã hóa
+PySAT cung cấp môi trường thuận tiện để thử nghiệm nhiều bộ giải và phép biểu diễn
 \parencite{ignatiev2018pysat}; ánh xạ biến và bộ kiểm tra vẫn thuộc về ứng
 dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ nguyên ngữ nghĩa.
 
@@ -402,8 +402,8 @@ dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
   \item Viết \(P(B)\) và quy tắc cập nhật cận cho một bài toán cực đại.
-  \item Bỏ từng mệnh đề trong phép mã hóa \(z\leftrightarrow(x\land y)\) và tìm
+  \item Bỏ từng mệnh đề trong phép biểu diễn \(z\leftrightarrow(x\land y)\) và tìm
         phép gán làm mất một chiều tương đương.
-  \item Mô tả hai cách mã hóa ``tối thiểu số nhóm được dùng'': SAT theo cận và
+  \item Mô tả hai cách biểu diễn ``tối thiểu số nhóm được dùng'': SAT theo cận và
         \emph{Partial MaxSAT} (MaxSAT bộ phận).
 \end{enumerate}

@@ -3,7 +3,7 @@
 đúng trong một tập; \emph{pseudo-Boolean constraint} (ràng buộc giả Boolean)
 mở rộng nó
 bằng các trọng số nguyên. Hai lớp này xuất hiện trong ràng buộc gán, sức chứa,
-chuỗi, đối xứng và hàm mục tiêu. Không có một bộ mã hóa tốt nhất cho mọi miền;
+chuỗi, đối xứng và hàm mục tiêu. Không có một bộ biểu diễn tốt nhất cho mọi miền;
 cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách bộ giải thay cận.}
 
 \index{cardinality constraint}\index{at-most-one}
@@ -11,14 +11,14 @@ cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách 
 \index{binary decision diagram}\index{pseudo-Boolean constraint}
 
 \flowdiagram{AMO/EXO}{AMK/ALK}{Đúng \(K\)}
-  {Giả Boolean}{Chọn bộ mã hóa}
+  {Giả Boolean}{Chọn bộ biểu diễn}
 
-\section{Bản đồ phát triển của phép mã hóa ràng buộc đếm}
+\section{Bản đồ phát triển của phép biểu diễn ràng buộc đếm}
 
-Các phép mã hóa ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
-hóa mới thay thế hoàn toàn bộ mã hóa cũ. Mỗi họ giải quyết một kiểu đánh đổi:
+Các phép biểu diễn ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
+hóa mới thay thế hoàn toàn bộ biểu diễn cũ. Mỗi họ giải quyết một kiểu đánh đổi:
 \begin{enumerate}
-  \item \emph{pairwise encoding} (mã hóa từng cặp) và các phép phân rã AMO ưu tiên
+  \item \emph{pairwise encoding} (biểu diễn từng cặp) và các phép phân rã AMO ưu tiên
         phát hiện xung đột trực tiếp;
   \item \emph{sequential counter} (bộ đếm tuần tự) vật hóa tổng trên từng tiền tố;
   \item \emph{totalizer} (cây tổng) vật hóa tổng theo cấu trúc cây;
@@ -27,7 +27,7 @@ hóa mới thay thế hoàn toàn bộ mã hóa cũ. Mỗi họ giải quyết m
   \item \emph{binary decision diagram} (biểu đồ quyết định nhị phân, BDD)
         hợp nhất các trạng thái tổng tương đương;
   \item cây tổng tổng quát và các biến thể PB xử lý trọng số;
-  \item danh mục phương pháp hoặc bộ chọn đã học chọn phép mã hóa theo đặc
+  \item danh mục phương pháp hoặc bộ chọn đã học chọn phép biểu diễn theo đặc
         trưng của bài toán thử.
 \end{enumerate}
 
@@ -63,14 +63,14 @@ Với \(X=\set{x_1,\ldots,x_n}\), ba tên tiếng Anh lần lượt là
   \sum_i(1-x_i)\le n-k.
 \]
 Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
-mã hóa trực tiếp ALK và mã hóa AMK trên các literal phủ định phụ thuộc vào
+biểu diễn trực tiếp ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.
 
 \section{At-most-one (AMO): ràng buộc nhiều nhất một}
 
-\subsection{Mã hóa từng cặp}
+\subsection{Biểu diễn từng cặp}
 
-Mã hóa từng cặp sinh
+Biểu diễn từng cặp sinh
 \[
   \neg x_i\lor\neg x_j
   \qquad\forall i<j.
@@ -78,10 +78,10 @@ Mã hóa từng cặp sinh
 Nó không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
 tiếp. Đây là lựa chọn tốt khi miền nhỏ.
 
-\subsection{Mã hóa tuần tự}
+\subsection{Biểu diễn tuần tự}
 
 Đặt \(s_i=1\) khi ít nhất một trong \(x_1,\ldots,x_i\) đúng. Một biến thể
-mã hóa AMO tuần tự dùng:
+biểu diễn AMO tuần tự dùng:
 \[
   \neg x_i\lor s_i,
   \qquad
@@ -92,20 +92,20 @@ mã hóa AMO tuần tự dùng:
 Mệnh đề cuối cấm \(x_i\) khi tiền tố trước đó đã có một giá trị đúng. Kích thước
 tuyến tính theo \(n\) \parencite{sinz2005cardinality}.
 
-\subsection{Mã hóa tích và mã hóa chỉ huy}
+\subsection{Biểu diễn tích và biểu diễn chỉ huy}
 
-\emph{Product encoding} (mã hóa tích) đặt biến vào ma trận rồi dùng AMO theo
-hàng và cột. \emph{Commander encoding} (mã hóa chỉ huy) chia biến thành nhóm,
-tạo một biến đại diện cho mỗi nhóm rồi mã hóa AMO trên các đại diện. Hai cách
+\emph{Product encoding} (biểu diễn tích) đặt biến vào ma trận rồi dùng AMO theo
+hàng và cột. \emph{Commander encoding} (biểu diễn chỉ huy) chia biến thành nhóm,
+tạo một biến đại diện cho mỗi nhóm rồi biểu diễn AMO trên các đại diện. Hai cách
 này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc lớn
 \parencite{chen2010amo}.
 
 \begin{center}
-\captionof{table}{So sánh các bộ mã hóa AMO cơ bản.}
+\captionof{table}{So sánh các bộ biểu diễn AMO cơ bản.}
 \label{tab:amo-encoders}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.19\textwidth}YYY@{}}
 \toprule
-Phép mã hóa AMO & Biến phụ & Mệnh đề & Điểm mạnh\\
+Phép biểu diễn AMO & Biến phụ & Mệnh đề & Điểm mạnh\\
 \midrule
 Từng cặp & \(0\) & \(O(n^2)\) & Nhị phân, đơn giản\\
 Tuần tự & \(O(n)\) & \(O(n)\) & Lan truyền theo tiền tố\\
@@ -139,7 +139,7 @@ kéo theo cục bộ và cho phép đọc nhiều ngưỡng tiền tố
 \parencite{sinz2005cardinality}.
 
 \begin{proposition}[Ngữ nghĩa của bộ đếm]
-Nếu các hệ thức truy hồi được mã hóa hai chiều thì, với mọi \(i,j\),
+Nếu các hệ thức truy hồi được biểu diễn hai chiều thì, với mọi \(i,j\),
 \[
   s_{i,j}=1\iff\sum_{q=1}^{i}x_q\ge j.
 \]
@@ -270,12 +270,12 @@ sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.
 \label{fig:boolean-comparator}
 \end{figure}
 
-\section{Mã hóa bằng BDD}
+\section{Biểu diễn bằng BDD}
 
 \emph{Binary decision diagram} (biểu đồ quyết định nhị phân, BDD) biểu diễn
 trạng thái tổng tích lũy. Nút ở mức \(i\) và trạng thái \(s\) phân nhánh theo
 \(x_i\). Các trạng thái vượt \(k\) đi vào nút kết thúc sai. Một biến phụ cho
-mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành phép mã hóa
+mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành phép biểu diễn
 \parencite{bryant1986bdd,abio2012bdd}.
 
 Ưu điểm của BDD:
@@ -289,7 +289,7 @@ Nhược điểm là kích thước phụ thuộc thứ tự biến và số tr�
 \section{Ràng buộc đúng \(K\) và đầu ra dùng chung}
 
 EXK có thể viết thành AMK và ALK, nhưng dựng hai bộ đếm độc lập sẽ lặp trạng
-thái. Nếu bộ mã hóa trả về các đầu ra đơn phân \(o_j\), chỉ cần
+thái. Nếu bộ biểu diễn trả về các đầu ra đơn phân \(o_j\), chỉ cần
 \[
   o_k\land\neg o_{k+1}.
 \]
@@ -311,11 +311,11 @@ Ràng buộc tổng quát
 \]
 không còn là cardinality khi trọng số khác nhau. Các hướng chính gồm:
 \begin{itemize}
-  \item mã hóa bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;
+  \item biểu diễn bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;
   \item BDD cho các trạng thái tổng có thể đạt;
   \item cây tổng tổng quát gom và cắt các tổng;
   \item phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;
-  \item thư viện kết hợp như PBLib chọn bộ mã hóa theo cấu trúc
+  \item thư viện kết hợp như PBLib chọn bộ biểu diễn theo cấu trúc
         \parencite{een2006pb,philipp2015pblib}.
 \end{itemize}
 
@@ -330,7 +330,7 @@ nút cha giữ các giá trị
 \[
   \min(a+b,B+1),\qquad a\in A,\ b\in B,
 \]
-trong đó \(B+1\) gom mọi trạng thái tràn. Phép mã hóa đặc biệt hiệu quả khi
+trong đó \(B+1\) gom mọi trạng thái tràn. Phép biểu diễn đặc biệt hiệu quả khi
 trọng số có cấu trúc và số tổng phân biệt sau phép cắt nhỏ hơn tổng số học thô
 \parencite{joshi2015gte}. Hình dạng cây không còn là chi tiết vô hại: hai cách
 ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.
@@ -339,7 +339,7 @@ ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.
 
 Trong nhiều mô hình, các hạng tử của ràng buộc PB đến từ một biến miền hữu hạn:
 trong mỗi nhóm, nhiều nhất một literal có thể đúng. Nếu trải phẳng mọi hạng tử
-như các biến độc lập, bộ mã hóa sẽ bỏ mất thông tin này. Các phép mã hóa
+như các biến độc lập, bộ biểu diễn sẽ bỏ mất thông tin này. Các phép biểu diễn
 PB(AMO) đưa nhóm AMO trực tiếp vào \emph{multi-valued decision diagram}
 (biểu đồ quyết định đa trị, MDD), cây tổng
 tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo môđun
@@ -351,7 +351,7 @@ tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo m
 \end{itemize}
 
 Đây là một ví dụ tổng quát của \emph{structure-aware encoding}
-(phép mã hóa có xét cấu trúc): trước khi chọn bộ mã hóa cho một biểu thức
+(phép biểu diễn có xét cấu trúc): trước khi chọn bộ biểu diễn cho một biểu thức
 tuyến tính, cần giữ nguồn gốc cấu trúc của các hạng tử thay vì chỉ truyền vào
 mảng hệ số.
 
@@ -361,19 +361,19 @@ Quy tắc ``\(k\) nhỏ thì dùng bộ đếm tuần tự, nhiều cận thì d
 một đối chứng hữu ích, nhưng chưa bao quát tương tác giữa hệ số, nhóm AMO, độ
 rộng miền và bộ giải. Nghiên cứu về \emph{algorithm selection}
 (lựa chọn thuật toán) đã dùng các đặc trưng của ràng buộc và bài toán
-thử để chọn giữa nhiều phép mã hóa SAT, kể cả trên những lớp bài toán chưa xuất
+thử để chọn giữa nhiều phép biểu diễn SAT, kể cả trên những lớp bài toán chưa xuất
 hiện trong dữ liệu huấn luyện \parencite{ulrich2022selection}. Kết quả này thay
-đổi cách xây dựng thư viện bộ mã hóa: mỗi mô-đun cần công bố đủ siêu dữ liệu để
+đổi cách xây dựng thư viện bộ biểu diễn: mỗi mô-đun cần công bố đủ siêu dữ liệu để
 một bộ chọn ra quyết định.
 
 \begin{center}
-\captionof{table}{Nhóm đặc trưng để lựa chọn bộ mã hóa theo bài toán thử.}
+\captionof{table}{Nhóm đặc trưng để lựa chọn bộ biểu diễn theo bài toán thử.}
 \label{tab:selector-features}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.22\textwidth}YY@{}}
 \toprule
 Nhóm đặc trưng & Ví dụ & Tác động tiềm năng\\
 \midrule
-Kích thước & \(n,k,B\), số hạng tử & Loại bộ mã hóa chắc chắn quá lớn\\
+Kích thước & \(n,k,B\), số hạng tử & Loại bộ biểu diễn chắc chắn quá lớn\\
 Trọng số & Giá trị lớn nhất, ước chung lớn nhất, số tổng phân biệt & Không gian trạng thái BDD/GT\\
 Cấu trúc & Nhóm AMO, hệ số lặp & Khả năng nén trạng thái\\
 Giao diện & Số cận, thêm đầu vào, vật hóa & Giải tăng dần và kết hợp mô-đun\\
@@ -385,12 +385,12 @@ Mô hình & Mật độ, đối xứng, đồ thị ràng buộc & Tương tác 
 Bộ chọn không loại bỏ nhu cầu chứng minh tính đúng: nó chỉ chọn giữa các
 mô-đun đã được kiểm chứng. Việc đánh giá cũng phải tách các họ dùng để huấn
 luyện khỏi các họ dùng để kiểm thử; nếu không, bộ chọn có thể chỉ nhận dạng tên
-bộ kiểm chuẩn thay vì học cấu trúc của phép mã hóa.
+bộ kiểm chuẩn thay vì học cấu trúc của phép biểu diễn.
 
 \section{Bản đồ lựa chọn}
 
 \begin{center}
-\captionof{table}{Gợi ý lựa chọn bộ mã hóa ràng buộc đếm/PB.}
+\captionof{table}{Gợi ý lựa chọn bộ biểu diễn ràng buộc đếm/PB.}
 \label{tab:cardinality-choice}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.26\textwidth}YY@{}}
 \toprule
@@ -402,21 +402,21 @@ Nhiều ngưỡng & Cây tổng/mạng đếm & Tái sử dụng đầu ra\\
 Đúng \(K\) & Một vectơ đầu ra chung & Không lặp AMK/ALK\\
 PB có trọng số, ít trạng thái & BDD & Hợp nhất trạng thái tổng\\
 PB có trọng số tổng quát & PBLib/kết hợp & Chọn theo bài toán thử\\
-PB có nhóm AMO & Bộ mã hóa PB(AMO) & Không vật hóa trạng thái bất khả\\
+PB có nhóm AMO & Bộ biểu diễn PB(AMO) & Không vật hóa trạng thái bất khả\\
 Cận thay đổi tăng dần & Cây tổng/đầu ra thứ tự & Giao diện cận ổn định\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ mã hóa trên phân
+Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ biểu diễn trên phân
 phối bài toán mục tiêu; Chương 5--6 phát triển các bộ đếm khi nhiều
 ràng buộc chia sẻ cấu trúc.
 
 \section{Bài học thiết kế}
 
 \begin{enumerate}
-  \item Chọn bộ mã hóa theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.
-  \item Mã hóa AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.
+  \item Chọn bộ biểu diễn theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.
+  \item Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.
   \item Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.
   \item Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.
   \item Ràng buộc đúng \(K\) nên dùng chung một cấu trúc tổng nếu có thể.

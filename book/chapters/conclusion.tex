@@ -5,14 +5,14 @@
 \index{chứng nhận tối ưu}
 
 \chapterlead{Chương kết nối các kết quả kỹ thuật thành một luận điểm chung:
-một phép mã hóa SAT tốt là một giao diện có ngữ nghĩa, được chọn theo cấu trúc
+một phép biểu diễn SAT tốt là một giao diện có ngữ nghĩa, được chọn theo cấu trúc
 bài toán và được đánh giá bằng một chuỗi bằng chứng có thể kiểm tra. Từ đó,
 chương tổng hợp miền hiệu quả của từng họ phương pháp và xây dựng chương trình
 nghiên cứu tiếp theo.}
 
 \section{Những kết luận bền vững}
 
-Các họ bộ mã hóa tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
+Các họ bộ biểu diễn tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
 trình lựa chọn có thể dùng lại gồm bốn lớp.
 
 \paragraph{Lớp ngữ nghĩa.}
@@ -23,7 +23,7 @@ xem như ngưỡng, biến làm chứng hay trạng thái khi các mệnh đề 
 nghĩa đó.
 
 \paragraph{Lớp cấu trúc.}
-Phép mã hóa nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
+Phép biểu diễn nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
 thái dùng chung; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
 ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
 Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
@@ -32,7 +32,7 @@ phép ánh xạ bảo toàn nghiệm.
 \paragraph{Lớp giải.}
 Đánh giá ở lớp giải kết hợp số mệnh đề với lan truyền đơn vị, đường truyền qua
 biến phụ, khả năng giữ mệnh đề đã học khi thay cận, chi phí của bộ giải mã/bộ
-kiểm tra và tương tác với tiền xử lý. Cùng một phép mã hóa khả thi có thể cư xử
+kiểm tra và tương tác với tiền xử lý. Cùng một phép biểu diễn khả thi có thể cư xử
 khác nhau dưới SAT độc lập, SAT tăng dần, MaxSAT hay một kiến trúc kết hợp.
 
 \paragraph{Lớp bằng chứng.}
@@ -46,7 +46,7 @@ lệ, thường là một kết quả
 \section{Tổng hợp các nghiên cứu tình huống}
 
 Bảng~\ref{tab:reported-evidence-map} tổng hợp thiết kế đánh giá, kết quả và cơ
-chế mã hóa nổi bật của các nghiên cứu tình huống.
+chế biểu diễn nổi bật của các nghiên cứu tình huống.
 
 \begin{longtable}{@{}
 >{\raggedright\arraybackslash}p{.19\textwidth}
@@ -95,7 +95,7 @@ trúc đồ thị
 Gán nhãn an toàn \(k\) &
 16 đồ thị Erdős--Rényi; FE, RE và DE &
 FE và RE tìm nghiệm cho \(16/16\), chứng nhận 13 giá trị tối ưu; DE tìm nghiệm
-cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn mã hóa trực tiếp trong tập thử
+cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn biểu diễn trực tiếp trong tập thử
 này \parencite{thanh2026ksafe}.\\
 
 POSE/MO-FAP &
@@ -111,7 +111,7 @@ kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác 
 \paragraph{Bộ đếm dùng chung và Ladder AMK.}
 Bộ đếm dùng chung được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
 mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
-với các tập gần rời nhau, một phép mã hóa cục bộ thường gọn hơn.
+với các tập gần rời nhau, một phép biểu diễn cục bộ thường gọn hơn.
 
 \paragraph{NSC.}
 NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Nó
@@ -125,7 +125,7 @@ buộc và hàm mục tiêu. Sức chứa, miền quay và cách hàm mục tiê
 định những hoán vị nào thuộc nhóm này. Mức phá đối xứng được chọn cùng độ dài
 mệnh đề và chiến lược phân nhánh.
 
-\paragraph{Mã hóa thời gian và đóng gói.}
+\paragraph{Biểu diễn thời gian và đóng gói.}
 SAT theo mốc thời gian phù hợp với chân trời vừa phải và miền bắt đầu đã được
 lọc. Tọa độ thứ tự nén tốt các so sánh trên miền nguyên. DDD mở rộng lựa chọn
 cho chân trời lớn khi có tập mốc đầy đủ hữu hạn, cận dưới hợp lệ và bước tinh
@@ -140,7 +140,7 @@ lớn hoặc đồ thị ràng buộc đủ dày.
 \section{Hướng nghiên cứu tiếp theo}
 
 \begin{enumerate}
-  \item \textbf{Lựa chọn bộ mã hóa theo bài toán.} Xây bộ chọn có thể giải thích
+  \item \textbf{Lựa chọn bộ biểu diễn theo bài toán.} Xây bộ chọn có thể giải thích
   quyết định bằng các đặc trưng như \(n,k\), độ chồng lấn, độ thưa của miền và
   số cận sẽ truy vấn; đánh giá bộ chọn so với bộ giải tốt nhất ảo.
   \item \textbf{Đặc tả và kết hợp.} Phát triển thư viện mô-đun mà mỗi literal
@@ -162,7 +162,7 @@ lớn hoặc đồ thị ràng buộc đủ dày.
 
 \section{Kết luận cuối}
 
-Giá trị của phép mã hóa SAT nằm ở khả năng chọn đúng trạng thái trung gian để
+Giá trị của phép biểu diễn SAT nằm ở khả năng chọn đúng trạng thái trung gian để
 CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm dùng chung, thanh ghi tam giác,
 biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
 cùng một nguyên tắc: chỉ vật hóa thông tin vừa đủ, đặt đặc tả rõ cho thông tin

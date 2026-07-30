@@ -1,6 +1,6 @@
 \chapter{Đóng gói và cắt hai chiều}
 \chapterlead{Trong đóng gói, mệnh đề không làm việc trực tiếp với hình chữ
-nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép mã hóa
+nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép biểu diễn
 phụ thuộc vào việc chọn đúng giao diện giữa ba lớp đó.}
 
 \index{strip packing}\index{bin packing}\index{non-overlap}
@@ -33,7 +33,7 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh--cận c
 
   \item[Vị trí tương đối + tọa độ]
   Mỗi vật có tọa độ; mỗi cặp có \emph{witness variable} (biến làm chứng)
-  trái/phải/trên/dưới. Mã hóa thứ tự
+  trái/phải/trên/dưới. Biểu diễn thứ tự
   nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.
 \end{description}
 
@@ -147,7 +147,7 @@ buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn m�
 hoặc chứng minh cặp hình không thể cùng một bố trí.
 \end{workedexample}
 
-\section{Mã hóa thứ tự cho tọa độ}
+\section{Biểu diễn thứ tự cho tọa độ}
 
 \subsection{Ngữ nghĩa}
 
@@ -257,7 +257,7 @@ Không cần vòng tìm kiếm ngoài\\
 \end{tabularx}
 \end{center}
 
-Mã hóa SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
+Biểu diễn SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
 quan hệ vị trí và tái sử dụng mệnh đề đã học
 \parencite{soh2010strip}. Vì vậy nghiên cứu tình huống của nhóm được định vị
 theo hai câu hỏi kế tiếp: phép quay/đối xứng làm đổi mô hình thế nào, và
@@ -351,7 +351,7 @@ hệ từng cặp còn lại.
 \begin{resultbox}{So sánh kiến trúc}
 Nghiên cứu của \textcite{kieu2025bin} so sánh các mô hình \SAT với MIP và CP
 trên cùng họ bài toán kiểm chuẩn. Kết quả nhấn mạnh hai yếu tố hơn là một phép
-mã hóa đơn lẻ: biến thứ tự giúp biểu diễn bất đẳng thức tọa độ, còn phá đối
+biểu diễn đơn lẻ: biến thứ tự giúp biểu diễn bất đẳng thức tọa độ, còn phá đối
 xứng cho khung/bản sao quyết định đáng kể kích thước không gian tìm kiếm.
 \end{resultbox}
 
@@ -380,7 +380,7 @@ tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
 \(\sum_bq_b\). Hai cách dùng chung điều kiện nằm gọn, hướng đặt và không chồng
 lấn; chúng chỉ khác ở lớp hàm mục tiêu.
 
-\textcite{kieu2026cutting} cho thấy phép mã hóa gọn với tọa độ thứ tự và đối
+\textcite{kieu2026cutting} cho thấy phép biểu diễn gọn với tọa độ thứ tự và đối
 xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
 thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun
 \[
@@ -410,10 +410,10 @@ Mỗi ràng buộc phá đối xứng được gắn với một nhóm đối x�
         đổi giữ miền và hàm mục tiêu.
 \end{itemize}
 Các nguyên tắc tổng quát về đối xứng được trình bày trong
-\textcite{walsh2006symmetry,gent2006symmetry}; phép mã hóa SAT cổ điển cho bài toán đóng gói khung 2D
+\textcite{walsh2006symmetry,gent2006symmetry}; phép biểu diễn SAT cổ điển cho bài toán đóng gói khung 2D
 Packing có rotation có thể xem ở \textcite{soh2010binpacking}.
 
-\section{Tách ảnh hưởng của phép mã hóa, cận và quan hệ trội}
+\section{Tách ảnh hưởng của phép biểu diễn, cận và quan hệ trội}
 
 Ma trận thiết kế ghi riêng ảnh hưởng của các thành phần:
 \begin{itemize}
@@ -448,7 +448,7 @@ chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ k
 \section{Bài học thiết kế}
 
 \begin{enumerate}
-  \item Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép mã hóa.
+  \item Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép biểu diễn.
   \item Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
         quan hệ đầy đủ nếu phép giải mã không cần.
   \item Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.

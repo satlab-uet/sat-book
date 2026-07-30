@@ -56,7 +56,7 @@ BMCP & Nhiều màu/đỉnh & Cận ô màu/nhu cầu & MIP, tìm kiếm cục b
 \end{tabularx}
 \end{center}
 
-\section{Phân loại trước khi mã hóa}
+\section{Phân loại trước khi biểu diễn}
 
 \begin{center}
 \captionof{table}{Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.}
@@ -83,7 +83,7 @@ dùng cùng màu; chỉ hàng cần \(\ExactlyOne\). Với BMCP, một đỉnh c
 màu; thứ tự các ô là một phần của mô hình.
 
 \begin{designrule}{Kiểm tra ngữ nghĩa trước AMO}
-Hai phép mã hóa có cùng biến \(x_{v,\ell}\) vẫn có thể mô tả hai bài toán khác
+Hai phép biểu diễn có cùng biến \(x_{v,\ell}\) vẫn có thể mô tả hai bài toán khác
 nhau. Hãy viết phép giải mã và ràng buộc đếm theo hàng/cột trước khi thêm các
 ràng buộc khoảng cách.
 \end{designrule}
@@ -133,7 +133,7 @@ nằm trong cửa sổ
 \[
   [a-k+1,a+k-1]\cap[1,n].
 \]
-Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu mã hóa
+Khi \(a\) trượt, các cửa sổ chồng lấn tạo một họ AMO bậc thang. Nếu biểu diễn
 từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.
 
 \begin{figure}[tb]
@@ -177,7 +177,7 @@ trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa s�
   \sum_{q=1}^{i}x_q\ge j.
 \]
 Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
-\(k=1\), đây là phép mã hóa cho AMO bậc thang; với \AMK, bộ đếm giữ nhiều mức
+\(k=1\), đây là phép biểu diễn cho AMO bậc thang; với \AMK, bộ đếm giữ nhiều mức
 \(j=1,\ldots,k\).
 
 \begin{proposition}[Tái sử dụng qua biên khối]
@@ -194,14 +194,14 @@ lệ mở rộng được bằng các giá trị đếm tiền tố thật.
 \end{proof}
 
 \textcite{truong2025scamo} cho thấy SCL giảm cả biến phụ và mệnh đề so với
-nhiều phép mã hóa không chia sẻ trên họ AMO bậc thang. Hướng \AMK được phát triển trong
+nhiều phép biểu diễn không chia sẻ trên họ AMO bậc thang. Hướng \AMK được phát triển trong
 \textcite{truong2026ladderamk}; Duplex của \textcite{fazekas2020duplex} là một
 đối chiếu quan trọng theo hướng BDD hai chiều. Một cách nhìn rộng hơn về biến
 phụ có cấu trúc được thảo luận trong \textcite{haberlandt2023aux}.
 
 SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
 \CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
-cần mã hóa, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.
+cần biểu diễn, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.
 
 \section{Antibandwidth tuần hoàn}
 
@@ -217,7 +217,7 @@ qua điểm cắt nên dùng chỉ số môđun:
   W(a,k)=\set{a-k+1,\ldots,a+k-1}\pmod n.
 \]
 Xung đột theo nhãn chính xác vẫn đúng nhưng số mệnh đề lớn. Cửa sổ vòng tạo
-AMO tuần hoàn, có thể mã hóa bằng cách cắt vòng tại một vị trí neo rồi nối hai
+AMO tuần hoàn, có thể biểu diễn bằng cách cắt vòng tại một vị trí neo rồi nối hai
 đầu bằng bộ nối.
 
 \begin{figure}[tb]
@@ -260,7 +260,7 @@ Tìm nghiệm tối ưu theo cận tăng:
 Một nghiệm tại \(k^\star\) và \UNSAT tại \(k^\star+1\) chứng nhận tối ưu.
 
 \begin{resultbox}{CABP và bộ kiểm chuẩn}
-Nghiên cứu của \textcite{truong2026cabp} xây dựng các phép mã hóa SAT cho CABP
+Nghiên cứu của \textcite{truong2026cabp} xây dựng các phép biểu diễn SAT cho CABP
 và khai thác cửa sổ tuần hoàn cùng đối xứng của vòng. Một tập công thức khả thi được
 chuẩn bị cho SAT Competition 2026 \parencite{truong2026competition}; về mặt
 thiết kế, giá trị của bộ này là tách bài toán tối ưu thành chuỗi bài toán
@@ -280,12 +280,12 @@ theo phép gán, đại diện hoặc phủ tập trong tô màu đỉnh là đi
 phải bổ sung các xung đột có xét khoảng cách
 \parencite{malaguti2010coloring}.
 
-Từ góc nhìn mã hóa, biến trực tiếp mở rộng mô hình gán; biến thứ tự nén một dãy
+Từ góc nhìn biểu diễn, biến trực tiếp mở rộng mô hình gán; biến thứ tự nén một dãy
 giá trị xung đột thành hai biên; biến khối tạo các đại diện khoảng. Sáu họ dưới
 đây khảo sát có hệ thống trục biểu diễn đó và kết nối với các cận lý thuyết đồ
 thị đã nêu.
 
-\subsection{Mô hình và sáu họ mã hóa}
+\subsection{Mô hình và sáu họ biểu diễn}
 
 BCP cho đồ thị có trọng số cạnh \(d_{uv}>0\). Mỗi đỉnh nhận màu
 \(c(u)\in[1,H]\) và
@@ -301,7 +301,7 @@ Mục tiêu là tối thiểu
 Nghiên cứu hệ thống của \textcite{nguyen2026bcp} tổ chức không gian thiết kế thành sáu
 họ:
 \begin{center}
-\captionof{table}{Sáu họ mã hóa cho tô màu theo bandwidth.}
+\captionof{table}{Sáu họ biểu diễn cho tô màu theo bandwidth.}
 \label{tab:bcp-encodings}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.14\textwidth}p{.31\textwidth}Y@{}}
 \toprule
@@ -339,8 +339,8 @@ Hai literal cuối lần lượt nói \(c(v)<a-d_{uv}+1\) hoặc
 \(c(v)\ge a+d_{uv}\). Số mệnh đề không còn phụ thuộc vào độ rộng khoảng cấm;
 mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.
 
-Mã hóa theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
-hệ giữa các đoạn. CNF có thể lớn hơn mã hóa thứ tự, nhưng lan truyền trên bài
+Biểu diễn theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
+hệ giữa các đoạn. CNF có thể lớn hơn biểu diễn thứ tự, nhưng lan truyền trên bài
 toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc khoảng được chia sẻ.
 
 \begin{workedexample}{Một khoảng cấm được nén thành hai biên}
@@ -353,17 +353,17 @@ Với \(g_{v,t}\Leftrightarrow c(v)\ge t\), chỉ cần mệnh đề
   \neg x_{u,4}\lor\neg g_{v,3}\lor g_{v,6}.
 \]
 Khi \(x_{u,4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
-\(c(v)\le2\) hoặc \(c(v)\ge6\). Mã hóa trực tiếp từng cặp phải cấm riêng
-\((4,3),(4,4),(4,5)\); mã hóa theo biên giữ số mệnh đề không đổi khi khoảng
+\(c(v)\le2\) hoặc \(c(v)\ge6\). Biểu diễn trực tiếp từng cặp phải cấm riêng
+\((4,3),(4,4),(4,5)\); biểu diễn theo biên giữ số mệnh đề không đổi khi khoảng
 cấm rộng hơn, miễn tập cấm vẫn là một khoảng.
 \end{workedexample}
 
 \begin{resultbox}{Hiệu ứng tương tác}
 Trên tập GEOM và MS-CAP của \textcite{nguyen2026bcp}, cấu hình theo khối giải
-được các bài toán khó mà mã hóa thứ tự không hoàn tất trong cùng giới hạn.
+được các bài toán khó mà biểu diễn thứ tự không hoàn tất trong cùng giới hạn.
 Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
-mã hóa. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
-\(\text{phép mã hóa}\times\text{đặc trưng}\), không chỉ so trung bình từng
+biểu diễn. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
+\(\text{phép biểu diễn}\times\text{đặc trưng}\), không chỉ so trung bình từng
 đặc trưng.
 \end{resultbox}
 
@@ -395,15 +395,15 @@ vậy phải bao gồm cả số trạng thái gán trước các mệnh đề k
 
 \subsection{FE, SBE và OBE}
 
-\paragraph{Flat Encoding (mã hóa phẳng, FE).}
+\paragraph{Flat Encoding (biểu diễn phẳng, FE).}
 Biến \(x_{u,m}\) cho biết màu \(m\) được dùng tại \(u\). Ràng buộc đếm bảo đảm
 đúng \(w(u)\) màu; xung đột từng cặp cấm các cặp quá gần.
 
-\paragraph{Slot-Based Encoding (mã hóa theo ô màu, SBE).}
+\paragraph{Slot-Based Encoding (biểu diễn theo ô màu, SBE).}
 Biến \(x_{u,i,m}\) nói ô \(i\) bằng \(m\). Mỗi ô có ràng buộc đúng một và các
 cặp ô vi phạm khoảng cách bị cấm trực tiếp.
 
-\paragraph{Order-Based Encoding (mã hóa theo thứ tự, OBE).}
+\paragraph{Order-Based Encoding (biểu diễn theo thứ tự, OBE).}
 Thêm \(g_{u,i,m}=1\iff c(u)_i\ge m\). Giá trị chính xác tại một ô kích hoạt
 hai biên khoảng cấm của ô ở đỉnh khác:
 \[
@@ -456,17 +456,17 @@ Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
         \([LB,UB]\);
   \item chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;
   \item lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;
-  \item chọn mã hóa trực tiếp/thứ tự/khối theo hình dạng tập cấm;
+  \item chọn biểu diễn trực tiếp/thứ tự/khối theo hình dạng tập cấm;
   \item giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;
   \item tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh \UNSAT độc lập.
 \end{enumerate}
 
 Kiến trúc này đặt SAT trong một khung giải chính xác thay vì coi bộ giải SAT là
 toàn bộ thuật toán. Nó cũng làm rõ nơi một nghiên cứu mới đóng góp: cận, mô
-hình, phép mã hóa, quy trình tìm kiếm hay chứng nhận.
+hình, phép biểu diễn, quy trình tìm kiếm hay chứng nhận.
 
 \begin{summarybox}
-\textbf{Bài học trung tâm.} Chọn mã hóa trực tiếp, thứ tự hay theo khối không
+\textbf{Bài học trung tâm.} Chọn biểu diễn trực tiếp, thứ tự hay theo khối không
 chỉ là chọn kích thước \CNF. Biến trực tiếp làm phép giải mã và xung đột cục bộ
 rõ; biến thứ tự nén bất đẳng thức và khoảng; biến khối tạo điểm chia sẻ mới cho
 lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những lớp khác nhau.
@@ -479,5 +479,5 @@ lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những
   \item Dẫn xuất mệnh đề biên BCP cho ba trường hợp: khoảng nằm trong
         miền, chạm biên trái và chạm biên phải.
   \item Thiết kế thí nghiệm bóc tách \(2\times2\) cho giải tăng dần và đối xứng
-        trên hai họ mã hóa BCP.
+        trên hai họ biểu diễn BCP.
 \end{enumerate}
