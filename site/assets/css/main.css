@@ -35,7 +35,6 @@
   
   --gradient-brand: linear-gradient(135deg, #102536 0%, #125b93 50%, #2563eb 100%);
   --gradient-banner: linear-gradient(90deg, #102536 0%, #125b93 100%);
-  --gradient-emerald: linear-gradient(135deg, #197278 0%, #237a46 100%);
 
   --bg-page: var(--color-paper);
   --bg-surface: var(--color-surface);
@@ -49,16 +48,16 @@
   /* Layout & Spacing from Design Doc Section 9.5 */
   --container-max: 1200px;
   --prose-max: 760px;
-  --header-height: 74px;
+  --header-height: 70px;
   
   --shadow-xs: 0 1px 3px rgba(16, 37, 54, 0.04);
-  --shadow-sm: 0 4px 6px -1px rgba(16, 37, 54, 0.05), 0 2px 4px -1px rgba(16, 37, 54, 0.03);
-  --shadow-md: 0 12px 28px -6px rgba(16, 37, 54, 0.09), 0 4px 8px -2px rgba(16, 37, 54, 0.04);
-  --shadow-lg: 0 20px 40px -8px rgba(16, 37, 54, 0.14);
+  --shadow-sm: 0 4px 6px -1px rgba(16, 37, 54, 0.06), 0 2px 4px -1px rgba(16, 37, 54, 0.03);
+  --shadow-md: 0 12px 24px -6px rgba(16, 37, 54, 0.1), 0 4px 8px -2px rgba(16, 37, 54, 0.04);
+  --shadow-lg: 0 20px 40px -8px rgba(16, 37, 54, 0.15);
 
   --radius-sm: 6px;
-  --radius-card: 12px;
-  --radius-lg: 16px;
+  --radius-card: 10px;
+  --radius-lg: 14px;
   --radius-full: 9999px;
 }
 
@@ -76,7 +75,7 @@ body {
   background-color: var(--bg-page);
   color: var(--color-ink-800);
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -92,17 +91,17 @@ a:hover {
 }
 
 .shell {
-  width: min(calc(100% - 48px), var(--container-max));
+  width: min(calc(100% - 40px), var(--container-max));
   margin-inline: auto;
 }
 
 /* ==========================================================================
-   Institution Strip (Design Doc Section 8.1 / Item 1)
+   Institution Strip
    ========================================================================== */
 .institution-strip {
   background: var(--color-ink-950);
   color: #94a3b8;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   padding: 6px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -112,6 +111,8 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .institution-title {
@@ -126,7 +127,7 @@ a:hover {
   color: #ffffff;
   padding: 2px 8px;
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -144,7 +145,7 @@ a:hover {
   background: rgba(255, 255, 255, 0.1);
   padding: 2px 8px;
   border-radius: var(--radius-full);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
@@ -159,34 +160,34 @@ a:hover {
   background: var(--color-blue-700);
 }
 
-/* Top Announcement Banner */
+/* Announcement Banner */
 .top-banner {
   background: var(--gradient-banner);
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 10px 0;
+  padding: 8px 16px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(16, 37, 54, 0.15);
+  box-shadow: 0 2px 6px rgba(16, 37, 54, 0.12);
 }
 
 .top-banner a {
   color: #ffffff;
   text-decoration: underline;
-  margin-left: 8px;
+  margin-left: 6px;
   font-weight: 700;
 }
 
 /* ==========================================================================
-   Header Navbar (Glassmorphic)
+   Header Navbar
    ========================================================================== */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-xs);
 }
@@ -196,17 +197,19 @@ a:hover {
   height: var(--header-height);
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-logo-img {
-  height: 40px;
+  height: 36px;
   width: auto;
   object-fit: contain;
 }
@@ -214,7 +217,7 @@ a:hover {
 .brand-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   color: var(--color-ink-950);
   letter-spacing: -0.02em;
 }
@@ -222,15 +225,16 @@ a:hover {
 .nav {
   display: flex;
   align-items: center;
-  gap: 24px;
-  font-size: 0.95rem;
+  gap: 20px;
+  font-size: 0.9rem;
   font-weight: 600;
+  flex-wrap: wrap;
 }
 
 .nav a {
   color: var(--color-ink-800);
   position: relative;
-  padding: 6px 0;
+  padding: 4px 0;
 }
 
 .nav a.active {
@@ -240,22 +244,22 @@ a:hover {
 .nav a.active::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 100%;
-  height: 3px;
+  height: 2.5px;
   background: var(--color-blue-700);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .nav a:hover {
   color: var(--color-blue-700);
 }
 
-/* Breadcrumbs (Design Doc Section 7.4) */
+/* Breadcrumbs */
 .breadcrumbs-nav {
-  padding: 14px 0;
-  font-size: 0.88rem;
+  padding: 12px 0;
+  font-size: 0.85rem;
   color: var(--color-ink-650);
 }
 
@@ -266,6 +270,7 @@ a:hover {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap;
 }
 
 .breadcrumbs-list li::after {
@@ -287,23 +292,23 @@ a:hover {
 }
 
 /* ==========================================================================
-   Hero Section with Ambient Backdrop
+   Hero Section & Clean Book Cover Layout
    ========================================================================== */
 .hero {
   position: relative;
-  padding: 64px 0 56px;
+  padding: 48px 0 44px;
   background: #ffffff;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(18, 91, 147, 0.06) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(25, 114, 120, 0.05) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(18, 91, 147, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(25, 114, 120, 0.03) 0px, transparent 50%);
   border-bottom: 1px solid var(--color-border);
   overflow: hidden;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 48px;
+  grid-template-columns: 1fr 240px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -311,54 +316,79 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 4px 12px;
   border-radius: var(--radius-full);
   background: var(--color-brand-50);
   border: 1px solid var(--color-brand-200);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 800;
   color: var(--color-blue-700);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
 }
 
 .pill-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--color-blue-700);
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 800;
   line-height: 1.2;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   letter-spacing: -0.02em;
   color: var(--color-ink-950);
 }
 
 .hero-subtitle {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: var(--color-ink-800);
-  margin: 0 0 24px;
-  line-height: 1.65;
+  margin: 0 0 20px;
+  line-height: 1.6;
 }
 
 .hero-meta-card {
   background: var(--color-paper);
   border-radius: var(--radius-card);
   border: 1px solid var(--color-border);
-  padding: 18px 22px;
-  margin-bottom: 28px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
+}
+
+/* Book Cover Wrapper Fix */
+.cover-wrapper {
+  max-width: 220px;
+  width: 100%;
+  justify-self: center;
+  align-self: center;
+}
+
+.book-cover-img {
+  width: 100%;
+  height: auto;
+  max-height: 310px;
+  object-fit: contain;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-cover-img:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ==========================================================================
@@ -368,25 +398,26 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
+  gap: 6px;
+  padding: 10px 20px;
   border-radius: var(--radius-card);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   transition: all 0.2s ease;
   border: 1px solid transparent;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .btn:hover {
   text-decoration: none;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-primary {
   background: var(--color-blue-700);
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(18, 91, 147, 0.25);
+  box-shadow: 0 3px 10px rgba(18, 91, 147, 0.2);
 }
 
 .btn-primary:hover {
@@ -396,7 +427,7 @@ a:hover {
 .btn-primary-html {
   background: var(--color-teal-650);
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(25, 114, 120, 0.25);
+  box-shadow: 0 3px 10px rgba(25, 114, 120, 0.2);
 }
 
 .btn-primary-html:hover {
@@ -414,19 +445,19 @@ a:hover {
   color: var(--color-blue-700);
 }
 
-/* Status Badge Component (Design Doc Section 11.2) */
+/* Status Badge */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 4px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.status-badge.open {
+.status-badge.open, .status-badge.active {
   background: #ecfdf5;
   color: #047857;
   border: 1px solid #a7f3d0;
@@ -438,55 +469,43 @@ a:hover {
   border: 1px solid #bfdbfe;
 }
 
-.status-badge.archived, .status-badge.closed {
+.status-badge.archived, .status-badge.closed, .status-badge.completed {
   background: #f1f5f9;
   color: #64748b;
   border: 1px solid #cbd5e1;
-}
-
-.status-badge.active {
-  background: #ecfdf5;
-  color: #047857;
-  border: 1px solid #a7f3d0;
-}
-
-.status-badge.completed {
-  background: #f8fafc;
-  color: #475569;
-  border: 1px solid #e2e8f0;
 }
 
 /* ==========================================================================
    Cards & Feature Grids
    ========================================================================== */
 .features-section {
-  padding: 64px 0;
+  padding: 52px 0;
 }
 
 .section-header {
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .section-tag {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-blue-700);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   margin-bottom: 6px;
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 800;
   color: var(--color-ink-950);
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .section-desc {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--color-ink-650);
   max-width: var(--prose-max);
   margin: 0;
@@ -494,52 +513,43 @@ a:hover {
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .feature-card {
   background: var(--bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  padding: 28px;
+  padding: 24px;
   box-shadow: var(--shadow-xs);
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .feature-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
   border-color: var(--color-brand-200);
 }
 
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-card);
-  background: var(--color-brand-50);
-  color: var(--color-blue-700);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
 .feature-card h3 {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--color-ink-950);
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .feature-card p {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--color-ink-650);
   margin: 0;
+  line-height: 1.6;
 }
 
-/* Resource Card Component (Design Doc Section 11.2) */
+/* Resource Card */
 .resource-card {
   background: #ffffff;
   border: 1px solid var(--color-border);
@@ -553,19 +563,21 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .resource-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: var(--color-ink-950);
   margin: 0;
 }
 
 .resource-desc {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--color-ink-650);
   margin-bottom: 14px;
 }
@@ -574,16 +586,16 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-ink-500);
 }
 
 /* Footer */
 .site-footer {
-  padding: 56px 0 36px;
+  padding: 44px 0 28px;
   background: var(--color-ink-950);
   color: #94a3b8;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .footer-grid {
@@ -591,21 +603,21 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 20px;
 }
 
 .footer-logo {
-  height: 42px;
+  height: 36px;
   width: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .footer-brand {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .site-footer p {
@@ -613,13 +625,54 @@ a:hover {
   color: #64748b;
 }
 
-@media (max-width: 860px) {
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 28px;
+  }
+  .cover-wrapper {
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    height: auto;
+    padding: 10px 0;
+  }
+  .header-inner {
+    flex-direction: column;
+    height: auto;
+    align-items: flex-start;
+    gap: 12px;
   }
   .nav {
-    gap: 12px;
-    font-size: 0.88rem;
+    gap: 14px;
+    font-size: 0.85rem;
+  }
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .hero-subtitle {
+    font-size: 0.98rem;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .shell {
+    width: min(calc(100% - 24px), var(--container-max));
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
   }
 }
