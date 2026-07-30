@@ -4,20 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="SATLab Research Assets & Solvers — Software, benchmark datasets, learning resources, and SAT Book monograph.">
+    <meta name="description" content="SATLab Research Assets & Solvers — Open-source software libraries, benchmark datasets, learning resources, and the SAT Book monograph.">
     <title>Resources & Solvers | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/resources.html">
-    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/resources.html">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/resources.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/resources.html">
   </head>
   <body>
+    <!-- Top Announcement Banner -->
     <div class="top-banner">
       SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
     </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -58,57 +60,80 @@
 
     <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Research Assets & Solvers</h1>
-      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
-        Open-source software libraries, benchmark datasets, learning materials, and the SAT Book monograph.
+      <h1 style="font-family: var(--font-display); font-size: 2.1rem; color: var(--color-ink-950); margin-bottom: 10px;">Research Assets, Solvers & Datasets</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 820px; margin-bottom: 32px;">
+        Open-source software libraries, benchmark datasets, learning materials, and the SAT Book monograph published by SATLab UET.
       </p>
 
-      <!-- 1. Books & Learning -->
-      <section style="margin-bottom: 32px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">Books & Learning Resources</h2>
+      <!-- 1. Monograph & Books -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">1. Books & Monograph</h2>
         
         <div class="resource-card">
           <div class="resource-header">
-            <h3 class="resource-title">SAT Book Monograph</h3>
-            <span class="status-badge active">MAINTAINED</span>
+            <h3 class="resource-title">SAT Book Monograph — Optimal SAT Encodings</h3>
+            <span class="status-badge active">PUBLISHED & MAINTAINED</span>
           </div>
           <p class="resource-desc">
-            Academic monograph on optimal SAT encodings for combinatorial optimization.
+            A comprehensive academic monograph synthesizing theoretical foundations, cardinality & Pseudo-Boolean encodings, and software engineering practices for optimal SAT encodings.
           </p>
           <div class="resource-meta" style="margin-bottom: 14px;">
-            <span><strong>Type:</strong> Monograph</span>
+            <span><strong>Format:</strong> HTML Web Reader / PDF / LaTeX</span>
             <span>·</span>
-            <span><strong>License:</strong> CC BY-NC-ND 4.0</span>
+            <span><strong>Pages:</strong> 106 Pages</span>
             <span>·</span>
-            <span><strong>Maintainers:</strong> SATLab Team</span>
+            <span><strong>Maintainers:</strong> SATLab Authors</span>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="./read.html" class="btn btn-primary-html">Read HTML Reader Edition ↗</a>
-            <a href="./downloads/sat-book.pdf" class="btn btn-primary">Download PDF (104 Pages)</a>
-            <a href="./downloads/sat-book-tex.zip" class="btn btn-outline">Download LaTeX Source</a>
+            <a href="./read.html" class="btn btn-primary-html">Read HTML Edition ↗</a>
+            <a href="./downloads/sat-book.pdf" class="btn btn-primary">Download PDF (106 Pages)</a>
+            <a href="./downloads/sat-book-tex.zip" class="btn btn-outline">Download LaTeX Source (.zip)</a>
           </div>
         </div>
       </section>
 
-      <!-- 2. Software & Solvers -->
-      <section style="margin-bottom: 32px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">Software & Solvers</h2>
+      <!-- 2. Solvers & Software -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">2. Open-Source Solvers & Software</h2>
         
-        <div class="resource-card">
+        <div class="resource-card" style="margin-bottom: 18px;">
           <div class="resource-header">
-            <h3 class="resource-title">SCLib — Shared Counter Library</h3>
-            <span class="status-badge active">ACTIVE</span>
+            <h3 class="resource-title">SCLib — Shared Counter Library (C++)</h3>
+            <span class="status-badge active">C++ LIBRARY</span>
           </div>
           <p class="resource-desc">
-            C++ encoder library generating compact sequential counter and ladder encodings for Pseudo-Boolean constraints.
+            High-performance C++ header-only library for generating sequential counter encodings, ladder-shaped AMO/AMK cardinality constraints, and Pseudo-Boolean translations.
           </p>
-          <div class="resource-meta">
-            <span><strong>Type:</strong> C++ Library</span>
-            <span>·</span>
-            <span><strong>License:</strong> MIT</span>
-            <span>·</span>
-            <span><strong>Maintainer:</strong> Truong Xuan Hieu</span>
+        </div>
+
+        <div class="resource-card">
+          <div class="resource-header">
+            <h3 class="resource-title">MaxSAT-DDD Train Rescheduling Engine</h3>
+            <span class="status-badge active">DECISION ENGINE</span>
           </div>
+          <p class="resource-desc">
+            Dynamic Decoupled Domain reasoning engine integrated with MaxSAT solvers for real-time railway train dispatching and rescheduling under track conflicts.
+          </p>
+        </div>
+      </section>
+
+      <!-- 3. Industrial Benchmark Datasets -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">3. Benchmark Datasets</h2>
+        
+        <div class="resource-card" style="margin-bottom: 18px;">
+          <h3 class="resource-title">Assembly Line Balancing (SALBP & UALBP) Benchmarks</h3>
+          <p class="resource-desc">Comprehensive test instances for Power Peak Minimization and Makespan Optimization in single and U-shaped assembly line balancing.</p>
+        </div>
+
+        <div class="resource-card" style="margin-bottom: 18px;">
+          <h3 class="resource-title">2D Strip Packing & Cutting Stock Benchmarks</h3>
+          <p class="resource-desc">Standard benchmark sets for two-dimensional rectangular strip packing and single stock size cutting stock problems.</p>
+        </div>
+
+        <div class="resource-card">
+          <h3 class="resource-title">Graph Labeling & Antibandwidth Benchmark Instances</h3>
+          <p class="resource-desc">Hard graph instances for Antibandwidth, Cyclic Antibandwidth, Radio-k Labeling, and Bandwidth Multicoloring evaluation.</p>
         </div>
       </section>
     </main>
@@ -119,10 +144,10 @@
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET</div>
-          <p>VNU University of Engineering and Technology (UET-VNU)</p>
-          <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
+          <p>© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
           <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
           <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>

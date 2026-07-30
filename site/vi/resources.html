@@ -11,13 +11,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/resources.html">
-    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/resources.html">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/resources.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/resources.html">
   </head>
   <body>
+    <!-- Top Announcement Banner -->
     <div class="top-banner">
       SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="./publications.html">Xem tất cả công bố ↗</a>
     </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -46,7 +48,7 @@
       </div>
     </header>
 
-    <!-- Breadcrumbs -->
+    <!-- Breadcrumb -->
     <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
       <div class="shell">
         <ol class="breadcrumbs-list">
@@ -56,28 +58,82 @@
       </div>
     </nav>
 
-    <!-- Content -->
+    <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Tài nguyên & Bộ giải</h1>
-      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 32px;">
-        Các phần mềm mở, bộ dữ liệu chuẩn, tài nguyên học thuật và Sách chuyên khảo SAT Book.
+      <h1 style="font-family: var(--font-display); font-size: 2.1rem; color: var(--color-ink-950); margin-bottom: 10px;">Tài nguyên Học thuật, Bộ giải & Dữ liệu</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 820px; margin-bottom: 32px;">
+        Thư viện mã nguồn mở, bộ dữ liệu chuẩn kiểm thử công nghiệp, tài liệu học thuật và Sách chuyên khảo SAT Book do SATLab UET phát hành.
       </p>
 
-      <section style="margin-bottom: 32px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">Sách Chuyên khảo</h2>
+      <!-- 1. Sách Chuyên khảo -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">1. Sách Chuyên khảo</h2>
+        
         <div class="resource-card">
           <div class="resource-header">
-            <h3 class="resource-title">Sách Chuyên khảo SAT Book</h3>
-            <span class="status-badge active">ĐANG CẬP NHẬT</span>
+            <h3 class="resource-title">Sách Chuyên khảo SAT Book — Biểu diễn SAT Tối ưu</h3>
+            <span class="status-badge active">ĐÃ XUẤT BẢN & CẬP NHẬT</span>
           </div>
           <p class="resource-desc">
-            Sách chuyên khảo 104 trang về Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp.
+            Sách chuyên khảo hệ thống hóa toàn bộ lý thuyết biểu diễn SAT, mã hóa đếm Cardinality, Pseudo-Boolean và kỹ thuật thiết kế bộ giải chính xác cho các bài toán tối ưu hóa tổ hợp.
           </p>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px;">
-            <a href="../read.html" class="btn btn-primary-html">Đọc bản Web HTML ↗</a>
-            <a href="../downloads/sat-book.pdf" class="btn btn-primary">Tải PDF (104 Trang)</a>
-            <a href="../downloads/sat-book-tex.zip" class="btn btn-outline">Tải mã nguồn LaTeX</a>
+          <div class="resource-meta" style="margin-bottom: 14px;">
+            <span><strong>Định dạng:</strong> Bản đọc Web HTML / PDF / LaTeX</span>
+            <span>·</span>
+            <span><strong>Dung lượng:</strong> 106 Trang</span>
+            <span>·</span>
+            <span><strong>Tác giả:</strong> Nhóm nghiên cứu SATLab</span>
           </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="../read.html" class="btn btn-primary-html">Đọc bản Web HTML ↗</a>
+            <a href="../downloads/sat-book.pdf" class="btn btn-primary">Tải PDF (106 Trang)</a>
+            <a href="../downloads/sat-book-tex.zip" class="btn btn-outline">Tải mã nguồn LaTeX (.zip)</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Phần mềm & Bộ giải -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">2. Phần mềm & Bộ giải Mở</h2>
+        
+        <div class="resource-card" style="margin-bottom: 18px;">
+          <div class="resource-header">
+            <h3 class="resource-title">SCLib — Thư viện Bộ đếm Dùng chung (C++)</h3>
+            <span class="status-badge active">THƯ VIỆN C++</span>
+          </div>
+          <p class="resource-desc">
+            Thư viện C++ hiệu năng cao tối ưu việc sinh các ràng buộc đếm bộ đếm tuần tự (NSC), ràng buộc dạng bậc thang (AMO/AMK) và chuyển đổi Pseudo-Boolean.
+          </p>
+        </div>
+
+        <div class="resource-card">
+          <div class="resource-header">
+            <h3 class="resource-title">Bộ giải Lập lịch Tàu hỏa MaxSAT-DDD</h3>
+            <span class="status-badge active">BỘ GIẢI CHÍNH XÁC</span>
+          </div>
+          <p class="resource-desc">
+            Động cơ giải bài toán lập lại biểu đồ chạy tàu kết hợp kỹ thuật lan truyền Dynamic Decoupled Domain (DDD) với bộ giải MaxSAT thời gian thực.
+          </p>
+        </div>
+      </section>
+
+      <!-- 3. Bộ Dữ liệu Kiểm thử -->
+      <section style="margin-bottom: 36px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--color-ink-950); border-bottom: 2px solid var(--color-brand-200); padding-bottom: 6px; margin-bottom: 16px;">3. Bộ Dữ liệu Kiểm thử Công nghiệp</h2>
+        
+        <div class="resource-card" style="margin-bottom: 18px;">
+          <h3 class="resource-title">Bộ kiểm thử Cân bằng Dây chuyền Sản xuất (SALBP & UALBP)</h3>
+          <p class="resource-desc">Tập hợp các mẫu dữ liệu thực tế cho bài toán tối ưu đỉnh công suất tiêu thụ điện và làm ngắn thời gian hoàn thành dây chuyền.</p>
+        </div>
+
+        <div class="resource-card" style="margin-bottom: 18px;">
+          <h3 class="resource-title">Bộ kiểm thử Đóng gói Dải 2D & Cắt cuộn Nguyên liệu</h3>
+          <p class="resource-desc">Bộ dữ liệu chuẩn cho các bài toán đóng gói không gian dải 2D (Strip Packing) và cắt cuộn nguyên liệu hình chữ nhật.</p>
+        </div>
+
+        <div class="resource-card">
+          <h3 class="resource-title">Bộ dữ liệu Gán nhãn Đồ thị & Antibandwidth</h3>
+          <p class="resource-desc">Bộ đồ thị kiểm thử khó cho các bài toán Antibandwidth, Cyclic Antibandwidth, Radio-k Labeling và Tô đa màu đồ thị.</p>
         </div>
       </section>
     </main>
@@ -89,6 +145,12 @@
           <img src="../assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">SATLab UET — Phòng nghiên cứu Biểu diễn SAT</div>
           <p>© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+        <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">Giới thiệu</a>
+          <a href="../accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="../privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
         </div>
       </div>
     </footer>

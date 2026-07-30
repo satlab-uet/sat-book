@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="description" content="SATLab People Directory — Faculty, postdoctoral researchers, PhD candidates, and student researchers at UET-VNU.">
-    <title>People | SATLab UET</title>
+    <meta name="description" content="SATLab People Directory — Faculty leads, researchers, PhD candidates, and student researchers at UET-VNU.">
+    <title>People & Research Team | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/people.html">
-    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/people.html">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/people.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/people.html">
 
     <style>
       .team-grid {
@@ -27,25 +27,25 @@
         border-radius: var(--radius-card);
         padding: 20px;
         box-shadow: var(--shadow-xs);
-        transition: all 0.2s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
       .team-card:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-sm);
+        box-shadow: var(--shadow-md);
       }
       .team-avatar-placeholder {
-        width: 56px;
-        height: 56px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         background: var(--color-brand-50);
         color: var(--color-blue-700);
         font-family: var(--font-display);
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 800;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
       }
       .team-name {
         font-family: var(--font-display);
@@ -58,7 +58,7 @@
         font-size: 0.85rem;
         font-weight: 700;
         color: var(--color-blue-700);
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
       .team-bio {
         font-size: 0.88rem;
@@ -78,9 +78,11 @@
     </style>
   </head>
   <body>
+    <!-- Top Announcement Banner -->
     <div class="top-banner">
       SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
     </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -121,19 +123,19 @@
 
     <!-- Main Content -->
     <main class="shell" style="padding: 24px 0 56px;">
-      <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-ink-950); margin-bottom: 10px;">Team Directory</h1>
-      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 28px;">
-        Faculty leads, postdocs, PhD candidates, and student researchers conducting research in formal methods and automated reasoning at UET-VNU.
+      <h1 style="font-family: var(--font-display); font-size: 2.1rem; color: var(--color-ink-950); margin-bottom: 10px;">Research Team Directory</h1>
+      <p style="font-size: 1.05rem; color: var(--color-ink-650); max-width: 820px; margin-bottom: 28px;">
+        Faculty leads, postdocs, PhD candidates, and active student researchers conducting formal automated reasoning and exact solver engineering at UET-VNU.
       </p>
 
-      <!-- 1. Faculty / Group Leads -->
+      <!-- 1. Faculty & Group Leads -->
       <section>
         <h2 class="people-section-title">1. Faculty & Group Leads</h2>
         <div class="team-grid">
           <div class="team-card">
             <div class="team-avatar-placeholder">TK</div>
             <div class="team-name">Dr. To Van Khanh</div>
-            <div class="team-role">Lab Leader / Head of SATLab</div>
+            <div class="team-role">Head of SATLab / Senior Lecturer</div>
             <p class="team-bio">Expert in Software Verification, SAT/MaxSAT Encodings, Symbolic Execution, and Combinatorial Optimization at UET-VNU.</p>
           </div>
         </div>
@@ -146,42 +148,126 @@
           <div class="team-card">
             <div class="team-avatar-placeholder">KT</div>
             <div class="team-name">Kieu Van Tuyen</div>
-            <div class="team-role">PhD Candidate / Researcher</div>
-            <p class="team-bio">Lead researcher in SAT-based Task Scheduling, Social Golfer, 2D Strip Packing, and Assembly Line Balancing.</p>
+            <div class="team-role">PhD Candidate / Lead Researcher</div>
+            <p class="team-bio">Lead researcher in SAT-based Task Scheduling, Social Golfer, 2D Strip Packing, Assembly Line Balancing, and MaxSAT-DDD.</p>
           </div>
 
           <div class="team-card">
             <div class="team-avatar-placeholder">TH</div>
             <div class="team-name">Truong Xuan Hieu</div>
-            <div class="team-role">Researcher</div>
-            <p class="team-bio">Primary author of SAT encodings for Antibandwidth, Cyclic Antibandwidth, and SCLib solver architecture.</p>
+            <div class="team-role">PhD Candidate / Researcher</div>
+            <p class="team-bio">Primary author of SAT encodings for Antibandwidth, Cyclic Antibandwidth (COAP Q1 ISI), staircase constraints, and SCLib architecture.</p>
           </div>
 
           <div class="team-card">
             <div class="team-avatar-placeholder">VH</div>
             <div class="team-name">Vu Thanh Huong</div>
             <div class="team-role">Researcher</div>
-            <p class="team-bio">Researcher in Pseudo-Boolean encodings, symmetry breaking, and constraint reasoning.</p>
+            <p class="team-bio">Researcher in Pseudo-Boolean encodings, Radio-k Labeling, k-Safe Labeling, symmetry breaking, and incremental SAT solving.</p>
           </div>
 
           <div class="team-card">
             <div class="team-avatar-placeholder">DN</div>
             <div class="team-name">Dao Xuan Nghia</div>
             <div class="team-role">Researcher</div>
-            <p class="team-bio">Researcher in formal verification and automated decision solvers.</p>
+            <p class="team-bio">Researcher in sequence constraints, frequency assignment problems, and automated decision solvers.</p>
           </div>
         </div>
       </section>
 
-      <!-- 3. Student Researchers -->
+      <!-- 3. Student Researchers & Co-Authors -->
       <section>
-        <h2 class="people-section-title">3. Student Researchers (K66 - K69)</h2>
+        <h2 class="people-section-title">3. Student Researchers & Co-Authors (K66 – K69)</h2>
         <div class="team-grid">
           <div class="team-card">
             <div class="team-avatar-placeholder">ND</div>
             <div class="team-name">Nguyen Kim Trung Duc</div>
-            <div class="team-role">Student Researcher (K66)</div>
-            <p class="team-bio">Co-author of k-Safe Labeling and Sequence Constraints research.</p>
+            <div class="team-role">Student Researcher (K68CS3)</div>
+            <p class="team-bio">Co-author of Bandwidth Coloring (Pesquisa 2026), Bandwidth Multicoloring (RAIRO-OR), and k-Safe Labeling (CITA 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">LD</div>
+            <div class="team-name">Le Quy Duong</div>
+            <div class="team-role">Student Researcher (K66CS)</div>
+            <p class="team-bio">Co-author of 2D Strip Packing Problem in Pesquisa Operacional (2025, Q4 Scopus).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">LC</div>
+            <div class="team-name">Hoang Linh Chi</div>
+            <div class="team-role">Student Researcher (K67CS)</div>
+            <p class="team-bio">Co-author of 2D Bin Packing (KSE 2025) and Cutting Stock Problem (JCSC 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">TN</div>
+            <div class="team-name">Nguyen Tan Nguyen</div>
+            <div class="team-role">Student Researcher (K67CC)</div>
+            <p class="team-bio">Co-author of Social Golfer Problem in RAIRO - Operations Research (2026, Q3 ISI).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">HQ</div>
+            <div class="team-name">Nguyen Hong Quan</div>
+            <div class="team-role">Student Researcher (K67C)</div>
+            <p class="team-bio">Co-author of Nurse Rostering Sequence Constraints (ISCIT 2025, Rank B).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">GB</div>
+            <div class="team-name">Hoang Gia Bao</div>
+            <div class="team-role">Student Researcher (K68IT20)</div>
+            <p class="team-bio">Co-author of Power Peak Minimization in Assembly Line Balancing (JCO 2026, EngOpt 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">CP</div>
+            <div class="team-name">Nguyen Chi Phong</div>
+            <div class="team-role">Student Researcher (K69IT1)</div>
+            <p class="team-bio">Co-author of Assembly Line Balancing SAT Encodings in Journal of Combinatorial Optimization (JCO 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">HD</div>
+            <div class="team-name">Pham Ngoc Hai Duong</div>
+            <div class="team-role">Student Researcher (K68CS3)</div>
+            <p class="team-bio">Co-author of No-Hole Anti-k-Labeling in Discrete Mathematics, Algorithms and Applications (DMAA 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">DL</div>
+            <div class="team-name">Do Duc Long</div>
+            <div class="team-role">Student Researcher (K69CS2)</div>
+            <p class="team-bio">Co-author of Exact k-Safe Labeling via Incremental SAT (CITA 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">AP</div>
+            <div class="team-name">Dang Anh Phuong</div>
+            <div class="team-role">Student Researcher (K69IT5)</div>
+            <p class="team-bio">Co-author of Minimum Order Frequency Assignment Problem in IEEE Latin America Transactions (2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">NT</div>
+            <div class="team-name">Nguyen Huu Tan</div>
+            <div class="team-role">Student Researcher (K67CS1)</div>
+            <p class="team-bio">Co-author of Railway Train Rescheduling via MaxSAT-DDD (CSoNet 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">VD</div>
+            <div class="team-name">Dao Van Duc</div>
+            <div class="team-role">Student Researcher (K69CS5)</div>
+            <p class="team-bio">Co-author of Radio-k Labeling of General Graphs (Wireless Networks 2026).</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar-placeholder">PM</div>
+            <div class="team-name">Pham Quang Minh</div>
+            <div class="team-role">Student Researcher (K69IT5)</div>
+            <p class="team-bio">Co-author of 2D Bandwidth Minimization Problem (Discrete Applied Mathematics 2026).</p>
           </div>
         </div>
       </section>
@@ -197,6 +283,7 @@
           <p style="margin-top: 4px; font-size: 0.82rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
           <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
           <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
           <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
