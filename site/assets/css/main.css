@@ -1,14 +1,14 @@
-/* Chuyên khảo Biểu diễn SAT tối ưu - Clean, Elegant Academic Design */
+/* Chuyên khảo Biểu diễn SAT tối ưu - Academic Design System */
 :root {
   --ink: #0f172a;
   --slate: #334155;
   --muted: #64748b;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
   --border: #e2e8f0;
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
-  --shell: 960px;
+  --shell: 980px;
   --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -51,7 +51,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -70,7 +70,7 @@ a:hover {
   color: var(--ink);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .brand:hover {
@@ -105,7 +105,7 @@ a:hover {
 
 /* Hero Section */
 .hero {
-  padding: 60px 0 48px;
+  padding: 56px 0 48px;
   background: #ffffff;
   border-bottom: 1px solid var(--border);
 }
@@ -135,18 +135,32 @@ a:hover {
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--slate);
   margin: 0 0 20px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.hero-authors {
-  font-size: 1rem;
+.hero-meta {
+  font-size: 0.96rem;
   color: var(--slate);
   margin-bottom: 24px;
-  line-height: 1.6;
+  line-height: 1.65;
+  background: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.hero-meta strong {
+  color: var(--ink);
+}
+
+.affiliation {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 4px;
 }
 
 .hero-actions {
@@ -212,13 +226,14 @@ a:hover {
 }
 
 .section-intro {
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   color: var(--slate);
   margin-bottom: 32px;
-  max-width: 720px;
+  max-width: 800px;
+  line-height: 1.75;
 }
 
-/* Parts / Overview Cards */
+/* Overview Cards */
 .parts-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -230,6 +245,7 @@ a:hover {
   padding: 24px;
   border-radius: 8px;
   border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
 }
 
 .part-card h3 {
@@ -243,20 +259,25 @@ a:hover {
   font-size: 0.95rem;
   color: var(--slate);
   margin: 0;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Table of Contents */
 .toc-block {
-  margin-bottom: 36px;
+  margin-bottom: 40px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  padding: 28px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
 }
 
 .toc-block-header {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 800;
   color: var(--accent);
-  margin-bottom: 16px;
-  padding-bottom: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
   border-bottom: 2px solid #dbeafe;
 }
 
@@ -268,33 +289,41 @@ a:hover {
 
 .toc-item {
   display: grid;
-  grid-template-columns: 40px 1fr;
-  padding: 12px 0;
+  grid-template-columns: 84px 1fr;
+  padding: 16px 0;
   border-bottom: 1px solid var(--border);
-  align-items: baseline;
+  align-items: start;
 }
 
 .toc-item:last-child {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
 .toc-num {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--muted);
+  color: var(--accent);
+  background: #eff6ff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  text-align: center;
+  width: fit-content;
 }
 
 .toc-title {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.05rem;
   color: var(--ink);
-
+  margin-bottom: 6px;
 }
 
 .toc-desc {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--slate);
-  margin-top: 4px;
+  line-height: 1.65;
 }
 
 /* Figures Showcase */
@@ -314,22 +343,25 @@ a:hover {
 }
 
 .figure-img-wrap {
-  padding: 20px;
+  padding: 24px;
   background: #f1f5f9;
   display: grid;
   place-items: center;
   border-bottom: 1px solid var(--border);
+  min-height: 220px;
 }
 
 .figure-img-wrap img {
-  max-height: 200px;
+  max-height: 210px;
+  width: auto;
   object-fit: contain;
 }
 
 .figure-caption {
-  padding: 16px 20px;
-  font-size: 0.92rem;
+  padding: 18px 20px;
+  font-size: 0.93rem;
   color: var(--slate);
+  line-height: 1.55;
 }
 
 .figure-caption strong {
@@ -343,39 +375,42 @@ a:hover {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 24px;
+  padding: 28px;
 }
 
 .cite-text {
-  font-size: 0.98rem;
+  font-size: 1rem;
   color: var(--ink);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 .bibtex-block {
   font-family: var(--font-mono);
   font-size: 0.84rem;
   background: #f1f5f9;
-  padding: 16px;
+  padding: 18px;
   border-radius: 6px;
   overflow-x: auto;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   border: 1px solid var(--border);
   white-space: pre-wrap;
+  color: var(--ink);
 }
 
 .copy-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 9px 18px;
   border-radius: 6px;
   background: var(--slate);
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .copy-btn:hover {
@@ -384,17 +419,17 @@ a:hover {
 
 .copy-toast {
   margin-left: 12px;
-  font-size: 0.88rem;
-  color: #10b981;
+  font-size: 0.9rem;
+  color: #059669;
   font-weight: 600;
 }
 
 /* Footer */
 .site-footer {
-  padding: 36px 0;
+  padding: 40px 0;
   background: #ffffff;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 .footer-inner {
@@ -403,12 +438,20 @@ a:hover {
   align-items: center;
 }
 
+.footer-inner p {
+  margin: 4px 0 0;
+}
+
 @media (max-width: 768px) {
   .hero-grid {
     grid-template-columns: 1fr;
   }
   .parts-grid, .figures-grid {
     grid-template-columns: 1fr;
+  }
+  .toc-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
   .footer-inner {
     flex-direction: column;

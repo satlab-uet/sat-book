@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#1d4ed8">
     <meta
       name="description"
-      content="Chuyên khảo Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp. Khảo cứu nền tảng, các họ mã hóa và nghiên cứu tình huống thực nghiệm."
+      content="Chuyên khảo Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp. Nhóm nghiên cứu SATLab, Khoa CNTT, Trường ĐH Công nghệ, ĐHQGHN."
     >
     <meta
       name="author"
@@ -55,7 +55,12 @@
           {"@type": "Person", "name": "Vũ Thanh Hương"},
           {"@type": "Person", "name": "Đào Xuân Nghĩa"},
           {"@type": "Person", "name": "Nguyễn Kim Trung Đức"}
-        ]
+        ],
+        "publisher": {
+          "@type": "Organization",
+          "name": "SATLab UET",
+          "url": "https://satlab-uet.github.io/sat-book/"
+        }
       }
     </script>
   </head>
@@ -89,13 +94,14 @@
               Khảo cứu nền tảng và các họ mã hóa; nguyên lý thiết kế và tái sử dụng cấu trúc; nghiên cứu tình huống trong tối ưu tổ hợp.
             </p>
 
-            <p class="hero-authors">
-              <strong>Tác giả:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức.
-            </p>
+            <div class="hero-meta">
+              <div><strong>Tác giả:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức.</div>
+              <div class="affiliation">Nhóm nghiên cứu SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội (UET-VNU).</div>
+            </div>
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="./downloads/sat-book.pdf">
-                📄 Đọc bản PDF (106 trang)
+                📄 Đọc bản PDF (106 trang A4)
               </a>
               <a
                 class="btn btn-outline"
@@ -125,21 +131,21 @@
         <div class="shell">
           <h2 class="section-title">Giới thiệu tổng quan</h2>
           <p class="section-intro">
-            Cuốn sách trình bày phép mã hóa SAT (SAT encoding) như một thành phần trung tâm của thuật toán giải chính xác. Phép mã hóa chuyển biến và ràng buộc của bài toán gốc thành công thức dạng chuẩn hội CNF. Người thiết kế cần đồng thời trả lời bốn câu hỏi: phép mã hóa có đúng không, trạng thái nào được biểu diễn và chia sẻ, bộ giải nhìn thấy cấu trúc gì, và kết quả tối ưu được chứng nhận thế nào.
+            Cuốn sách trình bày phép mã hóa SAT (SAT encoding) như một thành phần trung tâm của thuật toán giải chính xác. Phép mã hóa chuyển biến và ràng buộc của bài toán gốc thành công thức dạng chuẩn hội (CNF). Hai công thức cùng biểu diễn một ràng buộc có thể khác nhau đáng kể về kích thước, khả năng lan truyền đơn vị, cấu trúc mệnh đề và mức độ phù hợp với giải tăng dần. Vì thế, người thiết kế cần đồng thời trả lời bốn câu hỏi cốt lõi: <em>phép mã hóa có đúng không, trạng thái nào được biểu diễn và chia sẻ, bộ giải nhìn thấy cấu trúc gì, và kết quả tối ưu được chứng nhận thế nào.</em>
           </p>
 
           <div class="parts-grid">
             <div class="part-card">
               <h3>Phần I: Nền tảng & Tiêu chí</h3>
-              <p>Tổng hợp nền tảng SAT, MaxSAT, chuyển đổi CSP sang SAT, tiêu chuẩn lan truyền đơn vị, các bộ đếm cardinality và phương pháp đánh giá thực nghiệm.</p>
+              <p>Tổng hợp nền tảng SAT, MaxSAT, chuyển đổi CSP sang SAT, tiêu chuẩn lan truyền đơn vị, các bộ đếm cardinality, giả Boolean và phương pháp luận đánh giá thực nghiệm.</p>
             </div>
             <div class="part-card">
               <h3>Phần II: Tái sử dụng cấu trúc</h3>
-              <p>Nghiên cứu bộ đếm dùng chung cho cửa sổ chồng lấn, thanh ghi thích nghi, phá đối xứng và liên kết biểu diễn (channeling).</p>
+              <p>Phát triển các kỹ thuật tái sử dụng cấu trúc: bộ đếm dùng chung cho cửa sổ chồng lấn (Sequence), thanh ghi thích nghi NSC, phá đối xứng LEX và liên kết biểu diễn (channeling).</p>
             </div>
             <div class="part-card">
               <h3>Phần III: Nghiên cứu tình huống</h3>
-              <p>Khảo sát bốn miền ứng dụng thực tế: lập lịch, đóng gói hai chiều, bandwidth/antibandwidth và gán nhãn/phân bổ tần số radio.</p>
+              <p>Khảo sát bốn miền ứng dụng tổ hợp thực tế: lập lịch công việc/y tế/tàu hỏa, đóng gói hai chiều & cắt khung, bandwidth/antibandwidth và gán nhãn/phân bổ tần số radio.</p>
             </div>
           </div>
         </div>
@@ -148,7 +154,7 @@
       <!-- Table of Contents -->
       <section id="muc-luc" class="section">
         <div class="shell">
-          <h2 class="section-title">Cấu trúc chuyên khảo</h2>
+          <h2 class="section-title">Cấu trúc chi tiết chuyên khảo</h2>
 
           <!-- Part I -->
           <div class="toc-block">
@@ -158,28 +164,28 @@
                 <span class="toc-num">Chương 1</span>
                 <div>
                   <div class="toc-title">SAT và MaxSAT như một nền tảng giải chính xác</div>
-                  <div class="toc-desc">Mô hình miền, biểu diễn CNF, cơ chế CDCL, giải MaxSAT tăng dần và kiểm tra nghiệm bằng bằng chứng DRAT.</div>
+                  <div class="toc-desc">Tổng quan về mô hình miền, chuyển đổi Tseitin sang CNF, thuật toán CDCL (gán đơn vị, học mệnh đề, quay lùi), kiến trúc giải MaxSAT (core-guided, model-based), thư viện PySAT và cơ chế chứng nhận nghiệm bằng bằng chứng DRAT.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 2</span>
                 <div>
                   <div class="toc-title">Thế nào là một phép mã hóa SAT tốt?</div>
-                  <div class="toc-desc">Tiêu chí tính đúng ngữ nghĩa, khả năng lan truyền đơn vị (GAC/GAC-like), kích thước công thức và giao diện ghép mô-đun.</div>
+                  <div class="toc-desc">Hệ thống hóa các tiêu chí đánh giá phép mã hóa: tính đúng ngữ nghĩa theo phép chiếu, khả năng lan truyền đơn vị (GAC và GAC-like), sự đánh đổi giữa số biến/mệnh đề phụ với khả năng suy luận của bộ giải, và thiết kế giao diện ghép mô-đun.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 3</span>
                 <div>
                   <div class="toc-title">Bộ công cụ ràng buộc đếm và giả Boolean</div>
-                  <div class="toc-desc">Họ mã hóa AMO/EXO, AMK/ALK, Sequential Counter, Cây tổng cân bằng, Mạng sắp xếp và ràng buộc PB/GTE.</div>
+                  <div class="toc-desc">Khảo sát các họ mã hóa ràng buộc đếm (AMO, EXO, AMK, ALK) và giả Boolean (PB): từ mã hóa cặp (Pairwise), mã hóa nhị phân (Bitwise), bộ đếm tuần tự (Sequential Counter), Cây tổng cân bằng, Mạng sắp xếp Batcher đến cấu trúc PB/GTE.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 4</span>
                 <div>
                   <div class="toc-title">Thiết kế thực nghiệm cho phép mã hóa SAT</div>
-                  <div class="toc-desc">Phương pháp luận thiết kế tập bài toán thử, thước đo thời gian CPU/PAR-2, biểu đồ xương rồng và phân tán.</div>
+                  <div class="toc-desc">Quy trình thực nghiệm chuẩn hóa cho phép mã hóa SAT: nguyên tắc chọn bộ kiểm chuẩn đại diện, cấu hình solver (Minisat, Glucose, CaDiCaL, RC2), thước đo thời gian CPU/PAR-2, biểu đồ xương rồng, biểu đồ phân tán và chuỗi truy vết thực nghiệm.</div>
                 </div>
               </li>
             </ul>
@@ -193,21 +199,21 @@
                 <span class="toc-num">Chương 5</span>
                 <div>
                   <div class="toc-title">Bộ đếm dùng chung cho các cửa sổ chồng lấn</div>
-                  <div class="toc-desc">Phân hoạch khối chuỗi Boolean và kỹ thuật tái sử dụng trạng thái đếm giữa các cửa sổ Sequence kề nhau.</div>
+                  <div class="toc-desc">Thiết kế bộ đếm dùng chung (Shared Counter) cho chuỗi ràng buộc đếm chồng lấn (Sequence constraint). Phương pháp phân hoạch khối chuỗi Boolean giúp tái sử dụng trạng thái đếm cục bộ giữa các cửa sổ kề nhau, giảm đáng kể số biến và mệnh đề phụ.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 6</span>
                 <div>
                   <div class="toc-title">Thanh ghi đếm thích nghi cho ràng buộc đúng K</div>
-                  <div class="toc-desc">Miền trạng thái tam giác khả đạt, truy hồi ngưỡng và điều kiện biên cho ràng buộc đếm Exactly-K (NSC).</div>
+                  <div class="toc-desc">Kiến trúc thanh ghi đếm thích nghi (NSC - New Sequential Counter) cho ràng buộc đếm Exactly-K. Phân tích miền trạng thái tam giác khả đạt và lập hệ thức truy hồi ngưỡng để loại bỏ các ô đếm bất khả, đạt số biến và mệnh đề tối ưu.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 7</span>
                 <div>
                   <div class="toc-title">Đối xứng, biến quan hệ và liên kết biểu diễn</div>
-                  <div class="toc-desc">Ràng buộc phá đối xứng LEX, biến quan hệ chứng minh và liên kết hai chiều Channeling giữa các phép biểu diễn.</div>
+                  <div class="toc-desc">Phương pháp phá đối xứng Lexicographic (LEX), khai thác biến quan hệ làm chứng chỉ biểu diễn cho tập tọa độ, và kỹ thuật liên kết biểu diễn hai chiều (Channeling) giữa các miền biến khác nhau nhằm kích hoạt tối đa đường lan truyền đơn vị.</div>
                 </div>
               </li>
             </ul>
@@ -221,35 +227,35 @@
                 <span class="toc-num">Chương 8</span>
                 <div>
                   <div class="toc-title">Lập lịch và cân bằng dây chuyền</div>
-                  <div class="toc-desc">Mã hóa miền thời gian, bài toán xếp lịch y tế, xếp lịch tàu hỏa, RCPSP và giải tăng dần lưới thời gian DDD.</div>
+                  <div class="toc-desc">Mã hóa bài toán lập lịch công việc và tài nguyên: so sánh biểu diễn mốc thời gian (order/support) với vị trí công việc, ứng dụng trong lập lịch y tế (NSP), xếp lịch tàu hỏa, RCPSP và giải thuật phân rã miền động (DDD) cho MaxSAT.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 9</span>
                 <div>
                   <div class="toc-title">Đóng gói và cắt hai chiều</div>
-                  <div class="toc-desc">Quan hệ vị trí không chồng lấn 2D, Strip Packing, Bin Packing hai chiều và cắt thanh kim loại nguyên chiếc.</div>
+                  <div class="toc-desc">Mã hóa bài toán xếp hình và đóng gói 2D: biểu diễn quan hệ vị trí không chồng lấn giữa các vật thể hình chữ nhật, ứng dụng trong 2D Strip Packing, 2D Bin Packing, Cắt thanh kim loại nguyên chiếc và so sánh kiến trúc xếp chồng vs không xếp chồng.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 10</span>
                 <div>
                   <div class="toc-title">Bandwidth, antibandwidth và tô đa màu</div>
-                  <div class="toc-desc">Ma trận khoảng cách nhãn bị cấm trên đồ thị, bài toán CABP, BCP và tô màu đồ thị đa tiêu chí.</div>
+                  <div class="toc-desc">Mã hóa các bài toán khoảng cách nhãn trên đồ thị: xây dựng ma trận khoảng cấm cho Cyclic Antibandwidth (CABP), Bandwidth Coloring Problem (BCP) và phương pháp phân rã cửa sổ cấm trên các họ đồ thị cấu trúc đặc biệt.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 11</span>
                 <div>
                   <div class="toc-title">Gán nhãn và phân bổ tần số</div>
-                  <div class="toc-desc">Nén khoảng cấm liên tục thành literal biên, phân bổ tần số Radio FAP và gán nhãn k-safe trên đồ thị.</div>
+                  <div class="toc-desc">Mã hóa bài toán phân bổ tài nguyên tần số radio (FAP) và gán nhãn Radio Labeling: kỹ thuật nén khoảng cấm liên tục thành hai literal biên và gán nhãn k-safe trên đồ thị để đảm bảo khoảng cách an toàn chống nhiễu sóng.</div>
                 </div>
               </li>
               <li class="toc-item">
                 <span class="toc-num">Chương 12</span>
                 <div>
                   <div class="toc-title">Kết luận và chương trình nghiên cứu</div>
-                  <div class="toc-desc">Tổng kết nguyên lý thiết kế mã hóa và các định hướng nghiên cứu mở rộng.</div>
+                  <div class="toc-desc">Tổng kết bốn nguyên lý thiết kế phép mã hóa SAT hiệu quả, hệ thống hóa bản đồ bằng chứng thực nghiệm của nhóm tác giả và đề xuất các chương trình nghiên cứu phát triển mở rộng trong tương lai.</div>
                 </div>
               </li>
             </ul>
@@ -261,7 +267,7 @@
       <section id="hinh-anh" class="section">
         <div class="shell">
           <h2 class="section-title">Hình minh họa kỹ thuật tiêu biểu</h2>
-          <p class="section-intro">Các hình minh họa trong chuyên khảo được dựng nguyên bản bằng TikZ trong mã nguồn LaTeX.</p>
+          <p class="section-intro">Các hình minh họa kỹ thuật trong chuyên khảo được dựng nguyên bản bằng TikZ trong mã nguồn LaTeX, thể hiện chính xác các lưới trạng thái và luồng dữ liệu của phép mã hóa.</p>
 
           <div class="figures-grid">
             <div class="figure-card">
@@ -269,8 +275,8 @@
                 <img src="./assets/images/diagrams/fig_ch01.webp" alt="Sơ đồ vòng lặp CDCL trong bộ giải SAT" loading="lazy">
               </div>
               <div class="figure-caption">
-                <strong>Chương 1 · Sơ đồ vòng lặp CDCL</strong>
-                Luồng xử lý gán đơn vị, phát hiện xung đột và học mệnh đề trong bộ giải SAT.
+                <strong>Hình 1.3 · Sơ đồ vòng lặp CDCL trong bộ giải SAT</strong>
+                Luồng xử lý từ gán đơn vị, phát hiện xung đột, phân tích xung đột đến học mệnh đề và quay lùi không thứ tự trong solver.
               </div>
             </div>
 
@@ -279,8 +285,8 @@
                 <img src="./assets/images/diagrams/fig_ch03.webp" alt="Lưới trạng thái bộ đếm tuần tự Sequential Counter" loading="lazy">
               </div>
               <div class="figure-caption">
-                <strong>Chương 3 · Bộ đếm tuần tự Sequential Counter</strong>
-                Ma trận biến phụ tích lũy và lan truyền ngưỡng cho ràng buộc đếm.
+                <strong>Hình 3.2 · Lưới trạng thái bộ đếm tuần tự (Sequential Counter)</strong>
+                Ma trận biến phụ tích lũy và các đường lan truyền ngưỡng trong mã hóa ràng buộc đếm AMK.
               </div>
             </div>
 
@@ -289,8 +295,8 @@
                 <img src="./assets/images/diagrams/fig_ch05.webp" alt="Bộ đếm dùng chung cho cửa sổ chồng lấn Shared Counter" loading="lazy">
               </div>
               <div class="figure-caption">
-                <strong>Chương 5 · Bộ đếm dùng chung Shared Counter</strong>
-                Tái sử dụng các ô đếm cục bộ giữa các cửa sổ Sequence kề nhau.
+                <strong>Hình 5.3 · Bộ đếm dùng chung (Shared Counter)</strong>
+                Phân hoạch khối và kỹ thuật tái sử dụng trạng thái đếm cục bộ giữa các cửa sổ Sequence kề nhau.
               </div>
             </div>
 
@@ -299,8 +305,8 @@
                 <img src="./assets/images/diagrams/so_do_chuong_9.png" alt="Sơ đồ đóng gói và cắt hai chiều" loading="lazy">
               </div>
               <div class="figure-caption">
-                <strong>Chương 9 · Đóng gói & Cắt 2D</strong>
-                Quan hệ tách không chồng lấn giữa các vật thể hình chữ nhật.
+                <strong>Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D</strong>
+                Biểu diễn quan hệ không chồng lấn giữa các vật thể hình chữ nhật bằng các literal quan hệ chứng minh.
               </div>
             </div>
           </div>
@@ -314,14 +320,14 @@
           <div class="cite-box">
             <p class="cite-text">
               Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức (2026).
-              <em>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</em>. Bản 1.0.0. SATLab UET.
+              <em>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</em>. Phiên bản 1.0.0. SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội.
             </p>
 
             <pre id="bibtex-code" class="bibtex-block"><code>@book{satbook2026,
   title     = {Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp},
   author    = {Tô, Văn Khánh và Kiều, Văn Tuyên và Trương, Xuân Hiếu và Vũ, Thanh Hương và Đào, Xuân Nghĩa và Nguyễn, Kim Trung Đức},
   year      = {2026},
-  publisher = {SATLab UET},
+  publisher = {SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, ĐHQGHN},
   note      = {Phiên bản 1.0.0},
   url       = {https://satlab-uet.github.io/sat-book/}
 }</code></pre>
@@ -339,10 +345,12 @@
     <footer class="site-footer">
       <div class="shell footer-inner">
         <div>
-          <strong>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</strong> (2026)
+          <strong>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</strong> (Ấn bản 2026)
+          <p>© 2026 các tác giả. All rights reserved.</p>
         </div>
-        <div>
-          SATLab UET · Trường Đại học Công nghệ, ĐHQGHN
+        <div style="text-align: right;">
+          SATLab · Khoa Công nghệ Thông tin
+          <p>Trường Đại học Công nghệ, ĐHQGHN (UET-VNU)</p>
         </div>
       </div>
     </footer>
