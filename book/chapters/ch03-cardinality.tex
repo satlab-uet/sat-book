@@ -1,7 +1,7 @@
 \chapter{Bộ công cụ ràng buộc đếm và giả Boolean}
 \chapterlead{\emph{Cardinality constraint} (ràng buộc đếm) giới hạn số literal
 đúng trong một tập; \emph{pseudo-Boolean constraint} (ràng buộc giả Boolean)
-mở rộng nó
+mở rộng mô hình này
 bằng các trọng số nguyên. Hai lớp này xuất hiện trong ràng buộc gán, sức chứa,
 chuỗi, đối xứng và hàm mục tiêu. Không có một bộ biểu diễn tốt nhất cho mọi miền;
 cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách bộ giải thay cận.}
@@ -20,8 +20,8 @@ hóa mới thay thế hoàn toàn bộ biểu diễn cũ. Mỗi họ giải quy�
 \begin{enumerate}
   \item \emph{pairwise encoding} (biểu diễn từng cặp) và các phép phân rã AMO ưu tiên
         phát hiện xung đột trực tiếp;
-  \item \emph{sequential counter} (bộ đếm tuần tự) vật hóa tổng trên từng tiền tố;
-  \item \emph{totalizer} (cây tổng) vật hóa tổng theo cấu trúc cây;
+  \item \emph{sequential counter} (bộ đếm tuần tự) hiện thực hóa (reification) tổng trên từng tiền tố;
+  \item \emph{totalizer} (cây tổng) hiện thực hóa (reification) tổng theo cấu trúc cây;
   \item \emph{sorting/selection network} (mạng sắp xếp/lựa chọn) ưu tiên cấu
         trúc đều và độ sâu nhỏ;
   \item \emph{binary decision diagram} (biểu đồ quyết định nhị phân, BDD)
@@ -75,7 +75,7 @@ Biểu diễn từng cặp sinh
   \neg x_i\lor\neg x_j
   \qquad\forall i<j.
 \]
-Nó không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
+Phương pháp này không dùng biến phụ, có \(\binom n2\) mệnh đề nhị phân và lan truyền trực
 tiếp. Đây là lựa chọn tốt khi miền nhỏ.
 
 \subsection{Biểu diễn tuần tự}
@@ -187,7 +187,7 @@ Mệnh đề chống tràn tại \(i=4\),
 \]
 trở thành mệnh đề đơn vị và suy ra \(\neg x_4\). Tương tự, tính đơn điệu của
 tiền tố đưa \(s_{3,2}\) đến \(s_{4,2}\), rồi mệnh đề chống tràn tại \(i=5\)
-suy ra \(\neg x_5\). Bộ đếm không cần đợi đầu vào đúng thứ ba mới báo xung đột; nó
+suy ra \(\neg x_5\). Bộ đếm không cần đợi đầu vào đúng thứ ba mới báo xung đột; cấu trúc sẽ
 loại mọi vị trí còn lại ngay khi cận đã đầy.
 \end{workedexample}
 
@@ -243,7 +243,7 @@ Bộ so sánh
 \[
   (a,b)\mapsto(a\lor b,\ a\land b)
 \]
-được Tseitin hóa. Cận AMK là \(\neg o_{k+1}\). Mạng có cấu trúc đều, độ sâu
+được chuyển đổi theo phương pháp Tseitin. Cận AMK là \(\neg o_{k+1}\). Mạng có cấu trúc đều, độ sâu
 đa lôgarit và thuận lợi cho lan truyền song song
 \parencite{batcher1968sorting,asin2011networks}.
 
@@ -266,7 +266,7 @@ sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.
   \draw[satedge] (c)--(hi);
   \draw[satedge] (d)--(lo);
 \end{tikzpicture}
-\caption{Bộ so sánh Boolean là viên gạch của mạng sắp xếp và mạng đếm.}
+\caption{Bộ so sánh Boolean là thành phần cơ sở của mạng sắp xếp và mạng đếm.}
 \label{fig:boolean-comparator}
 \end{figure}
 
@@ -286,14 +286,14 @@ mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành ph
 \end{itemize}
 Nhược điểm là kích thước phụ thuộc thứ tự biến và số trạng thái tổng khác nhau.
 
-\section{Ràng buộc đúng \(K\) và đầu ra dùng chung}
+\section{Ràng buộc đúng \(K\) và đầu ra chia sẻ}
 
 EXK có thể viết thành AMK và ALK, nhưng dựng hai bộ đếm độc lập sẽ lặp trạng
 thái. Nếu bộ biểu diễn trả về các đầu ra đơn phân \(o_j\), chỉ cần
 \[
   o_k\land\neg o_{k+1}.
 \]
-Bộ đếm tuần tự cũng có thể dùng chung thanh ghi: biên \(s_{n,k}\) bảo đảm ít
+Bộ đếm tuần tự cũng có thể chia sẻ thanh ghi: biên \(s_{n,k}\) bảo đảm ít
 nhất \(k\), còn các mệnh đề chống tràn bảo đảm nhiều nhất \(k\).
 
 \begin{keyidea}{Định nghĩa một lần, đọc nhiều cận}
@@ -376,13 +376,13 @@ Nhóm đặc trưng & Ví dụ & Tác động tiềm năng\\
 Kích thước & \(n,k,B\), số hạng tử & Loại bộ biểu diễn chắc chắn quá lớn\\
 Trọng số & Giá trị lớn nhất, ước chung lớn nhất, số tổng phân biệt & Không gian trạng thái BDD/GT\\
 Cấu trúc & Nhóm AMO, hệ số lặp & Khả năng nén trạng thái\\
-Giao diện & Số cận, thêm đầu vào, vật hóa & Giải tăng dần và kết hợp mô-đun\\
+Giao diện & Số cận, thêm đầu vào, hiện thực hóa (reification) & Giải tăng dần và kết hợp mô-đun\\
 Mô hình & Mật độ, đối xứng, đồ thị ràng buộc & Tương tác với học mệnh đề\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Bộ chọn không loại bỏ nhu cầu chứng minh tính đúng: nó chỉ chọn giữa các
+Bộ chọn không loại bỏ nhu cầu chứng minh tính đúng: công cụ chỉ lựa chọn giữa các
 mô-đun đã được kiểm chứng. Việc đánh giá cũng phải tách các họ dùng để huấn
 luyện khỏi các họ dùng để kiểm thử; nếu không, bộ chọn có thể chỉ nhận dạng tên
 bộ kiểm chuẩn thay vì học cấu trúc của phép biểu diễn.
@@ -402,7 +402,7 @@ Nhiều ngưỡng & Cây tổng/mạng đếm & Tái sử dụng đầu ra\\
 Đúng \(K\) & Một vectơ đầu ra chung & Không lặp AMK/ALK\\
 PB có trọng số, ít trạng thái & BDD & Hợp nhất trạng thái tổng\\
 PB có trọng số tổng quát & PBLib/kết hợp & Chọn theo bài toán thử\\
-PB có nhóm AMO & Bộ biểu diễn PB(AMO) & Không vật hóa trạng thái bất khả\\
+PB có nhóm AMO & Bộ biểu diễn PB(AMO) & Không hiện thực hóa (reification) trạng thái bất khả\\
 Cận thay đổi tăng dần & Cây tổng/đầu ra thứ tự & Giao diện cận ổn định\\
 \bottomrule
 \end{tabularx}
@@ -419,7 +419,7 @@ ràng buộc chia sẻ cấu trúc.
   \item Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.
   \item Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.
   \item Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.
-  \item Ràng buộc đúng \(K\) nên dùng chung một cấu trúc tổng nếu có thể.
+  \item Ràng buộc đúng \(K\) nên chia sẻ một cấu trúc tổng nếu có thể.
 \end{enumerate}
 
 \subsection*{Câu hỏi nghiên cứu}

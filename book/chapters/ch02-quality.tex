@@ -179,7 +179,7 @@ phải có mệnh đề liên kết tương ứng.
      \(\displaystyle S_i<j\Rightarrow\neg r_{i,j}\)};
   \draw[satdash] (w)--(c2);
 \end{tikzpicture}
-\caption{Đặc tả của literal phụ quyết định cách các mô-đun khác được sử dụng nó.}
+\caption{Đặc tả của literal phụ quyết định cách các mô-đun khác sử dụng literal đó.}
 \label{fig:provider-client-contract}
 \end{figure}
 
@@ -211,7 +211,7 @@ thanh ghi vô dụng.
 \section{Unit propagation: lan truyền đơn vị}
 
 Cho phép gán một phần \(A\). \emph{Unit propagation} (lan truyền đơn vị, UP)
-lặp việc thỏa một mệnh đề
+lặp lại quá trình thỏa mãn mệnh đề
 đơn vị cho
 đến điểm cố định hoặc xung đột. Có ba mức phát biểu thường gặp:
 
@@ -236,7 +236,7 @@ Phát biểu GAC luôn đi cùng cách Boolean hóa miền và tập literal đ�
 giá trị.
 
 Kết quả của Gent và Bacchus cung cấp một cầu nối chính xác: nếu literal Boolean
-đại diện trực tiếp cho việc một giá trị còn trong miền, có thể so sánh bao đóng
+đại diện trực tiếp cho khả năng duy trì giá trị trong miền, có thể so sánh bao đóng
 của lan truyền đơn vị với bao đóng của một bộ lan truyền GAC
 \parencite{gent2002arc,bacchus2007gac}. Khi thêm liên kết biểu diễn, đổi từ mã
 hóa trực tiếp sang thứ tự hoặc chỉ giữ một chiều Tseitin, tập literal quan sát
@@ -253,7 +253,7 @@ nếu \(x_i=1\), UP lập tức suy \(\neg x_j\) cho mọi \(j\ne i\). Nếu hai
 biến chính, đổi lại \(O(n^2)\) mệnh đề.
 \end{example}
 
-\section{Cận dưới kích thước và mặt Pareto}
+\section{Cận dưới kích thước và biên Pareto (Pareto frontier)}
 
 Yêu cầu lan truyền đặt ra cận dưới cho kích thước phép biểu diễn. Với AMO, các
 cận dưới đã biết cho thấy một phép biểu diễn đầy đủ lan truyền cần số mệnh đề
@@ -262,7 +262,7 @@ tuyến tính với hệ số bị chặn, kể cả khi dùng biến phụ
 \begin{enumerate}
   \item xác định rõ lớp biểu diễn khi phát biểu về kích thước, biến phụ và sức lan
         truyền;
-  \item một cải tiến vài mệnh đề có thể đáng kể nếu nó tiến gần cận dưới;
+  \item một cải tiến vài mệnh đề có thể đáng kể nếu mức giảm đó tiến gần cận dưới lý thuyết;
   \item so sánh kích thước phải giữ cùng tiêu chuẩn lan truyền và cùng ngữ
         nghĩa của đầu ra.
 \end{enumerate}
@@ -274,11 +274,11 @@ bộ lan truyền đạt mức nhất quán mạnh hơn phép biểu diễn đa 
 sánh tập trung vào phần suy luận được chuyển sang học mệnh đề và chi phí
 để đạt phần suy luận đó.
 
-\begin{keyidea}{Mặt Pareto của phép biểu diễn}
+\begin{keyidea}{Biên Pareto (Pareto frontier) của phép biểu diễn}
 Một bộ biểu diễn được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
 xây dựng và khả năng tăng dần. Điểm Pareto là điểm mà cải thiện thêm một trục
 sẽ đánh đổi ít nhất một trục khác. \emph{Benchmark} (bộ kiểm chuẩn) đo vị trí
-thực nghiệm của từng thiết kế trên mặt Pareto này.
+thực nghiệm của từng thiết kế trên biên Pareto (Pareto frontier) này.
 \end{keyidea}
 
 \section{Mức độ phù hợp với bộ giải}

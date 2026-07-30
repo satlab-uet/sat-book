@@ -12,7 +12,7 @@ nghiên cứu tiếp theo.}
 
 \section{Những kết luận bền vững}
 
-Các họ bộ biểu diễn tạo thành một mặt Pareto thay vì một thứ hạng duy nhất. Quy
+Các họ bộ biểu diễn tạo thành một biên Pareto (Pareto frontier) thay vì một thứ hạng duy nhất. Quy
 trình lựa chọn có thể dùng lại gồm bốn lớp.
 
 \paragraph{Lớp ngữ nghĩa.}
@@ -24,7 +24,7 @@ nghĩa đó.
 
 \paragraph{Lớp cấu trúc.}
 Phép biểu diễn nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
-thái dùng chung; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
+thái chia sẻ; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
 ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
 Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
 phép ánh xạ bảo toàn nghiệm.
@@ -64,7 +64,7 @@ Mô-đun/bài toán & Thiết kế đánh giá & Kết quả chính\\
 \endhead
 SCL/SCAMO và Anti-Bandwidth &
 Phân tích kích thước SCAMO; 24 đồ thị kiểm chuẩn &
-Thang dùng chung giảm phần bộ đếm lặp trên AMO bậc thang và cạnh tranh trong
+Thang chia sẻ giảm phần bộ đếm lặp trên AMO bậc thang và cạnh tranh trong
 cấu hình Anti-Bandwidth đã thử; độ chồng lấn khoảng là đặc trưng quyết định
 \parencite{truong2025scamo}.\\
 
@@ -76,7 +76,7 @@ bài toán xếp nhóm chơi golf của nguồn \parencite{kieu2026golfer}.\\
 
 ALSCE/Lập lịch điều dưỡng &
 28 bài toán, đến 120 điều dưỡng và 24 tuần &
-ALSCE giải toàn bộ tập; kết quả hỗ trợ việc dùng chung thanh ghi cho các cửa sổ
+ALSCE giải toàn bộ tập; kết quả hỗ trợ việc chia sẻ thanh ghi cho các cửa sổ
 chuỗi trong mô hình này \parencite{truong2025nurse}.\\
 
 SAT/Đóng gói dải &
@@ -108,13 +108,13 @@ kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác 
 
 \section{Miền hiệu quả và điểm chuyển thiết kế}
 
-\paragraph{Bộ đếm dùng chung và Ladder AMK.}
-Bộ đếm dùng chung được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
+\paragraph{Bộ đếm chia sẻ và Ladder AMK.}
+Bộ đếm chia sẻ được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
 mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
 với các tập gần rời nhau, một phép biểu diễn cục bộ thường gọn hơn.
 
 \paragraph{NSC.}
-NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Nó
+NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Cấu trúc này
 phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
 Cây tổng/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
 literal bù chuyển bài toán về ngưỡng \(n-k\) nhỏ hơn.
@@ -125,7 +125,7 @@ buộc và hàm mục tiêu. Sức chứa, miền quay và cách hàm mục tiê
 định những hoán vị nào thuộc nhóm này. Mức phá đối xứng được chọn cùng độ dài
 mệnh đề và chiến lược phân nhánh.
 
-\paragraph{Biểu diễn thời gian và đóng gói.}
+\paragraph{Biểu diễn thời gian và xếp khối.}
 SAT theo mốc thời gian phù hợp với chân trời vừa phải và miền bắt đầu đã được
 lọc. Tọa độ thứ tự nén tốt các so sánh trên miền nguyên. DDD mở rộng lựa chọn
 cho chân trời lớn khi có tập mốc đầy đủ hữu hạn, cận dưới hợp lệ và bước tinh
@@ -149,8 +149,8 @@ lớn hoặc đồ thị ràng buộc đủ dày.
   \item \textbf{Chứng nhận toàn trình.} Nối ghi chứng minh của SAT/MaxSAT với
   bộ kiểm tra miền và chứng nhận cận dưới để giá trị tối ưu không phụ thuộc vào niềm tin ở
   bộ sinh.
-  \item \textbf{Trạng thái dùng chung tổng quát.} Mô hình hóa việc chọn khối,
-  cây ghép và ngưỡng cần vật hóa như một bài toán tối ưu riêng; tìm cận dưới
+  \item \textbf{Trạng thái chia sẻ tổng quát.} Mô hình hóa việc chọn khối,
+  cây ghép và ngưỡng cần hiện thực hóa (reification) như một bài toán tối ưu riêng; tìm cận dưới
   cho số trạng thái/bộ nối dưới các yêu cầu lan truyền khác nhau.
   \item \textbf{Phương pháp kết hợp có phân công rõ.} Dùng CP/MIP để lọc miền
   hoặc tạo cận, SAT/MaxSAT để xử lý phép tuyển, nhưng đánh giá bằng thí nghiệm
@@ -163,9 +163,9 @@ lớn hoặc đồ thị ràng buộc đủ dày.
 \section{Kết luận cuối}
 
 Giá trị của phép biểu diễn SAT nằm ở khả năng chọn đúng trạng thái trung gian để
-CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm dùng chung, thanh ghi tam giác,
+CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm chia sẻ, thanh ghi tam giác,
 biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
-cùng một nguyên tắc: chỉ vật hóa thông tin vừa đủ, đặt đặc tả rõ cho thông tin
+cùng một nguyên tắc: chỉ hiện thực hóa (reification) thông tin vừa đủ, đặt đặc tả rõ cho thông tin
 đó, rồi kiểm bằng cả chứng minh lẫn gói tái lập. Ba bước này chuyển một
 nghiên cứu tình huống thành một phương pháp có thể kiểm chứng, so sánh và dùng
 lại.

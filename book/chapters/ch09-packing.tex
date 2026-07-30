@@ -1,7 +1,7 @@
 \chapter{Đóng gói và cắt hai chiều}
-\chapterlead{Trong đóng gói, mệnh đề không làm việc trực tiếp với hình chữ
-nhật; nó làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép biểu diễn
-phụ thuộc vào việc chọn đúng giao diện giữa ba lớp đó.}
+\chapterlead{Trong bài toán xếp khối, mệnh đề không xử lý trực tiếp với hình chữ
+nhật; mô hình làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép biểu diễn
+phụ thuộc vào việc thiết kế giao diện phù hợp giữa ba lớp đó.}
 
 \index{strip packing}\index{bin packing}\index{non-overlap}
 \index{rotation}\index{coordinate compression}
@@ -9,7 +9,7 @@ phụ thuộc vào việc chọn đúng giao diện giữa ba lớp đó.}
 \flowdiagram{Vật và hướng đặt}{Tọa độ thứ tự}{Quan hệ tách}
   {Cận khung chứa}{Bố trí và chứng nhận}
 
-\section{Bản đồ các phương pháp chính xác cho đóng gói}
+\section{Bản đồ các phương pháp chính xác cho xếp khối}
 
 Hai chiều tạo khó khăn khác một chiều: không chồng lấn là một phép tuyển giữa
 hai trục, còn tọa độ có nhiều giá trị đối xứng trong vùng trống. Văn liệu về
@@ -27,7 +27,7 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh--cận c
   \item[Vị trí đặt tuyệt đối]
   Mỗi biến chọn một vị trí khả dĩ của vật. Đồ thị xung đột nối hai vị trí chồng
   lấn; bài toán trở thành chọn đúng một vị trí cho mỗi vật. Các phương pháp vị
-  trí tuyệt đối và đóng gói hoàn hảo khai thác nén tọa độ, tổng tập con và suy
+  trí tuyệt đối và xếp khối hoàn hảo khai thác nén tọa độ, tổng tập con và suy
   luận trên không gian trống
   \parencite{huang2013rectangle}.
 
@@ -39,12 +39,12 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh--cận c
 
 Ngoài SAT, quy hoạch ràng buộc dùng \textsc{NoOverlap}/diffn, các phép chiếu
 tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
-tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho đóng gói trực giao còn
+tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho xếp khối trực giao còn
 kết hợp cận, quan hệ trội và nhánh--cận chuyên dụng
 \parencite{clautiaux2007orthogonal,clautiaux2008cp}.
 
 \begin{center}
-\captionof{table}{Các biểu diễn chính xác cho đóng gói hai chiều.}
+\captionof{table}{Các biểu diễn chính xác cho xếp khối hai chiều.}
 \label{tab:packing-formulations}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
 \toprule
@@ -59,7 +59,7 @@ MIP/phủ tập & Biến/cột vị trí & Thư giãn và nhát cắt & Cận LP
 \end{tabularx}
 \end{center}
 
-Ba trục tạo nên đóng góp SAT cho đóng gói là nén miền tọa độ, làm mạnh lan
+Ba trục tạo nên đóng góp SAT cho xếp khối là nén miền tọa độ, làm mạnh lan
 truyền không chồng lấn và tái sử dụng mệnh đề đã học giữa các cận. Kiến trúc
 mới được nhận diện qua thay đổi có thể đo trên ít nhất một trong ba trục này.
 
@@ -104,8 +104,8 @@ dấu \(\le\) cho phép hai vật chạm cạnh. Quy ước này phải được
 \end{designrule}
 
 Hình \ref{fig:packing-layout} dùng một ví dụ tự dựng để minh họa cách tọa độ
-thứ tự và quan hệ vị trí được dùng trong SAT cho đóng gói; cách tổ chức quan hệ
-này tiếp nối mô hình đóng gói dải của \textcite{soh2010strip}.
+thứ tự và quan hệ vị trí được dùng trong SAT cho xếp khối; cách tổ chức quan hệ
+này tiếp nối mô hình xếp khối dải của \textcite{soh2010strip}.
 
 \begin{figure}[tb]
 \centering
@@ -192,7 +192,7 @@ trực tiếp tọa độ và hướng đặt, nhờ đó bộ kiểm tra độc
 
 \begin{proposition}[Tính đúng của mô-đun không chồng lấn]
 Giả sử mỗi biến làm chứng \(l_{ij},u_{ij}\) kéo theo đúng bất đẳng thức hình học
-của nó, và phép tuyển bốn biến làm chứng được thỏa cho mọi cặp vật trong cùng khung
+của vật, và phép tuyển bốn biến làm chứng được thỏa cho mọi cặp vật trong cùng khung
 chứa. Khi đó mọi bố trí giải mã từ mô hình \SAT đều không giao nhau.
 \end{proposition}
 
@@ -202,7 +202,7 @@ theo của biến làm chứng đó cho một bất đẳng thức tách theo tr
 thất hai hình chữ nhật rời nhau.
 \end{proof}
 
-\section{Bài toán đóng gói dải hai chiều}
+\section{Bài toán xếp khối (Packing problem) dải hai chiều}
 
 \subsection{Từ tối ưu chiều cao sang kiểm tra tính khả thi}
 
@@ -257,7 +257,7 @@ Không cần vòng tìm kiếm ngoài\\
 \end{tabularx}
 \end{center}
 
-Biểu diễn SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
+Biểu diễn SAT thứ tự cho xếp khối dải đã được nghiên cứu trước đó cùng đối xứng,
 quan hệ vị trí và tái sử dụng mệnh đề đã học
 \parencite{soh2010strip}. Vì vậy nghiên cứu tình huống của nhóm được định vị
 theo hai câu hỏi kế tiếp: phép quay/đối xứng làm đổi mô hình thế nào, và
@@ -269,7 +269,7 @@ Trong nghiên cứu của \textcite{kieu2025strip}, \SAT không tăng dần vớ
 quay và phá đối xứng chứng nhận 26 giá trị tối ưu trên 41 bài toán; phiên bản
 tăng dần chứng nhận 21, còn CP chứng nhận 28. Kết quả này cho thấy giải tăng
 dần chỉ có lợi khi công thức cơ sở và mệnh đề đã học còn phù hợp sau khi thay
-cận. Với đóng gói dải, thay \(H\) có thể làm thay đổi mạnh miền tọa độ và
+cận. Với xếp khối dải, thay \(H\) có thể làm thay đổi mạnh miền tọa độ và
 những xung đột hữu ích.
 
 \begin{keyidea}{Chứng nhận tối ưu}
@@ -278,7 +278,7 @@ thỏa là chứng nhận cận dưới. Cặp SAT/UNSAT ở hai cận kề nhau
 \(H^\star\) là giá trị tối ưu.
 \end{keyidea}
 
-\section{Bài toán đóng gói vào khung chứa hai chiều}
+\section{Bài toán xếp khối (Packing problem) vào khung chứa hai chiều}
 
 \subsection{Hai kiến trúc}
 
@@ -287,7 +287,7 @@ khung. Có hai kiến trúc chính.
 
 \paragraph{Xếp chồng.}
 Ghép \(k\) khung thành một dải \(W\times kH\). Tọa độ \(y_i\) đồng thời xác
-định khung. Kiến trúc này tái sử dụng đóng gói dải nhưng phải ngăn vật vượt qua
+định khung. Kiến trúc này tái sử dụng xếp khối dải nhưng phải ngăn vật vượt qua
 đường biên \(qH\).
 
 \paragraph{Không xếp chồng.}
@@ -335,7 +335,7 @@ trên một bố trí kinh nghiệm cụ thể.
   \draw[satdash] (12.25,3.5)--(8.75,3.5)
     node[midway,above,satlabel]{\(q_2\to q_1\)};
 \end{tikzpicture}
-\caption{Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
+\caption{Hai kiến trúc cho xếp khối vào khung: xếp chồng dùng một trục \(y\)
 toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng.}
 \label{fig:stacking-nonstacking}
 \end{figure}
@@ -361,7 +361,7 @@ xứng cho khung/bản sao quyết định đáng kể kích thước không gia
 
 Cho tấm vật liệu kích thước \(W\times H\), nhiều loại vật \(t\), mỗi loại có
 nhu cầu \(d_t\). Bài toán tối thiểu hóa số tấm. Nếu tạo từng bản sao riêng,
-phép gán và không chồng lấn giống bài toán đóng gói vào khung. Nếu gộp theo
+phép gán và không chồng lấn giống bài toán xếp khối (packing problem) vào khung. Nếu gộp theo
 loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.
 
 Với một cận \(K\), công thức khả thi hỏi liệu có thể đáp ứng đủ nhu cầu trên
@@ -377,12 +377,12 @@ số tấm của các bản sao cùng loại không giảm.
 
 Tìm kiếm SAT thay \(K\) ở vòng ngoài. \MaxSAT bộ phận có thể giữ tất cả các
 tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
-\(\sum_bq_b\). Hai cách dùng chung điều kiện nằm gọn, hướng đặt và không chồng
+\(\sum_bq_b\). Hai cách chia sẻ điều kiện nằm gọn, hướng đặt và không chồng
 lấn; chúng chỉ khác ở lớp hàm mục tiêu.
 
 \textcite{kieu2026cutting} cho thấy phép biểu diễn gọn với tọa độ thứ tự và đối
 xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
-thước. Điểm chuyển giao sang các bài toán đóng gói khác là chuỗi mô-đun
+thước. Điểm chuyển giao sang các bài toán xếp khối (packing problem) khác là chuỗi mô-đun
 \[
   \texttt{Assignment}
   +\texttt{OrderCoordinate}
@@ -410,7 +410,7 @@ Mỗi ràng buộc phá đối xứng được gắn với một nhóm đối x�
         đổi giữ miền và hàm mục tiêu.
 \end{itemize}
 Các nguyên tắc tổng quát về đối xứng được trình bày trong
-\textcite{walsh2006symmetry,gent2006symmetry}; phép biểu diễn SAT cổ điển cho bài toán đóng gói khung 2D
+\textcite{walsh2006symmetry,gent2006symmetry}; phép biểu diễn SAT cổ điển cho bài toán xếp khối (packing problem) khung 2D
 Packing có rotation có thể xem ở \textcite{soh2010binpacking}.
 
 \section{Tách ảnh hưởng của phép biểu diễn, cận và quan hệ trội}
@@ -426,7 +426,7 @@ Ma trận thiết kế ghi riêng ảnh hưởng của các thành phần:
 \end{itemize}
 
 Ma trận thiết kế tách phần giảm mệnh đề do lọc miền khỏi phần giảm do chuyển
-sang CNF. Phép so sánh CP, MIP và SAT dùng chung cách chuẩn hóa bài toán và cận
+sang CNF. Phép so sánh CP, MIP và SAT chia sẻ cách chuẩn hóa bài toán và cận
 đầu vào; cận và quan hệ trội được ghi thành mô-đun riêng
 \parencite{iori2021packing,clautiaux2007orthogonal}.
 
@@ -448,7 +448,7 @@ chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ k
 \section{Bài học thiết kế}
 
 \begin{enumerate}
-  \item Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép biểu diễn.
+  \item Chọn một quy ước tọa độ và duy trì quy ước này nhất quán trong toàn bộ phép biểu diễn.
   \item Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
         quan hệ đầy đủ nếu phép giải mã không cần.
   \item Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.

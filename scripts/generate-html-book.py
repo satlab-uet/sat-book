@@ -231,8 +231,18 @@ def clean_inline(text: str) -> str:
 
     # 7. References & Citations
     text = re.sub(r'\\label\{[^}]+\}', '', text)
-    text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
-    text = re.sub(r'\\ref\{([^}]+)\}', r'(xem hình \1)', text)
+    text = re.sub(r'Bảng~?\\ref\{tab:([^}]+)\}', r'Bảng (bên dưới)', text)
+    text = re.sub(r'Hình~?\\ref\{fig:([^}]+)\}', r'Hình (trong phần này)', text)
+    text = re.sub(r'Mục~?\\ref\{sec:([^}]+)\}', r'Mục (trong phần này)', text)
+    text = re.sub(r'Chương~?\\ref\{ch(?:ap)?:([^}]+)\}', r'Chương (trong phần này)', text)
+    text = re.sub(r'\\cref\{fig:([^}]+)\}', r'(xem sơ đồ trong phần này)', text)
+    text = re.sub(r'\\cref\{tab:([^}]+)\}', r'(xem bảng bên dưới)', text)
+    text = re.sub(r'\\cref\{sec:([^}]+)\}', r'(xem phần này)', text)
+    text = re.sub(r'\\cref\{([^}]+)\}', r'(xem phần này)', text)
+    text = re.sub(r'\\ref\{tab:([^}]+)\}', r'(bảng bên dưới)', text)
+    text = re.sub(r'\\ref\{fig:([^}]+)\}', r'(sơ đồ trong phần này)', text)
+    text = re.sub(r'\\ref\{sec:([^}]+)\}', r'(xem phần này)', text)
+    text = re.sub(r'\\ref\{([^}]+)\}', r'(bên dưới)', text)
     text = re.sub(r'\\eqref\{([^}]+)\}', r'(công thức \1)', text)
 
     # 8. Punctuation & Quotes
@@ -354,50 +364,80 @@ def parse_figures(text: str) -> str:
     return text
 
 def parse_tables(text: str) -> str:
-    def replace_table_block(match):
-        block = match.group(1)
-        
-        cap_match = re.search(r'\\caption(?:of\{table\})?\{([^}]+)\}', block)
+    def replace_table_block(match, is_direct_env=False):
+        if is_direct_env:
+            block = match.group(2)
+        else:
+            block = match.group(1)
+            tab_m = re.search(r'\\begin\{(tabularx|tabular|longtable)\}(.*?)\\end\{\1\}', block, re.DOTALL)
+            if not tab_m:
+                return ""
+            block = tab_m.group(2)
+
+        # Extract caption if present
+        cap_match = re.search(r'\\caption(?:of\{table\})?\{([^}]+)\}', match.group(0))
         caption_html = ""
         if cap_match:
             caption_text = clean_inline(cap_match.group(1))
-            caption_html = f'<div class="reader-table-caption">Bảng: {caption_text}</div>'
-            
-        tab_match = re.search(r'\\begin\{(?:tabularx|tabular|longtable)\}(.*?)\\end\{(?:tabularx|tabular|longtable)\}', block, re.DOTALL)
-        if not tab_match:
-            return ""
-            
-        tab_content = tab_match.group(1).strip()
+            caption_html = f'<div class="reader-table-caption"><strong>Bảng: {caption_text}</strong></div>'
+
+        tab_content = block.strip()
         
-        if r'\toprule' in tab_content:
-            tab_content = tab_content.split(r'\toprule', 1)[1]
-        elif r'\hline' in tab_content:
-            tab_content = tab_content.split(r'\hline', 1)[1]
-        else:
-            tab_content = re.sub(r'^(?:\{[^{}]*\}|\s+)+', '', tab_content).strip()
-            
-        tab_content = re.sub(r'\\(top|mid|bottom)rule', '', tab_content)
-        tab_content = re.sub(r'\\label\{[^}]+\}', '', tab_content)
+        # Remove any leading {...} column specification blocks
+        while tab_content.startswith('{'):
+            depth = 0
+            end_idx = -1
+            for idx, c in enumerate(tab_content):
+                if c == '{': depth += 1
+                elif c == '}': depth -= 1
+                if depth == 0:
+                    end_idx = idx
+                    break
+            if end_idx != -1:
+                tab_content = tab_content[end_idx+1:].strip()
+            else:
+                break
+
+        # Remove header/footer control macros in longtable / tabularx
         tab_content = re.sub(r'\\caption\{[^}]+\}', '', tab_content)
-        
+        tab_content = re.sub(r'\\label\{[^}]+\}', '', tab_content)
+        tab_content = re.sub(r'\\endfirsthead.*?(?=\\toprule|\\hline|\\midrule|\n|$)', '', tab_content, flags=re.DOTALL)
+        tab_content = re.sub(r'\\endhead.*?(?=\\toprule|\\hline|\\midrule|\n|$)', '', tab_content, flags=re.DOTALL)
+        tab_content = re.sub(r'\\endfoot', '', tab_content)
+        tab_content = re.sub(r'\\endlastfoot', '', tab_content)
+        tab_content = re.sub(r'\\(top|mid|bottom)rule', '', tab_content)
+        tab_content = re.sub(r'\\hline', '', tab_content)
+        tab_content = re.sub(r'\\endfirsthead', '', tab_content)
+        tab_content = re.sub(r'\\endhead', '', tab_content)
+
         rows = [r.strip() for r in tab_content.split(r'\\') if r.strip()]
         if not rows:
             return ""
-            
-        header_row = rows[0]
-        body_rows = rows[1:]
-        
-        header_cells = [clean_inline(c.strip()) for c in header_row.split('&')]
-        th_html = "".join(f'<th>{c}</th>' for c in header_cells)
-        
-        tr_body_html = []
-        for r in body_rows:
+
+        cleaned_rows = []
+        for r in rows:
             cells = [clean_inline(c.strip()) for c in r.split('&')]
             if any(cells):
-                tds = "".join(f'<td>{c}</td>' for c in cells)
-                tr_body_html.append(f'<tr>{tds}</tr>')
-                
-        table_html = f'''
+                cleaned_rows.append(cells)
+
+        if not cleaned_rows:
+            return ""
+
+        header_cells = cleaned_rows[0]
+        body_rows = cleaned_rows[1:]
+
+        # If second row is identical to header (e.g. longtable endfirsthead artifact), skip it
+        if body_rows and body_rows[0] == header_cells:
+            body_rows = body_rows[1:]
+
+        th_html = "".join(f'<th>{c}</th>' for c in header_cells)
+
+        tr_body_html = []
+        for cells in body_rows:
+            tds = "".join(f'<td>{c}</td>' for c in cells)
+            tr_body_html.append(f'<tr>{tds}</tr>')
+
+        return f'''
         <div class="reader-table-wrapper">
           {caption_html}
           <table class="reader-table">
@@ -406,10 +446,9 @@ def parse_tables(text: str) -> str:
           </table>
         </div>
         '''
-        return table_html
 
-    text = re.sub(r'\\begin\{(?:center|table)\}(.*?)\\end\{(?:center|table)\}', replace_table_block, text, flags=re.DOTALL)
-    text = re.sub(r'\\begin\{longtable\}(.*?)\\end\{longtable\}', replace_table_block, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{(?:center|table)\}(?:\[[^\]]*\])?(.*?)\\end\{(?:center|table)\}', lambda m: replace_table_block(m, False), text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{(longtable|tabularx|tabular)\}(.*?)\\end\{\1\}', lambda m: replace_table_block(m, True), text, flags=re.DOTALL)
     return text
 
 def parse_flowdiagrams(text: str) -> str:

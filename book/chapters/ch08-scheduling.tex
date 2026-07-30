@@ -1,5 +1,5 @@
 \chapter{Lập lịch và cân bằng dây chuyền}
-\chapterlead{Một phép biểu diễn cho bài toán thời gian chỉ thực sự rõ khi nó trả lời
+\chapterlead{Một phép biểu diễn cho bài toán thời gian chỉ thực sự rõ khi trả lời trực tiếp
 ba câu hỏi: quyết định nằm ở mốc nào, điều gì phải liên tục giữa các mốc, và
 cận mục tiêu được thay đổi ra sao trong quá trình giải.}
 
@@ -68,7 +68,7 @@ lịch tàu. Tuy nhiên, phép biểu diễn của chúng đều có thể tách
         độ trễ hay số vi phạm.
 \end{enumerate}
 
-Việc tách lớp không chỉ giúp trình bày. Nó cho phép thay một mô-đun mà không
+Phân tách kiến trúc theo lớp không chỉ giúp trình bày mạch lạc, mà còn cho phép thay thế một mô-đun mà không
 đổi ngữ nghĩa của các mô-đun còn lại. Chẳng hạn, có thể giữ nguyên biến gán
 máy và thay phép biểu diễn cho tính không ngắt; hoặc giữ nguyên mô hình khả thi
 và thay vòng lặp tối ưu bằng \SAT tăng dần hay \MaxSAT.
@@ -109,7 +109,7 @@ Xung đột tài nguyên tại mốc \(t\) được loại bởi
   \neg z_{i't}\lor \neg y_{i'j},
   \qquad i<i'.
 \]
-Mệnh đề này là một xung đột có điều kiện: nó chỉ hoạt động khi hai tác vụ cùng
+Mệnh đề này thể hiện xung đột có điều kiện: mệnh đề chỉ kích hoạt khi hai tác vụ cùng
 chọn tài nguyên \(j\).
 
 \subsection{Từ ràng buộc đếm đến một khối liên tục}
@@ -118,7 +118,7 @@ chọn tài nguyên \(j\).
 \[
   \sum_t z_{it}=e_i
 \]
-chỉ bảo đảm đủ số mốc hoạt động; nó không ngăn các mốc bị tách thành nhiều
+chỉ bảo đảm đủ số mốc hoạt động; cơ chế này không ngăn các mốc bị phân tách thành nhiều
 đoạn. \emph{Non-preemption} (tính không ngắt: tác vụ phải chạy liên tục từ
 lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:
 \[
@@ -200,7 +200,7 @@ mệnh đề tại \(t=1,j=1\) trở thành
 \neg z_{2,1}\lor\neg y_{2,1}
 \)
 và bị vi phạm. Ví dụ tách rõ hai lớp: \(z\) nói khi nào tác vụ chạy, \(y\)
-nói nó chạy ở đâu.
+nói tác vụ chạy ở vị trí nào.
 \end{workedexample}
 
 Kết quả của \textcite{kieu2025scheduling} cho thấy lợi ích chính của phép mã
@@ -236,7 +236,7 @@ Chia một cửa sổ thành hai phần \(A\) và \(B\). Ta có
     \left(\sum_{x\in B}x\ge k-q+1\right)
   \right].
 \]
-Mỗi mệnh đề ngưỡng trong ngoặc được biểu diễn bởi một thanh ghi dùng chung.
+Mỗi mệnh đề ngưỡng trong ngoặc được biểu diễn bởi một thanh ghi chia sẻ.
 Khi cửa sổ trượt sang phải, phần lớn thanh ghi vẫn còn nguyên.
 
 \begin{example}
@@ -289,7 +289,7 @@ Nhờ đó một bản cài đặt có thể dùng cùng một mô-đun cận d�
 
 Trong một mô hình phân ca đầy đủ, ràng buộc chuỗi chỉ là một lớp. Lớp độ phủ
 bảo đảm số nhân viên mỗi ca; ràng buộc hợp đồng giới hạn tổng giờ và số cuối
-tuần; ưu tiên tạo các chi phí mềm. Phép biểu diễn cửa sổ dùng chung tác động trực
+tuần; ưu tiên tạo các chi phí mềm. Phép biểu diễn cửa sổ chia sẻ tác động trực
 tiếp lên lớp chuỗi, còn MaxSAT có trọng số là một lựa chọn cho hàm mục tiêu của
 toàn mô hình \parencite{demirovic2019staff}. Ma trận thiết kế tách các lớp để
 đo riêng ảnh hưởng của ALSC, độ phủ và ưu tiên.
@@ -299,7 +299,7 @@ Trên 28 bài toán \emph{Nurse Rostering} (lập lịch điều dưỡng), vớ
 120 điều dưỡng và 24 tuần,
 ALSCE giải toàn bộ tập thử trong nghiên cứu của
 \textcite{truong2025nurse}; bài toán lớn nhất được báo cáo ở mức
-\(26{,}01\) giây. Kết quả này minh họa hiệu quả của việc chia sẻ thanh ghi giữa
+\(26{,}01\) giây. Kết quả này minh họa hiệu quả của kỹ thuật chia sẻ thanh ghi giữa
 các cửa sổ chồng lấn.
 \end{resultbox}
 
@@ -378,13 +378,13 @@ Với tàu \(i\) và tài nguyên \(r\) trên tuyến cố định, đặt \(t^{
 \[
   t^{i,q}\ge t^{i,r}+\ell_i^r,
 \]
-trong khi hai tàu dùng chung tài nguyên phải chọn một trong hai thứ tự an toàn.
+trong khi hai tàu chia sẻ tài nguyên phải chọn một trong hai thứ tự an toàn.
 Nếu dựng toàn bộ miền thời gian đến chân trời \(H\), số biến theo mốc thời gian có thể
 rất lớn.
 
 \emph{Dynamic Discretization Discovery} (khám phá rời rạc hóa động, DDD) khởi
 đầu bằng tập mốc thưa \(\Lambda^{i,r}\). Mô hình hạn chế cho một cận dưới.
-Nghiệm được giải mã trên trục thời gian đầy đủ; nếu nó vi phạm thời gian di
+Nghiệm được giải mã trên trục thời gian đầy đủ; nếu nghiệm vi phạm thời gian di
 chuyển hoặc khoảng cách an toàn, chỉ các mốc liên quan mới được thêm.
 
 DDD không bắt nguồn từ SAT. Thuật toán được phát triển cho thiết kế mạng dịch
@@ -392,7 +392,7 @@ vụ thời gian liên tục bằng cách giải lặp các mạng mở rộng t
 và tinh chỉnh những mốc cần thiết \parencite{boland2017ddd}. Khi chuyển ý tưởng
 sang MaxSAT, điều phải bảo toàn là \emph{tính hợp lệ của cận dưới} trong mô
 hình hạn chế và quy tắc tinh chỉnh hữu hạn; bộ giải bên trong có thể thay đổi.
-Đây là một ví dụ quan trọng của việc đưa một kiến trúc từ Nghiên cứu vận trù
+Đây là một ví dụ tiêu biểu cho quá trình tích hợp kiến trúc từ Nghiên cứu vận trù
 vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.
 
 \subsection{Vòng lặp}
@@ -419,7 +419,7 @@ vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.
   \item Nếu mô hình hạn chế vô nghiệm và là một phép thư giãn hợp lệ của mô hình
   đầy đủ, kết luận mô hình đầy đủ vô nghiệm.
   \item Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
-  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), nó phải trả một
+  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), thuật toán phải trả về một
   bằng chứng \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
   hàm mục tiêu.
   \item Nếu có lịch khả thi và \(U_r=L_r\), trả lịch cùng hai cận bằng nhau.
@@ -512,7 +512,7 @@ khó nhất của mô hình:
   \item Chọn MIP khi hàm mục tiêu tuyến tính mạnh và phép thư giãn cung cấp cận tốt.
 \end{itemize}
 
-Phương pháp kết hợp nên được thiết kế như một phép phân công công việc: mô-đun
+Phương pháp kết hợp nên được thiết kế như một phân chia nhiệm vụ suy diễn: mô-đun
 nào tạo cận, mô-đun nào xử lý phép tuyển và bằng cách nào hai phía trao đổi
 thông tin. Việc chỉ gọi nhiều bộ giải trên cùng một mô hình không tự tạo ra
 một kiến trúc kết hợp.
@@ -539,7 +539,7 @@ một kiến trúc kết hợp.
   \item Phân biệt biến thời điểm, biến hoạt động và biến thứ tự; viết phép
         liên kết trước khi tối ưu mệnh đề.
   \item Tính không ngắt là một ràng buộc khối, không phải chỉ là ràng buộc đếm.
-  \item Với các cửa sổ chồng lấn, hiệu quả đến từ việc chia sẻ ngưỡng hoặc
+  \item Với các cửa sổ chồng lấn, hiệu quả đến từ kỹ thuật chia sẻ ngưỡng hoặc
         bộ đếm giữa các cửa sổ.
   \item Hàm mục tiêu nên giao tiếp với mô-đun khả thi qua một giao diện cận.
   \item Rời rạc hóa động phù hợp khi miền lớn nhưng nghiệm chỉ cần một số
@@ -551,7 +551,7 @@ một kiến trúc kết hợp.
 \begin{enumerate}
   \item Với cùng ngữ nghĩa khối, hãy so sánh biểu diễn bằng biến bắt đầu và biểu diễn
         bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.
-  \item Thiết kế một bộ đếm dùng chung cho hai ALSC có cửa sổ chồng lấn nhưng cận
+  \item Thiết kế một bộ đếm chia sẻ cho hai ALSC có cửa sổ chồng lấn nhưng cận
         \(k\) khác nhau.
   \item Viết điều kiện dừng chính xác cho một vòng DDD khi chi phí hạn chế là
         cận dưới và lịch giải mã cho cận trên.

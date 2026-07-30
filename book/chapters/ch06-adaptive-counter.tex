@@ -23,7 +23,7 @@ nhưng hai vế không nhất thiết phải dùng hai bộ biểu diễn độc
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
 trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
-ô nào thật sự có thể đạt và cần được vật hóa?
+ô nào thật sự có thể đạt và cần được hiện thực hóa (reification)?
 
 \begin{center}
 \captionof{table}{Các hướng biểu diễn ràng buộc đúng \(K\).}
@@ -47,7 +47,7 @@ số mệnh đề, literal và mức lan truyền
 \parencite{kucera2019lower,bailleux2010survey}. NSC giữ bậc \(O(nK)\), giảm
 một phần xác định của bảng và thay cách đóng biên Exactly-\(K\). Đóng góp cốt
 lõi là một \emph{không gian trạng thái gọn hơn trong họ tuần tự}; vị trí trên
-mặt Pareto được đo bằng số mệnh đề, số literal và sức lan truyền.
+biên Pareto (Pareto frontier) được đo bằng số mệnh đề, số literal và sức lan truyền.
 
 \section{Từ bảng chữ nhật đến miền trạng thái khả đạt}
 
@@ -70,7 +70,7 @@ mang trạng thái hợp lệ.
     1\le j\le \min(i,k).
   \end{matrix}
 \]
-Chỉ \(n-1\) tiền tố được vật hóa; biến \(x_n\) được xử lý trong điều kiện cuối.
+Chỉ \(n-1\) tiền tố được hiện thực hóa (reification); biến \(x_n\) được xử lý trong khi giải (in-processing) khi giải (in-processing) điều kiện cuối.
 Với \(n>k\), số biến phụ là
 \[
   \sum_{i=1}^{n-1}\min(i,k)
@@ -196,7 +196,7 @@ Hệ thức truy hồi và các hằng biên cho, bằng quy nạp theo \(i\),
   \sum_{q=1}^{i}x_q\ge j.
 \]
 Nếu có hơn \(k\) đầu vào đúng, xét đầu vào đúng thứ \(k+1\), ký hiệu \(x_i\).
-Ngay trước nó, \(R_{i-1,k}=1\), trái với
+Ngay tại vị trí trước đó, \(R_{i-1,k}=1\), trái với
 \cref{eq:nsc-overflow}. Do đó tổng không vượt \(k\).
 
 Ngược lại, \cref{eq:nsc-lower} chỉ đúng khi \(k\) đầu vào đầu tiên đã xuất hiện
@@ -229,7 +229,7 @@ R_{5,3}\lor(x_6\land R_{5,2})
 minh họa lần lượt biên dưới và biên trên của cùng một thanh ghi.
 \end{workedexample}
 
-\section{Lan truyền nhìn từ hai biên}
+\section{Cơ chế suy diễn lan truyền hai chiều}
 
 Bộ đếm hữu ích vì các cận xuất hiện sớm trong tìm kiếm. Hai tình huống quan
 trọng có thể kiểm tra trực tiếp:
@@ -406,13 +406,13 @@ Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); h�
 và các mệnh đề hai chiều có thể quan trọng hơn phần tam giác bị bỏ. Với
 \(k\) gần \(n\), đếm các literal bù \(\neg x_i\) đến \(n-k\) thường gọn hơn.
 Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, cây tổng và
-mạng đếm có đầu ra dùng chung tự nhiên hơn một NSC chuyên biệt. BDD cũng có thể
+mạng đếm có đầu ra chia sẻ tự nhiên hơn một NSC chuyên biệt. BDD cũng có thể
 thắng khi phép rút gọn hợp nhất được nhiều trạng thái tương đương.
 
 Bộ chọn cho ràng buộc đúng \(K\) dùng \(n\), \(\min(k,n-k)\), số cận sẽ được
 truy vấn, nhu cầu giải tăng dần và đặc tả lan truyền làm đặc trưng. NSC phù hợp
 với một cận cố định và vùng tam giác bị cắt đủ lớn; cây tổng/mạng đếm phù hợp
-khi cần dùng chung nhiều đầu ra. Kết quả Social Golfer minh họa cách các đặc
+khi cần chia sẻ nhiều đầu ra. Kết quả Social Golfer minh họa cách các đặc
 trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán tương ứng.
 
 \section{Bài học thiết kế}

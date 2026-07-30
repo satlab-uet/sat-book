@@ -49,7 +49,7 @@ Góc nhìn & Đơn vị chính & Bằng chứng mạnh & Rủi ro khi đứng ri
 SAT/CDCL & Literal và mệnh đề & Xung đột, mệnh đề học được, chứng minh &
 Bỏ qua ngữ nghĩa miền\\
 CP/CSP & Biến, miền, giá trị hỗ trợ & Nhất quán và lọc miền &
-Không dự báo hết việc học mệnh đề\\
+Không dự báo đầy đủ khả năng học mệnh đề\\
 Tối ưu & Cận và hàm mục tiêu & Khoảng cận, cận dưới, giá trị tối ưu &
 Mô hình Boolean có thể quá yếu\\
 \bottomrule
@@ -207,7 +207,7 @@ ghi lý do của mỗi literal trên \emph{trail} (vết gán theo thứ tự), 
 một mệnh đề và thực hiện \emph{backjump} (nhảy lùi đến mức quyết định thích
 hợp). \emph{Restart} (khởi động lại)
 làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép biểu diễn
-không chỉ ảnh hưởng số nút: nó quyết định các cạnh lý do mà phân tích xung đột
+không chỉ ảnh hưởng đến số lượng nút tìm kiếm mà còn quyết định các cạnh lý do mà phân tích xung đột
 có thể sử dụng.
 
 Các bộ giải SAT hiện đại chủ yếu dựa trên
@@ -224,7 +224,7 @@ Các bộ giải SAT hiện đại chủ yếu dựa trên
 Phép biểu diễn ảnh hưởng trực tiếp ba lớp của vòng này. Mệnh đề nhị phân và tam
 phân tạo đường lan truyền ngắn. Biến phụ quyết định hình dạng đồ thị kéo theo.
 Cấu trúc mô-đun và tính địa phương ảnh hưởng chất lượng mệnh đề học được; chỉ số
-LBD là một trong các thước đo thường dùng để quản lý chúng
+Chỉ số LBD là thước đo cốt lõi để quản lý và dọn dẹp mệnh đề xung đột
 \parencite{audemard2009lbd}.
 
 Vì vậy hai phép biểu diễn có cùng số mệnh đề vẫn có thể khác về thời gian chạy.
@@ -249,7 +249,7 @@ bộ giải học mâu thuẫn có tính khái quát.
   \node[satlabel,below=5mm of l] {Phép biểu diễn quyết định độ ngắn của đường suy luận\\
     và phạm vi áp dụng của mệnh đề học được.};
 \end{tikzpicture}
-\caption{Một vòng CDCL nhìn từ góc độ thiết kế phép biểu diễn.}
+\caption{Sơ đồ vòng lặp CDCL dưới góc nhìn thiết kế biểu diễn.}
 \label{fig:cdcl-loop}
 \end{figure}
 
@@ -275,7 +275,7 @@ hoạt \(a_B\) cho phép viết
 \]
 và bật cận bằng giả định \(a_B\).
 
-Mệnh đề học được hợp lệ khi bộ giải suy ra nó theo đúng quy trình giả định.
+Mệnh đề học hợp lệ khi được bộ giải suy ra theo đúng quy trình giả định.
 Công thức cơ sở, literal kích hoạt và thứ tự gọi là
 một giao diện duy nhất.
 
@@ -295,13 +295,13 @@ thùng được dùng, số ràng buộc mềm bị vi phạm hoặc tổng mứ
 Một cách giải MaxSAT là chuyển hàm mục tiêu thành chuỗi bài toán \SAT với cận chi phí
 \parencite{davies2011maxsat}. Vì thế khác biệt giữa SAT tăng dần và MaxSAT
 thường nằm ở \emph{giao diện hàm mục tiêu}, còn phần biểu diễn tính khả thi có
-thể được dùng chung.
+thể được chia sẻ.
 
 Văn liệu MaxSAT hiện đại thường phân biệt ba kiến trúc. \emph{Linear/binary
 search} (tìm kiếm tuyến tính/nhị phân) đặt cận lên tổng các literal nới lỏng.
 \emph{Core-guided} (dẫn dắt bằng lõi) dùng một lõi bất khả thỏa để nhận diện
 nhóm mệnh đề mềm không thể đồng thời thỏa, rồi nới chúng có kiểm soát.
-\emph{Hitting-set} (tập đánh trúng) tách việc tìm lõi khỏi bài toán chọn các
+\emph{Hitting-set} (tập đánh trúng) phân tách giai đoạn tìm lõi xung đột khỏi giai đoạn chọn các
 mệnh đề mềm cần vi phạm.
 Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép biểu diễn đếm/PB ở trung tâm
 thuật toán: mô-đun này được dựng,
@@ -325,7 +325,7 @@ Cách SAT theo cận thêm
   \sum_ju_j\le B.
 \]
 Cách MaxSAT giữ các mệnh đề cứng và đặt các mệnh đề mềm \(\neg u_j\) có trọng số
-\(1\). Hai mô hình dùng chung các mô-đun gán và xung đột.
+\(1\). Hai mô hình chia sẻ các mô-đun gán và xung đột.
 \end{example}
 
 \section{Giải mã, ghi chứng minh và chứng nhận}
@@ -349,8 +349,8 @@ minh sự tồn tại; chứng minh \UNSAT loại mọi nghiệm ở cận tốt
 Trong thực hành, bộ giải có thể xuất chứng minh theo một định dạng mệnh đề như
 DRAT; bộ kiểm tra độc lập kiểm lại chuỗi phép thêm/xóa mệnh đề
 \parencite{wetzler2014drat}. Điều này tạo một chuỗi tin cậy ngắn hơn so với
-việc tin toàn bộ bộ giải, nhưng chỉ khi công thức được chứng minh đúng là công
-thức của cận cần xét. Với giả định, ta vật hóa các giả định cuối thành mệnh đề
+việc đặt niềm tin hoàn toàn vào bộ giải, nhưng chỉ khi công thức được chứng minh đúng là công
+thức của cận cần xét. Với giả định, ta hiện thực hóa (reification) các giả định cuối thành mệnh đề
 đơn vị, ghi chính xác mã kiểm tra của \CNF và kiểm chứng minh trên
 \emph{artifact} (gói tái lập) đó.
 

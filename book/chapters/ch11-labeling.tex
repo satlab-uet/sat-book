@@ -70,7 +70,7 @@ là
   \quad\lor\quad
   f(v)>U(a).
 \]
-Trên miền nguyên liên tục, nó trở thành
+Trên miền nguyên liên tục, ràng buộc trở thành
 \[
   \neg x_{u,a}
   \lor
@@ -115,7 +115,7 @@ trong các giá trị còn hỗ trợ:
   \bigvee_{b\in D_v:\ b\notin[L(a),U(a)]}x_{v,b}.
 \]
 Mệnh đề biên nén phép tuyển này thành hai ngưỡng khi tập hỗ trợ là hợp của một
-tiền tố và một hậu tố. Nó không phải một mẹo riêng của radio/FAP; đó là phép
+tiền tố và một hậu tố. Đây không phải một mẹo riêng của radio/FAP; đó là phép
 phân tích mệnh đề hỗ trợ dựa trên tính lồi của tập cấm. Nếu tập cấm có nhiều
 khoảng rời nhau, cần nhiều cặp biên hoặc một
 biểu diễn BDD/MDD khác.
@@ -184,7 +184,7 @@ Trong bài toán gán nhãn radio chuẩn, người ta thường xét
 Khoảng cách đồ thị tạo một đồ thị ràng buộc dày hơn đồ thị gốc: mọi cặp có
 \(d(u,v)\le k\) đều bị ràng buộc, với mức phân cách giảm khi khoảng cách đồ
 thị tăng. Bước tìm đường đi ngắn nhất cho mọi cặp vì thế không chỉ dành cho bộ
-kiểm tra; nó xác định toàn bộ cấu trúc liên kết của phép biểu diễn. Các cặp có
+bộ kiểm tra xác định toàn bộ cấu trúc liên kết của phép biểu diễn. Các cặp có
 \(\Delta_{uv}\le0\) được bỏ, còn các đỉnh trong cùng quỹ đạo có thể hỗ trợ phá
 đối xứng.
 
@@ -292,7 +292,7 @@ mỗi nhãn được dùng nhiều nhất một lần.
 
 \begin{designrule}{Quy ước của chương}
 Chương giữ đúng mô hình đơn ánh ở trên. Vì vậy, khi \(k=1\), bài toán vẫn là
-gán nhãn đơn ánh; nó không phải tô màu đồ thị chuẩn. Biến thể không đơn ánh là
+gán nhãn đơn ánh; đây không phải bài toán tô màu đồ thị chuẩn. Biến thể không đơn ánh là
 một mô hình khác.
 \end{designrule}
 
@@ -316,7 +316,7 @@ khác nhau. Đối xứng phản xạ
   L'_v=S+1-L_v
 \]
 giữ mọi khoảng cách và tính đơn ánh trên miền \([1,S]\). Có thể chọn một đỉnh
-đại diện và đặt nó ở nửa dưới miền để giữ một đại diện của cặp phản xạ.
+đại diện và đặt biến đại diện ở nửa dưới miền để giữ một đại diện của cặp phản xạ.
 
 \begin{resultbox}{So sánh ba phép biểu diễn}
 Trên 16 đồ thị Erdős--Rényi của \textcite{thanh2026ksafe}, FE và RE tìm nghiệm
@@ -372,7 +372,7 @@ lặp đến \emph{fixpoint} (điểm bất động, tức không còn giá tr�
 cho mọi cung ràng buộc. Tiền xử lý này không thay giá trị tối ưu vì chỉ loại giá
 trị không thể xuất hiện trong bất kỳ nghiệm khả thi nào.
 
-Đây là AC-3 trên các ràng buộc phân cách nhị phân. Độ mạnh của nó giới hạn ở
+Đây là AC-3 trên các ràng buộc phân cách nhị phân. Khả năng suy diễn lan truyền của AC-3 bị giới hạn ở
 hỗ trợ từng cạnh: một giá trị có thể có hỗ trợ riêng trên mọi đỉnh kề nhưng
 không có hỗ trợ đồng thời toàn cục. Sau tiền xử lý, học mệnh đề SAT xử lý các
 tổ hợp xung đột còn lại. Vì vậy nên báo kích thước miền tại điểm bất động và
@@ -491,7 +491,7 @@ Lớp mục tiêu & Cận độ trải & Cận độ trải & Bộ đếm giá t
 \end{tabularx}
 \end{center}
 
-Ba bài toán dùng chung mô-đun khả thi ở mức khoảng, nhưng lớp hàm mục tiêu khác
+Ba bài toán chia sẻ mô-đun khả thi ở mức khoảng, nhưng lớp hàm mục tiêu khác
 nhau. Radio và \(k\)-safe thay cận trên của nhãn. MO-FAP giữ các
 giá trị số cố định và tối thiểu số giá trị được kích hoạt. Đây là lý do không
 nên đồng nhất ``số giá trị nhỏ nhất'' với ``độ trải nhỏ nhất''.
@@ -529,12 +529,12 @@ Bộ kiểm tra khả thi đọc trực tiếp nghiệm:
   \item MO-FAP: kiểm \(f_v\in D_v\), giá trị gán trước, mọi ràng buộc
         và số tần số phân biệt.
 \end{itemize}
-Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
+Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giúp bộ kiểm tra giữ kích thước nhỏ gọn và độc lập với
 phép biểu diễn.
 
 Chứng nhận tối ưu gồm một nghiệm làm chứng tại cận trên và bằng chứng cận dưới:
 \UNSAT ở độ trải/số giá trị kề trước, hoặc một cận dưới toán học bằng cận trên.
-Với các giả định tăng dần, có thể vật hóa các giả định cuối thành mệnh đề đơn
+Với các giả định tăng dần, có thể hiện thực hóa (reification) các giả định cuối thành mệnh đề đơn
 vị để tạo một \CNF độc lập cho bộ kiểm tra chứng minh.
 
 \begin{summarybox}

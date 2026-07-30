@@ -1,6 +1,6 @@
 \chapter{Bandwidth, antibandwidth và tô đa màu}
 \chapterlead{Các bài toán trong chương đều nói về khoảng cách giữa nhãn, nhưng
-không dùng chung một ngữ nghĩa: antibandwidth gán một hoán vị, tô màu theo
+không chia sẻ một ngữ nghĩa: antibandwidth gán một hoán vị, tô màu theo
 bandwidth gán một màu, còn tô đa màu gán một tập màu có thứ tự.}
 
 \index{antibandwidth}\index{cyclic antibandwidth}
@@ -176,7 +176,7 @@ trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa s�
   s_{i,j}=1\iff
   \sum_{q=1}^{i}x_q\ge j.
 \]
-Các cửa sổ dùng chung tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
+Các cửa sổ chia sẻ tiền tố/hậu tố thay vì dựng lại bộ đếm. Với trường hợp
 \(k=1\), đây là phép biểu diễn cho AMO bậc thang; với \AMK, bộ đếm giữ nhiều mức
 \(j=1,\ldots,k\).
 
@@ -201,7 +201,7 @@ phụ có cấu trúc được thảo luận trong \textcite{haberlandt2023aux}.
 
 SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
 \CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
-cần biểu diễn, còn bộ đếm dùng chung giảm phần biểu diễn lặp giữa các cửa sổ đó.
+cần biểu diễn, còn bộ đếm chia sẻ giảm phần biểu diễn lặp giữa các cửa sổ đó.
 
 \section{Antibandwidth tuần hoàn}
 
@@ -249,7 +249,7 @@ AMO tuần hoàn, có thể biểu diễn bằng cách cắt vòng tại một v
 
 CABP bất biến dưới phép quay và phản xạ của nhãn. Ta có thể cố định một đỉnh
 đại diện tại nhãn \(1\), rồi chọn hướng chuẩn cho một đỉnh thứ hai. Đây là phá
-đối xứng ở cấp hoán vị; nó độc lập với SCL dùng cho các cửa sổ khoảng cách.
+đối xứng ở cấp hoán vị; điều kiện này độc lập với SCL dùng cho các cửa sổ khoảng cách.
 
 Tìm nghiệm tối ưu theo cận tăng:
 \[
@@ -273,7 +273,7 @@ thiết kế, giá trị của bộ này là tách bài toán tối ưu thành c
 
 Khi \(d_{uv}=1\) trên mọi cạnh, BCP trở về tô màu đỉnh theo độ trải. Khi các
 trọng số lớn hơn, một đồ thị con đầy đủ không chỉ yêu cầu các màu khác nhau mà
-còn yêu cầu một phép đóng gói một chiều của các khoảng cách. Vì vậy kích thước
+còn yêu cầu một phép xếp khối một chiều của các khoảng cách. Vì vậy kích thước
 đồ thị con đầy đủ
 vẫn cho cận dưới nhưng không mô tả đủ phép tách có trọng số. Các mô hình MIP
 theo phép gán, đại diện hoặc phủ tập trong tô màu đỉnh là điểm khởi đầu; BCP
@@ -462,7 +462,7 @@ Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
 \end{enumerate}
 
 Kiến trúc này đặt SAT trong một khung giải chính xác thay vì coi bộ giải SAT là
-toàn bộ thuật toán. Nó cũng làm rõ nơi một nghiên cứu mới đóng góp: cận, mô
+toàn bộ thuật toán. Cấu trúc này cũng làm rõ vị trí đóng góp của một nghiên cứu mới: cận, mô
 hình, phép biểu diễn, quy trình tìm kiếm hay chứng nhận.
 
 \begin{summarybox}

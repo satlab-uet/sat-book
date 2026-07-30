@@ -55,10 +55,10 @@ Một nghiên cứu về phép biểu diễn thường có một trong bốn câ
 Câu hỏi càng rõ, ma trận thiết kế càng nhỏ. Nếu mục tiêu là đo bộ đếm dùng
 chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tìm kiếm và quy trình
 xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
-phá đối xứng, kết quả không cho biết hiệu ứng thuộc về đâu.
+phá đối xứng, kết quả không phân định được đóng góp riêng lẻ của từng thành phần.
 
 \begin{designrule}{Đơn vị của thí nghiệm phân tích thành phần (ablation study)}
-Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép biểu diễn.
+Một đặc trưng không có hiệu ứng độc lập khi làm thay đổi giao diện của phép biểu diễn.
 Trong trường hợp đó, dùng cấu hình
 \(\text{phép biểu diễn}\times\text{đặc trưng}\) làm đơn vị so sánh.
 \end{designrule}
@@ -226,7 +226,7 @@ Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây v
   \draw[Ink] (1.8,2pt)--(1.8,-2pt) node[below=3pt,satlabel]{2};
   \draw[Ink] (3.8,2pt)--(3.8,-2pt) node[below=3pt,satlabel]{4};
 \end{tikzpicture}
-\caption{Hồ sơ hiệu năng dạng bậc thang: phần trái cho số lần thắng, phần đuôi
+\caption{Hồ sơ hiệu năng (performance profile): phần đầu cho thấy số bài giải nhanh nhất, phần đuôi
 cho độ bền so với cấu hình tốt nhất trên từng bài toán thử.}
 \label{fig:performance-profile}
 \end{figure}
@@ -297,7 +297,7 @@ toàn bộ dãy cận chứa nhiều thông tin hơn thời gian chạy cuối c
 \section{Random seed và biến thiên giữa các lần chạy}
 
 \emph{Random seed}, được gọi là hạt giống ngẫu nhiên sau lần giới thiệu đầu,
-không phải dữ liệu của bài toán; nó là số khởi tạo bộ sinh số giả ngẫu nhiên
+không phải dữ liệu của bài toán; tham số này là giá trị khởi tạo (seed) cho bộ sinh số giả ngẫu nhiên
 của thuật toán. CDCL có yếu tố ngẫu nhiên trong phá hòa và tìm kiếm. Với bài
 toán khó, cần chạy nhiều hạt giống ngẫu nhiên và báo trung vị, các phân vị hoặc
 khoảng tin cậy. So sánh ghép cặp phải dùng cùng bài toán, cùng chỉ số hạt giống

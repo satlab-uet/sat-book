@@ -1,7 +1,7 @@
-\chapter{Bộ đếm dùng chung cho các cửa sổ chồng lấn}
+\chapter{Bộ đếm chia sẻ cho các cửa sổ chồng lấn}
 \chapterlead{Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
 toàn bộ biến. Biểu diễn từng cửa sổ độc lập sẽ lặp trạng thái;
-\emph{shared counter} (bộ đếm dùng chung) biến phần giao đó thành một mô-đun
+\emph{shared counter} (bộ đếm chia sẻ) biến phần giao đó thành một mô-đun
 có thể tái sử dụng.}
 
 \index{SEQUENCE constraint}\index{shared counter}
@@ -13,10 +13,10 @@ có thể tái sử dụng.}
 
 \section{SEQUENCE trong văn liệu về ràng buộc}
 
-Ràng buộc cửa sổ thuộc một họ lâu đời hơn các bộ đếm dùng chung.
+Ràng buộc cửa sổ thuộc một họ lâu đời hơn các bộ đếm chia sẻ.
 \textsc{Sequence}
 yêu cầu mọi đoạn liên tiếp độ dài cố định có số biến nhận một giá trị trong
-khoảng \([\ell,u]\). Nó xuất hiện trong xếp thứ tự xe, lập lịch ca, xác định
+khoảng \([\ell,u]\). Dạng ràng buộc này xuất hiện trong bài toán lập lịch ca, xếp thứ tự xe, và xác định
 cỡ lô và các mô hình chuỗi. Vấn đề cốt lõi không chỉ là số literal đúng trong
 một cửa sổ, mà còn là sự phụ thuộc giữa toàn bộ các cửa sổ chồng lấn.
 
@@ -29,11 +29,11 @@ Văn liệu đã phát triển ít nhất bốn cách nhìn:
 
   \item[Tổng tiền tố]
   Đặt \(S_i=\sum_{j\le i}x_j\), khi đó mỗi cửa sổ là
-  \(\ell\le S_{i+w}-S_i\le u\). Mọi cửa sổ dùng chung một dãy trạng thái tiền tố.
+  \(\ell\le S_{i+w}-S_i\le u\). Mọi cửa sổ chia sẻ một dãy trạng thái tiền tố.
 
   \item[Ôtômát/ràng buộc chính quy]
   Trạng thái ghi đủ lịch sử cần thiết để quyết định ký hiệu tiếp theo. Một
-  ràng buộc \textsc{Regular} có thể biểu diễn việc chuỗi có thuộc một ngôn ngữ
+  ràng buộc \textsc{Regular} có thể mô hình hóa bài toán kiểm tra chuỗi thuộc một ngôn ngữ
   hữu hạn trạng thái hay không \parencite{pesant2004regular}.
 
   \item[Luồng hoặc đồ thị]
@@ -54,7 +54,7 @@ những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ h�
 \label{tab:window-reuse}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.19\textwidth}YYY@{}}
 \toprule
-Họ & Trạng thái dùng chung & Điểm mạnh & Chi phí/rủi ro\\
+Họ & Trạng thái chia sẻ & Điểm mạnh & Chi phí/rủi ro\\
 \midrule
 Mỗi cửa sổ & Không hoặc ít & Đơn giản, dùng bộ biểu diễn sẵn & Lặp trạng thái phụ\\
 Tổng tiền tố & Tổng từ đầu chuỗi & Mọi cửa sổ là hiệu hai tiền tố & Miền tổng toàn cục\\
@@ -66,7 +66,7 @@ Cần chọn phân hoạch\\
 \end{tabularx}
 \end{center}
 
-Bộ đếm dùng chung theo khối của chương này nằm giữa hai cực. Nó không tạo một
+Bộ đếm chia sẻ theo khối của chương này nằm giữa hai cực. Phương pháp không tạo một
 trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ đếm độc lập cho
 từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
 nghĩa của từng cửa sổ.
@@ -98,7 +98,7 @@ Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thướ
   O((n-w+1)wk).
 \]
 Trong khi đó, hai cửa sổ kề nhau chỉ khác một biến đi ra và một biến đi vào.
-Mục tiêu của phép biểu diễn dùng chung là đưa chi phí về gần
+Mục tiêu của phép biểu diễn chia sẻ là đưa chi phí về gần
 \[
   O(nk)
 \]
@@ -181,7 +181,7 @@ của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.}
 Giả sử cửa sổ gồm hậu tố \(A\) của khối trái và tiền tố \(B\) của khối phải.
 Đặt \(T(S,q)\) là literal ``\(\sum_{x\in S}x\ge q\)'', với hai quy ước biên
 \(T(S,q)=\top\) khi \(q\le 0\) và \(T(S,q)=\bot\) khi \(q>\card{S}\).
-Điều kiện at-most-\(k\) tương đương với việc không tồn tại
+Điều kiện at-most-\(k\) tương đương với điều kiện không tồn tại
 \(q\in\set{0,\ldots,k+1}\) sao cho
 \[
   \sum_{x\in A}x\ge q
@@ -216,13 +216,13 @@ còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).
 
 Nếu đổi \(x_6\) thành \(1\), tiền tố phải đạt ngưỡng \(2\). Khi đó
 \(\neg R^1_{3,1}\lor\neg F^2_{2,2}\) sai, phát hiện ngay tổng cửa sổ bằng
-\(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; nó chỉ ghép hai
+\(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; mô-đun chỉ ghép hai
 bằng chứng ngưỡng.
 \end{workedexample}
 
 \section{Bộ nối như một giao diện}
 
-Bộ đếm cục bộ không biết cửa sổ nào sẽ đọc nó. Nó chỉ cung cấp đặc tả của các
+Bộ đếm cục bộ không phụ thuộc vào cửa sổ tiêu thụ; mô-đun chỉ cung cấp đặc tả của các
 literal ngưỡng. Bộ nối biết cách một ràng buộc giao biên và chọn các ngưỡng cần
 ghép.
 
@@ -251,8 +251,8 @@ chiều cần thiết khi bộ nối dùng cả thanh ghi dương và phủ đ�
 \section{Staircase AMO và SCL}
 
 Với \(k=1\), mỗi cửa sổ thỏa AMO. \emph{Shared Counter Ladder}
-(thang bộ đếm dùng chung, SCL) xây các trạng thái AMO/AMZ trong khối và
-nối chúng qua các biên. So với việc tạo xung đột từng cặp trong từng cửa sổ,
+(thang bộ đếm chia sẻ, SCL) xây các trạng thái AMO/AMZ trong khối và
+nối chúng qua các biên. So với phương án tạo xung đột từng cặp trong từng cửa sổ,
 SCL không lặp các cặp nằm trong phần giao.
 
 Giả sử \(m=\lceil n/w\rceil\) khối có kích thước gần \(w\). Chi phí bộ đếm cục
@@ -315,20 +315,20 @@ một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho c�
 Ladder AMK có thể được mô tả bằng ma trận liên thuộc: mỗi hàng là một ràng
 buộc, mỗi cột là một đầu vào, và các giá trị \(1\) trong mỗi hàng tạo thành
 một khoảng; các biên khoảng thay đổi đơn điệu theo hàng. Biểu diễn tổng tiền tố
-dùng một trạng thái toàn cục cho mọi cột. Ladder AMK chỉ vật hóa những ngưỡng
+dùng một trạng thái toàn cục cho mọi cột. Ladder AMK chỉ hiện thực hóa (reification) những ngưỡng
 tiền tố/hậu tố mà các hàng thật sự đọc. Do đó tiêu chí lựa chọn không chỉ là
 \(n,k\), mà còn là độ phức tạp của hai đường biên bậc thang.
 
 Với nhiều độ rộng và nhiều cận, một ôtômát có thể nắm toàn bộ lịch sử nhưng số
-trạng thái tăng theo tổ hợp các bộ đếm đang hoạt động. Số ngưỡng dùng chung tăng
+trạng thái tăng theo tổ hợp các bộ đếm đang hoạt động. Số ngưỡng chia sẻ tăng
 theo số biên và mức đếm được yêu cầu. Hai hướng vì thế tạo một đánh đổi:
 ôtômát hợp nhất các ràng buộc trong trạng thái, còn Ladder AMK giữ các ràng
-buộc tách biệt nhưng dùng chung đại lượng trung gian. Đây là câu hỏi thực
-nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đề trên một cấu hình.
+buộc tách biệt nhưng chia sẻ đại lượng trung gian. Đây là câu hỏi thực
+nghiệm và lý thuyết mang nhiều ý nghĩa hơn so với việc chỉ so sánh số lượng mệnh đề trên một cấu hình.
 
 \section{Đúng đắn}
 
-\begin{theorem}[Tính đúng của phép biểu diễn cửa sổ dùng chung]
+\begin{theorem}[Tính đúng của phép biểu diễn cửa sổ chia sẻ]
 \label{thm:shared-window-correct}
 Giả sử:
 \begin{enumerate}
@@ -373,7 +373,7 @@ có đầu ra bị cắt ở \(k+1\). Với các tổng bộ phận
 \]
 Sau lần ghép cuối, mệnh đề \(\neg U_{r,k+1}\) đóng AMK. Chi phí tăng theo số
 khối mà từng cửa sổ chạm tới; một cây ghép riêng cho mỗi cửa sổ làm giảm tỷ
-lệ trạng thái dùng chung. Điều kiện ``mỗi cửa sổ cắt nhiều nhất một biên'' do
+lệ trạng thái chia sẻ. Điều kiện ``mỗi cửa sổ cắt nhiều nhất một biên'' do
 đó là tiêu chí phân hoạch, còn bộ đếm ghép là phương án cho phân hoạch tổng
 quát.
 
@@ -412,7 +412,7 @@ Sau đó \texttt{addAtMostWindow(i,w,k)} chỉ sinh các bộ nối. Nhiều mô
 dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục tiêu.
 
 \begin{algorithm}[H]
-\caption{Sinh AMK cửa sổ dùng chung khi mỗi cửa sổ cắt nhiều nhất một biên}
+\caption{Sinh AMK cửa sổ chia sẻ khi mỗi cửa sổ cắt nhiều nhất một biên}
 \label{alg:shared-window}
 \begin{minipage}{.94\textwidth}\small
 \textbf{Đầu vào:} chuỗi \(x_1,\ldots,x_n\); một phân hoạch khối; tập cửa sổ
@@ -434,9 +434,9 @@ dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục
 \end{minipage}
 \end{algorithm}
 
-\subsection{Miền hiệu quả của bộ đếm dùng chung}
+\subsection{Miền hiệu quả của bộ đếm chia sẻ}
 
-Bộ đếm dùng chung đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
+Bộ đếm chia sẻ đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
 nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
 nhỏ, biểu diễn từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
 có thể quyết định trước khi sinh \CNF từ ba đại lượng: tổng số ngưỡng cục bộ,
