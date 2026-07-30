@@ -7,7 +7,7 @@ repo_root="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
 source_dir="${repo_root}/book"
 build_dir="${repo_root}/build"
 work_dir="${build_dir}/work"
-target_pdf="/Users/tuyenkv/Documents/SAT Training/output/pdf/Bieu_dien_SAT_toi_uu_Ban_hieu_chinh_sau_phan_bien.pdf"
+target_pdf="/Users/tuyenkv/Documents/SAT Training/outputs/sat_book_2026/latex_reviewed_book/main.pdf"
 
 mkdir -p "${build_dir}"
 

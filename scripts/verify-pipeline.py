@@ -18,7 +18,7 @@ def get_sha256(filepath: Path) -> str:
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    user_target_pdf = Path("/Users/tuyenkv/Documents/SAT Training/output/pdf/Bieu_dien_SAT_toi_uu_Ban_hieu_chinh_sau_phan_bien.pdf")
+    user_target_pdf = Path("/Users/tuyenkv/Documents/SAT Training/outputs/sat_book_2026/latex_reviewed_book/main.pdf")
     build_pdf = repo_root / "build" / "main.pdf"
     site_dir = repo_root / "_site"
     download_pdf = site_dir / "downloads" / "sat-book.pdf"
