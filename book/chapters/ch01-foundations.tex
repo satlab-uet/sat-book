@@ -10,9 +10,9 @@ toán hoàn chỉnh.}
 \flowdiagram{Mô hình miền}{Biểu diễn \CNF}{Bộ giải SAT/MaxSAT}
   {Giải mã nghiệm}{Kiểm tra và cận}
 
-\section{Ba dòng nghiên cứu hội tụ}
+\section{Sự giao thoa của ba hướng nghiên cứu}
 
-Phép biểu diễn SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
+Phép biểu diễn SAT cho tối ưu tổ hợp là sự kết hợp của ba hướng tiếp cận cốt lõi. Thứ
 nhất, \emph{propositional reasoning} (lập luận mệnh đề) đưa bài toán về \CNF
 để dùng lan truyền đơn vị, phân tích xung đột và học mệnh đề. Thứ hai,
 \emph{Constraint Programming} (CP, quy hoạch ràng buộc) nhìn mô hình qua biến miền
@@ -40,7 +40,7 @@ buộc toàn cục \parencite{tamura2009csp,petke2015bridging}. Trong góc nhìn
 miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bài toán đang xét.
 
 \begin{center}
-\captionof{table}{Ba góc nhìn bổ sung khi đánh giá một phép biểu diễn SAT.}
+\captionof{table}{Ba tiêu chí bổ trợ khi đánh giá một phép biểu diễn SAT.}
 \label{tab:three-perspectives}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.2\textwidth}YYY@{}}
 \toprule
@@ -83,7 +83,7 @@ một lần gọi bộ giải) hoặc bằng các mệnh đề chỉ bổ sung
 \parencite{een2003incremental}.
 
 \begin{designrule}{Bất biến của vòng tìm cận}
-Trước khi triển khai, viết đúng một câu định nghĩa \(P(B)\), chiều đơn điệu và
+Trước khi xây dựng thuật toán, cần xác định chính xác phát biểu \(P(B)\), chiều đơn điệu và
 quy tắc cập nhật \(LB,UB\). Bộ giải chỉ trả \SAT hoặc \UNSAT; ý nghĩa của hai
 trạng thái đối với cận thuộc về thuật toán bao ngoài.
 \end{designrule}
@@ -96,8 +96,8 @@ Giả sử \(P(B)\) hỏi liệu có lịch với thời điểm hoàn tất to�
 \[
   P(6)=\UNSAT,\qquad P(7)=\SAT,\qquad \OPT=7.
 \]
-Mô hình thỏa ở cận \(7\) là chứng cứ cận trên; chứng minh \UNSAT của \(P(6)\)
-là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị tối ưu \(7\).
+Mô hình thỏa ở cận \(7\) là bằng chứng cận trên; chứng minh \UNSAT của \(P(6)\)
+là chứng nhận cận dưới. Hai bằng chứng gặp nhau tại giá trị tối ưu \(7\).
 \end{workedexample}
 
 \begin{figure}[tb]
@@ -341,7 +341,7 @@ biến chính để tạo nghiệm miền. Bộ kiểm tra sau đó xác minh:
 Bộ kiểm tra được cài đặt độc lập với bộ biểu diễn để hai thành phần tạo thành một phép
 kiểm chéo.
 
-Với giá trị tối ưu \(B^\star\), chứng cứ cận trên là một nghiệm có chi phí
+Với giá trị tối ưu \(B^\star\), bằng chứng cận trên là một nghiệm có chi phí
 \(B^\star\). Chứng cứ cận dưới có thể là chứng minh \UNSAT của
 \(P(B^\star-1)\) hoặc một cận toán học bằng \(B^\star\). Mô hình SAT chứng
 minh sự tồn tại; chứng minh \UNSAT loại mọi nghiệm ở cận tốt hơn.
@@ -364,13 +364,13 @@ Kết luận & Vật chứng & Bộ kiểm tra độc lập\\
 Khả thi tại \(B\) & Mô hình/\emph{witness solution} (nghiệm làm chứng) &
 Kiểm ràng buộc và chi phí miền\\
 Vô nghiệm tại \(B\) & Chứng minh mệnh đề & Bộ kiểm chứng trên đúng \CNF\\
-Tối ưu \(B^\star\) & Nghiệm tại \(B^\star\) và chứng cứ cận dưới &
+Tối ưu \(B^\star\) & Nghiệm tại \(B^\star\) và chứng nhận cận dưới &
 Bộ kiểm nghiệm và bộ kiểm chứng cận\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-\section{Dây chuyền triển khai}
+\section{Quy trình triển khai}
 
 \begin{summarybox}
 \begin{enumerate}
@@ -380,7 +380,7 @@ Bộ kiểm nghiệm và bộ kiểm chứng cận\\
   \item Chạy SAT/MaxSAT theo một quy trình tìm cận.
   \item Giải mã mô hình sau mỗi lần \SAT.
   \item Kiểm nghiệm và hàm mục tiêu bằng bộ kiểm tra độc lập.
-  \item Lưu nghiệm cùng chứng cứ cận dưới ở cận cuối.
+  \item Lưu nghiệm cùng chứng nhận cận dưới ở cận cuối.
 \end{enumerate}
 \end{summarybox}
 
@@ -396,7 +396,7 @@ dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ 
   \item Giải tăng dần hiệu quả khi công thức cơ sở ổn định và cận thay qua
         một giao diện rõ.
   \item Bộ giải mã và bộ kiểm tra là một phần của thuật toán chính xác.
-  \item Chứng nhận tối ưu cần cả nghiệm và chứng cứ cận dưới.
+  \item Chứng nhận tối ưu cần cả nghiệm và chứng nhận cận dưới.
 \end{enumerate}
 
 \subsection*{Câu hỏi nghiên cứu}

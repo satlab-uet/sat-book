@@ -35,7 +35,7 @@ Trong nghiên cứu phép biểu diễn, ba loại bằng chứng bổ sung nhau
   \item \textbf{bằng chứng cơ chế}: công thức đếm, vết lan truyền và xung đột
         nhỏ giải thích vì sao hiệu ứng xuất hiện;
   \item \textbf{bằng chứng có kiểm soát}: \emph{ablation}
-        (thí nghiệm bóc tách) giữ cố định các yếu tố khác;
+        (thí nghiệm phân tích thành phần (ablation study)) giữ cố định các yếu tố khác;
   \item \textbf{bằng chứng so sánh}: đánh giá trên nhiều họ bài toán và nhiều
         bộ giải để kiểm tra độ bền của kết luận.
 \end{itemize}
@@ -57,7 +57,7 @@ chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tì
 xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
 phá đối xứng, kết quả không cho biết hiệu ứng thuộc về đâu.
 
-\begin{designrule}{Đơn vị của thí nghiệm bóc tách}
+\begin{designrule}{Đơn vị của thí nghiệm phân tích thành phần (ablation study)}
 Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép biểu diễn.
 Trong trường hợp đó, dùng cấu hình
 \(\text{phép biểu diễn}\times\text{đặc trưng}\) làm đơn vị so sánh.
@@ -154,7 +154,7 @@ giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:
 \subsection{Right-censored runtime: thời gian chạy có kiểm duyệt}
 
 Khi một lần chạy hết thời hạn, ta chỉ biết thời gian cần thiết lớn hơn giới hạn;
-dữ liệu như vậy được gọi là \emph{right-censored} (kiểm duyệt phải).
+dữ liệu như vậy được gọi là \emph{right-censored} (dữ liệu bị giới hạn thời gian).
 Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và bài hết thời hạn
 bằng một trong các cách:
 \begin{itemize}
@@ -428,7 +428,7 @@ thay đổi.
 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
-  \item Thiết kế thí nghiệm bóc tách \(2\times2\) cho bộ biểu diễn và phá đối xứng.
+  \item Thiết kế thí nghiệm phân tích thành phần (ablation study) \(2\times2\) cho bộ biểu diễn và phá đối xứng.
   \item Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
         trung bình trên các bài đã giải.
   \item Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.

@@ -145,7 +145,7 @@ Trong mỗi khối, xây hai họ biến ngưỡng:
   \sum_{j=i}^{\card{B_b}}B_b[j]\ge q.
 \]
 \(F\) đếm tiền tố từ trái sang phải; \(R\) đếm hậu tố từ phải sang trái. Một
-cửa sổ cắt biên giữa \(B_b,B_{b+1}\) là hợp của một hậu tố bên trái và một
+cửa sổ giao biên giữa \(B_b,B_{b+1}\) là hợp của một hậu tố bên trái và một
 tiền tố bên phải. Số literal đúng trong cửa sổ được đọc từ \(R^b\) và
 \(F^{b+1}\).
 
@@ -172,7 +172,7 @@ tiền tố bên phải. Số literal đúng trong cửa sổ được đọc t�
   \draw[satedge] (r)--(c);
   \draw[satedge] (f)--(c);
 \end{tikzpicture}
-\caption{Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
+\caption{Một cửa sổ giao biên được phân rã thành hậu tố của khối trái và tiền tố
 của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.}
 \label{fig:block-connector}
 \end{figure}
@@ -217,13 +217,13 @@ còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).
 Nếu đổi \(x_6\) thành \(1\), tiền tố phải đạt ngưỡng \(2\). Khi đó
 \(\neg R^1_{3,1}\lor\neg F^2_{2,2}\) sai, phát hiện ngay tổng cửa sổ bằng
 \(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; nó chỉ ghép hai
-chứng cứ ngưỡng.
+bằng chứng ngưỡng.
 \end{workedexample}
 
 \section{Bộ nối như một giao diện}
 
 Bộ đếm cục bộ không biết cửa sổ nào sẽ đọc nó. Nó chỉ cung cấp đặc tả của các
-literal ngưỡng. Bộ nối biết cách một ràng buộc cắt biên và chọn các ngưỡng cần
+literal ngưỡng. Bộ nối biết cách một ràng buộc giao biên và chọn các ngưỡng cần
 ghép.
 
 Với at-least-\(k\):
@@ -335,7 +335,7 @@ Giả sử:
   \item các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;
   \item mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;
   \item mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;
-  \item với cửa sổ \(A\cup B\) cắt biên, phép biểu diễn chứa đủ các mệnh đề
+  \item với cửa sổ \(A\cup B\) giao biên, phép biểu diễn chứa đủ các mệnh đề
   \[
     \neg T(A,q)\lor\neg T(B,k+1-q),
     \qquad q=0,\ldots,k+1.
@@ -346,7 +346,7 @@ Khi đó \CNF tương đương theo phép chiếu với họ staircase AMK.
 
 \begin{proof}
 Để chứng minh tính đúng, xét một cửa sổ. Nếu nằm trong khối, bộ đếm cục bộ loại mọi tổng
-vượt \(k\). Nếu cắt biên, đặt \(a=\sum_{x\in A}x\),
+vượt \(k\). Nếu giao biên, đặt \(a=\sum_{x\in A}x\),
 \(b=\sum_{x\in B}x\). Khi \(a+b\ge k+1\), chọn
 \(q=\min\{a,k+1\}\). Ta có \(T(A,q)=1\); nếu \(q<k+1\) thì
 \(b\ge k+1-a=k+1-q\), còn nếu \(q=k+1\) thì ngưỡng bên phải bằng \(0\)
@@ -391,7 +391,7 @@ Ba cách chọn:
 \end{itemize}
 
 Phân hoạch thích nghi có thể xem là bài toán tối ưu trên đồ thị khoảng: mỗi cửa
-sổ là một khoảng, chi phí của một biên bằng số ràng buộc cắt biên nhân với số
+sổ là một khoảng, chi phí của một biên bằng số ràng buộc giao biên nhân với số
 ngưỡng cần nối.
 
 \section{Triển khai}
@@ -448,15 +448,15 @@ số bộ nối sau giản lược và số bước ghép của các cửa sổ 
 \begin{enumerate}
   \item Cửa sổ chồng lấn là tín hiệu nên dùng trạng thái chung.
   \item Bộ đếm cục bộ cung cấp các ngưỡng; bộ nối mô tả ràng buộc.
-  \item Thanh ghi tiến và lùi tách một cửa sổ cắt biên thành hai phần.
-  \item Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ cắt biên.
+  \item Thanh ghi tiến và lùi tách một cửa sổ giao biên thành hai phần.
+  \item Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ giao biên.
   \item Độ rộng khối cân bằng chi phí thanh ghi với chi phí bộ nối.
 \end{enumerate}
 \end{summarybox}
 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
-  \item Dựng các bộ nối cho một cửa sổ AMK với \(k=2\) cắt biên thành hai phần.
+  \item Dựng các bộ nối cho một cửa sổ AMK với \(k=2\) giao biên thành hai phần.
   \item Tính số thanh ghi khi \(n=20,w=5,k=3\) và độ rộng khối bằng \(5\).
-  \item Đề xuất hàm mục tiêu cho phân hoạch thích nghi dựa trên số cửa sổ cắt biên.
+  \item Đề xuất hàm mục tiêu cho phân hoạch thích nghi dựa trên số cửa sổ giao biên.
 \end{enumerate}

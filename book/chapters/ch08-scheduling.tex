@@ -366,7 +366,7 @@ chuẩn; lợi ích rõ nhất ở nhóm khó.
 Mô-đun khả thi mô tả lịch hợp lệ qua một giao diện độc lập với tìm kiếm tuyến
 tính, tìm kiếm nhị phân hay \MaxSAT. Lớp hàm mục tiêu đọc các biến đã có và
 cung cấp giao diện cận \(B\). Cách tách này làm cho chứng minh tính đúng ngắn
-hơn và thí nghiệm bóc tách rõ hơn.
+hơn và thí nghiệm phân tích thành phần (ablation study) rõ hơn.
 \end{keyidea}
 
 \section{Điều chỉnh lịch tàu bằng MaxSAT--DDD}
@@ -420,11 +420,11 @@ vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.
   đầy đủ, kết luận mô hình đầy đủ vô nghiệm.
   \item Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
   khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), nó phải trả một
-  chứng cứ \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
+  bằng chứng \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
   hàm mục tiêu.
   \item Nếu có lịch khả thi và \(U_r=L_r\), trả lịch cùng hai cận bằng nhau.
   \item Nếu chưa hội tụ, bước tinh chỉnh phải chọn ít nhất một mốc trong
-  \(\Lambda^\star\setminus\Lambda^r\) được chứng cứ \(C_r\) yêu cầu; đặt
+  \(\Lambda^\star\setminus\Lambda^r\) được bằng chứng \(C_r\) yêu cầu; đặt
   \(\Lambda^{r+1}\supsetneq\Lambda^r\) và lặp.
 \end{enumerate}
 \end{minipage}
@@ -457,7 +457,7 @@ thư giãn ở (ii).
 chỉnh vì thế phải thêm một mốc mới được bộ kiểm tra suy ra từ vi phạm cụ thể.
 Với miền thời gian liên tục, một đối chứng thời gian liên tục hoặc một định lý
 về tập ứng viên hữu hạn cung cấp điều kiện dừng. Ba thành phần này---mốc mới, bộ kiểm tra và
-tập mốc đầy đủ---xác định đồng thời tính đúng đắn và tốc độ hội tụ.
+tập mốc đầy đủ---xác định đồng thời tính đúng và tốc độ hội tụ.
 
 \begin{figure}[tb]
 \centering

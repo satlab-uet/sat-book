@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="2ae87410308859f5e1386607dc6f7d08110704cb11a46c6a10ffc9b92961bae7">
+    <meta name="sat-book-source-sha256" content="900f68a66be6880677ea713f1a9b1b12c2ebc28b1b4f89f82f7463f30377cb86">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -400,8 +400,8 @@ toán hoàn chỉnh.</div>
  <div class="flow-subbox">↘ Kiểm tra và cận</div>
  </div>
  </div>
-<h3 class="reader-h2">Ba dòng nghiên cứu hội tụ</h3>
-<p>Phép biểu diễn SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
+<h3 class="reader-h2">Sự giao thoa của ba hướng nghiên cứu</h3>
+<p>Phép biểu diễn SAT cho tối ưu tổ hợp là sự kết hợp của ba hướng tiếp cận cốt lõi. Thứ
 nhất, <em>propositional reasoning</em> (lập luận mệnh đề) đưa bài toán về CNF
 để dùng lan truyền đơn vị, phân tích xung đột và học mệnh đề. Thứ hai,
 <em>Constraint Programming</em> (CP, quy hoạch ràng buộc) nhìn mô hình qua biến miền
@@ -423,7 +423,7 @@ buộc toàn cục <span class="cite">(Tamura et al., 2009; Petke, 2015)</span>.
 “biểu diễn SAT tối ưu” là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
 miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bài toán đang xét.</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption">Bảng: Ba góc nhìn bổ sung khi đánh giá một phép biểu diễn SAT.</div>
+ <div class="reader-table-caption">Bảng: Ba tiêu chí bổ trợ khi đánh giá một phép biểu diễn SAT.</div>
  <table class="reader-table">
  <thead><tr><th>Góc nhìn</th><th>Đơn vị chính</th><th>Bằng chứng mạnh</th><th>Rủi ro khi đứng riêng</th></tr></thead>
  <tbody><tr><td>SAT/CDCL</td><td>Literal và mệnh đề</td><td>Xung đột, mệnh đề học được, chứng minh</td><td>Bỏ qua ngữ nghĩa miền</td></tr><tr><td>CP/CSP</td><td>Biến, miền, giá trị hỗ trợ</td><td>Nhất quán và lọc miền</td><td>Không dự báo hết việc học mệnh đề</td></tr><tr><td>Tối ưu</td><td>Cận và hàm mục tiêu</td><td>Khoảng cận, cận dưới, giá trị tối ưu</td><td>Mô hình Boolean có thể quá yếu</td></tr></tbody>
@@ -454,7 +454,7 @@ một lần gọi bộ giải) hoặc bằng các mệnh đề chỉ bổ sung
 <span class="cite">(Eén & Sörensson, 2003)</span>.</p>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Bất biến của vòng tìm cận</strong></div>
- <div class="callout-body">Trước khi triển khai, viết đúng một câu định nghĩa \(P(B)\), chiều đơn điệu và
+ <div class="callout-body">Trước khi xây dựng thuật toán, cần xác định chính xác phát biểu \(P(B)\), chiều đơn điệu và
 quy tắc cập nhật \(LB, UB\). Bộ giải chỉ trả SAT hoặc UNSAT; ý nghĩa của hai
 trạng thái đối với cận thuộc về thuật toán bao ngoài.</div>
  </div>
@@ -467,8 +467,8 @@ trạng thái đối với cận thuộc về thuật toán bao ngoài.</div>
 \[
 P(6)=\mathrm{UNSAT},\qquad P(7)=\mathrm{SAT},\qquad \mathrm{OPT}=7.
 \]
-<p>Mô hình thỏa ở cận \(7\) là chứng cứ cận trên; chứng minh UNSAT của \(P(6)\)
-là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị tối ưu \(7\).</div>
+<p>Mô hình thỏa ở cận \(7\) là bằng chứng cận trên; chứng minh UNSAT của \(P(6)\)
+là chứng nhận cận dưới. Hai bằng chứng gặp nhau tại giá trị tối ưu \(7\).</div>
  </div></p>
 <div class="reader-figure-box" id="fig_bound_transition">
 <div class="reader-figure-img">
@@ -636,7 +636,7 @@ biến chính để tạo nghiệm miền. Bộ kiểm tra sau đó xác minh:
 <ol class="reader-list"><li>mọi giá trị nằm trong miền;</li><li>mọi ràng buộc của bài toán gốc;</li><li>hàm mục tiêu được tính lại từ nghiệm;</li><li>cận và trạng thái bộ giải nhất quán.</li></ol>
 Bộ kiểm tra được cài đặt độc lập với bộ biểu diễn để hai thành phần tạo thành một phép
 kiểm chéo.</p>
-<p>Với giá trị tối ưu \(B^\star\), chứng cứ cận trên là một nghiệm có chi phí
+<p>Với giá trị tối ưu \(B^\star\), bằng chứng cận trên là một nghiệm có chi phí
 \(B^\star\). Chứng cứ cận dưới có thể là chứng minh UNSAT của
 \(P(B^\star-1)\) hoặc một cận toán học bằng \(B^\star\). Mô hình SAT chứng
 minh sự tồn tại; chứng minh UNSAT loại mọi nghiệm ở cận tốt hơn.</p>
@@ -651,20 +651,20 @@ thức của cận cần xét. Với giả định, ta vật hóa các giả đ�
  <div class="reader-table-caption">Bảng: Vật chứng cần có cho các mức kết luận.</div>
  <table class="reader-table">
  <thead><tr><th>Kết luận</th><th>Vật chứng</th><th>Bộ kiểm tra độc lập</th></tr></thead>
- <tbody><tr><td>Khả thi tại \(B\)</td><td>Mô hình/<em>witness solution</em> (nghiệm làm chứng)</td><td>Kiểm ràng buộc và chi phí miền</td></tr><tr><td>Vô nghiệm tại \(B\)</td><td>Chứng minh mệnh đề</td><td>Bộ kiểm chứng trên đúng CNF</td></tr><tr><td>Tối ưu \(B^\star\)</td><td>Nghiệm tại \(B^\star\) và chứng cứ cận dưới</td><td>Bộ kiểm nghiệm và bộ kiểm chứng cận</td></tr></tbody>
+ <tbody><tr><td>Khả thi tại \(B\)</td><td>Mô hình/<em>witness solution</em> (nghiệm làm chứng)</td><td>Kiểm ràng buộc và chi phí miền</td></tr><tr><td>Vô nghiệm tại \(B\)</td><td>Chứng minh mệnh đề</td><td>Bộ kiểm chứng trên đúng CNF</td></tr><tr><td>Tối ưu \(B^\star\)</td><td>Nghiệm tại \(B^\star\) và chứng nhận cận dưới</td><td>Bộ kiểm nghiệm và bộ kiểm chứng cận</td></tr></tbody>
  </table>
  </div>
-<h3 class="reader-h2">Dây chuyền triển khai</h3>
+<h3 class="reader-h2">Quy trình triển khai</h3>
 <div class="reader-callout summary-box">
  <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
- <div class="callout-body"><ol class="reader-list"><li>Đọc bài toán đầu vào và chuẩn hóa miền.</li><li>Tính cận dưới và cận trên.</li><li>Sinh biến, ánh xạ và CNF cơ sở.</li><li>Chạy SAT/MaxSAT theo một quy trình tìm cận.</li><li>Giải mã mô hình sau mỗi lần SAT.</li><li>Kiểm nghiệm và hàm mục tiêu bằng bộ kiểm tra độc lập.</li><li>Lưu nghiệm cùng chứng cứ cận dưới ở cận cuối.</li></ol></div>
+ <div class="callout-body"><ol class="reader-list"><li>Đọc bài toán đầu vào và chuẩn hóa miền.</li><li>Tính cận dưới và cận trên.</li><li>Sinh biến, ánh xạ và CNF cơ sở.</li><li>Chạy SAT/MaxSAT theo một quy trình tìm cận.</li><li>Giải mã mô hình sau mỗi lần SAT.</li><li>Kiểm nghiệm và hàm mục tiêu bằng bộ kiểm tra độc lập.</li><li>Lưu nghiệm cùng chứng nhận cận dưới ở cận cuối.</li></ol></div>
  </div>
 <p>PySAT cung cấp môi trường thuận tiện để thử nghiệm nhiều bộ giải và phép biểu diễn
 <span class="cite">(Ignatiev et al., 2018)</span>; ánh xạ biến và bộ kiểm tra vẫn thuộc về ứng
 dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ nguyên ngữ nghĩa.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>SAT là tầng quyết định; tối ưu cần quy trình tìm cận hoặc MaxSAT.</li><li>Biến phụ phải có đặc tả ngữ nghĩa, không chỉ có một số DIMACS.</li><li>Giải tăng dần hiệu quả khi công thức cơ sở ổn định và cận thay qua
- một giao diện rõ.</li><li>Bộ giải mã và bộ kiểm tra là một phần của thuật toán chính xác.</li><li>Chứng nhận tối ưu cần cả nghiệm và chứng cứ cận dưới.</li></ol>
+ một giao diện rõ.</li><li>Bộ giải mã và bộ kiểm tra là một phần của thuật toán chính xác.</li><li>Chứng nhận tối ưu cần cả nghiệm và chứng nhận cận dưới.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Viết \(P(B)\) và quy tắc cập nhật cận cho một bài toán cực đại.</li><li>Bỏ từng mệnh đề trong phép biểu diễn \(z\leftrightarrow(x\land y)\) và tìm
  phép gán làm mất một chiều tương đương.</li><li>Mô tả hai cách biểu diễn “tối thiểu số nhóm được dùng”: SAT theo cận và
@@ -1208,7 +1208,7 @@ có còn giữ ngoài tập kiểm chuẩn hay không).</p>
 <p>Trong nghiên cứu phép biểu diễn, ba loại bằng chứng bổ sung nhau:
 <ul class="reader-list"><li><strong>bằng chứng cơ chế</strong>: công thức đếm, vết lan truyền và xung đột
  nhỏ giải thích vì sao hiệu ứng xuất hiện;</li><li><strong>bằng chứng có kiểm soát</strong>: <em>ablation</em>
- (thí nghiệm bóc tách) giữ cố định các yếu tố khác;</li><li><strong>bằng chứng so sánh</strong>: đánh giá trên nhiều họ bài toán và nhiều
+ (thí nghiệm phân tích thành phần (ablation study)) giữ cố định các yếu tố khác;</li><li><strong>bằng chứng so sánh</strong>: đánh giá trên nhiều họ bài toán và nhiều
  bộ giải để kiểm tra độ bền của kết luận.</li></ul>
 Một kết quả có giá trị tham khảo cao cần ít nhất hai loại; thời gian chạy đơn
 lẻ chỉ là bằng chứng so sánh yếu nếu thiếu cơ chế và biến kiểm soát.</p>
@@ -1220,7 +1220,7 @@ chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tì
 xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
 phá đối xứng, kết quả không cho biết hiệu ứng thuộc về đâu.</p>
 <div class="reader-callout design-rule">
- <div class="callout-header"><strong>Đơn vị của thí nghiệm bóc tách</strong></div>
+ <div class="callout-header"><strong>Đơn vị của thí nghiệm phân tích thành phần (ablation study)</strong></div>
  <div class="callout-body">Một đặc trưng không có hiệu ứng độc lập khi nó thay đổi giao diện của phép biểu diễn.
 Trong trường hợp đó, dùng cấu hình
 \(\text{phép biểu diễn}\times\text{đặc trưng}\) làm đơn vị so sánh.</div>
@@ -1288,7 +1288,7 @@ giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:</p
 \]
 <h4 class="reader-h3">Right-censored runtime: thời gian chạy có kiểm duyệt</h4>
 <p>Khi một lần chạy hết thời hạn, ta chỉ biết thời gian cần thiết lớn hơn giới hạn;
-dữ liệu như vậy được gọi là <em>right-censored</em> (kiểm duyệt phải).
+dữ liệu như vậy được gọi là <em>right-censored</em> (dữ liệu bị giới hạn thời gian).
 Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và bài hết thời hạn
 bằng một trong các cách:
 <ul class="reader-list"><li>số bài giải được tại một giới hạn thời gian cố định;</li><li>PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;</li><li><em>cactus plot</em> (biểu đồ Cactus (Cactus plot));</li><li><em>performance profile</em> (hồ sơ hiệu năng);</li><li>thời gian đạt mục tiêu cho bài toán tối ưu.</li></ul></p>
@@ -1453,7 +1453,7 @@ thay đổi.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>Đánh giá thực nghiệm bắt đầu từ một câu hỏi, không bắt đầu từ một bảng cấu hình.</li><li>Tách tinh chỉnh khỏi đánh giá và phân tầng theo họ bài toán.</li><li>Báo cả kích thước, bộ đếm tìm kiếm và thời gian chạy có dữ liệu hết hạn.</li><li>Tách SAT/UNSAT và dùng nhiều hạt giống ngẫu nhiên ở vùng khó.</li><li>Bộ kiểm tra mô hình là điều kiện trước của mọi bảng hiệu năng.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Thiết kế thí nghiệm bóc tách \(2\times2\) cho bộ biểu diễn và phá đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
+<ol class="reader-list"><li>Thiết kế thí nghiệm phân tích thành phần (ablation study) \(2\times2\) cho bộ biểu diễn và phá đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
  trung bình trên các bài đã giải.</li><li>Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.</li></ol>
         </section>
         
@@ -1571,15 +1571,15 @@ R^b_{i, q}=1
   \sum_{j=i}^{\left|B_b\right|}B_b[j]\ge q.
 \]
 \(F\) đếm tiền tố từ trái sang phải; \(R\) đếm hậu tố từ phải sang trái. Một
-cửa sổ cắt biên giữa \(B_b, B_{b+1}\) là hợp của một hậu tố bên trái và một
+cửa sổ giao biên giữa \(B_b, B_{b+1}\) là hợp của một hậu tố bên trái và một
 tiền tố bên phải. Số literal đúng trong cửa sổ được đọc từ \(R^b\) và
 \(F^{b+1}\).
 <div class="reader-figure-box" id="fig_block_connector">
 <div class="reader-figure-img">
- <img src="assets/images/diagrams/fig_block_connector.webp" alt="Hình: Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
+ <img src="assets/images/diagrams/fig_block_connector.webp" alt="Hình: Một cửa sổ giao biên được phân rã thành hậu tố của khối trái và tiền tố
 của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết." loading="lazy" />
  </div>
-<div class="reader-inline-caption"><em>Hình: Một cửa sổ cắt biên được phân rã thành hậu tố của khối trái và tiền tố
+<div class="reader-inline-caption"><em>Hình: Một cửa sổ giao biên được phân rã thành hậu tố của khối trái và tiền tố
 của khối phải; bộ nối chỉ đọc các ngưỡng cần thiết.</em></div>
  </div>
 <div class="reader-callout example-box">
@@ -1622,11 +1622,11 @@ còn ở hai mệnh đề giữa luôn có một ngưỡng bằng \(0\).</p>
 <p>Nếu đổi \(x_6\) thành \(1\), tiền tố phải đạt ngưỡng \(2\). Khi đó
 \(\neg R^1_{3, 1}\lor\neg F^2_{2, 2}\) sai, phát hiện ngay tổng cửa sổ bằng
 \(3\). Ví dụ cho thấy bộ nối không cộng lại toàn cửa sổ; nó chỉ ghép hai
-chứng cứ ngưỡng.</div>
+bằng chứng ngưỡng.</div>
  </div></p>
 <h3 class="reader-h2">Bộ nối như một giao diện</h3>
 <p>Bộ đếm cục bộ không biết cửa sổ nào sẽ đọc nó. Nó chỉ cung cấp đặc tả của các
-literal ngưỡng. Bộ nối biết cách một ràng buộc cắt biên và chọn các ngưỡng cần
+literal ngưỡng. Bộ nối biết cách một ràng buộc giao biên và chọn các ngưỡng cần
 ghép.</p>
 <p>Với at-least-\(k\):</p>
 \[
@@ -1716,7 +1716,7 @@ nghiệm và lý thuyết đáng quan tâm hơn việc chỉ so số mệnh đ�
 <div class="reader-callout theorem-box">
  <div class="callout-header"><strong>Định lý (Tính đúng của phép biểu diễn cửa sổ dùng chung)</strong></div>
  <div class="callout-body">Giả sử:
-<ol class="reader-list"><li>các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;</li><li>mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;</li><li>mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;</li><li>với cửa sổ \(A\cup B\) cắt biên, phép biểu diễn chứa đủ các mệnh đề
+<ol class="reader-list"><li>các thanh ghi tiến/lùi đúng theo đặc tả ngưỡng;</li><li>mọi cửa sổ nằm trong một khối được ràng buộc bởi bộ đếm cục bộ;</li><li>mỗi cửa sổ hoặc nằm trong một khối, hoặc cắt đúng một biên khối;</li><li>với cửa sổ \(A\cup B\) giao biên, phép biểu diễn chứa đủ các mệnh đề
 \[
 \neg T(A, q)\lor\neg T(B, k+1-q),
     \qquad q=0,\ldots, k+1.
@@ -1725,7 +1725,7 @@ Khi đó CNF tương đương theo phép chiếu với họ staircase AMK.</div>
  </div>
 <div class="reader-proof">
  <em>Chứng minh.</em> Để chứng minh tính đúng, xét một cửa sổ. Nếu nằm trong khối, bộ đếm cục bộ loại mọi tổng
-vượt \(k\). Nếu cắt biên, đặt \(a=\sum_{x\in A}x\),
+vượt \(k\). Nếu giao biên, đặt \(a=\sum_{x\in A}x\),
 \(b=\sum_{x\in B}x\). Khi \(a+b\ge k+1\), chọn
 \(q=\min\{a, k+1\}\). Ta có \(T(A, q)=1\); nếu \(q&lt;k+1\) thì
 \(b\ge k+1-a=k+1-q\), còn nếu \(q=k+1\) thì ngưỡng bên phải bằng \(0\)
@@ -1759,7 +1759,7 @@ một siêu tham số cấu trúc.</p>
 <p>Ba cách chọn:
 <ul class="reader-list"><li>bằng độ rộng cửa sổ khi mọi ràng buộc có cùng \(w\);</li><li>theo ước chung lớn nhất hoặc cụm của nhiều độ rộng;</li><li>phân hoạch thích nghi, đặt biên tại nơi có ít cửa sổ cắt qua.</li></ul></p>
 <p>Phân hoạch thích nghi có thể xem là bài toán tối ưu trên đồ thị khoảng: mỗi cửa
-sổ là một khoảng, chi phí của một biên bằng số ràng buộc cắt biên nhân với số
+sổ là một khoảng, chi phí của một biên bằng số ràng buộc giao biên nhân với số
 ngưỡng cần nối.</p>
 <h3 class="reader-h2">Triển khai</h3>
 <p><em>Application programming interface</em> (giao diện lập trình, API) cho
@@ -1793,10 +1793,10 @@ số bộ nối sau giản lược và số bước ghép của các cửa sổ 
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
  <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
- <div class="callout-body"><ol class="reader-list"><li>Cửa sổ chồng lấn là tín hiệu nên dùng trạng thái chung.</li><li>Bộ đếm cục bộ cung cấp các ngưỡng; bộ nối mô tả ràng buộc.</li><li>Thanh ghi tiến và lùi tách một cửa sổ cắt biên thành hai phần.</li><li>Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ cắt biên.</li><li>Độ rộng khối cân bằng chi phí thanh ghi với chi phí bộ nối.</li></ol></div>
+ <div class="callout-body"><ol class="reader-list"><li>Cửa sổ chồng lấn là tín hiệu nên dùng trạng thái chung.</li><li>Bộ đếm cục bộ cung cấp các ngưỡng; bộ nối mô tả ràng buộc.</li><li>Thanh ghi tiến và lùi tách một cửa sổ giao biên thành hai phần.</li><li>Chứng minh tính đúng tách cửa sổ nội khối khỏi cửa sổ giao biên.</li><li>Độ rộng khối cân bằng chi phí thanh ghi với chi phí bộ nối.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Dựng các bộ nối cho một cửa sổ AMK với \(k=2\) cắt biên thành hai phần.</li><li>Tính số thanh ghi khi \(n=20, w=5, k=3\) và độ rộng khối bằng \(5\).</li><li>Đề xuất hàm mục tiêu cho phân hoạch thích nghi dựa trên số cửa sổ cắt biên.</li></ol>
+<ol class="reader-list"><li>Dựng các bộ nối cho một cửa sổ AMK với \(k=2\) giao biên thành hai phần.</li><li>Tính số thanh ghi khi \(n=20, w=5, k=3\) và độ rộng khối bằng \(5\).</li><li>Đề xuất hàm mục tiêu cho phân hoạch thích nghi dựa trên số cửa sổ giao biên.</li></ol>
         </section>
         
 
@@ -2147,7 +2147,7 @@ trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán t
           <div class="chapter-lead">Một phép biểu diễn tốt không chỉ mô tả nghiệm; nó còn quyết định cách
 bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
 <em>Symmetry breaking</em> (phá đối xứng) thu gọn không gian tìm kiếm, còn
-<em>channeling</em> (liên kết biểu diễn) nối các góc nhìn bổ sung của cùng một
+<em>channeling</em> (liên kết biểu diễn) nối các tiêu chí bổ trợ của cùng một
 quyết định.</div>
 <div class="reader-flow-diagram">
  <div class="flow-box">Quyết định gốc</div>
@@ -2184,7 +2184,7 @@ phát hiện trên CNF tìm phần đối xứng còn sót.</p>
 <p>Các lớp ràng buộc phá đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
 đổi nhóm tự đẳng cấu của đồ thị; bộ phá đối xứng tự động vì thế chạy trên công
 thức đã có mệnh đề đơn vị và liên kết biểu diễn. Mỗi lớp bảo toàn ít nhất một
-đại diện của các quỹ đạo còn lại, còn thí nghiệm bóc tách đo tác động của từng
+đại diện của các quỹ đạo còn lại, còn thí nghiệm phân tích thành phần (ablation study) đo tác động của từng
 lớp lên hiệu năng
 <span class="cite">(Gent et al., 2006)</span>.</p>
 <h3 class="reader-h2">Đối xứng như tác động lên nghiệm</h3>
@@ -2796,7 +2796,7 @@ chuẩn; lợi ích rõ nhất ở nhóm khó.</p>
  <div class="callout-body">Mô-đun khả thi mô tả lịch hợp lệ qua một giao diện độc lập với tìm kiếm tuyến
 tính, tìm kiếm nhị phân hay MaxSAT. Lớp hàm mục tiêu đọc các biến đã có và
 cung cấp giao diện cận \(B\). Cách tách này làm cho chứng minh tính đúng ngắn
-hơn và thí nghiệm bóc tách rõ hơn.</div>
+hơn và thí nghiệm phân tích thành phần (ablation study) rõ hơn.</div>
  </div>
 <h3 class="reader-h2">Điều chỉnh lịch tàu bằng MaxSAT–DDD</h3>
 <h4 class="reader-h3">Tại sao cần rời rạc hóa động</h4>
@@ -2832,9 +2832,9 @@ vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.</p>
  \(\Lambda^r\), giải tối ưu và ghi cận dưới \(L_r\).</li><li>Nếu mô hình hạn chế vô nghiệm và là một phép thư giãn hợp lệ của mô hình
  đầy đủ, kết luận mô hình đầy đủ vô nghiệm.</li><li>Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
  khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r&lt;U_r\), nó phải trả một
- chứng cứ \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
+ bằng chứng \(C_r\) chỉ ra phần rời rạc hóa đang thiếu cho feasibility hoặc
  hàm mục tiêu.</li><li>Nếu có lịch khả thi và \(U_r=L_r\), trả lịch cùng hai cận bằng nhau.</li><li>Nếu chưa hội tụ, bước tinh chỉnh phải chọn ít nhất một mốc trong
- \(\Lambda^\star\setminus\Lambda^r\) được chứng cứ \(C_r\) yêu cầu; đặt
+ \(\Lambda^\star\setminus\Lambda^r\) được bằng chứng \(C_r\) yêu cầu; đặt
  \(\Lambda^{r+1}\supsetneq\Lambda^r\) và lặp.</li></ol></div>
  </div>
 <div class="reader-callout proposition-box">
@@ -2862,7 +2862,7 @@ thư giãn ở (ii). <span class="proof-qedsymbol">■</span>
 chỉnh vì thế phải thêm một mốc mới được bộ kiểm tra suy ra từ vi phạm cụ thể.
 Với miền thời gian liên tục, một đối chứng thời gian liên tục hoặc một định lý
 về tập ứng viên hữu hạn cung cấp điều kiện dừng. Ba thành phần này—mốc mới, bộ kiểm tra và
-tập mốc đầy đủ—xác định đồng thời tính đúng đắn và tốc độ hội tụ.</p>
+tập mốc đầy đủ—xác định đồng thời tính đúng và tốc độ hội tụ.</p>
 <div class="reader-figure-box" id="fig_ddd_refinement">
 <div class="reader-figure-img">
  <img src="assets/images/diagrams/fig_ddd_refinement.webp" alt="Hình: DDD chỉ thêm mốc tại nơi nghiệm của mô hình hạn chế thiếu thông tin.
@@ -3524,7 +3524,7 @@ cấm rộng hơn, miễn tập cấm vẫn là một khoảng.</div>
  <div class="callout-body">Trên tập GEOM và MS-CAP của <span class="cite">(Nguyen et al., 2026)</span>, cấu hình theo khối giải
 được các bài toán khó mà biểu diễn thứ tự không hoàn tất trong cùng giới hạn.
 Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
-biểu diễn. Vì vậy thí nghiệm bóc tách nên dùng đơn vị
+biểu diễn. Vì vậy thí nghiệm phân tích thành phần (ablation study) nên dùng đơn vị
 \(\text{phép biểu diễn}\times\text{đặc trưng}\), không chỉ so trung bình từng
 đặc trưng.</div>
  </div>
@@ -3610,7 +3610,7 @@ lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Với ABP trên đường \(P_4\), dựng \(F(k)\) tại \(k=2\) và chỉ rõ
  exactly-one theo hàng lẫn cột.</li><li>Dẫn xuất mệnh đề biên BCP cho ba trường hợp: khoảng nằm trong
- miền, chạm biên trái và chạm biên phải.</li><li>Thiết kế thí nghiệm bóc tách \(2\times2\) cho giải tăng dần và đối xứng
+ miền, chạm biên trái và chạm biên phải.</li><li>Thiết kế thí nghiệm phân tích thành phần (ablation study) \(2\times2\) cho giải tăng dần và đối xứng
  trên hai họ biểu diễn BCP.</li></ol>
         </section>
         
@@ -4103,12 +4103,12 @@ lớn hoặc đồ thị ràng buộc đủ dày.</p>
  số cận sẽ truy vấn; đánh giá bộ chọn so với bộ giải tốt nhất ảo.</li><li><strong>Đặc tả và kết hợp.</strong> Phát triển thư viện mô-đun mà mỗi literal
  đầu ra có ngữ nghĩa máy đọc được, cho phép kiểm tự động việc ghép bộ đếm,
  liên kết biểu diễn, hàm mục tiêu và bộ giải mã.</li><li><strong>Chứng nhận toàn trình.</strong> Nối ghi chứng minh của SAT/MaxSAT với
- bộ kiểm tra miền và chứng cứ cận dưới để giá trị tối ưu không phụ thuộc vào niềm tin ở
+ bộ kiểm tra miền và chứng nhận cận dưới để giá trị tối ưu không phụ thuộc vào niềm tin ở
  bộ sinh.</li><li><strong>Trạng thái dùng chung tổng quát.</strong> Mô hình hóa việc chọn khối,
  cây ghép và ngưỡng cần vật hóa như một bài toán tối ưu riêng; tìm cận dưới
  cho số trạng thái/bộ nối dưới các yêu cầu lan truyền khác nhau.</li><li><strong>Phương pháp kết hợp có phân công rõ.</strong> Dùng CP/MIP để lọc miền
  hoặc tạo cận, SAT/MaxSAT để xử lý phép tuyển, nhưng đánh giá bằng thí nghiệm
- bóc tách để biết lợi ích đến từ mô-đun nào.</li><li><strong>Gói tái lập bền vững.</strong> Dùng vùng chứa phần mềm, bản kê dữ liệu,
+ phân tích thành phần (ablation) để biết lợi ích đến từ mô-đun nào.</li><li><strong>Gói tái lập bền vững.</strong> Dùng vùng chứa phần mềm, bản kê dữ liệu,
  mã băm, giấy phép và quy trình tái lập; tách kết luận đã công bố khỏi kết quả
  thăm dò.</li></ol>
 <h3 class="reader-h2">Kết luận cuối</h3>
