@@ -1,6 +1,6 @@
 {
-  "name": "Biểu diễn SAT tối ưu",
-  "short_name": "SAT Book",
+  "name": "SATLab — SAT & Combinatorial Optimization Research Group",
+  "short_name": "SATLab",
   "description": "Chuyên khảo về thiết kế và ứng dụng phép mã hóa SAT.",
   "lang": "vi",
   "start_url": "./",
