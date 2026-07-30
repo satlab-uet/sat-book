@@ -73,6 +73,28 @@ def format_citations(text: str) -> str:
         return f'<span class="cite">({"; ".join(formatted)})</span>'
     return re.sub(r'\\(?:parencite|textcite|cite)\{([^}]+)\}', replace_cite, text)
 
+def expand_tex_math_macros(tex: str) -> str:
+    """Pre-expand custom TeX macros into standard LaTeX for max compatibility."""
+    tex = re.sub(r'\\SAT\b', r'\\mathrm{SAT}', tex)
+    tex = re.sub(r'\\UNSAT\b', r'\\mathrm{UNSAT}', tex)
+    tex = re.sub(r'\\OPT\b', r'\\mathrm{OPT}', tex)
+    tex = re.sub(r'\\BKS\b', r'\\mathrm{BKS}', tex)
+    tex = re.sub(r'\\CNF\b', r'\\mathrm{CNF}', tex)
+    tex = re.sub(r'\\MaxSAT\b', r'\\mathrm{MaxSAT}', tex)
+    tex = re.sub(r'\\AMK\b', r'\\mathrm{AMK}', tex)
+    tex = re.sub(r'\\AMO\b', r'\\mathrm{AMO}', tex)
+    tex = re.sub(r'\\ALK\b', r'\\mathrm{ALK}', tex)
+    tex = re.sub(r'\\ExactlyOne\b', r'\\mathrm{ExactlyOne}', tex)
+    tex = re.sub(r'\\PySAT\b', r'\\mathrm{PySAT}', tex)
+    
+    # Expand sets and cards
+    tex = re.sub(r'\\set\{([^}]+)\}', r'\\left\\{\1\\right\\}', tex)
+    tex = re.sub(r'\\card\{([^}]+)\}', r'\\left|\1\\right|', tex)
+    
+    # Format comma spacing inside inline bounds like (LB,UB) -> (LB, UB)
+    tex = re.sub(r'([A-Za-z0-9]+),([A-Za-z0-9]+)', r'\1, \2', tex)
+    return tex
+
 def clean_inline(text: str) -> str:
     text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     text = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', text)
@@ -102,17 +124,22 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\endfirsthead\b', '', text)
     text = re.sub(r'\\endhead\b', '', text)
     text = re.sub(r'\\small\b', '', text)
+    text = re.sub(r'\\mid\b', '|', text)
     
     # References & Equations
     text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
     text = re.sub(r'\\ref\{([^}]+)\}', r'(xem hình \1)', text)
     text = re.sub(r'\\eqref\{([^}]+)\}', r'(công thức \1)', text)
-    text = re.sub(r'\\set\{([^}]+)\}', r'\{\1\}', text)
-    text = re.sub(r'\\card\{([^}]+)\}', r'|\1|', text)
 
     text = text.replace("``", "“").replace("''", "”")
     text = format_citations(text)
     return text.strip()
+
+def capitalize_title(title: str) -> str:
+    if not title:
+        return ""
+    title = title.strip()
+    return title[0].upper() + title[1:]
 
 def parse_callouts(text: str) -> str:
     callout_types = [
@@ -126,7 +153,7 @@ def parse_callouts(text: str) -> str:
         pattern = r'\\begin\{' + env_name + r'\}\s*(?:\[([^\]]*)\]|\{([^}]*)\})?(.*?)\\end\{' + env_name + r'\}'
         def replace_callout(m):
             raw_title = m.group(1) or m.group(2) or ""
-            title = clean_inline(raw_title.strip()) if raw_title.strip() else default_title
+            title = capitalize_title(clean_inline(raw_title.strip())) if raw_title.strip() else default_title
             body = clean_inline(m.group(3).strip())
             return f'''
             <div class="reader-callout {css_class}">
@@ -148,7 +175,7 @@ def parse_theorems(text: str) -> str:
         pattern = r'\\begin\{' + env_name + r'\}\s*(?:\[([^\]]*)\]|\{([^}]*)\})?(.*?)\\end\{' + env_name + r'\}'
         def replace_thm(m):
             raw_title = m.group(1) or m.group(2) or ""
-            title_text = f" ({clean_inline(raw_title.strip())})" if raw_title.strip() else ""
+            title_text = f" ({capitalize_title(clean_inline(raw_title.strip()))})" if raw_title.strip() else ""
             body = clean_inline(m.group(3).strip())
             return f'''
             <div class="reader-callout {css_class}">
@@ -173,7 +200,7 @@ def parse_algorithms(text: str) -> str:
     def replace_algo(m):
         block = m.group(1)
         cap_match = re.search(r'\\caption\{([^}]+)\}', block)
-        title = clean_inline(cap_match.group(1)) if cap_match else "Thuật toán"
+        title = capitalize_title(clean_inline(cap_match.group(1))) if cap_match else "Thuật toán"
         
         clean_body = re.sub(r'\\begin\{minipage\}\{[^}]*\}', '', block)
         clean_body = re.sub(r'\\end\{minipage\}', '', clean_body)
@@ -337,21 +364,20 @@ def clean_latex_document(text: str) -> str:
     
     # ------------------------------------------------------------------
     # STEP 1: MATH PROTECTION PHASE
-    # Extract all KaTeX math blocks and protect HTML special characters <, >
+    # Extract all KaTeX math blocks, expand custom TeX macros into standard TeX
     # ------------------------------------------------------------------
     math_store: list[str] = []
 
     def protect_display_math(m):
         idx = len(math_store)
-        content = m.group(1).strip()
-        # Escape < and > so browser HTML parser does not treat them as tags
+        content = expand_tex_math_macros(m.group(1).strip())
         safe_content = content.replace("<", "&lt;").replace(">", "&gt;")
         math_store.append(f"\\[\n{safe_content}\n\\]")
         return f"\n___MATH_BLOCK_{idx}___\n"
 
     def protect_inline_math(m):
         idx = len(math_store)
-        content = m.group(1).strip()
+        content = expand_tex_math_macros(m.group(1).strip())
         safe_content = content.replace("<", "&lt;").replace(">", "&gt;")
         math_store.append(f"\\({safe_content}\\)")
         return f"___MATH_BLOCK_{idx}___"
@@ -366,26 +392,21 @@ def clean_latex_document(text: str) -> str:
     # ------------------------------------------------------------------
     # STEP 2: HTML & STRUCTURAL PARSING PHASE
     # ------------------------------------------------------------------
-    # Remove TikZ environments if raw
     text = re.sub(r'\\begin\{tikzpicture\}(.*?)\\end\{tikzpicture\}', '', text, flags=re.DOTALL)
     
-    # Chapter lead & Headings
     text = re.sub(r'\\chapterlead\{((?:[^{}]|\{[^{}]*\})*)\}', r'<div class="chapter-lead">\1</div>', text)
     text = re.sub(r'\\chapter\{([^}]+)\}', '', text)
     text = parse_headings(text)
     
-    # Custom Callouts & Theorems
     text = parse_callouts(text)
     text = parse_theorems(text)
     text = parse_algorithms(text)
     text = parse_figures(text)
     
-    # Flow diagrams & Tables & Lists
     text = parse_flowdiagrams(text)
     text = parse_tables(text)
     text = parse_lists(text)
     
-    # Inline formatting & quotes
     text = clean_inline(text)
     
     # Paragraphs: split by double newlines, wrap non-block items in <p>
@@ -404,12 +425,434 @@ def clean_latex_document(text: str) -> str:
 
     # ------------------------------------------------------------------
     # STEP 3: MATH RESTORATION PHASE
-    # Re-insert protected math blocks
     # ------------------------------------------------------------------
     for idx, math_html in enumerate(math_store):
         result = result.replace(f"___MATH_BLOCK_{idx}___", math_html)
 
     return result
+
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102536">
+    <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    
+    <!-- Robust Dual-Engine Math Rendering: MathJax 3 + KaTeX 0.16.11 -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\\\(', '\\\\)'], ['$', '$']],
+          displayMath: [['\\\\[', '\\\\]'], ['$$', '$$']],
+          processEscapes: true,
+          macros: {
+            SAT: '\\\\mathrm{SAT}',
+            UNSAT: '\\\\mathrm{UNSAT}',
+            OPT: '\\\\mathrm{OPT}',
+            BKS: '\\\\mathrm{BKS}',
+            CNF: '\\\\mathrm{CNF}',
+            MaxSAT: '\\\\mathrm{MaxSAT}',
+            AMK: '\\\\mathrm{AMK}',
+            AMO: '\\\\mathrm{AMO}',
+            ALK: '\\\\mathrm{ALK}',
+            ExactlyOne: '\\\\mathrm{ExactlyOne}'
+          }
+        },
+        options: {
+          ignoreHtmlClass: 'tex2jax_ignore',
+          processHtmlClass: 'tex2jax_process'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+      function runKaTeXRender() {
+        if (window.katex && typeof renderMathInElement === "function") {
+          try {
+            renderMathInElement(document.body, {
+              delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\\\[", right: "\\\\]", display: true},
+                {left: "\\\\(", right: "\\\\)", display: false},
+                {left: "$", right: "$", display: false}
+              ],
+              macros: {
+                "\\\\SAT": "\\\\mathrm{SAT}",
+                "\\\\UNSAT": "\\\\mathrm{UNSAT}",
+                "\\\\OPT": "\\\\mathrm{OPT}",
+                "\\\\BKS": "\\\\mathrm{BKS}",
+                "\\\\CNF": "\\\\mathrm{CNF}",
+                "\\\\MaxSAT": "\\\\mathrm{MaxSAT}",
+                "\\\\AMK": "\\\\mathrm{AMK}",
+                "\\\\AMO": "\\\\mathrm{AMO}",
+                "\\\\ALK": "\\\\mathrm{ALK}",
+                "\\\\ExactlyOne": "\\\\mathrm{ExactlyOne}"
+              },
+              ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+              throwOnError: false
+            });
+          } catch (e) {
+            console.warn("KaTeX notice:", e);
+          }
+        }
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", runKaTeXRender);
+      } else {
+        runKaTeXRender();
+      }
+      window.addEventListener("load", runKaTeXRender);
+    </script>
+
+    <style>
+      .reader-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 40px;
+        align-items: start;
+        padding: 40px 0 80px;
+      }
+      .reader-sidebar {
+        position: sticky;
+        top: 90px;
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        box-shadow: var(--shadow-sm);
+      }
+      .reader-sidebar-title {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: var(--color-ink-950);
+        margin-bottom: 14px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--color-brand-200);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .reader-toc-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .toc-link {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 10px;
+        border-radius: var(--radius-sm);
+        font-size: 0.88rem;
+        color: var(--color-ink-800);
+        transition: all 0.15s ease;
+      }
+      .toc-link:hover {
+        background: var(--color-brand-50);
+        color: var(--color-blue-700);
+        text-decoration: none;
+      }
+      .toc-num {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--color-blue-700);
+      }
+      .toc-name {
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      .reader-content {
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: 48px;
+        box-shadow: var(--shadow-sm);
+        max-width: 820px;
+      }
+      .reader-doc-title {
+        font-family: var(--font-serif);
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--color-ink-950);
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--color-brand-200);
+      }
+      .reader-chapter-article {
+        margin-bottom: 64px;
+        padding-bottom: 48px;
+        border-bottom: 2px dashed var(--color-border);
+      }
+      .reader-chapter-article:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      .reader-chap-badge {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--color-blue-700);
+        background: var(--color-brand-50);
+        padding: 4px 12px;
+        border-radius: 20px;
+      }
+      .reader-chap-title {
+        font-family: var(--font-serif);
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: var(--color-ink-950);
+        margin: 12px 0 20px;
+        line-height: 1.25;
+      }
+      .chapter-lead {
+        font-size: 1.12rem;
+        color: var(--color-ink-800);
+        background: #f8fafc;
+        border-left: 4px solid var(--color-blue-700);
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      }
+      .reader-callout {
+        background: #f8fafc;
+        border: 1px solid var(--color-border);
+        border-left: 4px solid var(--color-blue-700);
+        border-radius: var(--radius-card);
+        padding: 18px 20px;
+        margin: 24px 0;
+      }
+      .callout-header {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--color-ink-950);
+        margin-bottom: 8px;
+      }
+      .callout-body {
+        font-size: 0.95rem;
+        color: var(--color-ink-800);
+        line-height: 1.6;
+      }
+      .reader-proof {
+        background: #fafafa;
+        border-left: 3px solid var(--color-ink-500);
+        padding: 14px 18px;
+        margin: 20px 0;
+        font-size: 0.95rem;
+      }
+      .proof-qedsymbol {
+        float: right;
+        color: var(--color-ink-500);
+      }
+      .reader-algorithm-box {
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-card);
+        padding: 20px;
+        margin: 24px 0;
+      }
+      .algo-header {
+        font-family: var(--font-display);
+        font-size: 1.02rem;
+        color: var(--color-ink-950);
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+      }
+      .algo-body {
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: var(--color-ink-800);
+      }
+      .reader-table-wrapper {
+        margin: 24px 0;
+        overflow-x: auto;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-card);
+      }
+      .reader-table-caption {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--color-ink-950);
+        padding: 12px 16px;
+        background: var(--bg-page);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .reader-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        text-align: left;
+      }
+      .reader-table th {
+        background: #f1f5f9;
+        color: var(--color-ink-950);
+        font-weight: 700;
+        padding: 10px 14px;
+        border-bottom: 2px solid var(--color-border);
+      }
+      .reader-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-ink-800);
+        line-height: 1.5;
+      }
+      .reader-table tr:last-child td {
+        border-bottom: none;
+      }
+      .reader-flow-diagram {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 28px 0;
+        padding: 18px 22px;
+        background: #f8fafc;
+        border: 1px solid var(--color-brand-200);
+        border-radius: var(--radius-card);
+      }
+      .flow-box {
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--color-ink-950);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      }
+      .flow-box.highlight {
+        background: var(--color-brand-50);
+        border-color: var(--color-brand-200);
+        color: var(--color-blue-700);
+      }
+      .flow-arrow {
+        color: var(--color-blue-700);
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+      .flow-branches {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+        margin-top: 6px;
+      }
+      .flow-subbox {
+        font-size: 0.85rem;
+        color: var(--color-ink-650);
+        background: #ffffff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid var(--color-border);
+      }
+      .reader-figure-card {
+        margin: 32px 0;
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-card);
+        padding: 20px;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+      }
+      .reader-figure-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+      .reader-figure-caption {
+        font-size: 0.92rem;
+        color: var(--color-ink-650);
+        margin-top: 12px;
+        font-weight: 600;
+      }
+      .reader-inline-caption {
+        font-size: 0.92rem;
+        color: var(--color-ink-650);
+        margin: 16px 0;
+        text-align: center;
+      }
+      .cite {
+        font-size: 0.9rem;
+        color: #1d4ed8;
+        font-weight: 600;
+      }
+      @media (max-width: 860px) {
+        .reader-layout {
+          grid-template-columns: 1fr;
+        }
+        .reader-sidebar {
+          display: none;
+        }
+        .reader-content {
+          padding: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./">
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
+          <span class="brand-title">SATLab</span>
+        </a>
+        <div class="nav-container">
+          <nav class="nav">
+            <a href="./">Trang chủ</a>
+            <a href="./downloads/sat-book.pdf">Bản PDF (104 trang)</a>
+          </nav>
+          <div class="nav-actions">
+            <div class="lang-switch">
+              <a href="./" class="active">VI</a>
+            </div>
+            <a href="./search.html" class="search-link">Tìm kiếm</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell reader-layout">
+      <aside class="reader-sidebar">
+        <div class="reader-sidebar-title">Danh mục 12 Chương</div>
+        <nav class="reader-toc-nav">
+          __TOC_LINKS__
+        </nav>
+      </aside>
+
+      <section class="reader-content">
+        <h1 class="reader-doc-title">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp — Bản đọc trực tuyến</h1>
+        __CHAPTERS_HTML__
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</div>
+          <p>© 2026 Các tác giả. SATLab UET.</p>
+        </div>
+        <div>
+          <a href="./" class="btn btn-outline">Trở về Trang chủ ↗</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+"""
 
 def build_reader_html(repo_root: Path):
     load_bib_entries(repo_root)
@@ -456,460 +899,7 @@ def build_reader_html(repo_root: Path):
         '''
         chapters_html.append(chap_html)
         
-    full_html = f'''<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#1e3a8a">
-    <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
-    <link rel="shortcut icon" href="./favicon.ico">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
-    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
-    <link rel="stylesheet" href="./assets/css/main.css">
-    
-    <!-- KaTeX for Math rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {{
-        if (typeof renderMathInElement === "function") {{
-          renderMathInElement(document.body, {{
-            delimiters: [
-              {{left: "$$", right: "$$", display: true}},
-              {{left: "\\[", right: "\\]", display: true}},
-              {{left: "\\(", right: "\\)", display: false}},
-              {{left: "$", right: "$", display: false}}
-            ],
-            ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
-            throwOnError: false
-          }});
-        }}
-      }});
-    </script>
-
-    <style>
-      .reader-layout {{
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        gap: 40px;
-        align-items: start;
-        padding: 40px 0 80px;
-      }}
-      .reader-sidebar {{
-        position: sticky;
-        top: 90px;
-        background: #ffffff;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        max-height: calc(100vh - 120px);
-        overflow-y: auto;
-        box-shadow: var(--shadow-sm);
-      }}
-      .reader-sidebar-title {{
-        font-size: 0.95rem;
-        font-weight: 800;
-        color: var(--color-ink-900);
-        margin-bottom: 14px;
-        padding-bottom: 8px;
-        border-bottom: 2px solid var(--color-brand-200);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }}
-      .reader-toc-nav {{
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }}
-      .toc-link {{
-        display: flex;
-        flex-direction: column;
-        padding: 8px 10px;
-        border-radius: var(--radius-sm);
-        font-size: 0.88rem;
-        color: var(--color-ink-700);
-        transition: all 0.15s ease;
-      }}
-      .toc-link:hover {{
-        background: var(--color-brand-50);
-        color: var(--color-brand-600);
-        text-decoration: none;
-      }}
-      .toc-num {{
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--color-brand-600);
-      }}
-      .toc-name {{
-        font-weight: 600;
-        line-height: 1.3;
-      }}
-      .reader-content {{
-        background: #ffffff;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        padding: 48px;
-        box-shadow: var(--shadow-sm);
-        max-width: 820px;
-      }}
-      .reader-doc-title {{
-        font-family: var(--font-serif);
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin-bottom: 32px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid var(--color-brand-200);
-      }}
-      .reader-chapter-article {{
-        margin-bottom: 64px;
-        padding-bottom: 48px;
-        border-bottom: 2px dashed var(--border-color);
-      }}
-      .reader-chapter-article:last-child {{
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }}
-      .reader-chap-badge {{
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        font-weight: 700;
-        color: var(--color-brand-600);
-        background: var(--color-brand-50);
-        padding: 4px 12px;
-        border-radius: 20px;
-      }}
-      .reader-chap-title {{
-        font-family: var(--font-serif);
-        font-size: 1.85rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin: 12px 0 20px;
-        line-height: 1.25;
-      }}
-      .chapter-lead {{
-        font-size: 1.12rem;
-        color: var(--color-ink-700);
-        background: #f8fafc;
-        border-left: 4px solid var(--color-brand-600);
-        padding: 16px 20px;
-        border-radius: 0 var(--radius-md) var(--radius-md) 0;
-        margin-bottom: 28px;
-        line-height: 1.65;
-      }}
-      .reader-chap-body p {{
-        font-size: 1.05rem;
-        color: var(--color-ink-800);
-        line-height: 1.8;
-        margin-bottom: 20px;
-      }}
-      .reader-h2 {{
-        font-family: var(--font-serif);
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin: 36px 0 16px;
-      }}
-      .reader-h3 {{
-        font-size: 1.12rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin: 28px 0 12px;
-      }}
-      .reader-list {{
-        margin: 16px 0 24px 24px;
-        color: var(--color-ink-800);
-        font-size: 1.02rem;
-        line-height: 1.75;
-      }}
-      .reader-list li {{
-        margin-bottom: 8px;
-      }}
-      .reader-dl {{
-        margin: 20px 0;
-        background: #f8fafc;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 18px 24px;
-      }}
-      .reader-dl dt {{
-        color: var(--color-brand-600);
-        font-weight: 700;
-        margin-top: 12px;
-        font-size: 1.02rem;
-      }}
-      .reader-dl dt:first-child {{
-        margin-top: 0;
-      }}
-      .reader-dl dd {{
-        margin-left: 0;
-        color: var(--color-ink-800);
-        line-height: 1.65;
-        margin-bottom: 8px;
-      }}
-      /* Callout styling */
-      .reader-callout {{
-        margin: 28px 0;
-        padding: 20px 24px;
-        border-radius: var(--radius-md);
-        background: #ffffff;
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-xs);
-      }}
-      .callout-header {{
-        font-size: 1.05rem;
-        margin-bottom: 8px;
-        color: var(--color-ink-900);
-      }}
-      .callout-body {{
-        font-size: 0.98rem;
-        line-height: 1.65;
-        color: var(--color-ink-800);
-      }}
-      .reader-callout.worked-example {{
-        border-left: 5px solid #3b82f6;
-        background: #f0f9ff;
-      }}
-      .reader-callout.design-rule {{
-        border-left: 5px solid #10b981;
-        background: #ecfdf5;
-      }}
-      .reader-callout.key-idea {{
-        border-left: 5px solid #f59e0b;
-        background: #fffbeb;
-      }}
-      .reader-callout.summary-box {{
-        border-left: 5px solid #8b5cf6;
-        background: #f5f3ff;
-      }}
-      .reader-callout.result-box {{
-        border-left: 5px solid #06b6d4;
-        background: #ecfeff;
-      }}
-      .reader-callout.theorem-box {{
-        border-left: 5px solid #1e3a8a;
-        background: #f8fafc;
-      }}
-      .reader-callout.lemma-box {{
-        border-left: 5px solid #6366f1;
-        background: #f5f3ff;
-      }}
-      .reader-callout.proposition-box {{
-        border-left: 5px solid #0284c7;
-        background: #f0f9ff;
-      }}
-      .reader-callout.example-box {{
-        border-left: 5px solid #059669;
-        background: #ecfdf5;
-      }}
-      .reader-proof {{
-        margin: 20px 0;
-        padding: 16px 20px;
-        background: #f8fafc;
-        border-left: 3px solid var(--color-ink-500);
-        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        font-size: 0.98rem;
-      }}
-      .proof-qedsymbol {{
-        float: right;
-        color: var(--color-ink-500);
-      }}
-      .reader-algorithm-box {{
-        margin: 28px 0;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        background: #f8fafc;
-        overflow: hidden;
-      }}
-      .algo-header {{
-        background: #e2e8f0;
-        padding: 12px 18px;
-        font-size: 0.98rem;
-        color: var(--color-ink-900);
-        border-bottom: 1px solid var(--border-color);
-      }}
-      .algo-body {{
-        padding: 18px;
-        font-size: 0.95rem;
-        line-height: 1.65;
-      }}
-      /* Table styling */
-      .reader-table-wrapper {{
-        margin: 28px 0;
-        overflow-x: auto;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        background: #ffffff;
-      }}
-      .reader-table-caption {{
-        font-size: 0.92rem;
-        font-weight: 700;
-        color: var(--color-ink-800);
-        padding: 12px 16px;
-        background: var(--bg-page);
-        border-bottom: 1px solid var(--border-color);
-      }}
-      .reader-table {{
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.95rem;
-        text-align: left;
-      }}
-      .reader-table th {{
-        background: #f1f5f9;
-        color: var(--color-ink-900);
-        font-weight: 700;
-        padding: 10px 14px;
-        border-bottom: 2px solid var(--border-color);
-      }}
-      .reader-table td {{
-        padding: 10px 14px;
-        border-bottom: 1px solid var(--border-color);
-        color: var(--color-ink-800);
-        line-height: 1.5;
-      }}
-      .reader-table tr:last-child td {{
-        border-bottom: none;
-      }}
-      /* Flow diagram styling */
-      .reader-flow-diagram {{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-        margin: 28px 0;
-        padding: 18px 22px;
-        background: #f8fafc;
-        border: 1px solid var(--color-brand-200);
-        border-radius: var(--radius-md);
-      }}
-      .flow-box {{
-        background: #ffffff;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        padding: 8px 14px;
-        font-weight: 600;
-        font-size: 0.92rem;
-        color: var(--color-ink-900);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      }}
-      .flow-box.highlight {{
-        background: var(--color-brand-50);
-        border-color: var(--color-brand-200);
-        color: var(--color-brand-600);
-      }}
-      .flow-arrow {{
-        color: var(--color-brand-600);
-        font-size: 1.1rem;
-        font-weight: 700;
-      }}
-      .flow-branches {{
-        display: flex;
-        gap: 12px;
-        width: 100%;
-        margin-top: 6px;
-      }}
-      .flow-subbox {{
-        font-size: 0.85rem;
-        color: var(--color-ink-600);
-        background: #ffffff;
-        padding: 6px 12px;
-        border-radius: 4px;
-        border: 1px solid var(--border-color);
-      }}
-      .reader-figure-card {{
-        margin: 32px 0;
-        background: #ffffff;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 20px;
-        box-shadow: var(--shadow-sm);
-        text-align: center;
-      }}
-      .reader-figure-card img {{
-        max-width: 100%;
-        height: auto;
-        border-radius: 4px;
-      }}
-      .reader-figure-caption {{
-        font-size: 0.92rem;
-        color: var(--color-ink-600);
-        margin-top: 12px;
-        font-weight: 600;
-      }}
-      .reader-inline-caption {{
-        font-size: 0.92rem;
-        color: var(--color-ink-600);
-        margin: 16px 0;
-        text-align: center;
-      }}
-      .cite {{
-        font-size: 0.9rem;
-        color: var(--color-brand-600);
-        font-weight: 600;
-      }}
-      @media (max-width: 860px) {{
-        .reader-layout {{
-          grid-template-columns: 1fr;
-        }}
-        .reader-sidebar {{
-          display: none;
-        }}
-        .reader-content {{
-          padding: 28px;
-        }}
-      }}
-    </style>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="shell header-inner">
-        <a class="brand" href="./">
-          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
-          <span class="brand-title">SATLab</span>
-        </a>
-        <nav class="nav">
-          <a href="./">Trang chủ</a>
-          <a href="./downloads/sat-book.pdf">Bản PDF (104 trang)</a>
-        </nav>
-      </div>
-    </header>
-
-    <main class="shell reader-layout">
-      <aside class="reader-sidebar">
-        <div class="reader-sidebar-title">Danh mục 12 Chương</div>
-        <nav class="reader-toc-nav">
-          {"".join(toc_links)}
-        </nav>
-      </aside>
-
-      <section class="reader-content">
-        <h1 class="reader-doc-title">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp — Bản đọc trực tuyến</h1>
-        {"".join(chapters_html)}
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="shell footer-grid">
-        <div>
-          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</div>
-          <p>© 2026 Các tác giả. SATLab UET.</p>
-        </div>
-        <div>
-          <a href="./" class="btn btn-outline">Trở về Trang chủ ↗</a>
-        </div>
-      </div>
-    </footer>
-  </body>
-</html>
-'''
+    full_html = HTML_TEMPLATE.replace("__TOC_LINKS__", "".join(toc_links)).replace("__CHAPTERS_HTML__", "".join(chapters_html))
     output_path.write_text(full_html, encoding="utf-8")
     print(f"[✓] Generated clean HTML reader edition at: {output_path}")
 
