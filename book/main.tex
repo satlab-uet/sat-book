@@ -73,8 +73,7 @@
 %--- Main Title: auto-fit single line ---
 \begin{center}
   {\color{Gold!98!white}\resizebox{0.92\textwidth}{!}{%
-    {\fontspec{Baskerville}\bfseries BIỂU DIỄN SAT TỐI ƯU}}}
-  \vspace{22mm}
+    {\fontspec{Baskerville}\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[22mm]
   {\color{white}\resizebox{0.88\textwidth}{!}{%
     {\fontspec{Baskerville} CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
 \end{center}
@@ -85,37 +84,70 @@
 \hypersetup{pageanchor=true}
 
 %%----------------------------------------------------------
-%% HALF-TITLE PAGE (verso) — clean inner title, OUP style
+%% HALF-TITLE PAGE (verso) — mirrors main cover, black tones
 %%----------------------------------------------------------
 \cleardoublepage
 \thispagestyle{empty}
-{\centering
-\vspace*{48mm}
-{\sffamily\fontsize{8}{10}\selectfont\color{Ink!60}%
- SÁCH CHUYÊN KHẢO · KHOA HỌC MÁY TÍNH\par}
-\vspace{18mm}
-{\sffamily\bfseries\fontsize{30}{35}\selectfont\color{Ink}%
- BIỂU DIỄN SAT TỐI ƯU\par}
-\vspace{5mm}
-{\sffamily\bfseries\fontsize{15}{20}\selectfont\color{Ink}%
- CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP\par}
-\vspace{14mm}
-{\color{Blue}\rule{0.4\textwidth}{0.7pt}\par}
-\vspace{14mm}
-{\sffamily\fontsize{13}{19}\selectfont\color{Ink}%
- Tô Văn Khánh \quad Vũ Thanh Hương\par
- Kiều Văn Tuyên \quad Đào Xuân Nghĩa\par
- Trương Xuân Hiếu \quad Nguyễn Kim Trung Đức\par}
-\vspace{18mm}
-{\sffamily\fontsize{10}{14}\selectfont\color{Ink!70}%
- SATLab\par
- Trường Đại học Công nghệ, ĐHQGHN\par}
-\par}
+\begin{tikzpicture}[remember picture,overlay]
+  %--- Full-page background (off-white, no white gaps) ---
+  \fill[Ink!4] (current page.south west) rectangle (current page.north east);
+  %--- Top Header Band ---
+  \fill[Ink!8] (current page.north west) rectangle ([yshift=-52mm]current page.north east);
+  \draw[Ink!30,line width=1.6pt] ([yshift=-52mm]current page.north west) -- ([yshift=-52mm]current page.north east);
+  %--- Category Banner Strip ---
+  \fill[Teal!20!white] ([yshift=-88mm]current page.north west) rectangle ([yshift=-103mm]current page.north east);
+  \draw[Ink!25,line width=1pt] ([yshift=-88mm]current page.north west) -- ([yshift=-88mm]current page.north east);
+  \draw[Ink!25,line width=1pt] ([yshift=-103mm]current page.north west) -- ([yshift=-103mm]current page.north east);
+  \node[anchor=center] at ([yshift=-95.5mm]current page.north) {
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{14.5}{17.5}\selectfont\color{Ink}
+    S \enspace Á \enspace C \enspace H \qquad C \enspace H \enspace U \enspace Y \enspace Ê \enspace N \qquad K \enspace H \enspace Ả \enspace O}
+  };
+  %--- Bottom Footer Band ---
+  \fill[Ink!8] (current page.south west) rectangle ([yshift=38mm]current page.south east);
+  \draw[Ink!30,line width=1.4pt] ([yshift=38mm]current page.south west) -- ([yshift=38mm]current page.south east);
+  \node[anchor=west, inner sep=0pt] at ([xshift=20mm,yshift=19mm]current page.south west) {
+    \begin{minipage}[c]{0.45\textwidth}
+      {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{Ink}%
+      TỦ SÁCH KHOA HỌC - SATLAB\par
+      \color{Ink!60}\fontseries{m}\selectfont MS: SAT-VNU-2026\par}
+    \end{minipage}
+  };
+  \node[anchor=east, inner sep=0pt] at ([xshift=-20mm,yshift=19mm]current page.south east) {
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{14.5}{18}\selectfont\color{Ink}%
+    BẢN THẢO KHẢO CỨU}
+  };
+\end{tikzpicture}
+
+%--- Top Header: Logo + Institution (Left) & Authors (Right) ---
+\vspace*{-2mm}
+\begin{minipage}[c]{0.50\textwidth}
+  \raisebox{-0.32\height}{\includegraphics[height=16mm]{satlab_logo_transparent.png}}%
+  \hspace{3mm}%
+  \begin{minipage}[c]{0.70\textwidth}
+    {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{14.5}\selectfont\color{Ink}%
+    ĐẠI HỌC QUỐC GIA HÀ NỘI\par
+    TRƯỜNG ĐẠI HỌC CÔNG NGHỆ\par}
+  \end{minipage}
+\end{minipage}%
+\begin{minipage}[c]{0.50\textwidth}
+  \raggedleft
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{11}{15}\selectfont\color{Ink}%
+  TÔ VĂN KHÁNH \enspace·\enspace KIỀU VĂN TUYÊN\par
+  TRƯƠNG XUÂN HIẾU \enspace·\enspace VŨ THANH HƯƠNG\par
+  ĐÀO XUÂN NGHĨA \enspace·\enspace NGUYỄN KIM TRUNG ĐỨC\par}
+\end{minipage}
+
+\vspace{78mm}
+
+%--- Title block (mirrors cover) ---
+\begin{center}
+  {\color{Ink}\resizebox{0.92\textwidth}{!}{%
+    {\fontspec{Baskerville}\bfseries BIỂU DIỄN SAT TỐI ƯU}}}\\[22mm]
+  {\color{Ink!70}\resizebox{0.88\textwidth}{!}{%
+    {\fontspec{Baskerville} CHO CÁC BÀI TOÁN TỐI ƯU HÓA TỔ HỢP}}}
+\end{center}
+
 \vfill
-\noindent{\color{Rule}\rule{\linewidth}{0.5pt}\par}
-\vspace{3mm}
-{\sffamily\fontsize{8}{10}\selectfont\color{Ink!55}%
-Bản khảo cứu mở rộng. Mọi quyền được bảo lưu, 2026.\par}
 \cleardoublepage
 
 \frontmatter
