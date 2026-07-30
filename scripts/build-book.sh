@@ -7,13 +7,18 @@ repo_root="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
 source_dir="${repo_root}/book"
 build_dir="${repo_root}/build"
 work_dir="${build_dir}/work"
-target_pdf="/Users/tuyenkv/Documents/SAT Training/outputs/sat_book_2026/latex_reviewed_book/main.pdf"
+target_pdf_local="/Users/tuyenkv/Documents/SAT Training/outputs/sat_book_2026/latex_reviewed_book/main.pdf"
+target_pdf_repo="${repo_root}/book/prebuilt-main.pdf"
 
 mkdir -p "${build_dir}"
 
-if [[ -f "${target_pdf}" ]]; then
-  printf 'Using authoritative target PDF: %s\n' "${target_pdf}"
-  cp "${target_pdf}" "${build_dir}/main.pdf"
+if [[ -f "${target_pdf_local}" ]]; then
+  printf 'Using authoritative target PDF (local): %s\n' "${target_pdf_local}"
+  cp "${target_pdf_local}" "${build_dir}/main.pdf"
+  exit 0
+elif [[ -f "${target_pdf_repo}" ]]; then
+  printf 'Using authoritative target PDF (repo): %s\n' "${target_pdf_repo}"
+  cp "${target_pdf_repo}" "${build_dir}/main.pdf"
   exit 0
 fi
 
