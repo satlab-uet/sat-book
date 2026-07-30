@@ -15,3 +15,6 @@ Mọi thay đổi đáng chú ý của cuốn sách và mã nguồn xuất bản
 - Bổ sung bìa web, Open Graph metadata, sitemap, manifest và trang 404.
 - Bổ sung quy trình đóng gói PDF vào website và kiểm tra liên kết nội bộ.
 - Ghi rõ trạng thái thử nghiệm của định dạng HTML toàn văn.
+- Bổ sung GitHub Actions để build, kiểm tra và triển khai lên GitHub Pages.
+- Khóa phiên bản action và ảnh TeX Live bằng commit/digest, với quyền triển
+  khai tối thiểu và cập nhật Dependabot hàng tháng.

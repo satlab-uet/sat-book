@@ -1,5 +1,7 @@
 # Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp
 
+[![Deploy book to GitHub Pages](https://github.com/satlab-uet/sat-book/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/satlab-uet/sat-book/actions/workflows/deploy-pages.yml)
+
 Mã nguồn LaTeX của chuyên khảo:
 
 **Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp**
@@ -99,9 +101,24 @@ make check-site
 Website đầu ra nằm trong `_site/`. Mọi đường dẫn nội bộ sử dụng cấu trúc tương
 thích với GitHub Pages tại `/sat-book/`.
 
+Website chính thức:
+
+<https://satlab-uet.github.io/sat-book/>
+
 Lệnh `make site-assets` cần thêm Python 3, Pillow và Poppler. Các tài nguyên đã
 sinh được lưu trong `site/assets/images/`, vì vậy bước đóng gói `make site`
 không phụ thuộc vào Pillow.
+
+## Triển khai GitHub Pages
+
+Workflow `.github/workflows/deploy-pages.yml` biên dịch lại sách bằng TeX Live
+2025, kiểm tra PDF, đóng gói website và chỉ triển khai khi toàn bộ kiểm tra
+thành công. Pull request vào `main` chỉ chạy build và kiểm tra; không được phép
+triển khai.
+
+Workflow sử dụng quyền tối thiểu theo từng job. Các action và Docker image đều
+được khóa bằng commit hoặc digest; Dependabot kiểm tra cập nhật action hàng
+tháng.
 
 Xóa toàn bộ kết quả build:
 
