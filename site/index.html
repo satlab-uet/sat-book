@@ -70,9 +70,9 @@
     <header class="site-header">
       <div class="shell header-inner">
         <a class="brand" href="./">
-          <div class="brand-icon">SAT</div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">Biểu diễn SAT tối ưu</span>
-          <span class="brand-badge">SATLab UET</span>
+          <span class="brand-badge">UET-VNU</span>
         </a>
         <nav class="nav">
           <a href="#gioi-thieu">Giới thiệu</a>
@@ -86,16 +86,16 @@
 
     <main>
       <!-- Hero Section -->
-      <section class="hero">
+      <section id="gioi-thieu" class="hero">
         <div class="shell hero-grid">
           <div>
             <div class="pill-badge">
               <span class="pill-dot"></span>
-              Chuyên khảo khoa học · Ấn bản 2026
+              Chuyên khảo Khoa học · Ấn bản 2026
             </div>
             <h1>Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</h1>
             <p class="hero-subtitle">
-              Khảo cứu nền tảng và các họ mã hóa; nguyên lý thiết kế và tái sử dụng cấu trúc; nghiên cứu tình huống trong tối ưu tổ hợp.
+              Nghiên cứu nguyên lý thiết kế, tái sử dụng cấu trúc bộ đếm và ứng dụng phép mã hóa SAT (SAT encoding) trong các miền bài toán tối ưu hóa tổ hợp thực tế.
             </p>
 
             <div class="hero-meta-card">
@@ -103,7 +103,7 @@
                 <strong>Tác giả:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức.
               </p>
               <div class="hero-affiliation">
-                🏛️ SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, ĐHQGHN (UET-VNU).
+                🏛️ SATLab, Khoa Công nghệ Thông tin, Trường Đại học Công nghệ, ĐHQGHN.
               </div>
             </div>
 
@@ -136,42 +136,12 @@
         </div>
       </section>
 
-      <!-- About Section -->
-      <section id="gioi-thieu" class="section">
-        <div class="shell">
-          <div class="section-header">
-            <h2 class="section-title">Giới thiệu tổng quan</h2>
-            <p class="section-subtitle">
-              Cuốn sách trình bày phép mã hóa SAT (SAT encoding) như một thành phần trung tâm của thuật toán giải chính xác. Phép mã hóa chuyển biến và ràng buộc của bài toán gốc thành công thức dạng chuẩn hội (CNF). Hai công thức cùng biểu diễn một ràng buộc có thể khác nhau đáng kể về kích thước, khả năng lan truyền đơn vị, cấu trúc mệnh đề và mức độ phù hợp với giải tăng dần. Người thiết kế cần đồng thời trả lời bốn câu hỏi cốt lõi: <em>phép mã hóa có đúng không, trạng thái nào được biểu diễn và chia sẻ, bộ giải nhìn thấy cấu trúc gì, và kết quả tối ưu được chứng nhận thế nào.</em>
-            </p>
-          </div>
-
-          <div class="parts-grid">
-            <div class="part-card">
-              <span class="part-card-num">PHẦN I</span>
-              <h3>Nền tảng & Tiêu chí thiết kế</h3>
-              <p>Tổng hợp nền tảng SAT, MaxSAT, chuyển đổi CSP sang SAT, tiêu chuẩn lan truyền đơn vị (GAC), các bộ đếm cardinality, giả Boolean và phương pháp luận đánh giá thực nghiệm.</p>
-            </div>
-            <div class="part-card">
-              <span class="part-card-num">PHẦN II</span>
-              <h3>Tái sử dụng cấu trúc</h3>
-              <p>Phát triển các kỹ thuật tái sử dụng cấu trúc: bộ đếm dùng chung cho cửa sổ chồng lấn (Sequence), thanh ghi thích nghi NSC, phá đối xứng LEX và liên kết biểu diễn (channeling).</p>
-            </div>
-            <div class="part-card">
-              <span class="part-card-num">PHẦN III</span>
-              <h3>Nghiên cứu tình huống ứng dụng</h3>
-              <p>Khảo sát bốn miền ứng dụng tổ hợp thực tế: lập lịch công việc/y tế/tàu hỏa, đóng gói hai chiều & cắt khung, bandwidth/antibandwidth và gán nhãn/phân bổ tần số radio.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Table of Contents -->
+      <!-- Table of Contents Section -->
       <section id="muc-luc" class="section">
         <div class="shell">
           <div class="section-header">
-            <h2 class="section-title">Cấu trúc chi tiết chuyên khảo</h2>
-            <p class="section-subtitle">Chuyên khảo gồm 12 chương được tổ chức mạch lạc từ nền tảng lý thuyết đến kỹ thuật thiết kế và các nghiên cứu tình huống thực tiễn.</p>
+            <h2 class="section-title">Cấu trúc chuyên khảo</h2>
+            <p class="section-subtitle">Chuyên khảo gồm 12 chương được chia thành 3 phần trọng tâm, trình bày từ cơ sở lý thuyết logic đến nguyên lý thiết kế và 4 miền ứng dụng thực tiễn.</p>
           </div>
 
           <!-- Part I -->
@@ -383,6 +353,7 @@
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
           <div class="footer-brand">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</div>
           <p>© 2026 Các tác giả. Nhóm nghiên cứu SATLab UET.</p>
         </div>
