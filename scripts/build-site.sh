@@ -20,6 +20,9 @@ if [[ ! -s "${pdf_source}" ]]; then
   exit 1
 fi
 
+# Ensure HTML book edition is generated
+python3 "${script_dir}/generate-html-book.py"
+
 if [[ "${site_output}" != "${repo_root}/_site" || "${site_output}" == "/" ]]; then
   printf 'Refusing to prepare unexpected path: %s\n' "${site_output}" >&2
   exit 1
