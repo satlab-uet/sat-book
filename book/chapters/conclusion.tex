@@ -25,7 +25,7 @@ nghĩa đó.
 \paragraph{Lớp cấu trúc.}
 Phép biểu diễn nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
 thái chia sẻ; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
-ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
+ý bộ đếm, Totalizer, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
 Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
 phép ánh xạ bảo toàn nghiệm.
 
@@ -95,7 +95,7 @@ trúc đồ thị
 Gán nhãn an toàn \(k\) &
 16 đồ thị Erdős--Rényi; FE, RE và DE &
 FE và RE tìm nghiệm cho \(16/16\), chứng nhận 13 giá trị tối ưu; DE tìm nghiệm
-cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn biểu diễn trực tiếp trong tập thử
+cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn Direct Encoding trong tập thử
 này \parencite{thanh2026ksafe}.\\
 
 POSE/MO-FAP &
@@ -108,15 +108,15 @@ kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác 
 
 \section{Miền hiệu quả và điểm chuyển thiết kế}
 
-\paragraph{Bộ đếm chia sẻ và Ladder AMK.}
-Bộ đếm chia sẻ được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
+\paragraph{Shared Counter và Ladder AMK.}
+Shared Counter được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
 mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
 với các tập gần rời nhau, một phép biểu diễn cục bộ thường gọn hơn.
 
 \paragraph{NSC.}
 NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Cấu trúc này
 phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
-Cây tổng/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
+Totalizer/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
 literal bù chuyển bài toán về ngưỡng \(n-k\) nhỏ hơn.
 
 \paragraph{Phá vỡ đối xứng.}
@@ -163,7 +163,7 @@ lớn hoặc đồ thị ràng buộc đủ dày.
 \section{Kết luận cuối}
 
 Giá trị của phép biểu diễn SAT nằm ở khả năng chọn đúng trạng thái trung gian để
-CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm chia sẻ, thanh ghi tam giác,
+CDCL nhìn thấy cấu trúc của bài toán. Shared Counter, thanh ghi tam giác,
 biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
 cùng một nguyên tắc: chỉ hiện thực hóa (reification) thông tin vừa đủ, đặt đặc tả rõ cho thông tin
 đó, rồi kiểm bằng cả chứng minh lẫn gói tái lập. Ba bước này chuyển một

@@ -54,16 +54,16 @@ Trước khi so hai bộ biểu diễn, cần xác định chúng có cùng ``t�
 không. Với biến miền hữu hạn \(v\in D=\set{d_1,\ldots,d_m}\), bốn họ thường
 gặp là:
 \begin{description}[style=nextline]
-  \item[Direct encoding (biểu diễn trực tiếp)]
+  \item[Direct Encoding (biểu diễn trực tiếp)]
   \(x_{v,a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
   hai giá trị được viết trực tiếp.
 
-  \item[Support encoding (biểu diễn hỗ trợ)]
+  \item[Support Encoding (biểu diễn hỗ trợ)]
   Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
   kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
   thể dài.
 
-  \item[Order encoding (biểu diễn thứ tự)]
+  \item[Order Encoding (biểu diễn thứ tự)]
   \(o_{v,t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
   quan hệ trước--sau trở thành phép kéo theo giữa các ngưỡng
   \parencite{tamura2009csp}.
@@ -116,13 +116,13 @@ Lai & Giá trị + ngưỡng/quan hệ & Nhiều kiểu ràng buộc & Chi phí 
 \label{fig:direct-order-domain}
 \end{figure}
 
-\begin{workedexample}{một bất đẳng thức trong biểu diễn trực tiếp và thứ tự}
-Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Biểu diễn trực tiếp cấm từng cặp
+\begin{workedexample}{một bất đẳng thức trong Direct Encoding và thứ tự}
+Cho \(u,v\in\set{0,\ldots,4}\) và \(u+2\le v\). Direct Encoding cấm từng cặp
 \((a,b)\) với \(a+2>b\):
 \[
   \neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Biểu diễn thứ tự dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
+Order Encoding dùng \(o_{z,t}\leftrightarrow(z\ge t)\) và các mệnh đề
 \[
   \neg o_{u,t}\lor o_{v,t+2},
   \qquad t=1,2.

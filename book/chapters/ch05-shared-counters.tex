@@ -1,7 +1,7 @@
-\chapter{Bộ đếm chia sẻ cho các cửa sổ chồng lấn}
+\chapter{Shared Counter cho các cửa sổ chồng lấn}
 \chapterlead{Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
 toàn bộ biến. Biểu diễn từng cửa sổ độc lập sẽ lặp trạng thái;
-\emph{shared counter} (bộ đếm chia sẻ) biến phần giao đó thành một mô-đun
+\emph{Shared Counter} (bộ đếm chia sẻ) biến phần giao đó thành một mô-đun
 có thể tái sử dụng.}
 
 \index{SEQUENCE constraint}\index{shared counter}
@@ -13,7 +13,7 @@ có thể tái sử dụng.}
 
 \section{SEQUENCE trong văn liệu về ràng buộc}
 
-Ràng buộc cửa sổ thuộc một họ lâu đời hơn các bộ đếm chia sẻ.
+Ràng buộc cửa sổ thuộc một họ lâu đời hơn các Shared Counter.
 \textsc{Sequence}
 yêu cầu mọi đoạn liên tiếp độ dài cố định có số biến nhận một giá trị trong
 khoảng \([\ell,u]\). Dạng ràng buộc này xuất hiện trong bài toán lập lịch ca, xếp thứ tự xe, và xác định
@@ -66,7 +66,7 @@ Cần chọn phân hoạch\\
 \end{tabularx}
 \end{center}
 
-Bộ đếm chia sẻ theo khối của chương này nằm giữa hai cực. Phương pháp không tạo một
+Shared Counter theo khối của chương này nằm giữa hai cực. Phương pháp không tạo một
 trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ đếm độc lập cho
 từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
 nghĩa của từng cửa sổ.
@@ -93,7 +93,7 @@ Các ràng buộc chuỗi tổng quát cho phép cả cận dưới và cận tr
   \le u.
 \]
 
-Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thước xấp xỉ
+Nếu mỗi cửa sổ dùng một Sequential Counter riêng, kích thước xấp xỉ
 \[
   O((n-w+1)wk).
 \]
@@ -251,7 +251,7 @@ chiều cần thiết khi bộ nối dùng cả thanh ghi dương và phủ đ�
 \section{Staircase AMO và SCL}
 
 Với \(k=1\), mỗi cửa sổ thỏa AMO. \emph{Shared Counter Ladder}
-(thang bộ đếm chia sẻ, SCL) xây các trạng thái AMO/AMZ trong khối và
+(thang Shared Counter, SCL) xây các trạng thái AMO/AMZ trong khối và
 nối chúng qua các biên. So với phương án tạo xung đột từng cặp trong từng cửa sổ,
 SCL không lặp các cặp nằm trong phần giao.
 
@@ -281,7 +281,7 @@ lặp cửa sổ trở nên rõ rệt.
 
 \section{Mở rộng sang Ladder AMK}
 
-Khi \(k>1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng bộ đếm tuần tự:
+Khi \(k>1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng Sequential Counter:
 \[
   F^b_{i,q}
   \leftrightarrow
@@ -306,7 +306,7 @@ Nếu một cửa sổ đi qua nhiều hơn một biên, có hai lựa chọn:
 \end{enumerate}
 Thiết kế thứ nhất đơn giản hơn; thiết kế thứ hai linh hoạt với nhiều width.
 
-Ladder AMK trong \textcite{truong2026ladderamk} phát triển bộ đếm tuần tự dùng
+Ladder AMK trong \textcite{truong2026ladderamk} phát triển Sequential Counter dùng
 chung cho một tập ràng buộc đếm dạng bậc thang. Giá trị cốt lõi không nằm ở
 một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho cả họ ràng buộc.
 
@@ -434,9 +434,9 @@ dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục
 \end{minipage}
 \end{algorithm}
 
-\subsection{Miền hiệu quả của bộ đếm chia sẻ}
+\subsection{Miền hiệu quả của Shared Counter}
 
-Bộ đếm chia sẻ đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
+Shared Counter đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
 nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
 nhỏ, biểu diễn từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
 có thể quyết định trước khi sinh \CNF từ ba đại lượng: tổng số ngưỡng cục bộ,

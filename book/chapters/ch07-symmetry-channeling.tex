@@ -114,7 +114,7 @@ giải một hình chữ nhật; biến tọa độ và hướng đặt biểu d
 
 Nguyên tắc chung là:
 \[
-  \text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
+  \text{không Order Encoding nếu thứ tự không thuộc nghiệm.}
 \]
 Sau bước chọn biến, các ràng buộc phá vỡ đối xứng xử lý nhóm đối xứng còn lại.
 Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá vỡ đối xứng tiếp tục
@@ -238,7 +238,7 @@ miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giả
 
 \subsection{Biến quan hệ và giá trị hỗ trợ}
 
-Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa biểu diễn trực tiếp và mã
+Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa Direct Encoding và mã
 hóa hỗ trợ. Mô hình không chọn toàn bộ giá trị của hai biến; phép biểu diễn chỉ chọn một
 \emph{lớp} cặp giá trị,
 chẳng hạn ``trái'', ``dưới'' hoặc ``trước''. Mỗi lớp sau đó được liên kết sang
@@ -281,9 +281,9 @@ Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ.}
 \label{fig:four-spatial-relations}
 \end{figure}
 
-\section{Biểu diễn thứ tự và các literal so sánh}
+\section{Order Encoding và các literal so sánh}
 
-Cho biến nguyên \(z\in\{0,\ldots,U\}\). Biểu diễn thứ tự dùng
+Cho biến nguyên \(z\in\{0,\ldots,U\}\). Order Encoding dùng
 \[
   o_{z,t}=1
   \quad\Longleftrightarrow\quad
@@ -311,9 +311,9 @@ Nhờ vậy, biến quan hệ \(P_{ij}\) có thể liên kết trực tiếp v�
 tự của \(s_i,s_j\), thay vì tạo một mạch cộng tổng quát
 \parencite{kieu2025scheduling}.
 
-\begin{workedexample}{Liên kết biểu diễn trực tiếp--thứ tự cho một giá trị nguyên}
-Cho \(z\in\{0,1,2,3,4\}\). Biểu diễn trực tiếp có \(d_a\Leftrightarrow(z=a)\);
-biểu diễn thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
+\begin{workedexample}{Liên kết Direct Encoding--thứ tự cho một giá trị nguyên}
+Cho \(z\in\{0,1,2,3,4\}\). Direct Encoding có \(d_a\Leftrightarrow(z=a)\);
+Order Encoding có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
 \[
   d_a\leftrightarrow o_a\land\neg o_{a+1},
   \qquad o_0\equiv\top,\quad o_5\equiv\bot.
@@ -456,7 +456,7 @@ Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:
   \item tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;
   \item tạo biến quan hệ trên đồ thị xung đột;
   \item liên kết mỗi quan hệ với các literal miền;
-  \item thêm ràng buộc đếm hoặc bộ đếm chia sẻ cho tài nguyên;
+  \item thêm ràng buộc đếm hoặc Shared Counter cho tài nguyên;
   \item thêm các ràng buộc phá vỡ đối xứng có chứng minh quỹ đạo;
   \item gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.
 \end{enumerate}
@@ -474,7 +474,7 @@ chính kiến trúc này cho bốn họ bài toán.
   \item Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.
   \item Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
   \item Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.
-  \item Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.
+  \item Order Encoding làm các cận dịch chuyển trở thành mệnh đề đơn giản.
   \item Đồ thị xung đột xác định nơi thật sự cần biến phụ.
 \end{enumerate}
 \end{summarybox}

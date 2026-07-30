@@ -105,9 +105,9 @@ chúng bằng hai biên theo giá trị:
 Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.
 
-\subsection{Quan hệ với biểu diễn hỗ trợ}
+\subsection{Quan hệ với Support Encoding}
 
-Trong biểu diễn trực tiếp/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
+Trong Direct Encoding/hỗ trợ, lựa chọn \(x_{u,a}\) yêu cầu \(v\) nhận một
 trong các giá trị còn hỗ trợ:
 \[
   \neg x_{u,a}
@@ -222,7 +222,7 @@ Mỗi đỉnh nhận đúng một nhãn. Với cặp \(u,v\), mọi cặp nhãn
 \[
   \neg x_{u,a}\lor\neg x_{v,b}.
 \]
-Biểu diễn trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+Direct Encoding có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
 khoảng cấm.
 
 \subsection{SAT thứ tự}
@@ -298,15 +298,15 @@ một mô hình khác.
 
 \subsection{Direct, forward order và reverse order encoding}
 
-\paragraph{Direct Encoding (biểu diễn trực tiếp, DE).}
+\paragraph{Direct Encoding (Direct Encoding, DE).}
 \(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
 thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).
 
-\paragraph{Forward Order Encoding (biểu diễn thứ tự xuôi, FE).}
+\paragraph{Forward Order Encoding (Order Encoding xuôi, FE).}
 \(X_{v,j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
 hoạt hai biên của khoảng \([j-k+1,j+k-1]\).
 
-\paragraph{Reverse Order Encoding (biểu diễn thứ tự ngược, RE).}
+\paragraph{Reverse Order Encoding (Order Encoding ngược, RE).}
 \(X_{v,j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.
 
@@ -460,7 +460,7 @@ Liên kết \(x_{v,q}\rightarrow A_{D_{v,q}}\) bảo đảm mọi tần số đ�
 \[
   \min\sum_aA_a.
 \]
-Bộ đếm tuần tự tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
+Sequential Counter tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
 dùng \(q\) tần số, lần gọi kế tiếp kích hoạt cận \(q-1\) bằng các giả định. Lần
 \UNSAT tại \(q-1\) cùng mô hình tại \(q\) chứng nhận tối ưu.
 
@@ -545,7 +545,7 @@ vị để tạo một \CNF độc lập cho bộ kiểm tra chứng minh.
   \item Tối thiểu hóa độ trải và tối thiểu hóa số giá trị phân biệt cần hai mô
         đun hàm mục tiêu khác nhau.
   \item Biến trực tiếp phục vụ lựa chọn chính xác và giải mã; biến thứ tự nén
-        khoảng; bộ đếm tuần tự đếm số giá trị được dùng.
+        khoảng; Sequential Counter đếm số giá trị được dùng.
 \end{enumerate}
 \end{summarybox}
 

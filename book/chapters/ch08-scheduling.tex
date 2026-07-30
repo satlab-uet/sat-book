@@ -125,14 +125,14 @@ lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:
   z_{it}=1 \iff s_i\le t<s_i+e_i .
 \]
 
-Biểu diễn trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
+Direct Encoding có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
 \(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng
 \[
   \ExactlyOne\bigl(b_{is}:s\in T_i\bigr).
 \]
 Trong \CNF, phần ít nhất một là mệnh đề
 \(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng biểu diễn từng
-cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
+cặp, Sequential Counter hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
 dùng
 \[
   b_{is}\rightarrow z_{it}
@@ -551,7 +551,7 @@ một kiến trúc kết hợp.
 \begin{enumerate}
   \item Với cùng ngữ nghĩa khối, hãy so sánh biểu diễn bằng biến bắt đầu và biểu diễn
         bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.
-  \item Thiết kế một bộ đếm chia sẻ cho hai ALSC có cửa sổ chồng lấn nhưng cận
+  \item Thiết kế một Shared Counter cho hai ALSC có cửa sổ chồng lấn nhưng cận
         \(k\) khác nhau.
   \item Viết điều kiện dừng chính xác cho một vòng DDD khi chi phí hạn chế là
         cận dưới và lịch giải mã cho cận trên.

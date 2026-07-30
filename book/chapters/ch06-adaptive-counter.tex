@@ -1,6 +1,6 @@
 \chapter{Thanh ghi đếm thích nghi cho
   \texorpdfstring{ràng buộc đúng \(K\)}{ràng buộc đúng K}}
-\chapterlead{Bộ đếm tuần tự thông thường dành cùng một độ rộng cho mọi
+\chapterlead{Sequential Counter thông thường dành cùng một độ rộng cho mọi
 hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể đạt tới, nhờ
 đó giữ được cấu trúc tuần tự nhưng loại bỏ phần tam giác trạng thái bất khả.}
 
@@ -21,7 +21,7 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
 \]
 nhưng hai vế không nhất thiết phải dùng hai bộ biểu diễn độc lập. Một vectơ đơn
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
-trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
+trạng thái tổng; Sorting Network các đầu vào; Sequential Counter theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
 ô nào thật sự có thể đạt và cần được hiện thực hóa (reification)?
 
@@ -34,7 +34,7 @@ Họ & Trạng thái & Giao diện EXK & Đặc trưng\\
 \midrule
 Hai AMK & Hai bộ đếm & Hai cận tách & Dễ ghép nhưng có thể lặp trạng thái\\
 Tuần tự & Tổng tiền tố & Chống tràn + đạt \(K\) & Tốt khi \(K\) nhỏ\\
-Cây tổng & Tổng cây con & \(o_K\land\neg o_{K+1}\) & Dùng lại nhiều cận\\
+Totalizer & Tổng cây con & \(o_K\land\neg o_{K+1}\) & Dùng lại nhiều cận\\
 Mạng & Vị trí đã sắp & Hai đầu ra kề nhau & Cấu trúc đều, độ sâu thấp\\
 BDD & \((i,s)\) & Chấp nhận trạng thái \(K\) & Hợp nhất trạng thái theo tổng\\
 NSC & Ngưỡng tiền tố khả đạt & Biên trên + dưới & Cắt vùng tam giác bất khả\\
@@ -55,11 +55,11 @@ Xét dãy Boolean \(X=\langle x_1,\ldots,x_n\rangle\) và ràng buộc
 \[
   \sum_{i=1}^{n}x_i=k.
 \]
-Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
+Một Sequential Counter có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
 \(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j>i\) vì thế không
 mang trạng thái hợp lệ.
 
-\emph{New Sequential Counter} (bộ đếm tuần tự mới, NSC) dùng thanh ghi tam giác
+\emph{New Sequential Counter} (Sequential Counter mới, NSC) dùng thanh ghi tam giác
 \[
   R_{i,j}=1
   \quad\Longleftrightarrow\quad
@@ -111,7 +111,7 @@ trạng thái bất khả mà bộ giải phải duy trì.
   \node[satlabel,text=Blue,align=center] at (10.1,-4)
     {\(12\) ô thay vì \(15\)\\khi \(n=6,k=3\)};
 \end{tikzpicture}
-\caption{Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
+\caption{Sequential Counter hình chữ nhật và miền trạng thái tam giác. NSC không
 tạo ba ô bất khả \(R_{1,2},R_{1,3},R_{2,3}\).}
 \label{fig:nsc-triangular-domain}
 \end{figure}
@@ -405,13 +405,13 @@ biến chỉ là
 Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); hằng số của ánh xạ
 và các mệnh đề hai chiều có thể quan trọng hơn phần tam giác bị bỏ. Với
 \(k\) gần \(n\), đếm các literal bù \(\neg x_i\) đến \(n-k\) thường gọn hơn.
-Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, cây tổng và
+Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, Totalizer và
 mạng đếm có đầu ra chia sẻ tự nhiên hơn một NSC chuyên biệt. BDD cũng có thể
 thắng khi phép rút gọn hợp nhất được nhiều trạng thái tương đương.
 
 Bộ chọn cho ràng buộc đúng \(K\) dùng \(n\), \(\min(k,n-k)\), số cận sẽ được
 truy vấn, nhu cầu giải tăng dần và đặc tả lan truyền làm đặc trưng. NSC phù hợp
-với một cận cố định và vùng tam giác bị cắt đủ lớn; cây tổng/mạng đếm phù hợp
+với một cận cố định và vùng tam giác bị cắt đủ lớn; Totalizer/mạng đếm phù hợp
 khi cần chia sẻ nhiều đầu ra. Kết quả Social Golfer minh họa cách các đặc
 trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán tương ứng.
 

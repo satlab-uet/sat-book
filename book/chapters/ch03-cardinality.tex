@@ -20,22 +20,22 @@ hóa mới thay thế hoàn toàn bộ biểu diễn cũ. Mỗi họ giải quy�
 \begin{enumerate}
   \item \emph{pairwise encoding} (biểu diễn từng cặp) và các phép phân rã AMO ưu tiên
         phát hiện xung đột trực tiếp;
-  \item \emph{sequential counter} (bộ đếm tuần tự) hiện thực hóa (reification) tổng trên từng tiền tố;
-  \item \emph{totalizer} (cây tổng) hiện thực hóa (reification) tổng theo cấu trúc cây;
-  \item \emph{sorting/selection network} (mạng sắp xếp/lựa chọn) ưu tiên cấu
+  \item \emph{Sequential Counter} (bộ đếm tuần tự) hiện thực hóa (reification) tổng trên từng tiền tố;
+  \item \emph{Totalizer} (cây tổng) hiện thực hóa (reification) tổng theo cấu trúc cây;
+  \item \emph{Sorting Network / Selection Network} (mạng sắp xếp / lựa chọn) ưu tiên cấu
         trúc đều và độ sâu nhỏ;
   \item \emph{binary decision diagram} (biểu đồ quyết định nhị phân, BDD)
         hợp nhất các trạng thái tổng tương đương;
-  \item cây tổng tổng quát và các biến thể PB xử lý trọng số;
+  \item Totalizer tổng quát và các biến thể PB xử lý trọng số;
   \item danh mục phương pháp hoặc bộ chọn đã học chọn phép biểu diễn theo đặc
         trưng của bài toán thử.
 \end{enumerate}
 
 Các khảo cứu về ràng buộc đếm nhấn mạnh rằng phải tách ba thuộc tính: kích
 thước tiệm cận, mức nhất quán do lan truyền đơn vị duy trì và hiệu năng trong
-một bộ giải cụ thể \parencite{bailleux2010survey}. Một bộ đếm tuần tự
+một bộ giải cụ thể \parencite{bailleux2010survey}. Một Sequential Counter
 \(O(nk)\) có thể nhỏ khi \(k\) bé; một mạng đếm có thể lớn hơn nhưng có độ sâu
-tốt; cây tổng lại thuận lợi khi cận thay đổi. Không có quan hệ thứ tự tuyến
+tốt; Totalizer lại thuận lợi khi cận thay đổi. Không có quan hệ thứ tự tuyến
 tính giữa ba lựa chọn đó.
 
 \section{Các dạng ràng buộc}
@@ -63,7 +63,7 @@ Với \(X=\set{x_1,\ldots,x_n}\), ba tên tiếng Anh lần lượt là
   \sum_i(1-x_i)\le n-k.
 \]
 Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
-biểu diễn trực tiếp ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
+Direct Encoding ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.
 
 \section{At-most-one (AMO): ràng buộc nhiều nhất một}
@@ -115,7 +115,7 @@ Chỉ huy & \(O(n/g)\) & Phụ thuộc nhóm \(g\) & Cục bộ, dễ kết hợ
 \end{tabularx}
 \end{center}
 
-\section{Bộ đếm tuần tự cho AMK}
+\section{Sequential Counter cho AMK}
 
 Đặt
 \[
@@ -171,7 +171,7 @@ hoặc \(x_i=1\) và tiền tố trước đạt \(j-1\). Đây chính là hệ 
   \node[satwarn,rounded corners=2pt,right=10mm of s52]
     {\(\neg s_{5,3}\)\\(trạng thái tràn bị cắt)};
 \end{tikzpicture}
-\caption{Lưới trạng thái của bộ đếm tuần tự cho \(n=5,k=2\). Mũi tên liền
+\caption{Lưới trạng thái của Sequential Counter cho \(n=5,k=2\). Mũi tên liền
 truyền ngưỡng; mũi tên đứt đưa đầu vào mới vào hệ thức truy hồi.}
 \label{fig:seq-counter-grid}
 \end{figure}
@@ -191,9 +191,9 @@ suy ra \(\neg x_5\). Bộ đếm không cần đợi đầu vào đúng thứ ba
 loại mọi vị trí còn lại ngay khi cận đã đầy.
 \end{workedexample}
 
-\section{Cây tổng}
+\section{Totalizer}
 
-Cây tổng xây dựng một cây nhị phân. Mỗi nút trả về một vectơ đơn phân
+Totalizer xây dựng một cây nhị phân. Mỗi nút trả về một vectơ đơn phân
 \[
   o_j=1\iff \text{tổng trong cây con}\ge j.
 \]
@@ -204,13 +204,13 @@ Khi ghép hai nút con có đầu ra \(a,b\), nút cha \(r\) thỏa
 Chiều ngược bảo đảm đặc tả đầy đủ nếu các đầu ra được dùng bên ngoài. Cận
 \(\sum x_i\le k\) chỉ cần \(\neg o_{k+1}\).
 
-Cây tổng là lựa chọn tự nhiên khi:
+Totalizer là lựa chọn tự nhiên khi:
 \begin{itemize}
   \item cần nhiều ngưỡng trên cùng một tập biến;
   \item cận được thay đổi tăng dần;
   \item cần ràng buộc đúng \(K\) bằng \(o_k\land\neg o_{k+1}\).
 \end{itemize}
-Cây tổng cân bằng tạo tính cục bộ theo cây; kích thước có thể được cắt ở
+Totalizer cân bằng tạo tính cục bộ theo cây; kích thước có thể được cắt ở
 \(k+1\) thay vì giữ toàn bộ tổng \parencite{bailleux2003cardinality}.
 
 \begin{figure}[tb]
@@ -227,13 +227,13 @@ Cây tổng cân bằng tạo tính cục bộ theo cây; kích thước có th�
       child {node[satbox] {\(x_4\)}}};
   \node[satlabel,right=11mm of r] {\(r_j=1\iff\sum_i x_i\ge j\)};
 \end{tikzpicture}
-\caption{Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.}
+\caption{Totalizer cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.}
 \label{fig:totalizer-tree}
 \end{figure}
 
 \section{Mạng đếm}
 
-Mạng sắp xếp sắp các đầu vào Boolean thành các đầu ra đơn phân:
+Sorting Network sắp các đầu vào Boolean thành các đầu ra đơn phân:
 \[
   o_1\ge o_2\ge\cdots\ge o_n,
   \qquad
@@ -247,7 +247,7 @@ Bộ so sánh
 đa lôgarit và thuận lợi cho lan truyền song song
 \parencite{batcher1968sorting,asin2011networks}.
 
-So với bộ đếm tuần tự, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
+So với Sequential Counter, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
 sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.
 
 \begin{figure}[tb]
@@ -266,7 +266,7 @@ sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.
   \draw[satedge] (c)--(hi);
   \draw[satedge] (d)--(lo);
 \end{tikzpicture}
-\caption{Bộ so sánh Boolean là thành phần cơ sở của mạng sắp xếp và mạng đếm.}
+\caption{Bộ so sánh Boolean là thành phần cơ sở của Sorting Network và mạng đếm.}
 \label{fig:boolean-comparator}
 \end{figure}
 
@@ -293,7 +293,7 @@ thái. Nếu bộ biểu diễn trả về các đầu ra đơn phân \(o_j\), c
 \[
   o_k\land\neg o_{k+1}.
 \]
-Bộ đếm tuần tự cũng có thể chia sẻ thanh ghi: biên \(s_{n,k}\) bảo đảm ít
+Sequential Counter cũng có thể chia sẻ thanh ghi: biên \(s_{n,k}\) bảo đảm ít
 nhất \(k\), còn các mệnh đề chống tràn bảo đảm nhiều nhất \(k\).
 
 \begin{keyidea}{Định nghĩa một lần, đọc nhiều cận}
@@ -313,8 +313,8 @@ không còn là cardinality khi trọng số khác nhau. Các hướng chính g�
 \begin{itemize}
   \item biểu diễn bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;
   \item BDD cho các trạng thái tổng có thể đạt;
-  \item cây tổng tổng quát gom và cắt các tổng;
-  \item phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;
+  \item Totalizer tổng quát gom và cắt các tổng;
+  \item phân rã bằng Sorting Network hoặc mạng đếm sau khi tách trọng số;
   \item thư viện kết hợp như PBLib chọn bộ biểu diễn theo cấu trúc
         \parencite{een2006pb,philipp2015pblib}.
 \end{itemize}
@@ -322,9 +322,9 @@ không còn là cardinality khi trọng số khác nhau. Các hướng chính g�
 Nếu hàm mục tiêu thay cận nhiều lần, các đầu ra hoặc giao diện kích hoạt quan
 trọng hơn vài phần trăm kích thước ở một cận duy nhất.
 
-\subsection{Cây tổng tổng quát}
+\subsection{Totalizer tổng quát}
 
-\emph{Generalized totalizer} (cây tổng tổng quát) thay vectơ đơn phân liên tiếp
+\emph{Generalized totalizer} (Totalizer tổng quát) thay vectơ đơn phân liên tiếp
 bằng tập các tổng có thể đạt tại mỗi nút. Khi ghép hai nút có tập tổng \(A,B\),
 nút cha giữ các giá trị
 \[
@@ -341,8 +341,8 @@ Trong nhiều mô hình, các hạng tử của ràng buộc PB đến từ mộ
 trong mỗi nhóm, nhiều nhất một literal có thể đúng. Nếu trải phẳng mọi hạng tử
 như các biến độc lập, bộ biểu diễn sẽ bỏ mất thông tin này. Các phép biểu diễn
 PB(AMO) đưa nhóm AMO trực tiếp vào \emph{multi-valued decision diagram}
-(biểu đồ quyết định đa trị, MDD), cây tổng
-tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo môđun
+(biểu đồ quyết định đa trị, MDD), Totalizer
+tổng quát, Sequential Counter có trọng số hoặc Totalizer theo môđun
 \parencite{bofill2022pbamo}. Hai lợi ích có thể xuất hiện:
 \begin{itemize}
   \item ít trạng thái tổng hơn, vì tổ hợp chọn hai hạng tử cùng nhóm không bao
@@ -357,7 +357,7 @@ mảng hệ số.
 
 \section{Từ lựa chọn thủ công đến lựa chọn theo bài toán thử}
 
-Quy tắc ``\(k\) nhỏ thì dùng bộ đếm tuần tự, nhiều cận thì dùng cây tổng'' là
+Quy tắc ``\(k\) nhỏ thì dùng Sequential Counter, nhiều cận thì dùng Totalizer'' là
 một đối chứng hữu ích, nhưng chưa bao quát tương tác giữa hệ số, nhóm AMO, độ
 rộng miền và bộ giải. Nghiên cứu về \emph{algorithm selection}
 (lựa chọn thuật toán) đã dùng các đặc trưng của ràng buộc và bài toán
@@ -398,12 +398,12 @@ Tình huống & Lựa chọn khởi đầu & Lý do\\
 \midrule
 AMO, \(n\) nhỏ & Từng cặp & Không biến phụ, mệnh đề nhị phân\\
 AMO/AMK, \(k\) nhỏ & Tuần tự & \(O(nk)\), lan truyền theo tiền tố\\
-Nhiều ngưỡng & Cây tổng/mạng đếm & Tái sử dụng đầu ra\\
+Nhiều ngưỡng & Totalizer/mạng đếm & Tái sử dụng đầu ra\\
 Đúng \(K\) & Một vectơ đầu ra chung & Không lặp AMK/ALK\\
 PB có trọng số, ít trạng thái & BDD & Hợp nhất trạng thái tổng\\
 PB có trọng số tổng quát & PBLib/kết hợp & Chọn theo bài toán thử\\
 PB có nhóm AMO & Bộ biểu diễn PB(AMO) & Không hiện thực hóa (reification) trạng thái bất khả\\
-Cận thay đổi tăng dần & Cây tổng/đầu ra thứ tự & Giao diện cận ổn định\\
+Cận thay đổi tăng dần & Totalizer/đầu ra thứ tự & Giao diện cận ổn định\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -417,14 +417,14 @@ ràng buộc chia sẻ cấu trúc.
 \begin{enumerate}
   \item Chọn bộ biểu diễn theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.
   \item Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.
-  \item Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.
-  \item Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.
+  \item Sequential Counter phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.
+  \item Totalizer/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.
   \item Ràng buộc đúng \(K\) nên chia sẻ một cấu trúc tổng nếu có thể.
 \end{enumerate}
 
 \subsection*{Câu hỏi nghiên cứu}
 \begin{enumerate}
-  \item Dựng bộ đếm tuần tự cho \(n=5,k=2\) và liệt kê các thanh ghi.
-  \item So sánh EXK bằng hai bộ đếm độc lập với một cây tổng chung.
+  \item Dựng Sequential Counter cho \(n=5,k=2\) và liệt kê các thanh ghi.
+  \item So sánh EXK bằng hai bộ đếm độc lập với một Totalizer chung.
   \item Với trọng số \((1,2,3,5)\), vẽ các trạng thái BDD cho cận \(B=5\).
 \end{enumerate}

@@ -168,9 +168,9 @@ từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.
 \label{fig:abp-path-conflicts}
 \end{figure}
 
-\subsection{Thang bộ đếm tuần tự}
+\subsection{Thang Sequential Counter}
 
-SCL chia dãy biến thành các khối, xây bộ đếm tuần tự trong mỗi khối rồi nối
+SCL chia dãy biến thành các khối, xây Sequential Counter trong mỗi khối rồi nối
 trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:
 \[
   s_{i,j}=1\iff
@@ -201,7 +201,7 @@ phụ có cấu trúc được thảo luận trong \textcite{haberlandt2023aux}.
 
 SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
 \CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
-cần biểu diễn, còn bộ đếm chia sẻ giảm phần biểu diễn lặp giữa các cửa sổ đó.
+cần biểu diễn, còn Shared Counter giảm phần biểu diễn lặp giữa các cửa sổ đó.
 
 \section{Antibandwidth tuần hoàn}
 
@@ -340,7 +340,7 @@ Hai literal cuối lần lượt nói \(c(v)<a-d_{uv}+1\) hoặc
 mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.
 
 Biểu diễn theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
-hệ giữa các đoạn. CNF có thể lớn hơn biểu diễn thứ tự, nhưng lan truyền trên bài
+hệ giữa các đoạn. CNF có thể lớn hơn Order Encoding, nhưng lan truyền trên bài
 toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc khoảng được chia sẻ.
 
 \begin{workedexample}{Một khoảng cấm được nén thành hai biên}
@@ -353,14 +353,14 @@ Với \(g_{v,t}\Leftrightarrow c(v)\ge t\), chỉ cần mệnh đề
   \neg x_{u,4}\lor\neg g_{v,3}\lor g_{v,6}.
 \]
 Khi \(x_{u,4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
-\(c(v)\le2\) hoặc \(c(v)\ge6\). Biểu diễn trực tiếp từng cặp phải cấm riêng
+\(c(v)\le2\) hoặc \(c(v)\ge6\). Direct Encoding từng cặp phải cấm riêng
 \((4,3),(4,4),(4,5)\); biểu diễn theo biên giữ số mệnh đề không đổi khi khoảng
 cấm rộng hơn, miễn tập cấm vẫn là một khoảng.
 \end{workedexample}
 
 \begin{resultbox}{Hiệu ứng tương tác}
 Trên tập GEOM và MS-CAP của \textcite{nguyen2026bcp}, cấu hình theo khối giải
-được các bài toán khó mà biểu diễn thứ tự không hoàn tất trong cùng giới hạn.
+được các bài toán khó mà Order Encoding không hoàn tất trong cùng giới hạn.
 Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
 biểu diễn. Vì vậy thí nghiệm phân tích thành phần (ablation study) nên dùng đơn vị
 \(\text{phép biểu diễn}\times\text{đặc trưng}\), không chỉ so trung bình từng
@@ -456,7 +456,7 @@ Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
         \([LB,UB]\);
   \item chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;
   \item lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;
-  \item chọn biểu diễn trực tiếp/thứ tự/khối theo hình dạng tập cấm;
+  \item chọn Direct Encoding/thứ tự/khối theo hình dạng tập cấm;
   \item giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;
   \item tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh \UNSAT độc lập.
 \end{enumerate}
@@ -466,7 +466,7 @@ toàn bộ thuật toán. Cấu trúc này cũng làm rõ vị trí đóng góp 
 hình, phép biểu diễn, quy trình tìm kiếm hay chứng nhận.
 
 \begin{summarybox}
-\textbf{Bài học trung tâm.} Chọn biểu diễn trực tiếp, thứ tự hay theo khối không
+\textbf{Bài học trung tâm.} Chọn Direct Encoding, thứ tự hay theo khối không
 chỉ là chọn kích thước \CNF. Biến trực tiếp làm phép giải mã và xung đột cục bộ
 rõ; biến thứ tự nén bất đẳng thức và khoảng; biến khối tạo điểm chia sẻ mới cho
 lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những lớp khác nhau.

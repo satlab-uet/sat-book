@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="63ec41808e625ca103d1aafb47e9d22a6430dba3935cf9f0e8cb7f7f26825271">
+    <meta name="sat-book-source-sha256" content="48112e395a89cf7df4379510e32ddc466b642b1b03a56bf92bd42d0c7b9a1240">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -418,7 +418,7 @@ buộc. Vì vậy sách dùng hai cấp phân tích:
  lan truyền đơn vị;</li><li>ở cấp mô hình, xét tương tác giữa các mô-đun trong CDCL và vòng tối
  ưu.</li></ol></p>
 <p>Việc biên dịch CSP miền hữu hạn sang SAT đã phát triển thành một hướng độc lập,
-với biểu diễn trực tiếp, hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
+với Direct Encoding (biểu diễn trực tiếp), hỗ trợ, thứ tự và lôgarit, cùng nhiều phép phân rã ràng
 buộc toàn cục <span class="cite">(Tamura et al., 2009; Petke, 2015)</span>. Trong góc nhìn này,
 “biểu diễn SAT tối ưu” là việc chọn một ngôn ngữ Boolean phù hợp với cấu trúc
 miền, kiểu suy luận cần giữ và giao diện hàm mục tiêu của bài toán đang xét.</p>
@@ -725,10 +725,10 @@ mọi phép gán trên \(X\), nên tương đương theo phép chiếu. <span cl
 <p>Trước khi so hai bộ biểu diễn, cần xác định chúng có cùng “từ vựng Boolean” hay
 không. Với biến miền hữu hạn \(v\in D=\left\{d_1,\ldots, d_m\right\}\), bốn họ thường
 gặp là:
-<dl class="reader-dl"><dt><strong>Direct encoding (biểu diễn trực tiếp)</strong></dt><dd>\(x_{v, a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
- hai giá trị được viết trực tiếp.</dd><dt><strong>Support encoding (biểu diễn hỗ trợ)</strong></dt><dd>Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
+<dl class="reader-dl"><dt><strong>Direct Encoding (biểu diễn trực tiếp)</strong></dt><dd>\(x_{v, a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
+ hai giá trị được viết trực tiếp.</dd><dt><strong>Support Encoding (biểu diễn hỗ trợ)</strong></dt><dd>Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
  kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
- thể dài.</dd><dt><strong>Order encoding (biểu diễn thứ tự)</strong></dt><dd>\(o_{v, t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
+ thể dài.</dd><dt><strong>Order Encoding (biểu diễn thứ tự)</strong></dt><dd>\(o_{v, t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
  quan hệ trước–sau trở thành phép kéo theo giữa các ngưỡng
  <span class="cite">(Tamura et al., 2009)</span>.</dd><dt><strong>Log/binary encoding (biểu diễn lôgarit/nhị phân)</strong></dt><dd>Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
  khoảng thường không còn là một literal đơn; lan truyền miền có thể đi qua
@@ -751,13 +751,13 @@ là kiến trúc được dùng lại trong Chương 7, 9–11.</p>
 <div class="reader-inline-caption"><em>Hình: Hai từ vựng Boolean cho biến \(v\in\left\{1, 2,3, 4\right\}\).</em></div>
  </div>
 <div class="reader-callout worked-example">
- <div class="callout-header"><strong>Một bất đẳng thức trong biểu diễn trực tiếp và thứ tự</strong></div>
- <div class="callout-body">Cho \(u, v\in\left\{0,\ldots, 4\right\}\) và \(u+2\le v\). Biểu diễn trực tiếp cấm từng cặp
+ <div class="callout-header"><strong>Một bất đẳng thức trong Direct Encoding và thứ tự</strong></div>
+ <div class="callout-body">Cho \(u, v\in\left\{0,\ldots, 4\right\}\) và \(u+2\le v\). Direct Encoding cấm từng cặp
 \((a, b)\) với \(a+2&gt;b\):
 \[
 \neg x_{u, a}\lor\neg x_{v, b}.
 \]
-<p>Biểu diễn thứ tự dùng \(o_{z, t}\leftrightarrow(z\ge t)\) và các mệnh đề</p>
+<p>Order Encoding dùng \(o_{z, t}\leftrightarrow(z\ge t)\) và các mệnh đề</p>
 \[
 \neg o_{u, t}\lor o_{v, t+2},
   \qquad t=1, 2.
@@ -939,15 +939,15 @@ cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách 
 <p>Các phép biểu diễn ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
 hóa mới thay thế hoàn toàn bộ biểu diễn cũ. Mỗi họ giải quyết một kiểu đánh đổi:
 <ol class="reader-list"><li><em>pairwise encoding</em> (biểu diễn từng cặp) và các phép phân rã AMO ưu tiên
- phát hiện xung đột trực tiếp;</li><li><em>sequential counter</em> (bộ đếm tuần tự) hiện thực hóa (reification) tổng trên từng tiền tố;</li><li><em>totalizer</em> (cây tổng) hiện thực hóa (reification) tổng theo cấu trúc cây;</li><li><em>sorting/selection network</em> (mạng sắp xếp/lựa chọn) ưu tiên cấu
+ phát hiện xung đột trực tiếp;</li><li><em>Sequential Counter</em> (bộ đếm tuần tự) hiện thực hóa (reification) tổng trên từng tiền tố;</li><li><em>Totalizer</em> (cây tổng) hiện thực hóa (reification) tổng theo cấu trúc cây;</li><li><em>Sorting Network / Selection Network</em> (mạng sắp xếp / lựa chọn) ưu tiên cấu
  trúc đều và độ sâu nhỏ;</li><li><em>binary decision diagram</em> (biểu đồ quyết định nhị phân, BDD)
- hợp nhất các trạng thái tổng tương đương;</li><li>cây tổng tổng quát và các biến thể PB xử lý trọng số;</li><li>danh mục phương pháp hoặc bộ chọn đã học chọn phép biểu diễn theo đặc
+ hợp nhất các trạng thái tổng tương đương;</li><li>Totalizer tổng quát và các biến thể PB xử lý trọng số;</li><li>danh mục phương pháp hoặc bộ chọn đã học chọn phép biểu diễn theo đặc
  trưng của bài toán thử.</li></ol></p>
 <p>Các khảo cứu về ràng buộc đếm nhấn mạnh rằng phải tách ba thuộc tính: kích
 thước tiệm cận, mức nhất quán do lan truyền đơn vị duy trì và hiệu năng trong
-một bộ giải cụ thể <span class="cite">(Bailleux, 2010)</span>. Một bộ đếm tuần tự
+một bộ giải cụ thể <span class="cite">(Bailleux, 2010)</span>. Một Sequential Counter
 \(O(nk)\) có thể nhỏ khi \(k\) bé; một mạng đếm có thể lớn hơn nhưng có độ sâu
-tốt; cây tổng lại thuận lợi khi cận thay đổi. Không có quan hệ thứ tự tuyến
+tốt; Totalizer lại thuận lợi khi cận thay đổi. Không có quan hệ thứ tự tuyến
 tính giữa ba lựa chọn đó.</p>
 <h3 class="reader-h2">Các dạng ràng buộc</h3>
 <p>Với \(X=\left\{x_1,\ldots, x_n\right\}\), ba tên tiếng Anh lần lượt là
@@ -972,7 +972,7 @@ tính giữa ba lựa chọn đó.</p>
   \sum_i(1-x_i)\le n-k.
 \]
 <p>Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì vậy, lựa chọn giữa
-biểu diễn trực tiếp ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
+Direct Encoding ALK và biểu diễn AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.</p>
 <h3 class="reader-h2">At-most-one (AMO): ràng buộc nhiều nhất một</h3>
 <h4 class="reader-h3">Biểu diễn từng cặp</h4>
@@ -1008,7 +1008,7 @@ này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc
  <tbody><tr><td>Từng cặp</td><td>\(0\)</td><td>\(O(n^2)\)</td><td>Nhị phân, đơn giản</td></tr><tr><td>Tuần tự</td><td>\(O(n)\)</td><td>\(O(n)\)</td><td>Lan truyền theo tiền tố</td></tr><tr><td>Tích</td><td>\(O(\sqrt n)\)</td><td>\(O(n)\)</td><td>Cân bằng hai chiều</td></tr><tr><td>Chỉ huy</td><td>\(O(n/g)\)</td><td>Phụ thuộc nhóm \(g\)</td><td>Cục bộ, dễ kết hợp</td></tr></tbody>
  </table>
  </div>
-<h3 class="reader-h2">Bộ đếm tuần tự cho AMK</h3>
+<h3 class="reader-h2">Sequential Counter cho AMK</h3>
 <p>Đặt</p>
 \[
 s_{i, j}=1
@@ -1042,12 +1042,12 @@ hoặc \(x_i=1\) và tiền tố trước đạt \(j-1\). Đây chính là hệ 
  </div>
 <div class="reader-figure-box" id="fig_totalizer_tree">
 <div class="reader-figure-img">
- <img src="assets/images/diagrams/fig_totalizer_tree.webp" alt="Hình: Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con." loading="lazy" />
+ <img src="assets/images/diagrams/fig_totalizer_tree.webp" alt="Hình: Totalizer cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con." loading="lazy" />
  </div>
-<div class="reader-inline-caption"><em>Hình: Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.</em></div>
+<div class="reader-inline-caption"><em>Hình: Totalizer cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.</em></div>
  </div>
 <h3 class="reader-h2">Mạng đếm</h3>
-<p>Mạng sắp xếp sắp các đầu vào Boolean thành các đầu ra đơn phân:</p>
+<p>Sorting Network sắp các đầu vào Boolean thành các đầu ra đơn phân:</p>
 \[
 o_1\ge o_2\ge\cdots\ge o_n,
   \qquad
@@ -1060,13 +1060,13 @@ o_1\ge o_2\ge\cdots\ge o_n,
 <p>được chuyển đổi theo phương pháp Tseitin. Cận AMK là \(\neg o_{k+1}\). Mạng có cấu trúc đều, độ sâu
 đa lôgarit và thuận lợi cho lan truyền song song
 <span class="cite">(Batcher, 1968; Asín et al., 2011)</span>.</p>
-<p>So với bộ đếm tuần tự, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
+<p>So với Sequential Counter, mạng dùng nhiều mệnh đề hơn khi \(k\) nhỏ nhưng có độ
 sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.</p>
 <div class="reader-figure-box" id="fig_boolean_comparator">
 <div class="reader-figure-img">
- <img src="assets/images/diagrams/fig_boolean_comparator.webp" alt="Hình: Bộ so sánh Boolean là thành phần cơ sở của mạng sắp xếp và mạng đếm." loading="lazy" />
+ <img src="assets/images/diagrams/fig_boolean_comparator.webp" alt="Hình: Bộ so sánh Boolean là thành phần cơ sở của Sorting Network và mạng đếm." loading="lazy" />
  </div>
-<div class="reader-inline-caption"><em>Hình: Bộ so sánh Boolean là thành phần cơ sở của mạng sắp xếp và mạng đếm.</em></div>
+<div class="reader-inline-caption"><em>Hình: Bộ so sánh Boolean là thành phần cơ sở của Sorting Network và mạng đếm.</em></div>
  </div>
 <h3 class="reader-h2">Biểu diễn bằng BDD</h3>
 <p><em>Binary decision diagram</em> (biểu đồ quyết định nhị phân, BDD) biểu diễn
@@ -1083,7 +1083,7 @@ thái. Nếu bộ biểu diễn trả về các đầu ra đơn phân \(o_j\), c
 \[
 o_k\land\neg o_{k+1}.
 \]
-<p>Bộ đếm tuần tự cũng có thể chia sẻ thanh ghi: biên \(s_{n, k}\) bảo đảm ít
+<p>Sequential Counter cũng có thể chia sẻ thanh ghi: biên \(s_{n, k}\) bảo đảm ít
 nhất \(k\), còn các mệnh đề chống tràn bảo đảm nhiều nhất \(k\).</p>
 <div class="reader-callout key-idea">
  <div class="callout-header"><strong>Định nghĩa một lần, đọc nhiều cận</strong></div>
@@ -1098,12 +1098,12 @@ mô-đun được phát triển ở Phần II.</div>
   \qquad a_i\in\mathbb Z_{\ge0},
 \]
 <p>không còn là cardinality khi trọng số khác nhau. Các hướng chính gồm:
-<ul class="reader-list"><li>biểu diễn bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;</li><li>BDD cho các trạng thái tổng có thể đạt;</li><li>cây tổng tổng quát gom và cắt các tổng;</li><li>phân rã bằng mạng sắp xếp hoặc mạng đếm sau khi tách trọng số;</li><li>thư viện kết hợp như PBLib chọn bộ biểu diễn theo cấu trúc
+<ul class="reader-list"><li>biểu diễn bằng bộ cộng hoặc mạch cho biểu diễn nhị phân của tổng;</li><li>BDD cho các trạng thái tổng có thể đạt;</li><li>Totalizer tổng quát gom và cắt các tổng;</li><li>phân rã bằng Sorting Network hoặc mạng đếm sau khi tách trọng số;</li><li>thư viện kết hợp như PBLib chọn bộ biểu diễn theo cấu trúc
  <span class="cite">(Eén & Sörensson, 2006; Philipp & Reimer, 2015)</span>.</li></ul></p>
 <p>Nếu hàm mục tiêu thay cận nhiều lần, các đầu ra hoặc giao diện kích hoạt quan
 trọng hơn vài phần trăm kích thước ở một cận duy nhất.</p>
-<h4 class="reader-h3">Cây tổng tổng quát</h4>
-<p><em>Generalized totalizer</em> (cây tổng tổng quát) thay vectơ đơn phân liên tiếp
+<h4 class="reader-h3">Totalizer tổng quát</h4>
+<p><em>Generalized totalizer</em> (Totalizer tổng quát) thay vectơ đơn phân liên tiếp
 bằng tập các tổng có thể đạt tại mỗi nút. Khi ghép hai nút có tập tổng \(A, B\),
 nút cha giữ các giá trị</p>
 \[
@@ -1118,8 +1118,8 @@ ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.</
 trong mỗi nhóm, nhiều nhất một literal có thể đúng. Nếu trải phẳng mọi hạng tử
 như các biến độc lập, bộ biểu diễn sẽ bỏ mất thông tin này. Các phép biểu diễn
 PB(AMO) đưa nhóm AMO trực tiếp vào <em>multi-valued decision diagram</em>
-(biểu đồ quyết định đa trị, MDD), cây tổng
-tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo môđun
+(biểu đồ quyết định đa trị, MDD), Totalizer
+tổng quát, Sequential Counter có trọng số hoặc Totalizer theo môđun
 <span class="cite">(Bofill et al., 2022)</span>. Hai lợi ích có thể xuất hiện:
 <ul class="reader-list"><li>ít trạng thái tổng hơn, vì tổ hợp chọn hai hạng tử cùng nhóm không bao
  giờ đạt được;</li><li>lan truyền dùng được cả cận PB lẫn tính loại trừ lẫn nhau trong nhóm.</li></ul></p>
@@ -1128,7 +1128,7 @@ tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo m
 tuyến tính, cần giữ nguồn gốc cấu trúc của các hạng tử thay vì chỉ truyền vào
 mảng hệ số.</p>
 <h3 class="reader-h2">Từ lựa chọn thủ công đến lựa chọn theo bài toán thử</h3>
-<p>Quy tắc “\(k\) nhỏ thì dùng bộ đếm tuần tự, nhiều cận thì dùng cây tổng” là
+<p>Quy tắc “\(k\) nhỏ thì dùng Sequential Counter, nhiều cận thì dùng Totalizer” là
 một đối chứng hữu ích, nhưng chưa bao quát tương tác giữa hệ số, nhóm AMO, độ
 rộng miền và bộ giải. Nghiên cứu về <em>algorithm selection</em>
 (lựa chọn thuật toán) đã dùng các đặc trưng của ràng buộc và bài toán
@@ -1152,16 +1152,16 @@ bộ kiểm chuẩn thay vì học cấu trúc của phép biểu diễn.</p>
  <div class="reader-table-caption"><strong>Bảng: Gợi ý lựa chọn bộ biểu diễn ràng buộc đếm/PB.</strong></div>
  <table class="reader-table">
  <thead><tr><th>Tình huống</th><th>Lựa chọn khởi đầu</th><th>Lý do</th></tr></thead>
- <tbody><tr><td>AMO, \(n\) nhỏ</td><td>Từng cặp</td><td>Không biến phụ, mệnh đề nhị phân</td></tr><tr><td>AMO/AMK, \(k\) nhỏ</td><td>Tuần tự</td><td>\(O(nk)\), lan truyền theo tiền tố</td></tr><tr><td>Nhiều ngưỡng</td><td>Cây tổng/mạng đếm</td><td>Tái sử dụng đầu ra</td></tr><tr><td>Đúng \(K\)</td><td>Một vectơ đầu ra chung</td><td>Không lặp AMK/ALK</td></tr><tr><td>PB có trọng số, ít trạng thái</td><td>BDD</td><td>Hợp nhất trạng thái tổng</td></tr><tr><td>PB có trọng số tổng quát</td><td>PBLib/kết hợp</td><td>Chọn theo bài toán thử</td></tr><tr><td>PB có nhóm AMO</td><td>Bộ biểu diễn PB(AMO)</td><td>Không hiện thực hóa (reification) trạng thái bất khả</td></tr><tr><td>Cận thay đổi tăng dần</td><td>Cây tổng/đầu ra thứ tự</td><td>Giao diện cận ổn định</td></tr></tbody>
+ <tbody><tr><td>AMO, \(n\) nhỏ</td><td>Từng cặp</td><td>Không biến phụ, mệnh đề nhị phân</td></tr><tr><td>AMO/AMK, \(k\) nhỏ</td><td>Tuần tự</td><td>\(O(nk)\), lan truyền theo tiền tố</td></tr><tr><td>Nhiều ngưỡng</td><td>Totalizer/mạng đếm</td><td>Tái sử dụng đầu ra</td></tr><tr><td>Đúng \(K\)</td><td>Một vectơ đầu ra chung</td><td>Không lặp AMK/ALK</td></tr><tr><td>PB có trọng số, ít trạng thái</td><td>BDD</td><td>Hợp nhất trạng thái tổng</td></tr><tr><td>PB có trọng số tổng quát</td><td>PBLib/kết hợp</td><td>Chọn theo bài toán thử</td></tr><tr><td>PB có nhóm AMO</td><td>Bộ biểu diễn PB(AMO)</td><td>Không hiện thực hóa (reification) trạng thái bất khả</td></tr><tr><td>Cận thay đổi tăng dần</td><td>Totalizer/đầu ra thứ tự</td><td>Giao diện cận ổn định</td></tr></tbody>
  </table>
  </div>
 <p>Đây là cấu hình khởi đầu; Chương 4 trình bày cách đánh giá bộ biểu diễn trên phân
 phối bài toán mục tiêu; Chương 5–6 phát triển các bộ đếm khi nhiều
 ràng buộc chia sẻ cấu trúc.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
-<ol class="reader-list"><li>Chọn bộ biểu diễn theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.</li><li>Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.</li><li>Bộ đếm tuần tự phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.</li><li>Cây tổng/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.</li><li>Ràng buộc đúng \(K\) nên chia sẻ một cấu trúc tổng nếu có thể.</li></ol>
+<ol class="reader-list"><li>Chọn bộ biểu diễn theo cận và đầu ra cần đọc, không chỉ theo tên ràng buộc.</li><li>Biểu diễn AMO từng cặp vẫn là đối chứng mạnh khi miền nhỏ.</li><li>Sequential Counter phù hợp với ngưỡng nhỏ và cấu trúc tiền tố.</li><li>Totalizer/mạng đếm thuận lợi khi cần nhiều cận hoặc giải tăng dần.</li><li>Ràng buộc đúng \(K\) nên chia sẻ một cấu trúc tổng nếu có thể.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Dựng bộ đếm tuần tự cho \(n=5, k=2\) và liệt kê các thanh ghi.</li><li>So sánh EXK bằng hai bộ đếm độc lập với một cây tổng chung.</li><li>Với trọng số \((1, 2,3, 5)\), vẽ các trạng thái BDD cho cận \(B=5\).</li></ol>
+<ol class="reader-list"><li>Dựng Sequential Counter cho \(n=5, k=2\) và liệt kê các thanh ghi.</li><li>So sánh EXK bằng hai bộ đếm độc lập với một Totalizer chung.</li><li>Với trọng số \((1, 2,3, 5)\), vẽ các trạng thái BDD cho cận \(B=5\).</li></ol>
         </section>
         
 
@@ -1401,8 +1401,8 @@ với bộ biểu diễn chỉ giảm ít trung vị nhưng mở rộng vùng gi
 nên so cả thời gian đạt nghiệm tốt nhất đã biết, thời gian hoàn tất chứng minh
 và khoảng cách tối ưu theo thời gian.</p>
 <h3 class="reader-h2">Phân tích theo vùng cấu trúc</h3>
-<p>Một kết luận toàn cục dễ che mất điểm chuyển ưu thế. Bộ đếm tuần tự có thể tốt
-khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; biểu diễn thứ tự
+<p>Một kết luận toàn cục dễ che mất điểm chuyển ưu thế. Sequential Counter có thể tốt
+khi \(k/n\) nhỏ; mạng đếm có thể cải thiện khi cần nhiều ngưỡng; Order Encoding
 có thể thắng khi các khoảng cấm rộng. Vì vậy, trước khi vẽ kết quả, cần xác
 định trước các tầng theo đặc trưng có ý nghĩa thuật toán:</p>
 \[
@@ -1468,7 +1468,7 @@ thay đổi.</p>
             
           <div class="chapter-lead">Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
 toàn bộ biến. Biểu diễn từng cửa sổ độc lập sẽ lặp trạng thái;
-<em>shared counter</em> (bộ đếm chia sẻ) biến phần giao đó thành một mô-đun
+<em>Shared Counter</em> (bộ đếm chia sẻ) biến phần giao đó thành một mô-đun
 có thể tái sử dụng.</div>
 <div class="reader-flow-diagram">
  <div class="flow-box">Chuỗi Boolean</div>
@@ -1482,7 +1482,7 @@ có thể tái sử dụng.</div>
  </div>
  </div>
 <h3 class="reader-h2">SEQUENCE trong văn liệu về ràng buộc</h3>
-<p>Ràng buộc cửa sổ thuộc một họ lâu đời hơn các bộ đếm chia sẻ.
+<p>Ràng buộc cửa sổ thuộc một họ lâu đời hơn các Shared Counter.
 <span class="small-caps">Sequence</span>
 yêu cầu mọi đoạn liên tiếp độ dài cố định có số biến nhận một giá trị trong
 khoảng \([\ell, u]\). Dạng ràng buộc này xuất hiện trong bài toán lập lịch ca, xếp thứ tự xe, và xác định
@@ -1510,7 +1510,7 @@ những khung tổng quát hơn còn xem ràng buộc trên chuỗi như tổ h�
  <tbody><tr><td>Mỗi cửa sổ</td><td>Không hoặc ít</td><td>Đơn giản, dùng bộ biểu diễn sẵn</td><td>Lặp trạng thái phụ</td></tr><tr><td>Tổng tiền tố</td><td>Tổng từ đầu chuỗi</td><td>Mọi cửa sổ là hiệu hai tiền tố</td><td>Miền tổng toàn cục</td></tr><tr><td>Ôtômát</td><td>Hậu tố/lịch sử</td><td>Xử lý mẫu phức tạp</td><td>Bùng nổ trạng thái theo \(w\)</td></tr><tr><td>Luồng</td><td>Nút và cung</td><td>Lọc toàn cục</td><td>Bộ lan truyền/phép biểu diễn phức tạp</td></tr><tr><td>Bộ đếm theo khối</td><td>Tiền tố/hậu tố trong khối</td><td>Cục bộ và tái sử dụng có kiểm soát</td><td>Cần chọn phân hoạch</td></tr></tbody>
  </table>
  </div>
-<p>Bộ đếm chia sẻ theo khối của chương này nằm giữa hai cực. Phương pháp không tạo một
+<p>Shared Counter theo khối của chương này nằm giữa hai cực. Phương pháp không tạo một
 trạng thái toàn cục cho mọi tiền tố, nhưng cũng không xây bộ đếm độc lập cho
 từng cửa sổ. Phân hoạch quyết định phạm vi tái sử dụng, còn bộ nối giữ ngữ
 nghĩa của từng cửa sổ.</p>
@@ -1534,7 +1534,7 @@ W_i(w)=\langle x_i,\ldots, x_{i+w-1}\rangle.
   \sum_{x\in W_i(w)}x
   \le u.
 \]
-<p>Nếu mỗi cửa sổ dùng một bộ đếm tuần tự riêng, kích thước xấp xỉ</p>
+<p>Nếu mỗi cửa sổ dùng một Sequential Counter riêng, kích thước xấp xỉ</p>
 \[
 O((n-w+1)wk).
 \]
@@ -1651,7 +1651,7 @@ chiều cần thiết khi bộ nối dùng cả thanh ghi dương và phủ đ�
  </div>
 <h3 class="reader-h2">Staircase AMO và SCL</h3>
 <p>Với \(k=1\), mỗi cửa sổ thỏa AMO. <em>Shared Counter Ladder</em>
-(thang bộ đếm chia sẻ, SCL) xây các trạng thái AMO/AMZ trong khối và
+(thang Shared Counter, SCL) xây các trạng thái AMO/AMZ trong khối và
 nối chúng qua các biên. So với phương án tạo xung đột từng cặp trong từng cửa sổ,
 SCL không lặp các cặp nằm trong phần giao.</p>
 <p>Giả sử \(m=\lceil n/w\rceil\) khối có kích thước gần \(w\). Chi phí bộ đếm cục
@@ -1676,7 +1676,7 @@ cạnh tranh trên 24 đồ thị kiểm chuẩn, đặc biệt ở các bài to
 lặp cửa sổ trở nên rõ rệt.</div>
  </div>
 <h3 class="reader-h2">Mở rộng sang Ladder AMK</h3>
-<p>Khi \(k&gt;1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng bộ đếm tuần tự:</p>
+<p>Khi \(k&gt;1\), mỗi khối cần nhiều mức ngưỡng. Ta dùng Sequential Counter:</p>
 \[
 F^b_{i, q}
   \leftrightarrow
@@ -1696,7 +1696,7 @@ thể giản lược thành \(\top\) hoặc \(\bot\) theo kích thước phần 
 Nếu một cửa sổ đi qua nhiều hơn một biên, có hai lựa chọn:
 <ol class="reader-list"><li>tăng độ rộng khối để mỗi cửa sổ cắt nhiều nhất một biên;</li><li>xây bộ nối nhiều ngôi hoặc một bộ đếm trung gian trên tổng của các khối.</li></ol>
 Thiết kế thứ nhất đơn giản hơn; thiết kế thứ hai linh hoạt với nhiều width.</p>
-<p>Ladder AMK trong <span class="cite">(Truong et al., 2026)</span> phát triển bộ đếm tuần tự dùng
+<p>Ladder AMK trong <span class="cite">(Truong et al., 2026)</span> phát triển Sequential Counter dùng
 chung cho một tập ràng buộc đếm dạng bậc thang. Giá trị cốt lõi không nằm ở
 một mệnh đề riêng lẻ mà ở việc bộ đếm được tạo cho cả họ ràng buộc.</p>
 <h4 class="reader-h3">Quan hệ với tổng tiền tố và ràng buộc chuỗi tổng quát</h4>
@@ -1784,8 +1784,8 @@ dụng có thể đọc cùng một bộ đếm: AMK, ALK, EXK hoặc hàm mục
  và chuyển sang bộ đếm ghép; không áp dụng bộ nối hai ngôi.</li><li>Trả CNF cùng ánh xạ từ mỗi thanh ghi về
  \((\text{khối},\text{vị trí},q)\).</li></ol></div>
  </div>
-<h4 class="reader-h3">Miền hiệu quả của bộ đếm chia sẻ</h4>
-<p>Bộ đếm chia sẻ đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
+<h4 class="reader-h3">Miền hiệu quả của Shared Counter</h4>
+<p>Shared Counter đạt lợi thế rõ nhất khi các cửa sổ chồng lấn mạnh, cận \(k\)
 nhỏ và mỗi cửa sổ chỉ cắt ít khối. Với các cửa sổ gần rời nhau hoặc bài toán
 nhỏ, biểu diễn từng cặp và bộ đếm độc lập thường có hằng số thấp hơn. Một bộ chọn
 có thể quyết định trước khi sinh CNF từ ba đại lượng: tổng số ngưỡng cục bộ,
@@ -1808,7 +1808,7 @@ số bộ nối sau giản lược và số bước ghép của các cửa sổ 
               <div class="reader-inline-caption"><em>Hình 6.2 · Thanh ghi đếm thích nghi và miền trạng thái tam giác (NSC)</em></div>
             </div>
             
-          <div class="chapter-lead">Bộ đếm tuần tự thông thường dành cùng một độ rộng cho mọi
+          <div class="chapter-lead">Sequential Counter thông thường dành cùng một độ rộng cho mọi
 hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể đạt tới, nhờ
 đó giữ được cấu trúc tuần tự nhưng loại bỏ phần tam giác trạng thái bất khả.</div>
 <div class="reader-flow-diagram">
@@ -1832,14 +1832,14 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
 \]
 <p>nhưng hai vế không nhất thiết phải dùng hai bộ biểu diễn độc lập. Một vectơ đơn
 phân đầy đủ cho phép đọc cùng lúc \(o_K\) và \(\neg o_{K+1}\); BDD giữ các
-trạng thái tổng; mạng sắp xếp các đầu vào; bộ đếm tuần tự theo dõi tiền tố. Câu
+trạng thái tổng; Sorting Network các đầu vào; Sequential Counter theo dõi tiền tố. Câu
 hỏi của chương là cụ thể: nếu đã chọn các trạng thái ngưỡng tuần tự thì những
 ô nào thật sự có thể đạt và cần được hiện thực hóa (reification)?</p>
 <div class="reader-table-wrapper">
  <div class="reader-table-caption"><strong>Bảng: Các hướng biểu diễn ràng buộc đúng \(K\).</strong></div>
  <table class="reader-table">
  <thead><tr><th>Họ</th><th>Trạng thái</th><th>Giao diện EXK</th><th>Đặc trưng</th></tr></thead>
- <tbody><tr><td>Hai AMK</td><td>Hai bộ đếm</td><td>Hai cận tách</td><td>Dễ ghép nhưng có thể lặp trạng thái</td></tr><tr><td>Tuần tự</td><td>Tổng tiền tố</td><td>Chống tràn + đạt \(K\)</td><td>Tốt khi \(K\) nhỏ</td></tr><tr><td>Cây tổng</td><td>Tổng cây con</td><td>\(o_K\land\neg o_{K+1}\)</td><td>Dùng lại nhiều cận</td></tr><tr><td>Mạng</td><td>Vị trí đã sắp</td><td>Hai đầu ra kề nhau</td><td>Cấu trúc đều, độ sâu thấp</td></tr><tr><td>BDD</td><td>\((i, s)\)</td><td>Chấp nhận trạng thái \(K\)</td><td>Hợp nhất trạng thái theo tổng</td></tr><tr><td>NSC</td><td>Ngưỡng tiền tố khả đạt</td><td>Biên trên + dưới</td><td>Cắt vùng tam giác bất khả</td></tr></tbody>
+ <tbody><tr><td>Hai AMK</td><td>Hai bộ đếm</td><td>Hai cận tách</td><td>Dễ ghép nhưng có thể lặp trạng thái</td></tr><tr><td>Tuần tự</td><td>Tổng tiền tố</td><td>Chống tràn + đạt \(K\)</td><td>Tốt khi \(K\) nhỏ</td></tr><tr><td>Totalizer</td><td>Tổng cây con</td><td>\(o_K\land\neg o_{K+1}\)</td><td>Dùng lại nhiều cận</td></tr><tr><td>Mạng</td><td>Vị trí đã sắp</td><td>Hai đầu ra kề nhau</td><td>Cấu trúc đều, độ sâu thấp</td></tr><tr><td>BDD</td><td>\((i, s)\)</td><td>Chấp nhận trạng thái \(K\)</td><td>Hợp nhất trạng thái theo tổng</td></tr><tr><td>NSC</td><td>Ngưỡng tiền tố khả đạt</td><td>Biên trên + dưới</td><td>Cắt vùng tam giác bất khả</td></tr></tbody>
  </table>
  </div>
 <p>Các cận dưới cho AMO và những khảo cứu về ràng buộc đếm đặt số biến bên cạnh
@@ -1853,10 +1853,10 @@ biên Pareto (Pareto frontier) được đo bằng số mệnh đề, số liter
 \[
 \sum_{i=1}^{n}x_i=k.
 \]
-<p>Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
+<p>Một Sequential Counter có thể dành \(k\) cột cho mọi tiền tố. Tuy nhiên, sau
 \(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j&gt;i\) vì thế không
 mang trạng thái hợp lệ.</p>
-<p><em>New Sequential Counter</em> (bộ đếm tuần tự mới, NSC) dùng thanh ghi tam giác</p>
+<p><em>New Sequential Counter</em> (Sequential Counter mới, NSC) dùng thanh ghi tam giác</p>
 \[
 R_{i, j}=1
   \quad\Longleftrightarrow\quad
@@ -1879,10 +1879,10 @@ Với \(n&gt;k\), số biến phụ là</p>
 trạng thái bất khả mà bộ giải phải duy trì.</p>
 <div class="reader-figure-box" id="fig_nsc_triangular_domain">
 <div class="reader-figure-img">
- <img src="assets/images/diagrams/fig_nsc_triangular_domain.webp" alt="Hình: Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
+ <img src="assets/images/diagrams/fig_nsc_triangular_domain.webp" alt="Hình: Sequential Counter hình chữ nhật và miền trạng thái tam giác. NSC không
 tạo ba ô bất khả \(R_{1, 2},R_{1, 3},R_{2, 3}\)." loading="lazy" />
  </div>
-<div class="reader-inline-caption"><em>Hình: Bộ đếm tuần tự hình chữ nhật và miền trạng thái tam giác. NSC không
+<div class="reader-inline-caption"><em>Hình: Sequential Counter hình chữ nhật và miền trạng thái tam giác. NSC không
 tạo ba ô bất khả \(R_{1, 2},R_{1, 3},R_{2, 3}\).</em></div>
  </div>
 <div class="reader-callout key-idea">
@@ -2112,12 +2112,12 @@ biến chỉ là</p>
 <p>Khi \(n\) lớn nhưng \(k\) cố định, tỷ lệ này tiến về \(0\); hằng số của ánh xạ
 và các mệnh đề hai chiều có thể quan trọng hơn phần tam giác bị bỏ. Với
 \(k\) gần \(n\), đếm các literal bù \(\neg x_i\) đến \(n-k\) thường gọn hơn.
-Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, cây tổng và
+Nếu cùng một tập đầu vào cần nhiều cận hoặc cần thay cận tăng dần, Totalizer và
 mạng đếm có đầu ra chia sẻ tự nhiên hơn một NSC chuyên biệt. BDD cũng có thể
 thắng khi phép rút gọn hợp nhất được nhiều trạng thái tương đương.</p>
 <p>Bộ chọn cho ràng buộc đúng \(K\) dùng \(n\), \(\min(k, n-k)\), số cận sẽ được
 truy vấn, nhu cầu giải tăng dần và đặc tả lan truyền làm đặc trưng. NSC phù hợp
-với một cận cố định và vùng tam giác bị cắt đủ lớn; cây tổng/mạng đếm phù hợp
+với một cận cố định và vùng tam giác bị cắt đủ lớn; Totalizer/mạng đếm phù hợp
 khi cần chia sẻ nhiều đầu ra. Kết quả Social Golfer minh họa cách các đặc
 trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán tương ứng.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
@@ -2226,7 +2226,7 @@ Trong bài toán đóng gói (packing problem), biến chiếm chỗ theo từng
 giải một hình chữ nhật; biến tọa độ và hướng đặt biểu diễn hình học trực tiếp hơn.</p>
 <p>Nguyên tắc chung là:</p>
 \[
-\text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
+\text{không Order Encoding nếu thứ tự không thuộc nghiệm.}
 \]
 <p>Sau bước chọn biến, các ràng buộc phá vỡ đối xứng xử lý nhóm đối xứng còn lại.
 Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá vỡ đối xứng tiếp tục
@@ -2333,7 +2333,7 @@ ràng buộc toàn cục thành các mệnh đề cục bộ quanh cặp đối 
 hệ được chọn, lựa chọn này kích hoạt một quan hệ suy diễn kéo theo trên tọa độ hoặc thời gian; khi
 miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giải chọn quan hệ còn lại.</p>
 <h4 class="reader-h3">Biến quan hệ và giá trị hỗ trợ</h4>
-<p>Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa biểu diễn trực tiếp và mã
+<p>Từ góc nhìn chuyển CSP sang SAT, biến quan hệ nằm giữa Direct Encoding và mã
 hóa hỗ trợ. Mô hình không chọn toàn bộ giá trị của hai biến; phép biểu diễn chỉ chọn một
 <em>lớp</em> cặp giá trị,
 chẳng hạn “trái”, “dưới” hoặc “trước”. Mỗi lớp sau đó được liên kết sang
@@ -2354,8 +2354,8 @@ Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ." lo
 <div class="reader-inline-caption"><em>Hình: Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
 Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ.</em></div>
  </div>
-<h3 class="reader-h2">Biểu diễn thứ tự và các literal so sánh</h3>
-<p>Cho biến nguyên \(z\in\{0,\ldots, U\}\). Biểu diễn thứ tự dùng</p>
+<h3 class="reader-h2">Order Encoding và các literal so sánh</h3>
+<p>Cho biến nguyên \(z\in\{0,\ldots, U\}\). Order Encoding dùng</p>
 \[
 o_{z, t}=1
   \quad\Longleftrightarrow\quad
@@ -2382,9 +2382,9 @@ s_i+p_i\le s_j.
 tự của \(s_i, s_j\), thay vì tạo một mạch cộng tổng quát
 <span class="cite">(Kieu & To, 2025)</span>.</p>
 <div class="reader-callout worked-example">
- <div class="callout-header"><strong>Liên kết biểu diễn trực tiếp–thứ tự cho một giá trị nguyên</strong></div>
- <div class="callout-body">Cho \(z\in\{0, 1,2, 3,4\}\). Biểu diễn trực tiếp có \(d_a\Leftrightarrow(z=a)\);
-biểu diễn thứ tự có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
+ <div class="callout-header"><strong>Liên kết Direct Encoding–thứ tự cho một giá trị nguyên</strong></div>
+ <div class="callout-body">Cho \(z\in\{0, 1,2, 3,4\}\). Direct Encoding có \(d_a\Leftrightarrow(z=a)\);
+Order Encoding có \(o_t\Leftrightarrow(z\ge t)\). Hai góc nhìn được nối bởi
 \[
 d_a\leftrightarrow o_a\land\neg o_{a+1},
   \qquad o_0\equiv\top,\quad o_5\equiv\bot.
@@ -2491,7 +2491,7 @@ thật, và mệnh đề học được thường nằm quanh một lân cận n
 cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép biểu diễn “gọn”.</p>
 <h3 class="reader-h2">Kiến trúc kết hợp</h3>
 <p>Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:</p>
-<ol class="reader-list"><li>chọn biến chính loại các chỉ số không mang nghĩa;</li><li>tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;</li><li>tạo biến quan hệ trên đồ thị xung đột;</li><li>liên kết mỗi quan hệ với các literal miền;</li><li>thêm ràng buộc đếm hoặc bộ đếm chia sẻ cho tài nguyên;</li><li>thêm các ràng buộc phá vỡ đối xứng có chứng minh quỹ đạo;</li><li>gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.</li></ol>
+<ol class="reader-list"><li>chọn biến chính loại các chỉ số không mang nghĩa;</li><li>tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;</li><li>tạo biến quan hệ trên đồ thị xung đột;</li><li>liên kết mỗi quan hệ với các literal miền;</li><li>thêm ràng buộc đếm hoặc Shared Counter cho tài nguyên;</li><li>thêm các ràng buộc phá vỡ đối xứng có chứng minh quỹ đạo;</li><li>gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.</li></ol>
 <p>Các nghiên cứu về lập lịch, đóng gói dải/khung chứa và Social Golfer trong
 <span class="cite">(Kiều Văn Tuyên, 2025)</span> cho thấy ba lựa chọn đầu—biến chính, quan hệ và
 đối xứng—quyết định cấu trúc CNF trước khi chọn bộ giải. Các chương sau dùng
@@ -2499,7 +2499,7 @@ chính kiến trúc này cho bốn họ bài toán.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
  <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
- <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá vỡ đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
+ <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá vỡ đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Order Encoding làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Chứng minh tiền tố sử dụng giữ một đại diện khi các khung chứa hoàn
@@ -2614,14 +2614,14 @@ lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:</p>
 \[
 z_{it}=1 \iff s_i\le t&lt;s_i+e_i .
 \]
-<p>Biểu diễn trực tiếp có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
+<p>Direct Encoding có thể tạo một biến \(b_{is}\) cho từng thời điểm bắt đầu
 \(s\in T_i\). Trước hết phải đóng lựa chọn thời điểm bắt đầu bằng</p>
 \[
 \mathrm{ExactlyOne}\bigl(b_{is}:s\in T_i\bigr).
 \]
 <p>Trong CNF, phần ít nhất một là mệnh đề
 \(\bigvee_{s\in T_i}b_{is}\); phần nhiều nhất một được sinh bằng biểu diễn từng
-cặp, bộ đếm tuần tự hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
+cặp, Sequential Counter hoặc một mô-đun AMO khác tùy kích thước \(T_i\). Sau đó
 dùng</p>
 \[
 b_{is}\rightarrow z_{it}
@@ -2910,7 +2910,7 @@ một kiến trúc kết hợp.</p>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Với cùng ngữ nghĩa khối, hãy so sánh biểu diễn bằng biến bắt đầu và biểu diễn
- bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.</li><li>Thiết kế một bộ đếm chia sẻ cho hai ALSC có cửa sổ chồng lấn nhưng cận
+ bằng điểm chuyển về số biến, số mệnh đề và khả năng lan truyền đơn vị.</li><li>Thiết kế một Shared Counter cho hai ALSC có cửa sổ chồng lấn nhưng cận
  \(k\) khác nhau.</li><li>Viết điều kiện dừng chính xác cho một vòng DDD khi chi phí hạn chế là
  cận dưới và lịch giải mã cho cận trên.</li></ol>
         </section>
@@ -2952,7 +2952,7 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh–cận 
  trí tuyệt đối và đóng gói hoàn hảo khai thác nén tọa độ, tổng tập con và suy
  luận trên không gian trống
  <span class="cite">(Huang & Korf, 2013)</span>.</dd><dt><strong>Vị trí tương đối + tọa độ</strong></dt><dd>Mỗi vật có tọa độ; mỗi cặp có <em>witness variable</em> (biến làm chứng)
- trái/phải/trên/dưới. Biểu diễn thứ tự
+ trái/phải/trên/dưới. Order Encoding
  nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.</dd></dl></p>
 <p>Ngoài SAT, quy hoạch ràng buộc dùng <span class="small-caps">NoOverlap</span>/diffn, các phép chiếu
 tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
@@ -3030,7 +3030,7 @@ này tiếp nối mô hình đóng gói dải của <span class="cite">(Soh et a
 buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn một hướng khác
 hoặc chứng minh cặp hình không thể cùng một bố trí.</div>
  </div></p>
-<h3 class="reader-h2">Biểu diễn thứ tự cho tọa độ</h3>
+<h3 class="reader-h2">Order Encoding cho tọa độ</h3>
 <h4 class="reader-h3">Ngữ nghĩa</h4>
 <p>Với \(e\) trong miền ngang, đặt</p>
 \[
@@ -3379,8 +3379,8 @@ từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.</p>
 <div class="reader-inline-caption"><em>Hình: Ở trái, nhãn \((2, 4,1, 3)\) cho \(P_4\) đạt antibandwidth \(2\).
 Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh.</em></div>
  </div>
-<h4 class="reader-h3">Thang bộ đếm tuần tự</h4>
-<p>SCL chia dãy biến thành các khối, xây bộ đếm tuần tự trong mỗi khối rồi nối
+<h4 class="reader-h3">Thang Sequential Counter</h4>
+<p>SCL chia dãy biến thành các khối, xây Sequential Counter trong mỗi khối rồi nối
 trạng thái ở biên. Ý tưởng cốt lõi là biến phụ mang nghĩa số đếm tiền tố:</p>
 \[
 s_{i, j}=1\iff
@@ -3408,7 +3408,7 @@ nhiều phép biểu diễn không chia sẻ trên họ AMO bậc thang. Hướn
 phụ có cấu trúc được thảo luận trong <span class="cite">(Haberlandt et al., 2023)</span>.</p>
 <p>SCL bổ sung cho các mô hình MIP/CP một cơ chế nén các khoảng xung đột trong
 CNF. Cận mạnh và SCL tương hỗ trực tiếp: \(k\) quyết định chiều rộng cửa sổ
-cần biểu diễn, còn bộ đếm chia sẻ giảm phần biểu diễn lặp giữa các cửa sổ đó.</p>
+cần biểu diễn, còn Shared Counter giảm phần biểu diễn lặp giữa các cửa sổ đó.</p>
 <h3 class="reader-h2">Antibandwidth tuần hoàn</h3>
 <h4 class="reader-h3">Khoảng cách vòng</h4>
 <p>Trong CABP, nhãn nằm trên vòng \(C_n\):</p>
@@ -3502,7 +3502,7 @@ biên:</p>
 \(c(v)\ge a+d_{uv}\). Số mệnh đề không còn phụ thuộc vào độ rộng khoảng cấm;
 mỗi giá trị chính xác tạo một mệnh đề cho mỗi hàng xóm.</p>
 <p>Biểu diễn theo khối chia miền màu thành các đoạn và dùng biến phụ để tóm tắt quan
-hệ giữa các đoạn. CNF có thể lớn hơn biểu diễn thứ tự, nhưng lan truyền trên bài
+hệ giữa các đoạn. CNF có thể lớn hơn Order Encoding, nhưng lan truyền trên bài
 toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc khoảng được chia sẻ.</p>
 <div class="reader-callout worked-example">
  <div class="callout-header"><strong>Một khoảng cấm được nén thành hai biên</strong></div>
@@ -3515,14 +3515,14 @@ toán khó có thể mạnh hơn vì bộ giải nhìn thấy các cấu trúc k
 \neg x_{u, 4}\lor\neg g_{v, 3}\lor g_{v, 6}.
 \]
 <p>Khi \(x_{u, 4}=1\), hai literal còn lại nói đúng hai miền hợp lệ:
-\(c(v)\le2\) hoặc \(c(v)\ge6\). Biểu diễn trực tiếp từng cặp phải cấm riêng
+\(c(v)\le2\) hoặc \(c(v)\ge6\). Direct Encoding từng cặp phải cấm riêng
 \((4, 3),(4, 4),(4, 5)\); biểu diễn theo biên giữ số mệnh đề không đổi khi khoảng
 cấm rộng hơn, miễn tập cấm vẫn là một khoảng.</div>
  </div></p>
 <div class="reader-callout result-box">
  <div class="callout-header"><strong>Hiệu ứng tương tác</strong></div>
  <div class="callout-body">Trên tập GEOM và MS-CAP của <span class="cite">(Nguyen et al., 2026)</span>, cấu hình theo khối giải
-được các bài toán khó mà biểu diễn thứ tự không hoàn tất trong cùng giới hạn.
+được các bài toán khó mà Order Encoding không hoàn tất trong cùng giới hạn.
 Giải tăng dần và đối xứng không có hiệu ứng đồng đều: lợi ích phụ thuộc vào họ
 biểu diễn. Vì vậy thí nghiệm phân tích thành phần (ablation study) nên dùng đơn vị
 \(\text{phép biểu diễn}\times\text{đặc trưng}\), không chỉ so trung bình từng
@@ -3596,13 +3596,13 @@ mô-đun <code>ForbiddenInterval</code> có thể dùng lại, còn
 <h3 class="reader-h2">Quy trình chính xác kết hợp</h3>
 <p>Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
 <ol class="reader-list"><li>dùng cận lý thuyết đồ thị và phương pháp kinh nghiệm để tạo khoảng
- \([LB, UB]\);</li><li>chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;</li><li>lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;</li><li>chọn biểu diễn trực tiếp/thứ tự/khối theo hình dạng tập cấm;</li><li>giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;</li><li>tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh UNSAT độc lập.</li></ol></p>
+ \([LB, UB]\);</li><li>chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;</li><li>lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;</li><li>chọn Direct Encoding/thứ tự/khối theo hình dạng tập cấm;</li><li>giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;</li><li>tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh UNSAT độc lập.</li></ol></p>
 <p>Kiến trúc này đặt SAT trong một khung giải chính xác thay vì coi bộ giải SAT là
 toàn bộ thuật toán. Cấu trúc này cũng làm rõ vị trí đóng góp của một nghiên cứu mới: cận, mô
 hình, phép biểu diễn, quy trình tìm kiếm hay chứng nhận.</p>
 <div class="reader-callout summary-box">
  <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
- <div class="callout-body"><strong>Bài học trung tâm.</strong> Chọn biểu diễn trực tiếp, thứ tự hay theo khối không
+ <div class="callout-body"><strong>Bài học trung tâm.</strong> Chọn Direct Encoding, thứ tự hay theo khối không
 chỉ là chọn kích thước CNF. Biến trực tiếp làm phép giải mã và xung đột cục bộ
 rõ; biến thứ tự nén bất đẳng thức và khoảng; biến khối tạo điểm chia sẻ mới cho
 lan truyền. Một kiến trúc tốt thường kết hợp cả ba ở những lớp khác nhau.</div>
@@ -3711,8 +3711,8 @@ chúng bằng hai biên theo giá trị:</p>
 \]
 <p>Các literal biên sau đó dùng \(\lambda_v(a)\) và \(\rho_v(a)\) trong chuỗi thứ
 tự theo chỉ số miền.</p>
-<h4 class="reader-h3">Quan hệ với biểu diễn hỗ trợ</h4>
-<p>Trong biểu diễn trực tiếp/hỗ trợ, lựa chọn \(x_{u, a}\) yêu cầu \(v\) nhận một
+<h4 class="reader-h3">Quan hệ với Support Encoding</h4>
+<p>Trong Direct Encoding/hỗ trợ, lựa chọn \(x_{u, a}\) yêu cầu \(v\) nhận một
 trong các giá trị còn hỗ trợ:</p>
 \[
 \neg x_{u, a}
@@ -3787,7 +3787,7 @@ x_{v,\ell}=1\iff f(v)=\ell,
 \[
 \neg x_{u, a}\lor\neg x_{v, b}.
 \]
-<p>Biểu diễn trực tiếp có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
+<p>Direct Encoding có phép giải mã đơn giản nhưng số xung đột tăng theo độ rộng
 khoảng cấm.</p>
 <h4 class="reader-h3">SAT thứ tự</h4>
 <p>Thêm</p>
@@ -3853,13 +3853,13 @@ gán nhãn đơn ánh; đây không phải bài toán tô màu đồ thị chu�
 một mô hình khác.</div>
  </div>
 <h4 class="reader-h3">Direct, forward order và reverse order encoding</h4>
-<p><strong>Direct Encoding (biểu diễn trực tiếp, DE).</strong>
+<p><strong>Direct Encoding (Direct Encoding, DE).</strong>
 \(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
 thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).</p>
-<p><strong>Forward Order Encoding (biểu diễn thứ tự xuôi, FE).</strong>
+<p><strong>Forward Order Encoding (Order Encoding xuôi, FE).</strong>
 \(X_{v, j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
 hoạt hai biên của khoảng \([j-k+1, j+k-1]\).</p>
-<p><strong>Reverse Order Encoding (biểu diễn thứ tự ngược, RE).</strong>
+<p><strong>Reverse Order Encoding (Order Encoding ngược, RE).</strong>
 \(X_{v, j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.</p>
 <p>FE và RE có cùng tập phép gán nhãn nhưng có thể dẫn bộ giải đi theo các nhánh
@@ -3972,7 +3972,7 @@ A_a=1\iff
 \[
 \min\sum_aA_a.
 \]
-<p>Bộ đếm tuần tự tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
+<p>Sequential Counter tăng dần được dựng một lần đến cận trên ban đầu. Sau khi mô hình
 dùng \(q\) tần số, lần gọi kế tiếp kích hoạt cận \(q-1\) bằng các giả định. Lần
 UNSAT tại \(q-1\) cùng mô hình tại \(q\) chứng nhận tối ưu.</p>
 <div class="reader-callout result-box">
@@ -4026,7 +4026,7 @@ vị để tạo một CNF độc lập cho bộ kiểm tra chứng minh.</p>
  <div class="callout-body"><ol class="reader-list"><li>Khoảng cấm là trừu tượng chung của cả ba bài toán.</li><li>Trên miền liên tục, khoảng dùng hai ngưỡng trực tiếp; trên miền
  rời rạc, phải tìm biên theo giá trị.</li><li>Tối thiểu hóa độ trải và tối thiểu hóa số giá trị phân biệt cần hai mô
  đun hàm mục tiêu khác nhau.</li><li>Biến trực tiếp phục vụ lựa chọn chính xác và giải mã; biến thứ tự nén
- khoảng; bộ đếm tuần tự đếm số giá trị được dùng.</li></ol></div>
+ khoảng; Sequential Counter đếm số giá trị được dùng.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Chứng minh (xem phần này) khi khoảng chạm một biên của miền.</li><li>Với \(D_v=\left\{10, 30,40\right\}\) và khoảng \([15, 35]\), xác định hai
@@ -4054,7 +4054,7 @@ nghĩa đó.</p>
 <p><strong>Lớp cấu trúc.</strong>
 Phép biểu diễn nên khớp với hình học của ràng buộc. Cửa sổ chồng lấn gợi ý trạng
 thái chia sẻ; miền hữu hạn có thứ tự gợi ý literal thứ tự; tổng Boolean gợi
-ý bộ đếm, cây tổng, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
+ý bộ đếm, Totalizer, mạng đếm hoặc BDD; phép tuyển hình học gợi ý biến quan hệ.
 Đối xứng nên được loại trước hết ở cách chọn biến, sau đó mới bằng ràng buộc có
 phép ánh xạ bảo toàn nghiệm.</p>
 <p><strong>Lớp giải.</strong>
@@ -4087,21 +4087,21 @@ tăng dần phát huy lợi thế khi thay cận giữ được phần lớn mi�
 hoặc cải thiện BKS trên 130 bài toán; SAT và ILP có vai trò bổ sung theo cấu
 trúc đồ thị
 <span class="cite">(Thanh et al., 2026)</span>.</td></tr><tr><td>Gán nhãn an toàn \(k\)</td><td>16 đồ thị Erdős–Rényi; FE, RE và DE</td><td>FE và RE tìm nghiệm cho \(16/16\), chứng nhận 13 giá trị tối ưu; DE tìm nghiệm
-cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn biểu diễn trực tiếp trong tập thử
+cho 15 và chứng nhận 8. Biên thứ tự phù hợp hơn Direct Encoding trong tập thử
 này <span class="cite">(Thanh et al., 2026)</span>.</td></tr><tr><td>POSE/MO-FAP</td><td>35 bài toán CALMA/DUTtest hoặc được mô hình hóa lại</td><td>POSE kết hợp bộ đếm tăng dần quyết định toàn bộ tập thử; kết quả hỗ trợ
 kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác nhau
 <span class="cite">(Dao et al., 2026)</span>.</td></tr></tbody>
  </table>
  </div>
 <h3 class="reader-h2">Miền hiệu quả và điểm chuyển thiết kế</h3>
-<p><strong>Bộ đếm chia sẻ và Ladder AMK.</strong>
-Bộ đếm chia sẻ được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
+<p><strong>Shared Counter và Ladder AMK.</strong>
+Shared Counter được ưu tiên khi các cửa sổ chồng lấn mạnh, cận \(k\) nhỏ và
 mỗi cửa sổ cắt ít khối. Khi số biên tăng, bộ đếm ghép thay bộ nối hai ngôi;
 với các tập gần rời nhau, một phép biểu diễn cục bộ thường gọn hơn.</p>
 <p><strong>NSC.</strong>
 NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác bất khả. Cấu trúc này
 phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
-Cây tổng/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
+Totalizer/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
 literal bù chuyển bài toán về ngưỡng \(n-k\) nhỏ hơn.</p>
 <p><strong>Phá vỡ đối xứng.</strong>
 Mỗi ràng buộc phá vỡ đối xứng được suy từ một nhóm tự đẳng cấu bảo toàn miền, ràng
@@ -4134,7 +4134,7 @@ lớn hoặc đồ thị ràng buộc đủ dày.</p>
  thăm dò.</li></ol>
 <h3 class="reader-h2">Kết luận cuối</h3>
 <p>Giá trị của phép biểu diễn SAT nằm ở khả năng chọn đúng trạng thái trung gian để
-CDCL nhìn thấy cấu trúc của bài toán. Bộ đếm chia sẻ, thanh ghi tam giác,
+CDCL nhìn thấy cấu trúc của bài toán. Shared Counter, thanh ghi tam giác,
 biên thứ tự, biến quan hệ và rời rạc hóa động là các biểu hiện khác nhau của
 cùng một nguyên tắc: chỉ hiện thực hóa (reification) thông tin vừa đủ, đặt đặc tả rõ cho thông tin
 đó, rồi kiểm bằng cả chứng minh lẫn gói tái lập. Ba bước này chuyển một
