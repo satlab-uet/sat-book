@@ -137,13 +137,21 @@ def expand_tex_math_macros(tex: str) -> str:
     return tex
 
 def clean_inline(text: str) -> str:
+    # 1. Clean TeX hyperlinks & URLs
+    text = re.sub(r'\\href\{([^}]+)\}\{([^}]+)\}', r'<a href="\1" target="_blank" rel="noopener noreferrer">\2</a>', text)
+    text = re.sub(r'\\url\{([^}]+)\}', r'<a href="\1" target="_blank" rel="noopener noreferrer">\1</a>', text)
+
+    # 2. Convert double backslashes \\ to <br> line breaks
+    text = re.sub(r'\\\\', '<br>', text)
+
+    # 3. Clean texorpdfstring & formatting
     text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     text = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', text)
     text = re.sub(r'\\textbf\{([^}]+)\}', r'<strong>\1</strong>', text)
     text = re.sub(r'\\texttt\{([^}]+)\}', r'<code>\1</code>', text)
     text = re.sub(r'\\textsc\{([^}]+)\}', r'<span class="small-caps">\1</span>', text)
     
-    # Custom TeX Macros outside math
+    # 4. Custom TeX Macros outside math
     text = re.sub(r'\\UNSAT\b', 'UNSAT', text)
     text = re.sub(r'\\SAT\b', 'SAT', text)
     text = re.sub(r'\\OPT\b', 'OPT', text)
@@ -151,12 +159,21 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\CNF\b', 'CNF', text)
     text = re.sub(r'\\MaxSAT\b', 'MaxSAT', text)
     text = re.sub(r'\\AMK\b', 'AMK', text)
+    text = re.sub(r'\\AMO\b', 'AMO', text)
+    text = re.sub(r'\\ALK\b', 'ALK', text)
     text = re.sub(r'\\ExactlyOne\b', 'ExactlyOne', text)
     text = re.sub(r'\\PySAT\b', 'PySAT', text)
     
-    # Formatting & Spacing Macros
+    # 5. Layout & Spacing TeX Macros
+    text = re.sub(r'\\hspace\*?\{[^}]*\}', ' ', text)
+    text = re.sub(r'\\vspace\*?\{[^}]*\}', '', text)
     text = re.sub(r'\\qquad\b', ' ', text)
     text = re.sub(r'\\quad\b', ' ', text)
+    text = re.sub(r'\\hfill\b', ' ', text)
+    text = re.sub(r'\\vfill\b', '', text)
+    text = re.sub(r'\\noindent\b', '', text)
+    text = re.sub(r'\\clearpage\b', '', text)
+    text = re.sub(r'\\newpage\b', '', text)
     text = re.sub(r'\\sffamily\b', '', text)
     text = re.sub(r'\\bfseries\b', '', text)
     text = re.sub(r'\\centering\b', '', text)
@@ -167,13 +184,25 @@ def clean_inline(text: str) -> str:
     text = re.sub(r'\\small\b', '', text)
     text = re.sub(r'\\mid\b', '|', text)
     
-    # References & Equations
+    # 6. Clean escaped punctuation, backslash spaces, and residual backslashes
+    text = re.sub(r'\\(?=\s|$)', ' ', text)
+    text = re.sub(r'\\([?!.,:;])', r'\1', text)
+    text = re.sub(r'([?!.,:;])\\', r'\1 ', text)
+    text = re.sub(r'\\[,:;!]', ' ', text)
+    text = re.sub(r'\\(?![\w<])', '', text)
+
+    # 7. References & Citations
     text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
     text = re.sub(r'\\ref\{([^}]+)\}', r'(xem hình \1)', text)
     text = re.sub(r'\\eqref\{([^}]+)\}', r'(công thức \1)', text)
 
+    # 8. Punctuation & Quotes
+    text = text.replace("---", "—").replace("--", "–")
     text = text.replace("``", "“").replace("''", "”")
     text = format_citations(text)
+    
+    # 9. Normalize spaces
+    text = re.sub(r'[ \t]{2,}', ' ', text)
     return text.strip()
 
 def capitalize_title(title: str) -> str:
@@ -518,442 +547,398 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-      function runKaTeXRender() {
-        if (window.katex && typeof renderMathInElement === "function") {
-          try {
-            renderMathInElement(document.body, {
-              delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "\\\\[", right: "\\\\]", display: true},
-                {left: "\\\\(", right: "\\\\)", display: false},
-                {left: "$", right: "$", display: false}
-              ],
-              macros: {
-                "\\\\SAT": "\\\\mathrm{SAT}",
-                "\\\\UNSAT": "\\\\mathrm{UNSAT}",
-                "\\\\OPT": "\\\\mathrm{OPT}",
-                "\\\\BKS": "\\\\mathrm{BKS}",
-                "\\\\CNF": "\\\\mathrm{CNF}",
-                "\\\\MaxSAT": "\\\\mathrm{MaxSAT}",
-                "\\\\AMK": "\\\\mathrm{AMK}",
-                "\\\\AMO": "\\\\mathrm{AMO}",
-                "\\\\ALK": "\\\\mathrm{ALK}",
-                "\\\\ExactlyOne": "\\\\mathrm{ExactlyOne}"
-              },
-              ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
-              throwOnError: false
-            });
-          } catch (e) {
-            console.warn("KaTeX notice:", e);
-          }
-        }
-      }
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", runKaTeXRender);
-      } else {
-        runKaTeXRender();
-      }
-      window.addEventListener("load", runKaTeXRender);
-    </script>
-
     <style>
+      body {
+        background-color: #f8fafc;
+        color: #1e293b;
+        font-family: var(--font-sans);
+        line-height: 1.7;
+      }
+      .reader-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e2e8f0;
+        padding: 12px 0;
+      }
+      .reader-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
       .reader-layout {
         display: grid;
         grid-template-columns: 280px 1fr;
-        gap: 40px;
-        align-items: start;
-        padding: 40px 0 80px;
+        gap: 36px;
+        margin-top: 24px;
+        margin-bottom: 64px;
       }
-      .reader-sidebar {
+      .reader-toc {
         position: sticky;
-        top: 90px;
-        background: #ffffff;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        max-height: calc(100vh - 120px);
+        top: 80px;
+        max-height: calc(100vh - 100px);
         overflow-y: auto;
-        box-shadow: var(--shadow-sm);
-      }
-      .reader-sidebar-title {
-        font-size: 0.95rem;
-        font-weight: 800;
-        color: var(--color-ink-950);
-        margin-bottom: 14px;
-        padding-bottom: 8px;
-        border-bottom: 2px solid var(--color-brand-200);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-      .reader-toc-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .toc-link {
-        display: flex;
-        flex-direction: column;
-        padding: 8px 10px;
-        border-radius: var(--radius-sm);
+        padding-right: 12px;
         font-size: 0.88rem;
-        color: var(--color-ink-800);
-        transition: all 0.15s ease;
       }
-      .toc-link:hover {
-        background: var(--color-brand-50);
-        color: var(--color-blue-700);
+      .reader-toc h3 {
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #64748b;
+        margin-bottom: 12px;
+      }
+      .reader-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .reader-toc li {
+        margin-bottom: 8px;
+      }
+      .reader-toc a {
+        color: #334155;
         text-decoration: none;
+        display: block;
+        padding: 4px 8px;
+        border-radius: 6px;
       }
-      .toc-num {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--color-blue-700);
-      }
-      .toc-name {
-        font-weight: 600;
-        line-height: 1.3;
+      .reader-toc a:hover {
+        background: #e2e8f0;
+        color: #0f172a;
       }
       .reader-content {
         background: #ffffff;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: 48px;
-        box-shadow: var(--shadow-sm);
-        max-width: 820px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 40px 48px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       }
-      .reader-doc-title {
-        font-family: var(--font-serif);
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--color-ink-950);
-        margin-bottom: 32px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid var(--color-brand-200);
-      }
-      .reader-chapter-article {
-        margin-bottom: 64px;
-        padding-bottom: 48px;
-        border-bottom: 2px dashed var(--color-border);
-      }
-      .reader-chapter-article:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-      .reader-chap-badge {
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        font-weight: 700;
-        color: var(--color-blue-700);
-        background: var(--color-brand-50);
-        padding: 4px 12px;
-        border-radius: 20px;
-      }
-      .reader-chap-title {
-        font-family: var(--font-serif);
+      .chapter-title {
+        font-family: var(--font-display);
         font-size: 1.85rem;
-        font-weight: 700;
-        color: var(--color-ink-950);
-        margin: 12px 0 20px;
-        line-height: 1.25;
+        color: #0f172a;
+        margin-bottom: 16px;
+        border-bottom: 2px solid #0284c7;
+        padding-bottom: 8px;
       }
       .chapter-lead {
-        font-size: 1.12rem;
-        color: var(--color-ink-800);
-        background: #f8fafc;
-        border-left: 4px solid var(--color-blue-700);
+        font-size: 1.08rem;
+        color: #334155;
+        background: #f0f9ff;
+        border-left: 4px solid #0284c7;
         padding: 16px 20px;
-        margin-bottom: 24px;
-        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 28px;
+        font-style: italic;
+      }
+      .reader-h2 {
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        color: #0f172a;
+        margin-top: 36px;
+        margin-bottom: 14px;
+      }
+      .reader-h3 {
+        font-family: var(--font-display);
+        font-size: 1.12rem;
+        color: #1e293b;
+        margin-top: 24px;
+        margin-bottom: 10px;
       }
       .reader-callout {
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin: 20px 0;
+        border: 1px solid #e2e8f0;
+        border-left-width: 5px;
+      }
+      .reader-callout.design-rule { background: #fdf4ff; border-left-color: #c026d3; }
+      .reader-callout.worked-example { background: #f0fdf4; border-left-color: #16a34a; }
+      .reader-callout.key-idea { background: #fffbebfb; border-left-color: #d97706; }
+      .reader-callout.summary-box { background: #f0f9ff; border-left-color: #0284c7; }
+      .reader-callout.result-box { background: #faf5ff; border-left-color: #9333ea; }
+      .reader-callout.theorem-box, .reader-callout.lemma-box, .reader-callout.proposition-box {
         background: #f8fafc;
-        border: 1px solid var(--color-border);
-        border-left: 4px solid var(--color-blue-700);
-        border-radius: var(--radius-card);
-        padding: 18px 20px;
-        margin: 24px 0;
+        border-left-color: #475569;
+      }
+      .reader-callout.example-box {
+        background: #f1f5f9;
+        border-left-color: #0284c7;
       }
       .callout-header {
         font-family: var(--font-display);
         font-size: 1rem;
-        color: var(--color-ink-950);
         margin-bottom: 8px;
+        color: #0f172a;
       }
       .callout-body {
         font-size: 0.95rem;
-        color: var(--color-ink-800);
-        line-height: 1.6;
+        line-height: 1.65;
       }
       .reader-proof {
-        background: #fafafa;
-        border-left: 3px solid var(--color-ink-500);
-        padding: 14px 18px;
-        margin: 20px 0;
-        font-size: 0.95rem;
+        background: #f8fafc;
+        border-left: 3px solid #94a3b8;
+        padding: 12px 18px;
+        margin: 16px 0;
+        font-size: 0.94rem;
       }
       .proof-qedsymbol {
         float: right;
-        color: var(--color-ink-500);
+        color: #64748b;
       }
       .reader-algorithm-box {
-        background: #ffffff;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-card);
-        padding: 20px;
+        background: #0f172a;
+        color: #f8fafc;
+        border-radius: 8px;
+        padding: 18px;
         margin: 24px 0;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
       }
       .algo-header {
-        font-family: var(--font-display);
-        font-size: 1.02rem;
-        color: var(--color-ink-950);
-        border-bottom: 1px solid var(--color-border);
+        color: #38bdf8;
+        border-bottom: 1px solid #334155;
         padding-bottom: 8px;
         margin-bottom: 12px;
       }
-      .algo-body {
-        font-family: var(--font-sans);
-        font-size: 0.92rem;
-        line-height: 1.6;
-        color: var(--color-ink-800);
-      }
       .reader-table-wrapper {
-        margin: 24px 0;
         overflow-x: auto;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-card);
-      }
-      .reader-table-caption {
-        font-size: 0.92rem;
-        font-weight: 700;
-        color: var(--color-ink-950);
-        padding: 12px 16px;
-        background: var(--bg-page);
-        border-bottom: 1px solid var(--color-border);
+        margin: 24px 0;
       }
       .reader-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 0.95rem;
-        text-align: left;
+        font-size: 0.9rem;
       }
       .reader-table th {
         background: #f1f5f9;
-        color: var(--color-ink-950);
+        color: #0f172a;
         font-weight: 700;
         padding: 10px 14px;
-        border-bottom: 2px solid var(--color-border);
+        border: 1px solid #cbd5e1;
+        text-align: left;
       }
       .reader-table td {
-        padding: 10px 14px;
-        border-bottom: 1px solid var(--color-border);
-        color: var(--color-ink-800);
-        line-height: 1.5;
+        padding: 8px 14px;
+        border: 1px solid #e2e8f0;
       }
-      .reader-table tr:last-child td {
-        border-bottom: none;
+      .reader-table tr:nth-child(even) {
+        background: #f8fafc;
+      }
+      .reader-table-caption, .reader-inline-caption {
+        font-size: 0.88rem;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-align: center;
       }
       .reader-flow-diagram {
         display: flex;
-        flex-wrap: wrap;
         align-items: center;
-        gap: 10px;
-        margin: 28px 0;
-        padding: 18px 22px;
+        justify-content: center;
+        gap: 12px;
         background: #f8fafc;
-        border: 1px solid var(--color-brand-200);
-        border-radius: var(--radius-card);
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 24px 0;
+        flex-wrap: wrap;
       }
       .flow-box {
         background: #ffffff;
-        border: 1px solid var(--color-border);
-        border-radius: 6px;
+        border: 1px solid #cbd5e1;
         padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 0.88rem;
         font-weight: 600;
-        font-size: 0.92rem;
-        color: var(--color-ink-950);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
       }
       .flow-box.highlight {
-        background: var(--color-brand-50);
-        border-color: var(--color-brand-200);
-        color: var(--color-blue-700);
+        background: #e0f2fe;
+        border-color: #0284c7;
+        color: #0369a1;
       }
       .flow-arrow {
-        color: var(--color-blue-700);
-        font-size: 1.1rem;
-        font-weight: 700;
+        color: #94a3b8;
+        font-size: 1.2rem;
       }
       .flow-branches {
         display: flex;
-        gap: 12px;
-        width: 100%;
-        margin-top: 6px;
+        flex-direction: column;
+        gap: 6px;
       }
       .flow-subbox {
-        font-size: 0.85rem;
-        color: var(--color-ink-650);
         background: #ffffff;
-        padding: 6px 12px;
+        border: 1px solid #cbd5e1;
+        padding: 4px 10px;
         border-radius: 4px;
-        border: 1px solid var(--color-border);
+        font-size: 0.8rem;
       }
-      .reader-figure-card {
-        margin: 32px 0;
-        background: #ffffff;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-card);
-        padding: 20px;
-        box-shadow: var(--shadow-sm);
-        text-align: center;
-      }
-      .reader-figure-card img {
+      .reader-figure-img {
         max-width: 100%;
         height: auto;
-        border-radius: 4px;
-      }
-      .reader-figure-caption {
-        font-size: 0.92rem;
-        color: var(--color-ink-650);
-        margin-top: 12px;
-        font-weight: 600;
-      }
-      .reader-inline-caption {
-        font-size: 0.92rem;
-        color: var(--color-ink-650);
-        margin: 16px 0;
-        text-align: center;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        margin: 16px 0 8px;
       }
       .cite {
-        font-size: 0.9rem;
         color: #1d4ed8;
         font-weight: 600;
       }
-      @media (max-width: 860px) {
+      .small-caps {
+        font-variant: small-caps;
+        letter-spacing: 0.05em;
+      }
+      @media (max-width: 900px) {
         .reader-layout {
           grid-template-columns: 1fr;
         }
-        .reader-sidebar {
-          display: none;
+        .reader-toc {
+          position: static;
+          max-height: none;
+          margin-bottom: 24px;
         }
         .reader-content {
-          padding: 28px;
+          padding: 24px;
         }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
-      <div class="shell header-inner">
+    <!-- Top Announcement Banner -->
+    <div class="top-banner">
+      SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
+    </div>
+
+    <header class="reader-header">
+      <div class="shell reader-header-inner">
         <a class="brand" href="./">
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
           <span class="brand-title">SATLab</span>
         </a>
-        <div class="nav-container">
-          <nav class="nav">
-            <a href="./">Trang chủ</a>
-            <a href="./downloads/sat-book.pdf">Bản PDF (104 trang)</a>
-            <a href="./downloads/sat-book-tex.zip">Mã nguồn LaTeX</a>
-          </nav>
-          <div class="nav-actions">
-            <div class="lang-switch">
-              <a href="./" class="active">VI</a>
-            </div>
-            <a href="./search.html" class="search-link">Tìm kiếm</a>
-          </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="./downloads/sat-book.pdf" class="btn btn-outline" style="padding: 4px 12px; font-size: 0.82rem;">Tải PDF ↗</a>
+          <a href="./" class="btn btn-primary" style="padding: 4px 12px; font-size: 0.82rem;">Trở về Trang chủ</a>
         </div>
       </div>
     </header>
 
     <main class="shell reader-layout">
-      <aside class="reader-sidebar">
-        <div class="reader-sidebar-title">Danh mục 12 Chương</div>
-        <nav class="reader-toc-nav">
-          __TOC_LINKS__
-        </nav>
+      <aside class="reader-toc">
+        <h3>Mục lục Sách Chuyên khảo</h3>
+        <ul>
+          __TOC_ITEMS__
+        </ul>
       </aside>
 
-      <section class="reader-content">
-        <h1 class="reader-doc-title">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp — Bản đọc trực tuyến</h1>
+      <article class="reader-content">
+        <h1 style="font-family: var(--font-display); font-size: 1.85rem; color: #0f172a; margin-bottom: 24px; font-weight: 800;">Sách Chuyên khảo: Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</h1>
         __CHAPTERS_HTML__
-      </section>
+      </article>
     </main>
 
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</div>
-          <p>© 2026 Các tác giả. SATLab UET.</p>
+          <div class="footer-brand">SATLab UET — Phòng nghiên cứu Biểu diễn SAT</div>
+          <p>© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
-          <a href="./" class="btn btn-outline">Trở về Trang chủ ↗</a>
+          <a href="https://www.facebook.com/satlab.uet/" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; margin-right: 16px;">Facebook ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">Giới thiệu</a>
+          <a href="./downloads/sat-book.pdf" style="color: #94a3b8;">Tải PDF</a>
         </div>
       </div>
     </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof renderMathInElement === 'function') {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '\\[', right: '\\]', display: true},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        }
+      });
+    </script>
   </body>
 </html>
 """
 
-def build_reader_html(repo_root: Path, output_path: Path):
+def generate_html_book(output_path: Path, repo_root: Path):
     load_bib_entries(repo_root)
+    source_digest = book_source_digest(repo_root)
     chapters_dir = repo_root / "book" / "chapters"
-    
-    chapters_html = []
-    toc_links = []
-    
-    for idx, filename in enumerate(CHAPTER_FILES, 1):
-        file_path = chapters_dir / filename
-        if not file_path.exists():
-            raise FileNotFoundError(f"Missing chapter source: {file_path}")
-            
-        raw_text = file_path.read_text(encoding="utf-8")
-        num_str = f"Chương {idx}"
-        title_str = clean_inline(extract_braced_command(raw_text, "chapter"))
-        parsed_body = clean_latex_document(raw_text)
-        
-        chap_id = f"chap-{idx}"
-        toc_links.append(f'<a href="#{chap_id}" class="toc-link"><span class="toc-num">{num_str}</span><span class="toc-name">{title_str}</span></a>')
-        
-        fig_code = ""
-        prefix = filename.split('-')[0]
+
+    chapter_titles = [
+        ("ch01-foundations.tex", "Chương 1: Nền tảng Biểu diễn và Bộ giải SAT"),
+        ("ch02-quality.tex", "Chương 2: Đánh giá Chất lượng và Tiêu chuẩn Mã hóa"),
+        ("ch03-cardinality.tex", "Chương 3: Phép Mã hóa Ràng buộc Cardinality"),
+        ("ch04-experiments.tex", "Chương 4: Quy trình và Đánh giá Thực nghiệm"),
+        ("ch05-shared-counters.tex", "Chương 5: Phép Mã hóa Bộ đếm Dùng chung"),
+        ("ch06-adaptive-counter.tex", "Chương 6: Phép Mã hóa Bộ đếm Thích nghi"),
+        ("ch07-symmetry-channeling.tex", "Chương 7: Phá Đối xứng và Kênh liên kết Variable-Channeling"),
+        ("ch08-scheduling.tex", "Chương 8: Ứng dụng trong Lập lịch và Dây chuyền Sản xuất"),
+        ("ch09-packing.tex", "Chương 9: Ứng dụng trong Bài toán Đóng gói 2D"),
+        ("ch10-bandwidth.tex", "Chương 10: Ứng dụng trong Gán nhãn Đồ thị và Antibandwidth"),
+        ("ch11-labeling.tex", "Chương 11: Ứng dụng trong Radio Labeling"),
+        ("conclusion.tex", "Kết luận và Hướng phát triển"),
+    ]
+
+    toc_html_list = []
+    chapters_html_list = []
+
+    for idx, (filename, title) in enumerate(chapter_titles, 1):
+        filepath = chapters_dir / filename
+        if not filepath.exists():
+            continue
+
+        slug = filename.replace(".tex", "")
+        toc_html_list.append(f'<li><a href="#chap-{idx}">{title}</a></li>')
+
+        raw_tex = filepath.read_text(encoding="utf-8")
+        clean_html = clean_latex_document(raw_tex)
+
+        # Inject figure if mapped
+        fig_html = ""
+        prefix = slug.split("-")[0]
         if prefix in FIGURE_MAP:
-            img_file, caption = FIGURE_MAP[prefix]
-            fig_code = f'''
-            <div class="reader-figure-card">
-              <img src="./assets/images/diagrams/{img_file}" alt="{caption}" loading="lazy">
-              <div class="reader-figure-caption">{caption}</div>
+            img_name, caption = FIGURE_MAP[prefix]
+            fig_html = f'''
+            <div style="text-align: center; margin: 24px 0;">
+              <img src="./assets/images/diagrams/{img_name}" alt="{caption}" class="reader-figure-img">
+              <div class="reader-inline-caption"><em>{caption}</em></div>
             </div>
             '''
-            
-        chap_html = f'''
-        <article id="{chap_id}" class="reader-chapter-article">
-          <header class="reader-chapter-header">
-            <span class="reader-chap-badge">{num_str}</span>
-            <h2 class="reader-chap-title">{title_str}</h2>
-          </header>
-          <div class="reader-chap-body">
-            {parsed_body}
-            {fig_code}
-          </div>
-        </article>
+
+        ch_block = f'''
+        <section id="chap-{idx}" data-slug="{slug}" style="margin-bottom: 48px; scroll-margin-top: 100px;">
+          <h2 class="chapter-title">{title}</h2>
+          {fig_html}
+          {clean_html}
+        </section>
         '''
-        chapters_html.append(chap_html)
-        
-    full_html = (
-        HTML_TEMPLATE
-        .replace("__SOURCE_SHA256__", book_source_digest(repo_root))
-        .replace("__TOC_LINKS__", "".join(toc_links))
-        .replace("__CHAPTERS_HTML__", "".join(chapters_html))
-    )
+        chapters_html_list.append(ch_block)
+
+    full_html = HTML_TEMPLATE.replace("__SOURCE_SHA256__", source_digest)
+    full_html = full_html.replace("__TOC_ITEMS__", "\n".join(toc_html_list))
+    full_html = full_html.replace("__CHAPTERS_HTML__", "\n".join(chapters_html_list))
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(full_html, encoding="utf-8")
     print(f"[✓] Generated clean HTML reader edition at: {output_path}")
 
+
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parent.parent
-    default_output = repo_root / "_site" / "read.html"
-    output_path = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else default_output
-    build_reader_html(repo_root, output_path)
+    output_file = (
+        Path(sys.argv[1]) if len(sys.argv) > 1 else repo_root / "_site" / "read.html"
+    )
+    generate_html_book(output_file, repo_root)
