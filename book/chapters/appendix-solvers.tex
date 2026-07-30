@@ -76,7 +76,7 @@ Khi bài toán chứa cả các ràng buộc cứng (bắt buộc thỏa) và r�
 
 Quy hoạch ràng buộc (**Constraint Programming -- CP**) mở rộng khả năng biểu diễn sang các miền giá trị hữu hạn nguyên và các ràng buộc toàn cục (\emph{global constraints}):
 \begin{itemize}
-  \item \textbf{Google OR-Tools CP-SAT}: Bộ giải CP thế hệ mới kết hợp kỹ thuật sinh mệnh đề lười (\emph{Lazy Clause Generation -- LCG}) với động cơ CDCL SAT solver bên dưới. CP-SAT đạt hiệu năng vượt trội trong các bài toán lập lịch (\emph{scheduling}) và xếp khối (\emph{packing}).
+  \item \textbf{Google OR-Tools CP-SAT}: Bộ giải CP thế hệ mới kết hợp kỹ thuật sinh mệnh đề lười (\emph{Lazy Clause Generation -- LCG}) với động cơ CDCL SAT solver bên dưới. CP-SAT đạt hiệu năng vượt trội trong các bài toán lập lịch (\emph{scheduling}) và đóng gói (\emph{packing}).
   \item \textbf{Choco Solver}: Thư viện CP mã nguồn mở dựa trên Java, hỗ trợ phong phú các ràng buộc toàn cục (\textsc{AllDifferent}, \textsc{Cumulative}, \textsc{Element}) và các chiến lược tìm kiếm tùy biến.
   \item \textbf{Gecode}: Hệ thống CP mã nguồn mở viết bằng C++ với hiệu năng cao, dựa trên kiến trúc nhân bản trạng thái (\emph{cloning-based search}).
 \end{itemize}
@@ -105,7 +105,7 @@ Lớp bộ giải & Dạng biểu diễn chính & Cơ chế xử lý chính & B�
 \midrule
 \textbf{SAT Solvers} (CaDiCaL, Kissat) & Công thức \CNF Boolean & CDCL, Unit Propagation, Conflict Learning & Mô hình lôgic thuần, ràng buộc phụ thuộc mạnh\\
 \textbf{MaxSAT Solvers} (RC2, Open-WBO) & WCNF (Cứng + Mềm) & Core-guided Relaxation, SAT Oracles & Tối ưu hóa tổ hợp với mục tiêu tuyến tính\\
-\textbf{CP Solvers} (OR-Tools CP-SAT) & Biến nguyên \& Ràng buộc toàn cục & Lazy Clause Generation, Domain Filtering & Lập lịch sản xuất, xếp khối 2D/3D, phân bổ tài nguyên\\
+\textbf{CP Solvers} (OR-Tools CP-SAT) & Biến nguyên \& Ràng buộc toàn cục & Lazy Clause Generation, Domain Filtering & Lập lịch sản xuất, đóng gói 2D/3D, phân bổ tài nguyên\\
 \textbf{ILP/MIP Solvers} (Gurobi, SCIP) & Bất đẳng thức tuyến tính số nguyên & Branch-and-Bound, Cutting Planes, Simplex & Bài toán có ma trận thưa, mục tiêu số thực/nguyên rộng\\
 \bottomrule
 \end{tabularx}

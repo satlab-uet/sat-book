@@ -1,7 +1,7 @@
 \chapter{Đối xứng, biến quan hệ và liên kết biểu diễn}
 \chapterlead{Một phép biểu diễn tốt không chỉ mô tả nghiệm; mô hình còn quyết định cách
 bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
-\emph{Symmetry breaking} (phá đối xứng) thu gọn không gian tìm kiếm, còn
+\emph{Symmetry breaking} (phá vỡ đối xứng) thu gọn không gian tìm kiếm, còn
 \emph{channeling} (liên kết biểu diễn) nối các tiêu chí bổ trợ của cùng một
 quyết định.}
 
@@ -25,12 +25,12 @@ Phép biểu diễn có thể:
         diễn giải.
 \end{itemize}
 
-Các vị từ phá đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
+Các vị từ phá vỡ đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
 đạo của bài toán tìm kiếm \parencite{crawford1996symmetry}. Ở cấp \CNF, những
 hệ như Shatter xây đồ thị tô màu của công thức, tìm tự đẳng cấu rồi sinh các
-ràng buộc phá đối xứng \parencite{aloul2003shatter}. Ở cấp mô hình, người thiết
+ràng buộc phá vỡ đối xứng \parencite{aloul2003shatter}. Ở cấp mô hình, người thiết
 kế đã biết ngữ nghĩa nên có thể viết ràng buộc ngắn hơn, chẳng hạn tiền tố
-khung chứa đã dùng. Hai cách bổ sung nhau: phá đối xứng miền được áp dụng trước;
+khung chứa đã dùng. Hai cách bổ sung nhau: phá vỡ đối xứng miền được áp dụng trước;
 phát hiện trên \CNF tìm phần đối xứng còn sót.
 
 \begin{center}
@@ -50,8 +50,8 @@ Chuẩn hóa & Toàn quỹ đạo & Có thể giữ một đại diện & Ràng 
 \end{tabularx}
 \end{center}
 
-Các lớp ràng buộc phá đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
-đổi nhóm tự đẳng cấu của đồ thị; bộ phá đối xứng tự động vì thế chạy trên công
+Các lớp ràng buộc phá vỡ đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
+đổi nhóm tự đẳng cấu của đồ thị; bộ phá vỡ đối xứng tự động vì thế chạy trên công
 thức đã có mệnh đề đơn vị và liên kết biểu diễn. Mỗi lớp bảo toàn ít nhất một
 đại diện của các quỹ đạo còn lại, còn thí nghiệm phân tích thành phần (ablation study) đo tác động của từng
 lớp lên hiệu năng
@@ -67,14 +67,14 @@ bảo toàn tính khả thi và giá trị mục tiêu. Hai nghiệm \(s,s'\in S
 \]
 là quỹ đạo của \(s\).
 
-Phá đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
+Phá vỡ đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
 đại diện:
 \[
   \forall s\in S,\qquad
   \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
 \]
 Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
-phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố gắng biểu diễn
+phá vỡ đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố gắng biểu diễn
 một dạng chuẩn hoàn chỉnh \parencite{walsh2006symmetry,gent2006symmetry}.
 
 \begin{figure}[tb]
@@ -99,7 +99,7 @@ xứng hợp lệ giữ ít nhất một nút; phép chuẩn hóa mạnh hơn s�
 \end{figure}
 
 \begin{designrule}{Chứng minh theo phép biến đổi}
-Chứng minh một ràng buộc phá đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
+Chứng minh một ràng buộc phá vỡ đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
 loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác định nhóm đối xứng và
 đại diện được bảo toàn.
 \end{designrule}
@@ -109,18 +109,18 @@ loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác đị
 Biến chính có thể tạo hoặc loại đối xứng. Trong Social Golfer, biến
 \(G_{i,r,t}\) chỉ ghi người chơi, nhóm và tuần. Nếu thêm chỉ số vị trí trong
 nhóm, mỗi nhóm \(p\) người tạo thêm \(p!\) cách biểu diễn cùng một tập.
-Trong bài toán xếp khối (packing problem), biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
+Trong bài toán đóng gói (packing problem), biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
 giải một hình chữ nhật; biến tọa độ và hướng đặt biểu diễn hình học trực tiếp hơn.
 
 Nguyên tắc chung là:
 \[
   \text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
 \]
-Sau bước chọn biến, các ràng buộc phá đối xứng xử lý nhóm đối xứng còn lại.
-Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá đối xứng tiếp tục
+Sau bước chọn biến, các ràng buộc phá vỡ đối xứng xử lý nhóm đối xứng còn lại.
+Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá vỡ đối xứng tiếp tục
 giảm số mô hình.
 
-\section{Bốn mẫu phá đối xứng}
+\section{Bốn mẫu phá vỡ đối xứng}
 
 \subsection{Cố định một lát chuẩn}
 
@@ -205,8 +205,8 @@ cạnh dài---được neo vào nửa trái hoặc một góc chuẩn:
 mục tiêu không bất biến qua phản xạ thì ràng buộc này không hợp lệ.
 
 \begin{keyidea}{Ràng buộc mạnh nhất không mặc nhiên là tốt nhất}
-Mỗi ràng buộc phá đối xứng đổi cấu trúc mệnh đề, thứ tự quyết định và các xung
-đột học được. Nên so sánh ít nhất ba cấu hình: không phá đối xứng, ràng buộc rẻ
+Mỗi ràng buộc phá vỡ đối xứng đổi cấu trúc mệnh đề, thứ tự quyết định và các xung
+đột học được. Nên so sánh ít nhất ba cấu hình: không phá vỡ đối xứng, ràng buộc rẻ
 và ràng buộc mạnh. Kết luận dựa trên số bài toán giải được và thời gian, không
 chỉ trên số mô hình bị
 loại.
@@ -218,7 +218,7 @@ Nhiều bài toán có ràng buộc dạng
 \[
   A\lor B\lor C\lor D.
 \]
-Trong bài toán xếp khối, hai hình \(i,j\) không chồng lấn khi ít nhất một quan hệ đúng:
+Trong bài toán đóng gói, hai hình \(i,j\) không chồng lấn khi ít nhất một quan hệ đúng:
 \[
   L_{ij}\lor L_{ji}\lor B_{ij}\lor B_{ji},
 \]
@@ -300,7 +300,7 @@ Một cận \(z\ge a\) là mệnh đề đơn vị \(o_{z,a}\); cận \(z\le b\)
   x_i+w_i\le x_j
 \]
 trở thành các mệnh đề cấm mọi cặp ngưỡng mâu thuẫn. Khi \(w_i\) là hằng, cấu
-trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán xếp khối (packing problem)
+trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán đóng gói (packing problem)
 \parencite{soh2010binpacking,kieu2025strip,kieu2025bin}.
 
 Với lập lịch, cùng kỹ thuật biểu diễn
@@ -439,7 +439,7 @@ và bộ giải mã.
 lấn hình học hoặc vi phạm một cận cục bộ.
 
 Trong lập lịch, cạnh xuất hiện khi hai tác vụ có thể cùng dùng một tài nguyên
-và miền thời gian của chúng giao nhau. Trong bài toán xếp khối, mọi cặp vật cùng khung
+và miền thời gian của chúng giao nhau. Trong bài toán đóng gói, mọi cặp vật cùng khung
 chứa là ứng viên, nhưng cận miền và quan hệ trội có thể cố định trước một số
 quan hệ. Trong phân bổ tần số, cạnh là cặp máy phát có yêu cầu khoảng cách nhãn.
 
@@ -457,11 +457,11 @@ Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:
   \item tạo biến quan hệ trên đồ thị xung đột;
   \item liên kết mỗi quan hệ với các literal miền;
   \item thêm ràng buộc đếm hoặc bộ đếm chia sẻ cho tài nguyên;
-  \item thêm các ràng buộc phá đối xứng có chứng minh quỹ đạo;
+  \item thêm các ràng buộc phá vỡ đối xứng có chứng minh quỹ đạo;
   \item gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.
 \end{enumerate}
 
-Các nghiên cứu về lập lịch, xếp khối dải/khung chứa và Social Golfer trong
+Các nghiên cứu về lập lịch, đóng gói dải/khung chứa và Social Golfer trong
 \textcite{kieu2025thesis} cho thấy ba lựa chọn đầu---biến chính, quan hệ và
 đối xứng---quyết định cấu trúc CNF trước khi chọn bộ giải. Các chương sau dùng
 chính kiến trúc này cho bốn họ bài toán.
@@ -470,7 +470,7 @@ chính kiến trúc này cho bốn họ bài toán.
 
 \begin{summarybox}
 \begin{enumerate}
-  \item Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.
+  \item Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá vỡ đối xứng.
   \item Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.
   \item Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
   \item Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.
@@ -484,6 +484,6 @@ chính kiến trúc này cho bốn họ bài toán.
   \item Chứng minh tiền tố sử dụng giữ một đại diện khi các khung chứa hoàn
   toàn giống nhau.
   \item Viết liên kết một chiều cho bốn quan hệ không chồng lấn của hai hình.
-  \item Cho một ràng buộc phản xạ trong bài toán xếp khối (packing problem) dải và nêu điều kiện
+  \item Cho một ràng buộc phản xạ trong bài toán đóng gói (packing problem) dải và nêu điều kiện
   để ràng buộc đó hợp lệ.
 \end{enumerate}

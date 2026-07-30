@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
-    <meta name="sat-book-source-sha256" content="4ab71bb87b88a6c19a5c984bbe118062c8bdb04a4d8116f74c389654579d3a55">
+    <meta name="sat-book-source-sha256" content="63ec41808e625ca103d1aafb47e9d22a6430dba3935cf9f0e8cb7f7f26825271">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -1214,11 +1214,11 @@ Một kết quả có giá trị tham khảo cao cần ít nhất hai loại; th
 lẻ chỉ là bằng chứng so sánh yếu nếu thiếu cơ chế và biến kiểm soát.</p>
 <h3 class="reader-h2">Bắt đầu từ một câu hỏi nhân quả</h3>
 <p>Một nghiên cứu về phép biểu diễn thường có một trong bốn câu hỏi:
-<ol class="reader-list"><li>phép biểu diễn mới giảm kích thước bao nhiêu;</li><li>sức lan truyền thay đổi như thế nào;</li><li>thời gian chạy và số bài giải được thay đổi ra sao;</li><li>một mô-đun có tương tác với phá đối xứng, giải tăng dần hoặc bộ giải không.</li></ol></p>
+<ol class="reader-list"><li>phép biểu diễn mới giảm kích thước bao nhiêu;</li><li>sức lan truyền thay đổi như thế nào;</li><li>thời gian chạy và số bài giải được thay đổi ra sao;</li><li>một mô-đun có tương tác với phá vỡ đối xứng, giải tăng dần hoặc bộ giải không.</li></ol></p>
 <p>Câu hỏi càng rõ, ma trận thiết kế càng nhỏ. Nếu mục tiêu là đo bộ đếm dùng
 chung, hãy giữ cố định bộ giải, tiền xử lý, chiến lược tìm kiếm và quy trình
 xử lý hàm mục tiêu; chỉ thay mô-đun bộ đếm. Nếu đồng thời thay bộ giải và cách
-phá đối xứng, kết quả không phân định được đóng góp riêng lẻ của từng thành phần.</p>
+phá vỡ đối xứng, kết quả không phân định được đóng góp riêng lẻ của từng thành phần.</p>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Đơn vị của thí nghiệm phân tích thành phần (ablation study)</strong></div>
  <div class="callout-body">Một đặc trưng không có hiệu ứng độc lập khi làm thay đổi giao diện của phép biểu diễn.
@@ -1453,7 +1453,7 @@ thay đổi.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>Đánh giá thực nghiệm bắt đầu từ một câu hỏi, không bắt đầu từ một bảng cấu hình.</li><li>Tách tinh chỉnh khỏi đánh giá và phân tầng theo họ bài toán.</li><li>Báo cả kích thước, bộ đếm tìm kiếm và thời gian chạy có dữ liệu hết hạn.</li><li>Tách SAT/UNSAT và dùng nhiều hạt giống ngẫu nhiên ở vùng khó.</li><li>Bộ kiểm tra mô hình là điều kiện trước của mọi bảng hiệu năng.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
-<ol class="reader-list"><li>Thiết kế thí nghiệm phân tích thành phần (ablation study) \(2\times2\) cho bộ biểu diễn và phá đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
+<ol class="reader-list"><li>Thiết kế thí nghiệm phân tích thành phần (ablation study) \(2\times2\) cho bộ biểu diễn và phá vỡ đối xứng.</li><li>Với ba lần hết thời hạn trong mười bài toán thử, tính PAR-2 và so với
  trung bình trên các bài đã giải.</li><li>Lập một bản kê gói tái lập tối thiểu cho một thí nghiệm SAT tăng dần.</li></ol>
         </section>
         
@@ -2026,7 +2026,7 @@ lịch vừa là bài toán thiết kế tổ hợp. Ba
 nguồn khó đan xen với nhau: ràng buộc đúng kích thước nhóm, cấm lặp cặp người
 chơi và một nhóm đối xứng lớn do hoán vị tuần, nhóm, người. Vì vậy, hiệu quả
 của một phép biểu diễn ràng buộc đếm trên SGP không thể tách khỏi lựa chọn biến
-chính và cách phá đối xứng.</p>
+chính và cách phá vỡ đối xứng.</p>
 <p>Các mô hình SAT trước đó từng dùng thêm chỉ số vị trí trong nhóm, sau đó được
 sửa và rút gọn bằng biến người–nhóm–tuần cùng cấu trúc bậc thang
 <span class="cite">(Triska & Musliu, 2012)</span>. Dòng phát triển này minh họa một quy tắc quan
@@ -2146,7 +2146,7 @@ trưng này dẫn đến một lựa chọn hiệu quả trên họ bài toán t
             
           <div class="chapter-lead">Một phép biểu diễn tốt không chỉ mô tả nghiệm; mô hình còn quyết định cách
 bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
-<em>Symmetry breaking</em> (phá đối xứng) thu gọn không gian tìm kiếm, còn
+<em>Symmetry breaking</em> (phá vỡ đối xứng) thu gọn không gian tìm kiếm, còn
 <em>channeling</em> (liên kết biểu diễn) nối các tiêu chí bổ trợ của cùng một
 quyết định.</div>
 <div class="reader-flow-diagram">
@@ -2167,12 +2167,12 @@ và literal bảo toàn tập mệnh đề. Hai nhóm này liên quan nhưng kh�
 Phép biểu diễn có thể:
 <ul class="reader-list"><li>làm một đối xứng miền biến mất vì không biểu diễn chỉ số thừa;</li><li>làm một đối xứng miền trở nên khó phát hiện do biến phụ;</li><li>tạo đối xứng phụ mới giữa các trạng thái tương đương;</li><li>có đối xứng cú pháp không tương ứng với một phép biến đổi nghiệm dễ
  diễn giải.</li></ul></p>
-<p>Các vị từ phá đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
+<p>Các vị từ phá vỡ đối xứng tổng quát xây một điều kiện chọn đại diện cho các quỹ
 đạo của bài toán tìm kiếm <span class="cite">(Crawford et al., 1996)</span>. Ở cấp CNF, những
 hệ như Shatter xây đồ thị tô màu của công thức, tìm tự đẳng cấu rồi sinh các
-ràng buộc phá đối xứng <span class="cite">(Aloul et al., 2003)</span>. Ở cấp mô hình, người thiết
+ràng buộc phá vỡ đối xứng <span class="cite">(Aloul et al., 2003)</span>. Ở cấp mô hình, người thiết
 kế đã biết ngữ nghĩa nên có thể viết ràng buộc ngắn hơn, chẳng hạn tiền tố
-khung chứa đã dùng. Hai cách bổ sung nhau: phá đối xứng miền được áp dụng trước;
+khung chứa đã dùng. Hai cách bổ sung nhau: phá vỡ đối xứng miền được áp dụng trước;
 phát hiện trên CNF tìm phần đối xứng còn sót.</p>
 <div class="reader-table-wrapper">
  <div class="reader-table-caption"><strong>Bảng: Bốn cấp khai thác đối xứng.</strong></div>
@@ -2181,8 +2181,8 @@ phát hiện trên CNF tìm phần đối xứng còn sót.</p>
  <tbody><tr><td>Mô hình</td><td>Đối tượng và phép đổi tên</td><td>Ràng buộc ngắn, có chứng minh miền</td><td>Cần tri thức bài toán</td></tr><tr><td>CNF tĩnh</td><td>Đồ thị công thức</td><td>Tự động, dùng cho mô hình bất kỳ</td><td>Biến phụ có thể che đối xứng</td></tr><tr><td>Động</td><td>Trạng thái tìm kiếm</td><td>Khai thác đối xứng còn lại</td><td>Chi phí tích hợp bộ giải</td></tr><tr><td>Chuẩn hóa</td><td>Toàn quỹ đạo</td><td>Có thể giữ một đại diện</td><td>Ràng buộc lớn/lan truyền sâu</td></tr></tbody>
  </table>
  </div>
-<p>Các lớp ràng buộc phá đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
-đổi nhóm tự đẳng cấu của đồ thị; bộ phá đối xứng tự động vì thế chạy trên công
+<p>Các lớp ràng buộc phá vỡ đối xứng được ghép theo thứ tự. Ràng buộc miền làm thay
+đổi nhóm tự đẳng cấu của đồ thị; bộ phá vỡ đối xứng tự động vì thế chạy trên công
 thức đã có mệnh đề đơn vị và liên kết biểu diễn. Mỗi lớp bảo toàn ít nhất một
 đại diện của các quỹ đạo còn lại, còn thí nghiệm phân tích thành phần (ablation study) đo tác động của từng
 lớp lên hiệu năng
@@ -2195,14 +2195,14 @@ bảo toàn tính khả thi và giá trị mục tiêu. Hai nghiệm \(s, s'\in 
 \operatorname{Orb}(s)=\left\{\gamma(s)\suchthat\gamma\in\Gamma\right\}
 \]
 <p>là quỹ đạo của \(s\).</p>
-<p>Phá đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
+<p>Phá vỡ đối xứng thêm công thức \(B\) sao cho mỗi quỹ đạo còn ít nhất một
 đại diện:</p>
 \[
 \forall s\in S,\qquad
   \operatorname{Orb}(s)\cap\operatorname{Mod}(B)\ne\varnothing.
 \]
 <p>Không nhất thiết phải giữ đúng một đại diện. Trong thực hành, một tập ràng buộc
-phá đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố gắng biểu diễn
+phá vỡ đối xứng nhỏ, rẻ và phù hợp với mô hình thường hữu ích hơn việc cố gắng biểu diễn
 một dạng chuẩn hoàn chỉnh <span class="cite">(Walsh, 2006; Gent et al., 2006)</span>.</p>
 <div class="reader-figure-box" id="fig_symmetry_orbit">
 <div class="reader-figure-img">
@@ -2214,7 +2214,7 @@ xứng hợp lệ giữ ít nhất một nút; phép chuẩn hóa mạnh hơn s�
  </div>
 <div class="reader-callout design-rule">
  <div class="callout-header"><strong>Chứng minh theo phép biến đổi</strong></div>
- <div class="callout-body">Chứng minh một ràng buộc phá đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
+ <div class="callout-body">Chứng minh một ràng buộc phá vỡ đối xứng bằng phép hoán vị hoặc phép phản xạ đưa mọi nghiệm bị
 loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác định nhóm đối xứng và
 đại diện được bảo toàn.</div>
  </div>
@@ -2222,16 +2222,16 @@ loại sang một nghiệm giữ lại. Ánh xạ này đồng thời xác đị
 <p>Biến chính có thể tạo hoặc loại đối xứng. Trong Social Golfer, biến
 \(G_{i, r,t}\) chỉ ghi người chơi, nhóm và tuần. Nếu thêm chỉ số vị trí trong
 nhóm, mỗi nhóm \(p\) người tạo thêm \(p!\) cách biểu diễn cùng một tập.
-Trong bài toán xếp khối (packing problem), biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
+Trong bài toán đóng gói (packing problem), biến chiếm chỗ theo từng ô có thể tạo nhiều cách diễn
 giải một hình chữ nhật; biến tọa độ và hướng đặt biểu diễn hình học trực tiếp hơn.</p>
 <p>Nguyên tắc chung là:</p>
 \[
 \text{không biểu diễn thứ tự nếu thứ tự không thuộc nghiệm.}
 \]
-<p>Sau bước chọn biến, các ràng buộc phá đối xứng xử lý nhóm đối xứng còn lại.
-Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá đối xứng tiếp tục
+<p>Sau bước chọn biến, các ràng buộc phá vỡ đối xứng xử lý nhóm đối xứng còn lại.
+Cách tiếp cận đó giảm cả số biến lẫn số mệnh đề; bước phá vỡ đối xứng tiếp tục
 giảm số mô hình.</p>
-<h3 class="reader-h2">Bốn mẫu phá đối xứng</h3>
+<h3 class="reader-h2">Bốn mẫu phá vỡ đối xứng</h3>
 <h4 class="reader-h3">Cố định một lát chuẩn</h4>
 <p>Khi các lớp thời gian hoặc tài nguyên hoán vị tự do, có thể cố định lát đầu.
 Với Social Golfer, tuần đầu được chuẩn hóa:</p>
@@ -2305,8 +2305,8 @@ cạnh dài—được neo vào nửa trái hoặc một góc chuẩn:</p>
 mục tiêu không bất biến qua phản xạ thì ràng buộc này không hợp lệ.</p>
 <div class="reader-callout key-idea">
  <div class="callout-header"><strong>Ràng buộc mạnh nhất không mặc nhiên là tốt nhất</strong></div>
- <div class="callout-body">Mỗi ràng buộc phá đối xứng đổi cấu trúc mệnh đề, thứ tự quyết định và các xung
-đột học được. Nên so sánh ít nhất ba cấu hình: không phá đối xứng, ràng buộc rẻ
+ <div class="callout-body">Mỗi ràng buộc phá vỡ đối xứng đổi cấu trúc mệnh đề, thứ tự quyết định và các xung
+đột học được. Nên so sánh ít nhất ba cấu hình: không phá vỡ đối xứng, ràng buộc rẻ
 và ràng buộc mạnh. Kết luận dựa trên số bài toán giải được và thời gian, không
 chỉ trên số mô hình bị
 loại.</div>
@@ -2316,7 +2316,7 @@ loại.</div>
 \[
 A\lor B\lor C\lor D.
 \]
-<p>Trong bài toán xếp khối, hai hình \(i, j\) không chồng lấn khi ít nhất một quan hệ đúng:</p>
+<p>Trong bài toán đóng gói, hai hình \(i, j\) không chồng lấn khi ít nhất một quan hệ đúng:</p>
 \[
 L_{ij}\lor L_{ji}\lor B_{ij}\lor B_{ji},
 \]
@@ -2372,7 +2372,7 @@ o_{z, t+1}\rightarrow o_{z, t}.
 x_i+w_i\le x_j
 \]
 <p>trở thành các mệnh đề cấm mọi cặp ngưỡng mâu thuẫn. Khi \(w_i\) là hằng, cấu
-trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán xếp khối (packing problem)
+trúc dịch chuyển này có tính địa phương cao và phù hợp với bài toán đóng gói (packing problem)
 <span class="cite">(Soh et al., 2010; Kieu et al., 2025; Kieu et al., 2025)</span>.</p>
 <p>Với lập lịch, cùng kỹ thuật biểu diễn</p>
 \[
@@ -2483,7 +2483,7 @@ và bộ giải mã.</p>
 \(\{i, j\}\in E\) khi hai đối tượng có thể cạnh tranh cùng tài nguyên, chồng
 lấn hình học hoặc vi phạm một cận cục bộ.</p>
 <p>Trong lập lịch, cạnh xuất hiện khi hai tác vụ có thể cùng dùng một tài nguyên
-và miền thời gian của chúng giao nhau. Trong bài toán xếp khối, mọi cặp vật cùng khung
+và miền thời gian của chúng giao nhau. Trong bài toán đóng gói, mọi cặp vật cùng khung
 chứa là ứng viên, nhưng cận miền và quan hệ trội có thể cố định trước một số
 quan hệ. Trong phân bổ tần số, cạnh là cặp máy phát có yêu cầu khoảng cách nhãn.</p>
 <p>Thiết kế theo đồ thị đem lại hai lợi ích: kích thước tỉ lệ với số tương tác
@@ -2491,19 +2491,19 @@ thật, và mệnh đề học được thường nằm quanh một lân cận n
 cụ thể về mức độ phù hợp với bộ giải, thay vì chỉ nói phép biểu diễn “gọn”.</p>
 <h3 class="reader-h2">Kiến trúc kết hợp</h3>
 <p>Một mô hình SAT lớn nên ghép các mô-đun theo thứ tự sau:</p>
-<ol class="reader-list"><li>chọn biến chính loại các chỉ số không mang nghĩa;</li><li>tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;</li><li>tạo biến quan hệ trên đồ thị xung đột;</li><li>liên kết mỗi quan hệ với các literal miền;</li><li>thêm ràng buộc đếm hoặc bộ đếm chia sẻ cho tài nguyên;</li><li>thêm các ràng buộc phá đối xứng có chứng minh quỹ đạo;</li><li>gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.</li></ol>
-<p>Các nghiên cứu về lập lịch, xếp khối dải/khung chứa và Social Golfer trong
+<ol class="reader-list"><li>chọn biến chính loại các chỉ số không mang nghĩa;</li><li>tạo miền thứ tự/trực tiếp cho thời gian, tọa độ hoặc nhãn;</li><li>tạo biến quan hệ trên đồ thị xung đột;</li><li>liên kết mỗi quan hệ với các literal miền;</li><li>thêm ràng buộc đếm hoặc bộ đếm chia sẻ cho tài nguyên;</li><li>thêm các ràng buộc phá vỡ đối xứng có chứng minh quỹ đạo;</li><li>gắn hàm mục tiêu bằng các giả định hoặc mệnh đề mềm.</li></ol>
+<p>Các nghiên cứu về lập lịch, đóng gói dải/khung chứa và Social Golfer trong
 <span class="cite">(Kiều Văn Tuyên, 2025)</span> cho thấy ba lựa chọn đầu—biến chính, quan hệ và
 đối xứng—quyết định cấu trúc CNF trước khi chọn bộ giải. Các chương sau dùng
 chính kiến trúc này cho bốn họ bài toán.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <div class="reader-callout summary-box">
  <div class="callout-header"><strong>Tổng kết Bài học</strong></div>
- <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
+ <div class="callout-body"><ol class="reader-list"><li>Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá vỡ đối xứng.</li><li>Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.</li><li>Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.</li><li>Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.</li><li>Biểu diễn thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.</li><li>Đồ thị xung đột xác định nơi thật sự cần biến phụ.</li></ol></div>
  </div>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Chứng minh tiền tố sử dụng giữ một đại diện khi các khung chứa hoàn
- toàn giống nhau.</li><li>Viết liên kết một chiều cho bốn quan hệ không chồng lấn của hai hình.</li><li>Cho một ràng buộc phản xạ trong bài toán xếp khối (packing problem) dải và nêu điều kiện
+ toàn giống nhau.</li><li>Viết liên kết một chiều cho bốn quan hệ không chồng lấn của hai hình.</li><li>Cho một ràng buộc phản xạ trong bài toán đóng gói (packing problem) dải và nêu điều kiện
  để ràng buộc đó hợp lệ.</li></ol>
         </section>
         
@@ -2675,7 +2675,7 @@ nói tác vụ chạy ở vị trí nào.</div>
  </div></p>
 <p>Kết quả của <span class="cite">(Kieu & To, 2025)</span> cho thấy lợi ích chính của phép mã
 hóa gọn nằm ở việc tránh lặp cấu trúc liên tục. Cấu hình kết hợp biểu diễn theo
-khối với phá đối xứng và một phép biểu diễn giả Boolean thích hợp đạt tổng thời
+khối với phá vỡ đối xứng và một phép biểu diễn giả Boolean thích hợp đạt tổng thời
 gian thấp nhất trong nhiều nhóm bài toán của nghiên cứu đó. Điều cần rút ra cho
 thiết kế là: <em>tính không ngắt nên là một mô-đun độc lập</em>, thay vì được
 ngầm suy từ một ràng buộc đếm.</p>
@@ -2924,7 +2924,7 @@ một kiến trúc kết hợp.</p>
               <div class="reader-inline-caption"><em>Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D</em></div>
             </div>
             
-          <div class="chapter-lead">Trong bài toán xếp khối, mệnh đề không xử lý trực tiếp với hình chữ
+          <div class="chapter-lead">Trong bài toán đóng gói, mệnh đề không xử lý trực tiếp với hình chữ
 nhật; mô hình làm việc với tọa độ, hướng đặt và các quan hệ tách. Chất lượng phép biểu diễn
 phụ thuộc vào việc thiết kế giao diện phù hợp giữa ba lớp đó.</div>
 <div class="reader-flow-diagram">
@@ -2938,7 +2938,7 @@ phụ thuộc vào việc thiết kế giao diện phù hợp giữa ba lớp đ
  <div class="flow-subbox">↘ Bố trí và chứng nhận</div>
  </div>
  </div>
-<h3 class="reader-h2">Bản đồ các phương pháp chính xác cho xếp khối</h3>
+<h3 class="reader-h2">Bản đồ các phương pháp chính xác cho đóng gói</h3>
 <p>Hai chiều tạo khó khăn khác một chiều: không chồng lấn là một phép tuyển giữa
 hai trục, còn tọa độ có nhiều giá trị đối xứng trong vùng trống. Văn liệu về
 phương pháp chính xác vì thế không xoay quanh một mô hình duy nhất. Khảo cứu
@@ -2949,24 +2949,24 @@ sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh–cận 
 <dl class="reader-dl"><dt><strong>Chiếm chỗ</strong></dt><dd>Biến cho từng ô mà vật chiếm. Không chồng lấn trở thành cục bộ nhưng số biến
  phụ thuộc diện tích lưới; tính liên tục của một hình cần các mệnh đề liên kết.</dd><dt><strong>Vị trí đặt tuyệt đối</strong></dt><dd>Mỗi biến chọn một vị trí khả dĩ của vật. Đồ thị xung đột nối hai vị trí chồng
  lấn; bài toán trở thành chọn đúng một vị trí cho mỗi vật. Các phương pháp vị
- trí tuyệt đối và xếp khối hoàn hảo khai thác nén tọa độ, tổng tập con và suy
+ trí tuyệt đối và đóng gói hoàn hảo khai thác nén tọa độ, tổng tập con và suy
  luận trên không gian trống
  <span class="cite">(Huang & Korf, 2013)</span>.</dd><dt><strong>Vị trí tương đối + tọa độ</strong></dt><dd>Mỗi vật có tọa độ; mỗi cặp có <em>witness variable</em> (biến làm chứng)
  trái/phải/trên/dưới. Biểu diễn thứ tự
  nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.</dd></dl></p>
 <p>Ngoài SAT, quy hoạch ràng buộc dùng <span class="small-caps">NoOverlap</span>/diffn, các phép chiếu
 tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
-tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho xếp khối trực giao còn
+tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho đóng gói trực giao còn
 kết hợp cận, quan hệ trội và nhánh–cận chuyên dụng
 <span class="cite">(Clautiaux et al., 2007; Clautiaux et al., 2008)</span>.</p>
 <div class="reader-table-wrapper">
- <div class="reader-table-caption"><strong>Bảng: Các biểu diễn chính xác cho xếp khối hai chiều.</strong></div>
+ <div class="reader-table-caption"><strong>Bảng: Các biểu diễn chính xác cho đóng gói hai chiều.</strong></div>
  <table class="reader-table">
  <thead><tr><th>Biểu diễn</th><th>Quy mô theo</th><th>Lan truyền tự nhiên</th><th>Phù hợp khi</th></tr></thead>
  <tbody><tr><td>Chiếm chỗ</td><td>Diện tích lưới</td><td>Xung đột ô</td><td>Khung chứa nhỏ/rất rời rạc</td></tr><tr><td>Vị trí đặt</td><td>Số vị trí khả dĩ</td><td>Đồ thị xung đột</td><td>Miền đã nén mạnh</td></tr><tr><td>Tọa độ–thứ tự</td><td>Tổng độ rộng miền</td><td>Cận và quan hệ tách</td><td>Miền nguyên vừa</td></tr><tr><td>CP toàn cục</td><td>Số vật + bộ lan truyền</td><td>Không chồng lấn/tích lũy</td><td>Cận hình học mạnh</td></tr><tr><td>MIP/phủ tập</td><td>Biến/cột vị trí</td><td>Thư giãn và nhát cắt</td><td>Cận LP hữu ích</td></tr></tbody>
  </table>
  </div>
-<p>Ba trục tạo nên đóng góp SAT cho xếp khối là nén miền tọa độ, làm mạnh lan
+<p>Ba trục tạo nên đóng góp SAT cho đóng gói là nén miền tọa độ, làm mạnh lan
 truyền không chồng lấn và tái sử dụng mệnh đề đã học giữa các cận. Kiến trúc
 mới được nhận diện qua thay đổi có thể đo trên ít nhất một trong ba trục này.</p>
 <h3 class="reader-h2">Mô hình hình học rời rạc</h3>
@@ -3007,8 +3007,8 @@ dấu \(\le\) cho phép hai vật chạm cạnh. Quy ước này phải được
 điều kiện nằm gọn, không chồng lấn và bộ kiểm tra.</div>
  </div>
 <p>Hình (sơ đồ trong phần này) dùng một ví dụ tự dựng để minh họa cách tọa độ
-thứ tự và quan hệ vị trí được dùng trong SAT cho xếp khối; cách tổ chức quan hệ
-này tiếp nối mô hình xếp khối dải của <span class="cite">(Soh et al., 2010)</span>.</p>
+thứ tự và quan hệ vị trí được dùng trong SAT cho đóng gói; cách tổ chức quan hệ
+này tiếp nối mô hình đóng gói dải của <span class="cite">(Soh et al., 2010)</span>.</p>
 <div class="reader-figure-box" id="fig_packing_layout">
 <div class="reader-figure-img">
  <img src="assets/images/diagrams/fig_packing_layout.webp" alt="Hình: Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
@@ -3078,7 +3078,7 @@ chứa. Khi đó mọi bố trí giải mã từ mô hình SAT đều không gia
 theo của biến làm chứng đó cho một bất đẳng thức tách theo trục \(x\) hoặc \(y\). Vì vậy nội
 thất hai hình chữ nhật rời nhau. <span class="proof-qedsymbol">■</span>
  </div>
-<h3 class="reader-h2">Bài toán xếp khối (Packing problem) dải hai chiều</h3>
+<h3 class="reader-h2">Bài toán đóng gói (Packing problem) dải hai chiều</h3>
 <h4 class="reader-h3">Từ tối ưu chiều cao sang kiểm tra tính khả thi</h4>
 <p>Dải có chiều rộng cố định \(W\), còn chiều cao \(H\) cần tối thiểu hóa. Với
 mỗi \(H\), dựng công thức</p>
@@ -3118,7 +3118,7 @@ vì mọi số nguyên từ \(0\) đến \(W-w_i\).</p>
  <tbody><tr><td>SAT độc lập</td><td>Dựng lại \(\Phi(H)\) ở mỗi cận</td><td>Đơn giản, mỗi cận có một CNF riêng</td></tr><tr><td>SAT tăng dần</td><td>Miền lớn cố định, kích hoạt \(H\) bằng các giả định</td><td>Giữ mệnh đề đã học giữa các cận</td></tr><tr><td>MaxSAT có trọng số</td><td>Chiều cao được biểu diễn bằng mệnh đề mềm</td><td>Không cần vòng tìm kiếm ngoài</td></tr></tbody>
  </table>
  </div>
-<p>Biểu diễn SAT thứ tự cho xếp khối dải đã được nghiên cứu trước đó cùng đối xứng,
+<p>Biểu diễn SAT thứ tự cho đóng gói dải đã được nghiên cứu trước đó cùng đối xứng,
 quan hệ vị trí và tái sử dụng mệnh đề đã học
 <span class="cite">(Soh et al., 2010)</span>. Vì vậy nghiên cứu tình huống của nhóm được định vị
 theo hai câu hỏi kế tiếp: phép quay/đối xứng làm đổi mô hình thế nào, và
@@ -3126,10 +3126,10 @@ SAT–MaxSAT–giải tăng dần có giữ lợi thế trên bộ kiểm chuẩ
 tại hay không. Phép so sánh hợp lý phải giữ cùng các cận, miền tọa độ và bộ
 kiểm tra.</p>
 <p>Trong nghiên cứu của <span class="cite">(Kieu et al., 2025)</span>, SAT không tăng dần với phép
-quay và phá đối xứng chứng nhận 26 giá trị tối ưu trên 41 bài toán; phiên bản
+quay và phá vỡ đối xứng chứng nhận 26 giá trị tối ưu trên 41 bài toán; phiên bản
 tăng dần chứng nhận 21, còn CP chứng nhận 28. Kết quả này cho thấy giải tăng
 dần chỉ có lợi khi công thức cơ sở và mệnh đề đã học còn phù hợp sau khi thay
-cận. Với xếp khối dải, thay \(H\) có thể làm thay đổi mạnh miền tọa độ và
+cận. Với đóng gói dải, thay \(H\) có thể làm thay đổi mạnh miền tọa độ và
 những xung đột hữu ích.</p>
 <div class="reader-callout key-idea">
  <div class="callout-header"><strong>Chứng nhận tối ưu</strong></div>
@@ -3137,13 +3137,13 @@ những xung đột hữu ích.</p>
 thỏa là chứng nhận cận dưới. Cặp SAT/UNSAT ở hai cận kề nhau mới xác định
 \(H^\star\) là giá trị tối ưu.</div>
  </div>
-<h3 class="reader-h2">Bài toán xếp khối (Packing problem) vào khung chứa hai chiều</h3>
+<h3 class="reader-h2">Bài toán đóng gói (Packing problem) vào khung chứa hai chiều</h3>
 <h4 class="reader-h3">Hai kiến trúc</h4>
 <p>Bài toán dùng nhiều khung chứa \(W\times H\) đồng nhất và tối thiểu hóa số
 khung. Có hai kiến trúc chính.</p>
 <p><strong>Xếp chồng.</strong>
 Ghép \(k\) khung thành một dải \(W\times kH\). Tọa độ \(y_i\) đồng thời xác
-định khung. Kiến trúc này tái sử dụng xếp khối dải nhưng phải ngăn vật vượt qua
+định khung. Kiến trúc này tái sử dụng đóng gói dải nhưng phải ngăn vật vượt qua
 đường biên \(qH\).</p>
 <p><strong>Không xếp chồng.</strong>
 Dùng biến \(a_{ib}=1\) khi vật \(i\) nằm trong khung \(b\), và tọa độ cục bộ
@@ -3168,10 +3168,10 @@ ràng buộc đối xứng phải dựa trên phép hoán vị các khung đồn
 trên một bố trí kinh nghiệm cụ thể.</p>
 <div class="reader-figure-box" id="fig_stacking_nonstacking">
 <div class="reader-figure-img">
- <img src="assets/images/diagrams/fig_stacking_nonstacking.webp" alt="Hình: Hai kiến trúc cho xếp khối vào khung: xếp chồng dùng một trục \(y\)
+ <img src="assets/images/diagrams/fig_stacking_nonstacking.webp" alt="Hình: Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
 toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng." loading="lazy" />
  </div>
-<div class="reader-inline-caption"><em>Hình: Hai kiến trúc cho xếp khối vào khung: xếp chồng dùng một trục \(y\)
+<div class="reader-inline-caption"><em>Hình: Hai kiến trúc cho đóng gói vào khung: xếp chồng dùng một trục \(y\)
 toàn cục; không xếp chồng dùng phép gán và tọa độ cục bộ, kèm tiền tố sử dụng.</em></div>
  </div>
 <p>Trong mô hình theo vị trí đặt, một cách khác là xây đồ thị xung đột cho mọi cặp
@@ -3192,7 +3192,7 @@ xứng cho khung/bản sao quyết định đáng kể kích thước không gia
 <h4 class="reader-h3">Mô hình theo số tờ</h4>
 <p>Cho tấm vật liệu kích thước \(W\times H\), nhiều loại vật \(t\), mỗi loại có
 nhu cầu \(d_t\). Bài toán tối thiểu hóa số tấm. Nếu tạo từng bản sao riêng,
-phép gán và không chồng lấn giống bài toán xếp khối (packing problem) vào khung. Nếu gộp theo
+phép gán và không chồng lấn giống bài toán đóng gói (packing problem) vào khung. Nếu gộp theo
 loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.</p>
 <p>Với một cận \(K\), công thức khả thi hỏi liệu có thể đáp ứng đủ nhu cầu trên
 \(K\) tấm. Hàm mục tiêu là</p>
@@ -3200,7 +3200,7 @@ loại, cần thêm ràng buộc đếm để bảo đảm đúng nhu cầu.</p>
 \min\left\{K\mid \Phi_{\mathrm{CSP}}(K)\text{ là SAT}\right\}.
 \]
 <p>Đối xứng xuất hiện ở hai tầng: các tấm đồng nhất và các bản sao cùng loại. Một
-cách phá đối xứng bền vững là buộc biến sử dụng tấm theo tiền tố và buộc chỉ
+cách phá vỡ đối xứng bền vững là buộc biến sử dụng tấm theo tiền tố và buộc chỉ
 số tấm của các bản sao cùng loại không giảm.</p>
 <h4 class="reader-h3">SAT và MaxSAT</h4>
 <p>Tìm kiếm SAT thay \(K\) ở vòng ngoài. MaxSAT bộ phận có thể giữ tất cả các
@@ -3209,7 +3209,7 @@ tấm ứng viên, đặt mệnh đề mềm \(\neg q_b\) và tối thiểu
 lấn; chúng chỉ khác ở lớp hàm mục tiêu.</p>
 <p><span class="cite">(Kieu et al., 2026)</span> cho thấy phép biểu diễn gọn với tọa độ thứ tự và đối
 xứng theo bản sao/tấm đạt kết quả cạnh tranh trên bộ bài toán cắt tấm một kích
-thước. Điểm chuyển giao sang các bài toán xếp khối (packing problem) khác là chuỗi mô-đun</p>
+thước. Điểm chuyển giao sang các bài toán đóng gói (packing problem) khác là chuỗi mô-đun</p>
 \[
 \texttt{Assignment}
   +\texttt{OrderCoordinate}
@@ -3220,11 +3220,11 @@ thước. Điểm chuyển giao sang các bài toán xếp khối (packing probl
 <p>Trước khi sinh CNF, bốn phép rút gọn thường có hiệu quả trực tiếp:
 <ol class="reader-list"><li>loại hướng đặt không vừa khung;</li><li>thu hẹp \(x_i\le W-\widehat w_i\) và
  \(y_i\le H-\widehat h_i\);</li><li>loại một hướng tách nếu các cận chứng minh hướng đó bất khả thi;</li><li>chuẩn hóa vật/bản sao và khung chứa theo một thứ tự cố định.</li></ol></p>
-<p>Mỗi ràng buộc phá đối xứng được gắn với một nhóm đối xứng cụ thể:
+<p>Mỗi ràng buộc phá vỡ đối xứng được gắn với một nhóm đối xứng cụ thể:
 <ul class="reader-list"><li>\(\rho_i=0\) cho vật vuông: đối xứng hướng đặt;</li><li>\(q_{b+1}\rightarrow q_b\): hoán vị khung/tấm;</li><li>thứ tự bản sao cùng loại: hoán vị các bản sao đồng nhất;</li><li>neo một vật lớn vào nửa khung chứa: phản xạ/tịnh tiến, nếu phép biến
  đổi giữ miền và hàm mục tiêu.</li></ul>
 Các nguyên tắc tổng quát về đối xứng được trình bày trong
-<span class="cite">(Walsh, 2006; Gent et al., 2006)</span>; phép biểu diễn SAT cổ điển cho bài toán xếp khối (packing problem) khung 2D
+<span class="cite">(Walsh, 2006; Gent et al., 2006)</span>; phép biểu diễn SAT cổ điển cho bài toán đóng gói (packing problem) khung 2D
 Packing có rotation có thể xem ở <span class="cite">(Soh et al., 2010)</span>.</p>
 <h3 class="reader-h2">Tách ảnh hưởng của phép biểu diễn, cận và quan hệ trội</h3>
 <p>Ma trận thiết kế ghi riêng ảnh hưởng của các thành phần:
@@ -3249,11 +3249,11 @@ chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ k
 đặt, tọa độ và khung chứa, độc lập với biến phụ.</p>
 <h3 class="reader-h2">Bài học thiết kế</h3>
 <ol class="reader-list"><li>Chọn một quy ước tọa độ và duy trì quy ước này nhất quán trong toàn bộ phép biểu diễn.</li><li>Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
- quan hệ đầy đủ nếu phép giải mã không cần.</li><li>Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.</li><li>Phá đối xứng theo đúng phép hoán vị hoặc phản xạ của mô hình.</li><li>Chứng nhận tối ưu gồm bố trí hợp lệ và một cận dưới tương ứng.</li></ol>
+ quan hệ đầy đủ nếu phép giải mã không cần.</li><li>Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.</li><li>Phá vỡ đối xứng theo đúng phép hoán vị hoặc phản xạ của mô hình.</li><li>Chứng nhận tối ưu gồm bố trí hợp lệ và một cận dưới tương ứng.</li></ol>
 <h4 class="reader-h3">Câu hỏi nghiên cứu</h4>
 <ol class="reader-list"><li>Dẫn xuất các mệnh đề thứ tự cho quan hệ kéo theo
  \(l_{ij}\rightarrow x_i+\widehat w_i\le x_j\) ở một hướng đặt cố định.</li><li>So sánh số biến của xếp chồng và không xếp chồng trên \(n\) vật,
- \(k\) khung.</li><li>Thiết kế ràng buộc phá đối xứng cho ba bản sao cùng loại và chứng minh
+ \(k\) khung.</li><li>Thiết kế ràng buộc phá vỡ đối xứng cho ba bản sao cùng loại và chứng minh
  mỗi quỹ đạo giữ một
  đại diện.</li></ol>
         </section>
@@ -3454,7 +3454,7 @@ SAT/UNSAT có cận \(k\) rõ ràng.</div>
 <h4 class="reader-h3">Quan hệ với tô màu đỉnh</h4>
 <p>Khi \(d_{uv}=1\) trên mọi cạnh, BCP trở về tô màu đỉnh theo độ trải. Khi các
 trọng số lớn hơn, một đồ thị con đầy đủ không chỉ yêu cầu các màu khác nhau mà
-còn yêu cầu một phép xếp khối một chiều của các khoảng cách. Vì vậy kích thước
+còn yêu cầu một phép đóng gói một chiều của các khoảng cách. Vì vậy kích thước
 đồ thị con đầy đủ
 vẫn cho cận dưới nhưng không mô tả đủ phép tách có trọng số. Các mô hình MIP
 theo phép gán, đại diện hoặc phủ tập trong tô màu đỉnh là điểm khởi đầu; BCP
@@ -4103,12 +4103,12 @@ NSC có kích thước \(O(nk)\) và tiết kiệm vùng trạng thái tam giác
 phù hợp nhất khi vùng này chiếm tỷ lệ đáng kể và bài toán dùng một cận cố định.
 Cây tổng/mạng đếm phù hợp với nhiều cận tăng dần; khi \(k\) gần \(n\), đếm
 literal bù chuyển bài toán về ngưỡng \(n-k\) nhỏ hơn.</p>
-<p><strong>Phá đối xứng.</strong>
-Mỗi ràng buộc phá đối xứng được suy từ một nhóm tự đẳng cấu bảo toàn miền, ràng
+<p><strong>Phá vỡ đối xứng.</strong>
+Mỗi ràng buộc phá vỡ đối xứng được suy từ một nhóm tự đẳng cấu bảo toàn miền, ràng
 buộc và hàm mục tiêu. Sức chứa, miền quay và cách hàm mục tiêu đọc chỉ số quyết
-định những hoán vị nào thuộc nhóm này. Mức phá đối xứng được chọn cùng độ dài
+định những hoán vị nào thuộc nhóm này. Mức phá vỡ đối xứng được chọn cùng độ dài
 mệnh đề và chiến lược phân nhánh.</p>
-<p><strong>Biểu diễn thời gian và xếp khối.</strong>
+<p><strong>Biểu diễn thời gian và đóng gói.</strong>
 SAT theo mốc thời gian phù hợp với chân trời vừa phải và miền bắt đầu đã được
 lọc. Tọa độ thứ tự nén tốt các so sánh trên miền nguyên. DDD mở rộng lựa chọn
 cho chân trời lớn khi có tập mốc đầy đủ hữu hạn, cận dưới hợp lệ và bước tinh
