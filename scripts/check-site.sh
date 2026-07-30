@@ -32,9 +32,9 @@ done
 python3 "${script_dir}/check-site.py" "${site_output}"
 "${script_dir}/check-pdf.sh" "${site_output}/downloads/sat-book.pdf"
 
-if rg -n 'href="/(?!sat-book)|src="/(?!sat-book)' \
+if rg -n 'href="/(?!satlab)|src="/(?!satlab)' \
   "${site_output}" --glob '*.html' --pcre2; then
-  printf '%s\n' 'Found a root-relative link outside /sat-book/.' >&2
+  printf '%s\n' 'Found a root-relative link outside /satlab/.' >&2
   exit 1
 fi
 
