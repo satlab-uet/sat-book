@@ -564,7 +564,7 @@ def build_reader_html(repo_root: Path):
       <div class="shell header-inner">
         <a class="brand" href="./">
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
-          <span class="brand-title">Biểu diễn SAT tối ưu</span>
+          <span class="brand-title">SAT Book</span>
         </a>
         <nav class="nav">
           <a href="./">Trang chủ</a>
