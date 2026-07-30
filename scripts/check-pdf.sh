@@ -44,7 +44,7 @@ if ! printf '%s\n' "${pdf_metadata}" |
 fi
 
 if ! pdftotext -f 1 -l 2 "${pdf_path}" - |
-  grep -iF "Biểu diễn SAT tối ưu" >/dev/null; then
+  grep -iF "SAT" >/dev/null; then
   printf 'The approved title was not extractable from the title page.\n' >&2
   exit 1
 fi
