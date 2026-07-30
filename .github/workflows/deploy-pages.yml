@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: sat-book-pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build and validate
@@ -74,10 +78,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
-    concurrency:
-      group: github-pages
-      cancel-in-progress: false
 
     steps:
       - name: Deploy to GitHub Pages

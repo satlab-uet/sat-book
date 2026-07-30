@@ -2,7 +2,7 @@
 
 [![Deploy book to GitHub Pages](https://github.com/satlab-uet/sat-book/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/satlab-uet/sat-book/actions/workflows/deploy-pages.yml)
 
-Mã nguồn LaTeX của chuyên khảo:
+Mã nguồn LaTeX của sách chuyên khảo:
 
 **Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp**
 
@@ -20,15 +20,16 @@ cấu trúc; nghiên cứu tình huống trong tối ưu tổ hợp.*
 
 ## Phiên bản
 
-Phiên bản `1.0.0`, bản hiệu chỉnh sau phản biện ngày 30/07/2026.
+Phiên bản `1.0.0`, bản hiệu chỉnh sau phản biện.
 
 Sách gồm ba phần, 11 chương chính và một chương kết luận. Bản PDF chuẩn có
-106 trang A4. Các hình kỹ thuật được dựng nguyên bản bằng TikZ trong mã nguồn.
+104 trang A4. Các hình kỹ thuật được dựng nguyên bản bằng TikZ trong mã nguồn.
 
 ## Cấu trúc
 
 ```text
 book/
+├── README.md
 ├── main.tex
 ├── satbook.sty
 ├── vietnamese.lbx
@@ -86,6 +87,15 @@ Tạo website tĩnh kèm PDF:
 make site
 ```
 
+Lệnh này luôn biên dịch PDF từ `book/main.tex`, sinh lại bản đọc HTML từ các
+tệp chương và đóng gói mã nguồn LaTeX hiện tại. Các tệp xuất bản chính là:
+
+```text
+_site/read.html
+_site/downloads/sat-book.pdf
+_site/downloads/sat-book-tex.zip
+```
+
 Tạo lại bìa web, ảnh chia sẻ mạng xã hội và biểu tượng từ trang đầu PDF:
 
 ```sh
@@ -111,10 +121,10 @@ không phụ thuộc vào Pillow.
 
 ## Triển khai GitHub Pages
 
-Workflow `.github/workflows/deploy-pages.yml` biên dịch lại sách bằng TeX Live
-2025, kiểm tra PDF, đóng gói website và chỉ triển khai khi toàn bộ kiểm tra
-thành công. Pull request vào `main` chỉ chạy build và kiểm tra; không được phép
-triển khai.
+Mỗi lần có commit mới trên `main`, workflow
+`.github/workflows/deploy-pages.yml` biên dịch lại sách bằng TeX Live 2025,
+sinh bản HTML và gói nguồn LaTeX, kiểm tra toàn bộ đầu ra rồi cập nhật GitHub
+Pages. Pull request vào `main` chỉ chạy build và kiểm tra.
 
 Workflow sử dụng quyền tối thiểu theo từng job. Các action và Docker image đều
 được khóa bằng commit hoặc digest; Dependabot kiểm tra cập nhật action hàng
@@ -131,10 +141,10 @@ Quá trình build ghi tất cả tệp trung gian vào `build/`; mã nguồn tro
 
 ## Định dạng HTML
 
-Website hiện cung cấp PDF là bản tham chiếu chính thức. Bản HTML toàn văn đang
-được phát triển trực tiếp từ nguồn LaTeX. Các thử nghiệm tự động với TeX4ht và
-LaTeXML cho thấy cần bổ sung ánh xạ riêng cho `satbook.sty`, KOMA-Script,
-`tcolorbox` và TikZ trước khi kết quả đủ tin cậy để công bố.
+`scripts/generate-html-book.py` tạo bản đọc trực tuyến trực tiếp từ các tệp
+LaTeX trong `book/chapters/`. Tiêu đề chương và dấu vân tay nguồn được lấy ở
+mỗi lần build để phát hiện đầu ra HTML cũ. PDF giữ nguyên bố cục xuất bản; bản
+HTML phục vụ đọc và tra cứu trên web.
 
 ## Trích dẫn
 

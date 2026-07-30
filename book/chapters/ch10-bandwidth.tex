@@ -22,11 +22,11 @@ hơn còn chứa hàng trăm quy tắc gán số khác nhau
 
 Ba truyền thống giải liên quan trực tiếp:
 \begin{itemize}
-  \item \textbf{cận lý thuyết đồ thị}: bậc, số ổn định, số sắc, đồ thị con
-        đầy đủ (\emph{clique}) và cấu
+  \item \textbf{cận lý thuyết đồ thị}: bậc, số ổn định, số sắc,
+        \emph{clique} (đồ thị con đầy đủ) và cấu
         trúc lớp đồ thị;
   \item \textbf{phương pháp kinh nghiệm/siêu kinh nghiệm}: tìm kiếm cục bộ,
-        kiêng kỵ (\emph{tabu}), lân cận biến đổi và thứ tự kiến tạo để tìm
+        \emph{tabu search} (tìm kiếm kiêng kỵ), lân cận biến đổi và thứ tự kiến tạo để tìm
         nghiệm đương nhiệm cho
         cận trên/cận dưới;
   \item \textbf{phương pháp chính xác}: quy hoạch động, nhánh--cận, MIP, CP và
@@ -160,8 +160,8 @@ từng cửa sổ độc lập, phần lớn bộ đếm bị lặp.
       \fi
     }
   }
-  \node[satlabel,text=Gold,align=center] at (9,-1.4)
-    {dải chéo \(|a-b|<2\)\\trở thành các mệnh đề xung đột};
+  \node[satlabel,text=Gold] at (9,-1.65)
+    {ô tô màu: \(|a-b|<2\)};
 \end{tikzpicture}
 \caption{Ở trái, nhãn \((2,4,1,3)\) cho \(P_4\) đạt antibandwidth \(2\).
 Ở phải, mỗi ô được tô biểu diễn một cặp nhãn bị cấm trên một cạnh.}
@@ -260,7 +260,7 @@ Tìm nghiệm tối ưu theo cận tăng:
 Một nghiệm tại \(k^\star\) và \UNSAT tại \(k^\star+1\) chứng nhận tối ưu.
 
 \begin{resultbox}{CABP và bộ kiểm chuẩn}
-Bản tiền công bố \textcite{truong2026cabp} xây dựng các phép mã hóa SAT cho CABP
+Nghiên cứu của \textcite{truong2026cabp} xây dựng các phép mã hóa SAT cho CABP
 và khai thác cửa sổ tuần hoàn cùng đối xứng của vòng. Một tập công thức khả thi được
 chuẩn bị cho SAT Competition 2026 \parencite{truong2026competition}; về mặt
 thiết kế, giá trị của bộ này là tách bài toán tối ưu thành chuỗi bài toán
@@ -395,15 +395,15 @@ vậy phải bao gồm cả số trạng thái gán trước các mệnh đề k
 
 \subsection{FE, SBE và OBE}
 
-\paragraph{Mã hóa theo tần số (FE).}
+\paragraph{Flat Encoding (mã hóa phẳng, FE).}
 Biến \(x_{u,m}\) cho biết màu \(m\) được dùng tại \(u\). Ràng buộc đếm bảo đảm
 đúng \(w(u)\) màu; xung đột từng cặp cấm các cặp quá gần.
 
-\paragraph{Mã hóa theo ô màu (SBE).}
+\paragraph{Slot-Based Encoding (mã hóa theo ô màu, SBE).}
 Biến \(x_{u,i,m}\) nói ô \(i\) bằng \(m\). Mỗi ô có ràng buộc đúng một và các
 cặp ô vi phạm khoảng cách bị cấm trực tiếp.
 
-\paragraph{Mã hóa theo thứ tự (OBE).}
+\paragraph{Order-Based Encoding (mã hóa theo thứ tự, OBE).}
 Thêm \(g_{u,i,m}=1\iff c(u)_i\ge m\). Giá trị chính xác tại một ô kích hoạt
 hai biên khoảng cấm của ô ở đỉnh khác:
 \[
@@ -457,7 +457,7 @@ Một quy trình có giá trị tham khảo cho cả bốn bài toán là:
   \item chọn mô hình đúng ngữ nghĩa: hoán vị, một màu hoặc nhiều ô;
   \item lọc miền bằng cận cục bộ hoặc đồ thị con đầy đủ trước khi tạo biến;
   \item chọn mã hóa trực tiếp/thứ tự/khối theo hình dạng tập cấm;
-  \item giải theo quy trình cận đơn điệu và lưu nghiệm chứng;
+  \item giải theo quy trình cận đơn điệu và lưu nghiệm làm chứng;
   \item tại cận cuối, kiểm tra phép gán nhãn miền và chứng minh \UNSAT độc lập.
 \end{enumerate}
 

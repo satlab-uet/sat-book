@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://satlab-uet.github.io/satlab/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/"/>
+    <loc>https://satlab-uet.github.io/sat-book/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/research.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/research.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/research.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/research.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/research.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/research.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/publications.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/publications.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/publications.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/publications.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/publications.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/publications.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/projects.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/projects.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/projects.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/projects.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/projects.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/projects.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/people.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/people.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/people.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/people.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/people.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/people.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/resources.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/resources.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/resources.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/resources.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/resources.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/resources.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/join.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/join.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/join.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/join.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/join.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/join.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/about.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/about.html"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/about.html"/>
+    <loc>https://satlab-uet.github.io/sat-book/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/sat-book/about.html"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/sat-book/vi/about.html"/>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://satlab-uet.github.io/satlab/read.html</loc>
+    <loc>https://satlab-uet.github.io/sat-book/read.html</loc>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>

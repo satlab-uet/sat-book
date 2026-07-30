@@ -15,7 +15,7 @@ Hai chiều tạo khó khăn khác một chiều: không chồng lấn là một
 hai trục, còn tọa độ có nhiều giá trị đối xứng trong vùng trống. Văn liệu về
 phương pháp chính xác vì thế không xoay quanh một mô hình duy nhất. Khảo cứu
 của Iori và cộng sự phân biệt các mô hình theo vị trí đặt, vị trí tương đối,
-sinh tập/cột, lập trình ràng buộc và các kỹ thuật nhánh--cận chuyên biệt
+sinh tập/cột, quy hoạch ràng buộc và các kỹ thuật nhánh--cận chuyên biệt
 \parencite{iori2021packing}.
 
 Đối với SAT, ba họ biểu diễn là đối chứng trực tiếp:
@@ -32,11 +32,12 @@ sinh tập/cột, lập trình ràng buộc và các kỹ thuật nhánh--cận 
   \parencite{huang2013rectangle}.
 
   \item[Vị trí tương đối + tọa độ]
-  Mỗi vật có tọa độ; mỗi cặp có biến chứng trái/phải/trên/dưới. Mã hóa thứ tự
+  Mỗi vật có tọa độ; mỗi cặp có \emph{witness variable} (biến làm chứng)
+  trái/phải/trên/dưới. Mã hóa thứ tự
   nén cận tọa độ, còn mệnh đề quan hệ xử lý phép tuyển.
 \end{description}
 
-Ngoài SAT, lập trình ràng buộc dùng \textsc{NoOverlap}/diffn, các phép chiếu
+Ngoài SAT, quy hoạch ràng buộc dùng \textsc{NoOverlap}/diffn, các phép chiếu
 tích lũy và suy luận năng lượng; MIP dùng hằng số lớn \(M\), bất đẳng thức
 tuyển hoặc mẫu phủ tập. Các phương pháp chính xác cho đóng gói trực giao còn
 kết hợp cận, quan hệ trội và nhánh--cận chuyên dụng
@@ -88,12 +89,12 @@ Hai vật \(i\) và \(j\) không giao nhau khi ít nhất một trong bốn quan
   y_i+\widehat h_i\le y_j,\quad
   y_j+\widehat h_j\le y_i.
 \]
-Ta dùng các biến chứng \(l_{ij}\) và \(u_{ij}\):
+Ta dùng các biến làm chứng \(l_{ij}\) và \(u_{ij}\):
 \[
   l_{ij}\lor l_{ji}\lor u_{ij}\lor u_{ji},
 \]
-với quan hệ kéo theo từ từng biến chứng sang bất đẳng thức tương ứng. Các biến
-chứng không cần loại trừ lẫn nhau: một vật có thể vừa ở bên trái vừa ở dưới vật
+với quan hệ kéo theo từ từng biến làm chứng sang bất đẳng thức tương ứng. Các
+biến làm chứng không cần loại trừ lẫn nhau: một vật có thể vừa ở bên trái vừa ở dưới vật
 khác.
 
 \begin{designrule}{Quy ước biên}
@@ -129,7 +130,7 @@ này tiếp nối mô hình đóng gói dải của \textcite{soh2010strip}.
     node[midway,right,satlabel]{\(H=6\)};
 \end{tikzpicture}
 \caption{Một bố trí nguyên có bốn vật. Các cặp chạm cạnh vẫn hợp lệ; chẳng hạn
-\(x_A+w_A=x_B=3\), nên biến chứng \(l_{AB}\) có thể nhận giá trị đúng.}
+\(x_A+w_A=x_B=3\), nên biến làm chứng \(l_{AB}\) có thể nhận giá trị đúng.}
 \label{fig:packing-layout}
 \end{figure}
 
@@ -140,7 +141,7 @@ Trong \cref{fig:packing-layout}, \(A\) có \((x_A,y_A)=(0,0)\),
 \[
   0+3\le3,\quad 3+2\le0,\quad 0+2\le0,\quad 0+4\le0.
 \]
-Chỉ bất đẳng thức đầu đúng, nên \(l_{AB}=1\) là biến chứng tự nhiên. Nếu ép
+Chỉ bất đẳng thức đầu đúng, nên \(l_{AB}=1\) là biến làm chứng tự nhiên. Nếu ép
 \(x_B\le2\), miền tọa độ làm \(x_A+w_A\le x_B\) bất khả và mệnh đề liên kết
 buộc \(\neg l_{AB}\); phép tuyển bốn quan hệ khi đó phải chọn một hướng khác
 hoặc chứng minh cặp hình không thể cùng một bố trí.
@@ -178,7 +179,7 @@ Khi kích thước phụ thuộc \(\rho_i\), quan hệ kéo theo
 gọn được loại ở bước tiền xử lý. Với vật vuông, đặt
 \(\rho_i=0\) để bỏ đối xứng quay.
 
-Khi \(l_{ij}\) đóng vai trò biến chứng cho phép tuyển, mô-đun cần chiều
+Khi \(l_{ij}\) đóng vai trò biến làm chứng cho phép tuyển, mô-đun cần chiều
 \[
   l_{ij}\rightarrow x_i+\widehat w_i\le x_j.
 \]
@@ -190,14 +191,14 @@ có thể được bổ sung khi literal quan hệ cần đặc tả hai chiều
 trực tiếp tọa độ và hướng đặt, nhờ đó bộ kiểm tra độc lập với lựa chọn liên kết.
 
 \begin{proposition}[Tính đúng của mô-đun không chồng lấn]
-Giả sử mỗi biến chứng \(l_{ij},u_{ij}\) kéo theo đúng bất đẳng thức hình học
-của nó, và phép tuyển bốn biến chứng được thỏa cho mọi cặp vật trong cùng khung
+Giả sử mỗi biến làm chứng \(l_{ij},u_{ij}\) kéo theo đúng bất đẳng thức hình học
+của nó, và phép tuyển bốn biến làm chứng được thỏa cho mọi cặp vật trong cùng khung
 chứa. Khi đó mọi bố trí giải mã từ mô hình \SAT đều không giao nhau.
 \end{proposition}
 
 \begin{proof}
-Với một cặp \(i,j\), phép tuyển cho ít nhất một biến chứng đúng. Quan hệ kéo
-theo của biến chứng đó cho một bất đẳng thức tách theo trục \(x\) hoặc \(y\). Vì vậy nội
+Với một cặp \(i,j\), phép tuyển cho ít nhất một biến làm chứng đúng. Quan hệ kéo
+theo của biến làm chứng đó cho một bất đẳng thức tách theo trục \(x\) hoặc \(y\). Vì vậy nội
 thất hai hình chữ nhật rời nhau.
 \end{proof}
 
@@ -435,7 +436,7 @@ sang CNF. Phép so sánh CP, MIP và SAT dùng chung cách chuẩn hóa bài to�
 \textbf{OrderCoordinate} cung cấp chuỗi ngưỡng và phép giải mã duy nhất.
 \textbf{Orientation} trả về kích thước hiệu dụng.
 \textbf{Containment} siết miền theo khung chứa đang chọn.
-\textbf{RelativePosition} tạo biến chứng trái/phải/trên/dưới.
+\textbf{RelativePosition} tạo biến làm chứng trái/phải/trên/dưới.
 \textbf{ConditionalNonOverlap} gác phép tuyển bằng phép gán.
 \textbf{UsageCounter} biến số khung chứa được dùng thành hàm mục tiêu.
 \end{summarybox}
@@ -448,7 +449,7 @@ chồng lấn được gác bởi phép gán và bộ đếm sử dụng. Bộ k
 
 \begin{enumerate}
   \item Chọn một quy ước tọa độ và giữ nó nhất quán trong toàn bộ phép mã hóa.
-  \item Dùng biến chứng cho phép tuyển hình học; không buộc biến chứng trở thành
+  \item Dùng biến làm chứng cho phép tuyển hình học; không buộc biến làm chứng trở thành
         quan hệ đầy đủ nếu phép giải mã không cần.
   \item Tách mô-đun khả thi khỏi hàm mục tiêu số khung/tấm/chiều cao.
   \item Phá đối xứng theo đúng phép hoán vị hoặc phản xạ của mô hình.

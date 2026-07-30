@@ -18,7 +18,9 @@ required_files=(
   "assets/images/og-card.png"
   "downloads/sat-book.pdf"
   "downloads/sat-book-v1.0.0.pdf"
+  "downloads/sat-book-tex.zip"
   "downloads/SHA256SUMS"
+  "read.html"
   ".nojekyll"
 )
 
@@ -33,8 +35,8 @@ python3 "${script_dir}/check-site.py" "${site_output}"
 "${script_dir}/check-pdf.sh" "${site_output}/downloads/sat-book.pdf"
 
 if command -v rg >/dev/null 2>&1; then
-  if rg -n 'href="/(?!satlab)|src="/(?!satlab)' "${site_output}" --glob '*.html' --pcre2; then
-    printf '%s\n' 'Found a root-relative link outside /satlab/.' >&2
+  if rg -n 'href="/(?!sat-book)|src="/(?!sat-book)' "${site_output}" --glob '*.html' --pcre2; then
+    printf '%s\n' 'Found a root-relative link outside /sat-book/.' >&2
     exit 1
   fi
   if rg -n '\{\{[^}]+\}\}|TODO|PLACEHOLDER' "${site_output}" --glob '*.html' --glob '*.css' --glob '*.js'; then
@@ -51,13 +53,15 @@ for root, dirs, files in os.walk(site):
             p = os.path.join(root, f)
             content = open(p, encoding='utf-8').read()
             if f.endswith('.html'):
-                if re.search(r'href=\"/(?!satlab)|src=\"/(?!satlab)', content):
-                    print(f'Root relative link outside /satlab/ in {p}')
+                if re.search(r'href=\"/(?!sat-book)|src=\"/(?!sat-book)', content):
+                    print(f'Root relative link outside /sat-book/ in {p}')
                     sys.exit(1)
             if re.search(r'\{\{[^}]+\}\}|TODO|PLACEHOLDER', content):
                 print(f'Placeholder found in {p}')
                 sys.exit(1)
 " "${site_output}"
 fi
+
+python3 "${script_dir}/verify-pipeline.py"
 
 printf '%s\n' 'Static site validation completed successfully.'

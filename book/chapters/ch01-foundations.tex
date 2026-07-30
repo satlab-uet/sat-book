@@ -1,7 +1,8 @@
 \chapter{SAT và MaxSAT như một nền tảng giải chính xác}
 \chapterlead{Bộ giải SAT trả lời một câu hỏi quyết định. Để giải tối ưu tổ hợp,
-ta cần thêm mô hình miền, phép mã hóa, cơ chế tìm cận và một bộ kiểm tra độc lập.
-Bốn lớp này tạo thành một thuật toán hoàn chỉnh.}
+ta cần thêm mô hình miền, phép mã hóa, cơ chế tìm cận và một
+\emph{model checker} (bộ kiểm tra độc lập). Bốn lớp này tạo thành một thuật
+toán hoàn chỉnh.}
 
 \index{SAT}\index{DPLL}\index{CDCL}\index{MaxSAT}
 \index{incremental SAT}\index{proof logging}\index{model checker}
@@ -12,21 +13,22 @@ Bốn lớp này tạo thành một thuật toán hoàn chỉnh.}
 \section{Ba dòng nghiên cứu hội tụ}
 
 Phép mã hóa SAT cho tối ưu tổ hợp nằm ở giao điểm của ba truyền thống. Thứ
-nhất, \emph{lập luận mệnh đề} (propositional reasoning) đưa bài toán về \CNF
+nhất, \emph{propositional reasoning} (lập luận mệnh đề) đưa bài toán về \CNF
 để dùng lan truyền đơn vị, phân tích xung đột và học mệnh đề. Thứ hai,
-\emph{lập trình ràng buộc} (constraint programming) nhìn mô hình qua biến miền
-hữu hạn, giá trị hỗ trợ và các mức nhất quán. Thứ ba, \emph{tối ưu toán học}
-(mathematical optimization) đặt hàm mục tiêu, mô hình nới lỏng, cận dưới và
+\emph{Constraint Programming} (CP, quy hoạch ràng buộc) nhìn mô hình qua biến miền
+hữu hạn, giá trị hỗ trợ và các mức nhất quán. Thứ ba,
+\emph{mathematical optimization} (tối ưu toán học) đặt hàm mục tiêu, mô hình nới lỏng, cận dưới và
 chứng nhận tối ưu ở vị trí trung tâm.
 
-Các công trình về \emph{nhất quán cung} (arc consistency) trong SAT chỉ ra
+Các công trình về \emph{arc consistency} (nhất quán cung) trong SAT chỉ ra
 rằng chất lượng phép dịch còn phụ thuộc vào các suy luận miền mà bộ lan truyền
 tạo được \parencite{gent2002arc,bacchus2007gac}. Một phép mã hóa có thể đúng về
 tập nghiệm nhưng làm mất suy luận vốn xuất hiện sớm trong bộ lan truyền của
 ràng buộc toàn cục. SAT bù lại bằng khả năng học mệnh đề xuyên qua nhiều ràng
 buộc. Vì vậy sách dùng hai cấp phân tích:
 \begin{enumerate}
-  \item ở cấp mô-đun, xét đặc tả ngữ nghĩa và suy luận do lan truyền đơn vị;
+  \item ở cấp mô-đun, xét \emph{contract} (đặc tả ngữ nghĩa) và suy luận do
+        lan truyền đơn vị;
   \item ở cấp mô hình, xét tương tác giữa các mô-đun trong CDCL và vòng tối
         ưu.
 \end{enumerate}
@@ -76,7 +78,8 @@ Tính đơn điệu cho phép tìm nghiệm tối ưu trên đoạn \([LB,UB]\):
 Tìm kiếm tuyến tính từ cận trên thích hợp khi đã có nghiệm tốt và các cận kề
 nhau chia sẻ nhiều cấu trúc. Tìm kiếm nhị phân giảm số lần gọi bộ giải nhưng
 nhảy cận xa hơn. Với SAT tăng dần, công thức cơ sở được giữ nguyên; cận được
-kích hoạt bằng các giả định (assumptions) hoặc bằng các mệnh đề chỉ bổ sung
+kích hoạt bằng các \emph{assumption} (literal giả định chỉ có hiệu lực trong
+một lần gọi bộ giải) hoặc bằng các mệnh đề chỉ bổ sung
 \parencite{een2003incremental}.
 
 \begin{designrule}{Bất biến của vòng tìm cận}
@@ -105,12 +108,12 @@ là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị t�
     \draw[Ink] (\x,2pt)--(\x,-2pt) node[below=4pt] {\lab};
   \draw[very thick,Gold] (0,0)--(2,0);
   \draw[very thick,Teal] (3,0)--(5,0);
-  \node[satwarn,rounded corners=2pt,above=6mm] at (2,0)
+  \node[satwarn,rounded corners=2pt] (unsatbox) at (1.2,.95)
     {\(\UNSAT\) tại \(6\)};
-  \node[sattrue,rounded corners=2pt,above=6mm] at (3,0)
+  \node[sattrue,rounded corners=2pt] (satbox) at (3.8,.95)
     {\(\SAT\) tại \(7\)};
-  \draw[satedge] (2,5mm)--(2,1mm);
-  \draw[satedge] (3,5mm)--(3,1mm);
+  \draw[satedge] (unsatbox.south)--(2,.08);
+  \draw[satedge] (satbox.south)--(3,.08);
   \node[satlabel,below=12mm] at (2.5,0)
     {biên chuyển trạng thái\\xác định nghiệm tối ưu};
 \end{tikzpicture}
@@ -123,7 +126,7 @@ là chứng cứ cận dưới. Hai chứng cứ gặp nhau tại giá trị t�
 \subsection{Mệnh đề, literal và mô hình thỏa}
 
 Một \emph{literal} là biến \(x\) hoặc phủ định \(\neg x\) của biến đó. Một
-\emph{mệnh đề} (clause) là phép tuyển các literal; công thức \CNF là phép hội
+\emph{clause} (mệnh đề) là phép tuyển các literal; công thức \CNF là phép hội
 của các mệnh đề:
 \[
   F=\bigwedge_{i=1}^{m}C_i,
@@ -134,7 +137,7 @@ Một mệnh đề được thỏa khi có ít nhất một literal đúng. Mệ
 một literal; mệnh đề nhị phân thường biểu diễn phép kéo theo hoặc xung đột cục
 bộ.
 
-\subsection{Tseitin transformation}
+\subsection{Tseitin transformation (phép chuyển Tseitin)}
 
 Biến phụ cho phép thay một biểu thức con bằng một tên ngắn. Với
 \[
@@ -149,8 +152,8 @@ Biến phụ cho phép thay một biểu thức con bằng một tên ngắn. V�
   (z\lor\neg x\lor\neg y).
 \]
 Phép Tseitin giữ kích thước tuyến tính theo mạch Boolean
-\parencite{tseitin1968}. Ba mệnh đề trên tạo một \emph{đặc tả ngữ nghĩa}
-(contract): \(z\) đúng khi và chỉ khi cả \(x,y\) đúng. Nếu mô-đun sau chỉ dùng chiều
+\parencite{tseitin1968}. Ba mệnh đề trên tạo một \emph{contract}
+(đặc tả ngữ nghĩa): \(z\) đúng khi và chỉ khi cả \(x,y\) đúng. Nếu mô-đun sau chỉ dùng chiều
 \(z\rightarrow x\land y\), có thể bỏ chiều ngược; nhưng khi đó \(z\) không còn
 là tên tương đương của biểu thức.
 
@@ -200,14 +203,15 @@ lập luận quy nạp theo số biến chưa gán cho tính đầy đủ của 
 
 DPLL cơ sở quay lui theo thứ tự quyết định và không lưu một mô tả tổng quát
 của nhánh đã thất bại. CDCL giữ bộ khung quyết định--lan truyền--xung đột nhưng
-ghi lý do của mỗi literal trên vết gán (trail), phân tích đồ thị kéo theo, học
-một mệnh đề và nhảy lùi đến mức quyết định thích hợp. Khởi động lại (restart)
+ghi lý do của mỗi literal trên \emph{trail} (vết gán theo thứ tự), phân tích đồ thị kéo theo, học
+một mệnh đề và thực hiện \emph{backjump} (nhảy lùi đến mức quyết định thích
+hợp). \emph{Restart} (khởi động lại)
 làm mới phần quyết định nhưng giữ các mệnh đề đã học. Bước chuyển này giải thích vì sao phép mã hóa
 không chỉ ảnh hưởng số nút: nó quyết định các cạnh lý do mà phân tích xung đột
 có thể sử dụng.
 
-Các bộ giải SAT hiện đại chủ yếu dựa trên \emph{học mệnh đề theo xung đột}
-(conflict-driven clause learning, CDCL)
+Các bộ giải SAT hiện đại chủ yếu dựa trên
+\emph{conflict-driven clause learning} (học mệnh đề theo xung đột, CDCL)
 \parencite{marquessilva2009cdcl,een2003minisat}. Một vòng CDCL gồm:
 \begin{enumerate}
   \item chọn một literal quyết định;
@@ -277,7 +281,7 @@ một giao diện duy nhất.
 
 \section{MaxSAT}
 
-\MaxSAT bộ phận (Partial MaxSAT) chia công thức thành mệnh đề cứng \(H\) và
+\emph{Partial MaxSAT} (MaxSAT bộ phận) chia công thức thành mệnh đề cứng \(H\) và
 mệnh đề mềm \(S\). Mệnh đề cứng phải được thỏa; hàm mục tiêu tối thiểu số hoặc
 tổng trọng số của các mệnh đề mềm bị vi phạm:
 \[
@@ -293,11 +297,12 @@ Một cách giải MaxSAT là chuyển hàm mục tiêu thành chuỗi bài toá
 thường nằm ở \emph{giao diện hàm mục tiêu}, còn phần mã hóa tính khả thi có
 thể được dùng chung.
 
-Văn liệu MaxSAT hiện đại thường phân biệt ba kiến trúc. \emph{Tìm kiếm tuyến
-tính/nhị phân} đặt cận lên tổng các literal nới lỏng. \emph{Dẫn dắt bằng lõi}
-(core-guided) dùng một lõi bất khả thỏa để nhận diện nhóm mệnh đề mềm không thể
-đồng thời thỏa, rồi nới chúng có kiểm soát. \emph{Tập đánh trúng}
-(hitting-set) tách việc tìm lõi khỏi bài toán chọn các mệnh đề mềm cần vi phạm.
+Văn liệu MaxSAT hiện đại thường phân biệt ba kiến trúc. \emph{Linear/binary
+search} (tìm kiếm tuyến tính/nhị phân) đặt cận lên tổng các literal nới lỏng.
+\emph{Core-guided} (dẫn dắt bằng lõi) dùng một lõi bất khả thỏa để nhận diện
+nhóm mệnh đề mềm không thể đồng thời thỏa, rồi nới chúng có kiểm soát.
+\emph{Hitting-set} (tập đánh trúng) tách việc tìm lõi khỏi bài toán chọn các
+mệnh đề mềm cần vi phạm.
 Các bộ giải dạng mô-đun như Open-WBO và RC2 đặt phép mã hóa đếm/PB ở trung tâm
 thuật toán: mô-đun này được dựng,
 mở rộng hoặc thay cận nhiều lần trong quá trình giải MaxSAT
@@ -346,8 +351,8 @@ DRAT; bộ kiểm tra độc lập kiểm lại chuỗi phép thêm/xóa mệnh 
 \parencite{wetzler2014drat}. Điều này tạo một chuỗi tin cậy ngắn hơn so với
 việc tin toàn bộ bộ giải, nhưng chỉ khi công thức được chứng minh đúng là công
 thức của cận cần xét. Với giả định, ta vật hóa các giả định cuối thành mệnh đề
-đơn vị, ghi chính xác mã kiểm tra của \CNF và kiểm chứng minh trên gói tái lập
-đó.
+đơn vị, ghi chính xác mã kiểm tra của \CNF và kiểm chứng minh trên
+\emph{artifact} (gói tái lập) đó.
 
 \begin{center}
 \captionof{table}{Vật chứng cần có cho các mức kết luận.}
@@ -356,7 +361,8 @@ thức của cận cần xét. Với giả định, ta vật hóa các giả đ�
 \toprule
 Kết luận & Vật chứng & Bộ kiểm tra độc lập\\
 \midrule
-Khả thi tại \(B\) & Mô hình/nghiệm chứng & Kiểm ràng buộc và chi phí miền\\
+Khả thi tại \(B\) & Mô hình/\emph{witness solution} (nghiệm làm chứng) &
+Kiểm ràng buộc và chi phí miền\\
 Vô nghiệm tại \(B\) & Chứng minh mệnh đề & Bộ kiểm chứng trên đúng \CNF\\
 Tối ưu \(B^\star\) & Nghiệm tại \(B^\star\) và chứng cứ cận dưới &
 Bộ kiểm nghiệm và bộ kiểm chứng cận\\
@@ -399,5 +405,5 @@ dụng. Một dây chuyền xử lý tốt có thể thay bộ giải mà giữ 
   \item Bỏ từng mệnh đề trong phép mã hóa \(z\leftrightarrow(x\land y)\) và tìm
         phép gán làm mất một chiều tương đương.
   \item Mô tả hai cách mã hóa ``tối thiểu số nhóm được dùng'': SAT theo cận và
-        MaxSAT bộ phận (\emph{partial MaxSAT}).
+        \emph{Partial MaxSAT} (MaxSAT bộ phận).
 \end{enumerate}

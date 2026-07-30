@@ -5,170 +5,180 @@
 \begin{document}
 \hypersetup{pageanchor=false}
 
+%%==========================================================
+%% TITLE PAGE — Springer Monographs / OUP style
+%%==========================================================
 \begin{titlepage}
 \thispagestyle{empty}
+% --- Full-bleed background geometry ---
 \begin{tikzpicture}[remember picture,overlay]
-  \fill[Ink] (current page.north west) rectangle
-    ([yshift=-108mm]current page.north east);
-  \fill[Blue] ([yshift=-108mm]current page.north west) rectangle
-    ([yshift=-111mm]current page.north east);
-  \draw[Rule,line width=.5pt]
-    ([xshift=26mm,yshift=28mm]current page.south west) --
-    ([xshift=-23mm,yshift=28mm]current page.south east);
+  % Top dark panel (≈55% page height)
+  \fill[Ink] (current page.north west)
+    rectangle ([yshift=-162mm]current page.north east);
+  % Accent rule below dark panel
+  \fill[Blue] ([yshift=-162mm]current page.north west)
+    rectangle ([yshift=-165.5mm]current page.north east);
+  % Thin gold rule inside the top panel
+  \draw[Gold,line width=1pt]
+    ([xshift=26mm,yshift=-20mm]current page.north west) --
+    ([xshift=-23mm,yshift=-20mm]current page.north east);
+  % Bottom rule above footer
+  \draw[Rule,line width=.6pt]
+    ([xshift=26mm,yshift=36mm]current page.south west) --
+    ([xshift=-23mm,yshift=36mm]current page.south east);
+  % Pale gold left-margin accent strip in the lower half
+  \fill[PaleGold!60]
+    ([xshift=26mm,yshift=36mm]current page.south west)
+    rectangle ([xshift=29.5mm,yshift=-165.5mm]current page.north west);
 \end{tikzpicture}
-\vspace*{16mm}
-{\sffamily\bfseries\color{white}\Large CHUYÊN KHẢO\par}
-\vspace{10mm}
-{\sffamily\bfseries\color{white}\fontsize{30}{35}\selectfont
-Biểu diễn SAT tối ưu\par}
-\vspace{4mm}
-{\sffamily\color{white}\fontsize{19}{24}\selectfont
-cho các bài toán tối ưu hóa tổ hợp\par}
 
-\vspace{54mm}
-{\sffamily\bfseries\Large\color{Ink}
-Khảo cứu nền tảng và các họ mã hóa\par
-Nguyên lý thiết kế và tái sử dụng cấu trúc\par
-Nghiên cứu tình huống trong tối ưu tổ hợp\par}
-
-\vfill
-{\sffamily\bfseries\color{Ink}
-Tô Văn Khánh \enspace·\enspace Kiều Văn Tuyên
-\enspace·\enspace Trương Xuân Hiếu\par
-Vũ Thanh Hương \enspace·\enspace Đào Xuân Nghĩa
-\enspace·\enspace Nguyễn Kim Trung Đức\par}
+% --- Series label ---
+\vspace*{14mm}
+{\fontspec{TeX Gyre Heros}\bfseries\fontsize{8}{10}\selectfont
+ \color{Gold}\MakeUppercase{Sách Chuyên Khảo · Khoa Học Máy Tính}\par}
 \vspace{6mm}
-{\sffamily\small\color{Ink}Bản hiệu chỉnh sau phản biện · 30/07/2026\par}
+
+% --- Gold thin rule ---
+{\color{Gold}\rule{\linewidth}{.7pt}\par}
+\vspace{9mm}
+
+% --- MAIN TITLE (all caps, large) ---
+{\fontspec{TeX Gyre Heros}\bfseries\fontsize{36}{40}\selectfont
+ \color{white}
+ \MakeUppercase{Biểu Diễn SAT Tối Ưu}\par}
+\vspace{6mm}
+
+% --- SUBTITLE ---
+{\fontspec{TeX Gyre Heros}\fontsize{17}{22}\selectfont
+ \color{white!85!Blue}
+ \MakeUppercase{Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp}\par}
+
+\vspace{18mm}
+
+% --- Three chapter highlights (bullet list style, white) ---
+{\fontspec{TeX Gyre Heros}\fontsize{9.5}{14}\selectfont\color{white!75!Ink}
+  {\color{Gold}■}\enspace Khảo cứu nền tảng và các họ mã hóa SAT\par
+  \vspace{3pt}
+  {\color{Gold}■}\enspace Nguyên lý thiết kế và tái sử dụng cấu trúc\par
+  \vspace{3pt}
+  {\color{Gold}■}\enspace Nghiên cứu tình huống trong tối ưu tổ hợp\par
+}
+
+% --- Spacer to push author block to lower area ---
+\vfill
+
+% === LOWER HALF (white background, already set by page) ===
+
+% Invisible strut to position from the blue accent rule
+\vspace{28mm}
+
+% --- Publisher-style monograph label ---
+{\fontspec{TeX Gyre Heros}\bfseries\fontsize{7.5}{9}\selectfont
+ \color{Ink!60}\MakeUppercase{SATLAB Research Group · 2026}\par}
+\vspace{5mm}
+
+% --- Author block ---
+{\fontspec{TeX Gyre Heros}\bfseries\fontsize{11.5}{16}\selectfont\color{Ink}
+ Tô Văn Khánh \enspace{\color{Rule}|} \enspace
+ Kiều Văn Tuyên \enspace{\color{Rule}|} \enspace
+ Trương Xuân Hiếu\par}
+\vspace{3pt}
+{\fontspec{TeX Gyre Heros}\fontsize{10}{14}\selectfont\color{Ink!80}
+ Vũ Thanh Hương \enspace{\color{Rule}|} \enspace
+ Đào Xuân Nghĩa \enspace{\color{Rule}|} \enspace
+ Nguyễn Kim Trung Đức\par}
+\vspace{8mm}
+
 \end{titlepage}
 \hypersetup{pageanchor=true}
+
+%%----------------------------------------------------------
+%% HALF-TITLE PAGE (verso of cover) — Springer/OUP inner page
+%%----------------------------------------------------------
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{42mm}
+{\centering
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{8}{10}\selectfont\color{Ink!55}
+   \MakeUppercase{Sách Chuyên Khảo · Tin Học và Khoa Học Máy Tính}\par}
+  \vspace{14mm}
+  {\fontspec{TeX Gyre Heros}\bfseries\fontsize{28}{32}\selectfont\color{Ink}
+   \MakeUppercase{Biểu Diễn SAT Tối Ưu}\par}
+  \vspace{3mm}
+  {\fontspec{TeX Gyre Heros}\fontsize{14}{18}\selectfont\color{Ink!70}
+   \MakeUppercase{Cho Các Bài Toán Tối Ưu Hóa Tổ Hợp}\par}
+  \vspace{12mm}
+  {\color{Blue}\rule{0.42\textwidth}{0.6pt}\par}
+  \vspace{12mm}
+  {\fontspec{TeX Gyre Heros}\fontsize{12}{17}\selectfont\color{Ink}
+   Tô Văn Khánh \quad Vũ Thanh Hương\par
+   Kiều Văn Tuyên \quad Đào Xuân Nghĩa\par
+   Trương Xuân Hiếu \quad Nguyễn Kim Trung Đức\par}
+  \vspace{14mm}
+  {\fontspec{TeX Gyre Heros}\fontsize{9}{12}\selectfont\color{Ink!55}
+   SATLAB Research Group\par
+   Trường Đại học Công nghệ Thông tin, ĐH Quốc gia TP.HCM\par}
+\par}
+\vfill
+\noindent\color{Rule}\rule{\linewidth}{0.4pt}\par
+\vspace{2mm}
+{\fontspec{TeX Gyre Heros}\fontsize{7.5}{10}\selectfont\color{Ink!45}
+Bản khảo cứu mở rộng. Mọi quyền được bảo lưu, 2026.\par}
+\cleardoublepage
 
 \frontmatter
 \chapter*{Lời nói đầu}
 \addcontentsline{toc}{chapter}{Lời nói đầu}
-Cuốn sách trình bày \emph{phép mã hóa SAT} (SAT encoding) như một thành phần
+Cuốn sách trình bày \emph{SAT encoding}, sau đây gọi là \emph{phép mã hóa
+SAT}, như một thành phần
 trung tâm của thuật toán giải chính xác. Phép mã hóa chuyển biến và ràng buộc
 của bài toán gốc thành công thức dạng chuẩn hội \CNF. Hai công thức cùng biểu
 diễn một ràng buộc có thể khác nhau đáng kể về kích thước, khả năng
-\emph{lan truyền đơn vị} (unit propagation), cấu trúc mệnh đề và mức độ phù
-hợp với \emph{giải tăng dần} (incremental solving). Vì thế người thiết kế cần
+\emph{unit propagation} (lan truyền đơn vị), cấu trúc mệnh đề và mức độ phù
+hợp với \emph{incremental solving} (giải tăng dần). Vì thế người thiết kế cần
 đồng thời trả lời bốn câu hỏi: phép mã hóa có đúng không, trạng thái nào được
-biểu diễn và chia sẻ, bộ giải nhìn thấy cấu trúc gì, và kết quả tối ưu được
+biểu diễn và chia sẻ, \emph{solver} (bộ giải SAT) nhìn thấy cấu trúc gì, và kết quả tối ưu được
 chứng nhận thế nào.
 
 Ba phần của sách đi theo một đường liên tục. Phần I tổng hợp nền tảng SAT,
-MaxSAT, phép chuyển CSP sang SAT, các tiêu chuẩn lan truyền, bộ công cụ ràng
-buộc đếm (cardinality) và giả Boolean (pseudo-Boolean), cùng phương pháp thực
-nghiệm. Phần II đặt bộ đếm dùng chung, thanh ghi thích nghi, phá đối xứng và
-liên kết biểu diễn (channeling) vào các dòng nghiên cứu rộng hơn về ràng buộc
+MaxSAT, phép chuyển CSP sang SAT, các tiêu chuẩn lan truyền,
+\emph{cardinality constraint} (ràng buộc đếm) và
+\emph{pseudo-Boolean constraint} (ràng buộc giả Boolean), cùng phương pháp thực
+nghiệm. Phần II đặt \emph{shared counter} (bộ đếm dùng chung),
+\emph{register} (thanh ghi đếm) thích nghi,
+\emph{symmetry breaking} (phá đối xứng) và
+\emph{channeling} (liên kết biểu diễn) vào các dòng nghiên cứu rộng hơn về ràng buộc
 \textsc{Sequence}, phân rã ràng buộc toàn cục và cận dưới của phép mã hóa.
 Phần III khảo sát bốn miền ứng dụng: lập lịch, đóng gói, các bài toán
 bandwidth/antibandwidth và gán nhãn/phân bổ tần số.
 
-Các công trình của nhóm tác giả được dùng làm \emph{nghiên cứu tình huống} để
+Các công trình của nhóm tác giả được dùng làm \emph{case study}
+(nghiên cứu tình huống) để
 minh họa trọn vẹn quá trình hình thành, chứng minh và đánh giá một phép mã hóa.
 Mỗi chương bắt đầu từ hệ phân loại và các kết quả đại diện của cộng đồng, sau
 đó kết nối chúng với bài toán, kỹ thuật và bằng chứng thực nghiệm của nhóm.
 
-Ngôn ngữ chính là tiếng Việt. Ở lần xuất hiện đầu, sách ghi bản dịch trước và
-thuật ngữ tiếng Anh trong ngoặc, chẳng hạn \emph{bộ giải} (solver),
-\emph{bộ kiểm chuẩn} (benchmark) và \emph{bộ kiểm tra nghiệm} (checker).
-Những tên riêng của phương pháp, ký hiệu chuẩn và từ khóa cần để tra cứu văn
-liệu được giữ nguyên.
-
-\begin{keyidea}{Cách dùng kết quả thực nghiệm}
-Mỗi số liệu được đặt cạnh thiết kế thí nghiệm của công trình nguồn: tập bài
-toán thử, bộ giải, thời hạn và tiêu chí kiểm chứng. Ký hiệu \OPT dành cho giá
-trị có chứng nhận tối ưu; nghiệm tốt nhất đã biết được ký hiệu \BKS\
-(\emph{best known solution}). Cách trình bày này cho phép đọc đúng ý nghĩa của
-từng bảng và so sánh các cơ chế mã hóa trên cùng một hệ quy chiếu.
-\end{keyidea}
+Sách hướng tới học viên cao học, nghiên cứu sinh, giảng viên và người phát
+triển các mô hình SAT. Người đọc cần kiến thức cơ bản về lôgic mệnh đề và tối
+ưu tổ hợp; các khái niệm chuyên sâu được giới thiệu tại nơi sử dụng. Người mới
+có thể đọc Chương 1--4 trước khi chọn một miền ứng dụng ở Phần III. Người quan
+tâm ràng buộc đếm nên đọc tiếp Chương 5--6; người nghiên cứu mô hình miền hữu
+hạn có thể đi từ Chương 2 sang Chương 7 và các chương ứng dụng.
 
 \chapter*{Lời cảm ơn}
 \addcontentsline{toc}{chapter}{Lời cảm ơn}
 
 Nhóm tác giả trân trọng cảm ơn các đồng nghiệp, phản biện và cộng đồng
-\SAT/\MaxSAT, Lập trình ràng buộc và Nghiên cứu vận trù đã công bố các kết quả
-nền tảng, bộ kiểm chuẩn, bộ giải, bộ kiểm tra và gói phần mềm--dữ liệu tái lập
-mà cuốn sách khảo cứu. Những nhận xét phản biện chi tiết đã giúp nhóm hoàn
-thiện hệ thống hình minh họa, ví dụ tính tay, thuật toán, chỉ mục và chương kết.
+\SAT/\MaxSAT, \emph{Constraint Programming} (CP, Quy hoạch ràng buộc) và
+Nghiên cứu vận trù đã công bố những kết
+quả nền tảng và chia sẻ phần mềm, dữ liệu nghiên cứu mà cuốn sách kế thừa.
+Những góp ý chuyên môn đã giúp nội dung chính xác và sáng rõ hơn.
 
 Nhóm tác giả đặc biệt cảm ơn các thế hệ sinh viên và cựu sinh viên đã đồng
 hành trong các seminar, trao đổi học thuật, đọc bản thảo, xây dựng ví dụ và
 thử nghiệm phần mềm. Những câu hỏi từ góc nhìn người học cùng kinh nghiệm triển
 khai của các bạn đã giúp nhiều khái niệm trong sách trở nên sáng rõ và gần với
 thực hành nghiên cứu hơn.
-
-\chapter*{Phạm vi khảo cứu và cách đọc}
-\addcontentsline{toc}{chapter}{Phạm vi khảo cứu và cách đọc}
-
-Sách dành cho người đọc quan tâm nghiên cứu SAT, từ học viên cao học bắt đầu
-làm quen với phép mã hóa đến nhà nghiên cứu cần một khung so sánh để thiết kế
-mô hình mới. Độc giả cần biết lôgic mệnh đề và các khái niệm cơ bản của tối ưu
-tổ hợp; những kiến thức chuyên sâu về CDCL, lập trình ràng buộc hay quy hoạch
-nguyên được giới thiệu tại nơi sử dụng.
-
-Phạm vi được tổ chức theo ba trục:
-\begin{enumerate}
-  \item \textbf{Trục biểu diễn}: mã hóa trực tiếp, mã hóa hỗ trợ, mã hóa thứ
-        tự, bộ đếm, cây tổng (totalizer), mạng sắp xếp/lựa chọn, BDD và các
-        kiến trúc lai.
-  \item \textbf{Trục suy luận}: tương đương theo phép chiếu, lan truyền đơn
-        vị, mức nhất quán của miền, học mệnh đề, giải tăng dần và ghi chứng
-        minh.
-  \item \textbf{Trục ứng dụng}: chuỗi và cửa sổ, lập lịch, đóng gói, gán nhãn
-        đồ thị, tô màu và phân bổ tần số.
-\end{enumerate}
-
-Mỗi bảng tổng hợp trả lời năm câu hỏi: bộ mã hóa biểu diễn trạng thái nào;
-kích thước phụ thuộc tham số nào; lan truyền đơn vị suy ra được gì; giao diện
-nào dùng được cho giải tăng dần hoặc ghép mô-đun; và cấu trúc bài toán nào phù
-hợp. Năm câu hỏi này tạo thành khung lựa chọn phép mã hóa xuyên suốt cuốn sách.
-
-Các hình TikZ nguyên bản trong sách gồm sơ đồ khái niệm và ví dụ nhỏ có thể
-kiểm tra bằng tay. Các chú thích liên kết trực tiếp hình minh họa với khái
-niệm, mô hình và công trình tương ứng.
-
-\begin{summarybox}
-\textbf{Lộ trình đọc nhanh.}
-Người mới nên đọc Chương 1--4 rồi chọn một miền ở Phần III. Người thiết kế
-ràng buộc đếm/PB nên đi từ Chương 2--3 sang Chương 5--6. Người làm mô hình
-miền hữu hạn nên đọc Chương 2, 7 và một trong các Chương 8--11. Các hộp kết
-quả tóm tắt bằng chứng nguồn; phần khảo cứu và bảng so sánh của từng chương
-phát triển lập luận tổng quát.
-\end{summarybox}
-
-\chapter*{Quy ước đọc sơ đồ và các hộp nội dung}
-\addcontentsline{toc}{chapter}{Quy ước đọc sơ đồ và các hộp nội dung}
-
-Sơ đồ năm nút ở đầu mỗi chương là \emph{lộ trình lập luận}, đọc từ trái sang
-phải. Mỗi nút biểu diễn một lớp quyết định hoặc một câu hỏi mà chương lần lượt
-giải quyết; mũi tên biểu diễn quan hệ phụ thuộc trong lập luận. Các thủ tục
-thực thi được trình bày bằng môi trường thuật toán và đánh số riêng.
-
-\begin{center}
-\captionof{table}{Phân cấp các môi trường dùng trong sách.}
-\label{tab:box-hierarchy}
-\begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily\raggedright\arraybackslash}p{.22\textwidth}YY@{}}
-\toprule
-Môi trường & Chức năng & Mức độ bằng chứng\\
-\midrule
-Định nghĩa, bổ đề, định lý & Khái niệm và kết quả hình thức &
-Phải có giả thiết, phát biểu và chứng minh\\
-Mệnh đề/Hệ quả & Kết quả trung gian hoặc hệ quả &
-Được suy từ định nghĩa hay kết quả đã nêu\\
-Ví dụ có lời giải & Tính tay trên bài toán nhỏ &
-Kiểm tra trực giác và diễn giải từng bước\\
-Ý tưởng cốt lõi & Ý niệm tổ chức hoặc sự trừu tượng hóa &
-Lập luận khái niệm\\
-Quy tắc thiết kế & Khuyến nghị kỹ thuật có điều kiện &
-Nêu miền áp dụng và điểm chuyển thiết kế\\
-Hộp kết quả & Số liệu hoặc kết luận từ công trình nguồn &
-Gắn trích dẫn và điều kiện thí nghiệm của nguồn\\
-Hộp tóm tắt & Tóm lược để tra cứu nhanh &
-Tổng hợp các kết quả đã trình bày\\
-\bottomrule
-\end{tabularx}
-\end{center}
 
 \chapter*{Ký hiệu và quy ước}
 \addcontentsline{toc}{chapter}{Ký hiệu và quy ước}
@@ -187,14 +197,15 @@ Ký hiệu & Ý nghĩa\\
 \(\operatorname{UP}(F,A)\) & Bao đóng lan truyền đơn vị dưới phép gán bộ phận \(A\)\\
 \(\AMO,\ALO,\ExactlyOne\) & Nhiều nhất một, ít nhất một và đúng một\\
 \(LB,UB,\OPT\) & Cận dưới, cận trên và giá trị tối ưu được chứng nhận\\
+\(\BKS\), \emph{best known solution} & Nghiệm tốt nhất đã biết\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 Chỉ số toán học bắt đầu từ \(1\), trừ khi phần cài đặt ghi rõ khác. Các miền
 thời gian, tọa độ và nhãn là miền nguyên hữu hạn. Mỗi biến phụ được
-đọc theo đặc tả đã nêu; một literal phụ có ngữ nghĩa dùng chung khi phép mã
-hóa bảo đảm đặc tả tương ứng.
+đọc theo \emph{contract} (đặc tả ngữ nghĩa) đã nêu; một literal phụ có ngữ
+nghĩa dùng chung khi phép mã hóa bảo đảm đặc tả tương ứng.
 
 \tableofcontents
 \listoffigures
@@ -230,26 +241,29 @@ hóa bảo đảm đặc tả tương ứng.
 \addcontentsline{toc}{chapter}{Thuật ngữ Anh--Việt}
 \markboth{Thuật ngữ Anh--Việt}{Thuật ngữ Anh--Việt}
 \begin{longtable}{@{}>{\bfseries\sffamily}p{.3\textwidth}p{.62\textwidth}@{}}
-\caption{Thuật ngữ Anh--Việt dùng trong sách.}
+\caption{Thuật ngữ Anh--Việt.}
 \label{tab:glossary}\\
 \toprule
-Thuật ngữ tiếng Anh & Tương đương và cách dùng trong sách\\
+Thuật ngữ tiếng Anh & Tương đương tiếng Việt và giải thích\\
 \midrule
 \endfirsthead
 \toprule
-Thuật ngữ tiếng Anh & Tương đương và cách dùng trong sách\\
+Thuật ngữ tiếng Anh & Tương đương tiếng Việt và giải thích\\
 \midrule
 \endhead
+ablation & thí nghiệm bóc tách: chỉ thay một thành phần để đo riêng tác động\\
 arc consistency & nhất quán cung: mỗi giá trị còn ít nhất một giá trị hỗ trợ
 trên mỗi cung ràng buộc\\
 assumption & giả định: literal tạm thời cho một lần gọi bộ giải\\
 at-least-\(k\) & ràng buộc có ít nhất \(k\) literal đúng\\
 at-most-\(k\) & ràng buộc có nhiều nhất \(k\) literal đúng\\
 auxiliary variable & biến phụ có đặc tả ngữ nghĩa\\
+backjump & nhảy lùi: quay lại một mức quyết định trước đó do phân tích xung đột\\
 benchmark & bộ kiểm chuẩn: tập bài toán thử và quy trình đánh giá\\
 binary decision diagram & biểu đồ quyết định nhị phân, viết tắt BDD\\
 bound tightening & siết cận miền hoặc cận mục tiêu\\
 branch-and-bound & tìm kiếm phân nhánh và cận\\
+cactus plot & biểu đồ xương rồng: số bài giải được theo thời gian tích lũy\\
 cardinality constraint & ràng buộc đếm số literal đúng\\
 certified optimum & nghiệm tối ưu có cận dưới tương ứng\\
 channeling & liên kết biểu diễn: các mệnh đề nối hai cách biểu diễn cùng một
@@ -257,19 +271,26 @@ quyết định\\
 clause learning & học mệnh đề từ xung đột\\
 conflict-driven clause learning & học mệnh đề theo xung đột, viết tắt CDCL\\
 consistency & mức nhất quán hoặc lọc miền mà phép mã hóa/bộ lan truyền đạt được\\
-constraint programming & lập trình ràng buộc, viết tắt CP\\
+connector & bộ nối: các mệnh đề ghép trạng thái do hai mô-đun cung cấp\\
+constraint programming & quy hoạch ràng buộc, viết tắt CP\\
 contract & đặc tả ngữ nghĩa mà một mô-đun cung cấp cho mô-đun sử dụng\\
+cross-validation & kiểm định chéo: luân phiên tập tinh chỉnh và tập đánh giá\\
 decoder & bộ giải mã mô hình Boolean thành nghiệm của bài toán gốc\\
 direct encoding & mã hóa trực tiếp: một literal giá trị cho mỗi giá trị miền\\
 dominance rule & quy tắc trội: loại nghiệm bị trội mà vẫn giữ ít nhất một
 nghiệm tối ưu\\
 encoding & phép mã hóa một ràng buộc hoặc mô hình thành \CNF\\
+equisatisfiable & đồng khả thỏa: hai công thức cùng có nghiệm hoặc cùng vô nghiệm\\
 exactly-\(k\) & ràng buộc có đúng \(k\) literal đúng\\
+external validity & hiệu lực khái quát: kết luận còn giữ ngoài tập thử hay không\\
 feasibility & tính tồn tại nghiệm thỏa mọi ràng buộc cứng\\
 feasible solution & nghiệm khả thi\\
 forbidden interval & khoảng cấm do một lựa chọn giá trị tạo ra\\
+fixpoint & điểm bất động: trạng thái mà áp dụng tiếp phép lan truyền không làm
+thay đổi miền hay phép gán\\
 global constraint & ràng buộc toàn cục có ngữ nghĩa và bộ lan truyền riêng\\
 incremental SAT & SAT tăng dần: dùng lại trạng thái bộ giải qua nhiều lần gọi\\
+internal validity & hiệu lực nội tại: hiệu ứng quan sát đúng là do yếu tố đang xét\\
 lazy clause generation & sinh mệnh đề lười: kết hợp lan truyền miền với lời
 giải thích dạng mệnh đề\\
 literal & biến Boolean hoặc phủ định của biến đó\\
@@ -278,6 +299,7 @@ model checker & bộ kiểm tra trực tiếp nghiệm đã giải mã\\
 non-preemption & tác vụ chạy trong một khoảng liên tục, không bị ngắt\\
 order encoding & mã hóa thứ tự: chuỗi literal ngưỡng biểu diễn thứ tự trong miền\\
 performance profile & đồ thị tỷ lệ hiệu năng chuẩn hóa theo cấu hình tốt nhất\\
+population & quần thể bài toán hoặc cấu hình mà kết luận hướng đến\\
 proof logging & ghi chứng minh: xuất chứng cứ mệnh đề để bộ kiểm tra xác minh
 \UNSAT\\
 propagation complete & đầy đủ lan truyền trong phạm vi đã định nghĩa\\
@@ -285,7 +307,12 @@ pseudo-Boolean constraint & bất đẳng thức tuyến tính trên biến Bool
 reification & vật hóa chân trị: gắn một literal với tính đúng/sai của một ràng
 buộc\\
 relaxation & mô hình nới lỏng dùng để tạo cận hoặc phân tích\\
+random seed & hạt giống ngẫu nhiên: giá trị khởi tạo bộ sinh số giả ngẫu nhiên
+để tái lập một lần chạy\\
+register & thanh ghi ngưỡng: biến phụ lưu trạng thái đếm ở một tiền tố hoặc
+một mô-đun\\
 restart & khởi động lại nhánh tìm kiếm nhưng giữ các mệnh đề đã học\\
+right-censored & kiểm duyệt phải: chỉ biết thời gian chạy lớn hơn thời hạn\\
 selection network & mạng lựa chọn: mạng bộ so sánh chỉ tạo các đầu ra cần thiết\\
 shifted geometric mean & trung bình nhân dịch chuyển để tổng hợp thời gian chạy\\
 sorting network & mạng sắp xếp xây từ các bộ so sánh Boolean\\
@@ -295,11 +322,13 @@ symmetry breaking & phá đối xứng: giữ đại diện chuẩn tắc của 
 symmetry breaking predicate & mệnh đề giữ ít nhất một đại diện của mỗi quỹ đạo\\
 timeout & quá thời hạn: lần chạy vượt giới hạn thời gian\\
 totalizer & cây tổng dạng đơn phân cho ràng buộc đếm/PB\\
+trail & vết gán: dãy literal được gán cùng mức quyết định và lý do\\
 unit propagation & lan truyền đơn vị\\
 upper bound & cận trên đến từ một nghiệm khả thi\\
 virtual best solver & bộ giải tốt nhất ảo: phép chọn hậu nghiệm cấu hình nhanh
 nhất cho từng bài toán thử\\
-witness & biến chứng: literal chỉ ra một nhánh của phép tuyển\\
+witness variable & biến làm chứng: literal chỉ ra nhánh được chọn của một phép tuyển\\
+witness solution & nghiệm làm chứng: nghiệm cụ thể xác nhận một cận khả thi\\
 \bottomrule
 \end{longtable}
 

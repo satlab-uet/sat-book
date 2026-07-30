@@ -1,8 +1,9 @@
 \chapter{Đối xứng, biến quan hệ và liên kết biểu diễn}
 \chapterlead{Một phép mã hóa tốt không chỉ mô tả nghiệm; nó còn quyết định cách
-bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ. Phá đối xứng
-(\emph{symmetry breaking}) thu gọn không gian tìm kiếm, còn liên kết biểu diễn
-(\emph{channeling}) nối các góc nhìn bổ sung của cùng một quyết định.}
+bộ giải nhìn thấy các nghiệm tương đương và các xung đột cục bộ.
+\emph{Symmetry breaking} (phá đối xứng) thu gọn không gian tìm kiếm, còn
+\emph{channeling} (liên kết biểu diễn) nối các góc nhìn bổ sung của cùng một
+quyết định.}
 
 \index{symmetry breaking}\index{lex-leader}
 \index{relation variable}\index{order encoding}\index{channeling}
@@ -188,8 +189,8 @@ các biến bằng nhau trên tiền tố \(e_i\):
   e_i\leftrightarrow e_{i-1}\land(a_i\leftrightarrow b_i),
   \qquad e_0=\top,
 \]
-và cấm \(e_{i-1}\land a_i\land\neg b_i\). Ràng buộc dẫn đầu theo thứ tự từ
-điển (\emph{lex-leader}) mạnh hơn tiền tố sử dụng nhưng tạo thêm một chuỗi biến
+và cấm \(e_{i-1}\land a_i\land\neg b_i\). \emph{Lex-leader} (ràng buộc dẫn
+đầu theo thứ tự từ điển) mạnh hơn tiền tố sử dụng nhưng tạo thêm một chuỗi biến
 phụ cho mỗi cặp được so sánh.
 
 \subsection{Neo hình học và phản xạ}
@@ -228,7 +229,9 @@ trong đó \(L_{ij}\) nghĩa là \(i\) nằm trái \(j\), còn \(B_{ij}\) nghĩa
 \]
 với \(P_{ij}\) nghĩa là \(i\) kết thúc trước khi \(j\) bắt đầu.
 
-Biến quan hệ đóng vai trò biến chứng cho một nhánh của phép tuyển. Chúng rút
+\emph{Witness variable} (biến làm chứng) là biến chỉ ra nhánh nào của phép
+tuyển được chọn. Trong mô hình này, biến quan hệ đóng vai trò biến làm chứng
+cho một nhánh của phép tuyển. Chúng rút
 ràng buộc toàn cục thành các mệnh đề cục bộ quanh cặp đối tượng. Khi một quan
 hệ được chọn, nó kích hoạt một quan hệ kéo theo trên tọa độ hoặc thời gian; khi
 miền tọa độ loại quan hệ đó, mệnh đề tuyển buộc bộ giải chọn quan hệ còn lại.
@@ -252,10 +255,10 @@ có mô tả ngắn, biến quan hệ chỉ thêm một tầng trung gian.
 \begin{figure}[tb]
 \centering
 \begin{tikzpicture}[satfig,x=8mm,y=7mm]
-  \foreach \x/\y/\lab in
-    {0/2/\(L_{ij}\),5/2/\(L_{ji}\),0/-1/\(B_{ij}\),5/-1/\(B_{ji}\)}{
-    \node[satlabel] at (\x+1.6,\y+1.0) {\lab};
-  }
+  \node[satlabel] at (1.7,3.2) {\(L_{ij}\)};
+  \node[satlabel] at (6.7,3.2) {\(L_{ji}\)};
+  \node[satlabel] at (1.65,1.3) {\(B_{ij}\)};
+  \node[satlabel] at (6.65,1.3) {\(B_{ji}\)};
   \draw[Blue,fill=PaleBlue,thick] (0,2) rectangle (1.5,2.8);
   \node at (.75,2.4) {\(i\)};
   \draw[Teal,fill=PaleTeal,thick] (2,2) rectangle (3.4,2.8);
@@ -274,7 +277,7 @@ có mô tả ngắn, biến quan hệ chỉ thêm một tầng trung gian.
   \node at (6.65,.5) {\(i\)};
 \end{tikzpicture}
 \caption{Bốn lớp hỗ trợ của quan hệ không chồng lấn giữa hai hình chữ nhật.
-Một literal quan hệ làm biến chứng cho cả một lớp cặp tọa độ.}
+Một literal quan hệ làm chứng cho cả một lớp cặp tọa độ.}
 \label{fig:four-spatial-relations}
 \end{figure}
 
@@ -331,7 +334,7 @@ hệ đó. Có ba mức liên kết:
   \Phi\rightarrow q,\qquad
   q\leftrightarrow\Phi.
 \]
-Chiều đầu đủ cho tính đúng nếu \(q\) chỉ được dùng làm biến chứng được chọn:
+Chiều đầu đủ cho tính đúng nếu \(q\) chỉ được dùng làm biến làm chứng được chọn:
 bộ giải không thể đặt \(q=1\) khi quan hệ hình học sai. Chiều ngược giúp miền
 tọa độ suy ra \(q\); liên kết hai chiều cho phép lan truyền qua cả hai biểu
 diễn.
@@ -339,7 +342,7 @@ diễn.
 Lựa chọn phụ thuộc vào cách mô-đun sử dụng đọc biến:
 
 \begin{itemize}
-  \item Nếu mệnh đề \(q_1\lor\cdots\lor q_r\) yêu cầu một biến chứng và không
+  \item Nếu mệnh đề \(q_1\lor\cdots\lor q_r\) yêu cầu một biến làm chứng và không
   nơi nào đọc \(\neg q\), quan hệ kéo theo tiến thường đủ.
   \item Nếu \(\neg q\) được dùng để kết luận quan hệ đối nghịch, phải có
   đặc tả mạnh hơn.
@@ -469,7 +472,7 @@ chính kiến trúc này cho bốn họ bài toán.
 \begin{enumerate}
   \item Loại đối xứng biểu diễn trước khi thêm các mệnh đề phá đối xứng.
   \item Một breaker hợp lệ phải giữ ít nhất một đại diện của mọi quỹ đạo.
-  \item Biến quan hệ là biến chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
+  \item Biến quan hệ là biến làm chứng có ngữ nghĩa, giúp cục bộ hóa phép tuyển.
   \item Liên kết mạnh đến đâu phụ thuộc vào cách biến quan hệ được đọc.
   \item Mã hóa thứ tự làm các cận dịch chuyển trở thành mệnh đề đơn giản.
   \item Đồ thị xung đột xác định nơi thật sự cần biến phụ.

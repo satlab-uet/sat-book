@@ -1,7 +1,8 @@
 \chapter{Bộ đếm dùng chung cho các cửa sổ chồng lấn}
 \chapterlead{Khi một ràng buộc trượt trên chuỗi, hai cửa sổ kề nhau chia sẻ gần
-toàn bộ biến. Mã hóa từng cửa sổ độc lập sẽ lặp trạng thái; bộ đếm dùng chung
-(\emph{shared counter}) biến phần giao đó thành một mô-đun có thể tái sử dụng.}
+toàn bộ biến. Mã hóa từng cửa sổ độc lập sẽ lặp trạng thái;
+\emph{shared counter} (bộ đếm dùng chung) biến phần giao đó thành một mô-đun
+có thể tái sử dụng.}
 
 \index{SEQUENCE constraint}\index{shared counter}
 \index{Sequential Counter Ladder}\index{Ladder AMK}
@@ -249,8 +250,8 @@ chiều cần thiết khi bộ nối dùng cả thanh ghi dương và phủ đ�
 
 \section{Staircase AMO và SCL}
 
-Với \(k=1\), mỗi cửa sổ thỏa AMO. Thang bộ đếm dùng chung
-(\emph{Shared Counter Ladder}, SCL) xây các trạng thái AMO/AMZ trong khối và
+Với \(k=1\), mỗi cửa sổ thỏa AMO. \emph{Shared Counter Ladder}
+(thang bộ đếm dùng chung, SCL) xây các trạng thái AMO/AMZ trong khối và
 nối chúng qua các biên. So với việc tạo xung đột từng cặp trong từng cửa sổ,
 SCL không lặp các cặp nằm trong phần giao.
 
@@ -395,7 +396,8 @@ ngưỡng cần nối.
 
 \section{Triển khai}
 
-Một giao diện lập trình (API) cho mô-đun có thể là:
+\emph{Application programming interface} (giao diện lập trình, API) cho
+mô-đun có thể là:
 \[
   \texttt{SharedCounter(sequence, partition, maxThreshold)}
 \]

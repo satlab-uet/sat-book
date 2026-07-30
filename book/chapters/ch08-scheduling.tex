@@ -9,7 +9,7 @@ cận mục tiêu được thay đổi ra sao trong quá trình giải.}
 \flowdiagram{Miền thời gian}{Biến quyết định}{Liên tục và tài nguyên}
   {Hàm mục tiêu}{Chứng nhận}
 
-\section{Từ SAT theo mốc thời gian đến sinh mệnh đề lười}
+\section{Từ SAT theo mốc thời gian đến lazy clause generation}
 
 Lập lịch là một trong những miền sớm cho thấy SAT có thể giải các bài toán
 ngoài lôgic thuần túy. Các thí nghiệm SAT về lập lịch từ thập niên 1990 đã
@@ -19,8 +19,8 @@ phát triển theo ba hướng:
 \begin{enumerate}
   \item biên dịch toàn bộ ràng buộc gán, thời gian và tài nguyên sang SAT;
   \item dùng MaxSAT/PB để biểu diễn mức phạt, ưu tiên hoặc số ca vi phạm;
-  \item tích hợp lan truyền miền với học mệnh đề, điển hình là sinh mệnh đề
-        lười (\emph{lazy clause generation}, LCG).
+  \item tích hợp lan truyền miền với học mệnh đề, điển hình là
+        \emph{lazy clause generation} (sinh mệnh đề lười, LCG).
 \end{enumerate}
 
 LCG giữ biến miền và bộ lan truyền của CP, đồng thời gắn mỗi phép loại giá trị
@@ -119,7 +119,8 @@ chọn tài nguyên \(j\).
   \sum_t z_{it}=e_i
 \]
 chỉ bảo đảm đủ số mốc hoạt động; nó không ngăn các mốc bị tách thành nhiều
-đoạn. Tính không ngắt (\emph{non-preemption}) đòi hỏi mạnh hơn:
+đoạn. \emph{Non-preemption} (tính không ngắt: tác vụ phải chạy liên tục từ
+lúc bắt đầu đến lúc kết thúc) đòi hỏi mạnh hơn:
 \[
   z_{it}=1 \iff s_i\le t<s_i+e_i .
 \]
@@ -294,7 +295,7 @@ toàn mô hình \parencite{demirovic2019staff}. Ma trận thiết kế tách cá
 đo riêng ảnh hưởng của ALSC, độ phủ và ưu tiên.
 
 \begin{resultbox}{Kết quả tiêu biểu}
-Trên 28 bài toán lập lịch điều dưỡng (\emph{Nurse Rostering}), với quy mô đến
+Trên 28 bài toán \emph{Nurse Rostering} (lập lịch điều dưỡng), với quy mô đến
 120 điều dưỡng và 24 tuần,
 ALSCE giải toàn bộ tập thử trong nghiên cứu của
 \textcite{truong2025nurse}; bài toán lớn nhất được báo cáo ở mức
@@ -302,7 +303,7 @@ ALSCE giải toàn bộ tập thử trong nghiên cứu của
 các cửa sổ chồng lấn.
 \end{resultbox}
 
-\section{Cân bằng dây chuyền với đỉnh công suất}
+\section{Peak power: công suất đỉnh trong cân bằng dây chuyền}
 
 \subsection{Mô hình đỉnh công suất}
 
@@ -381,7 +382,7 @@ trong khi hai tàu dùng chung tài nguyên phải chọn một trong hai thứ 
 Nếu dựng toàn bộ miền thời gian đến chân trời \(H\), số biến theo mốc thời gian có thể
 rất lớn.
 
-Khám phá rời rạc hóa động (\emph{Dynamic Discretization Discovery}, DDD) khởi
+\emph{Dynamic Discretization Discovery} (khám phá rời rạc hóa động, DDD) khởi
 đầu bằng tập mốc thưa \(\Lambda^{i,r}\). Mô hình hạn chế cho một cận dưới.
 Nghiệm được giải mã trên trục thời gian đầy đủ; nếu nó vi phạm thời gian di
 chuyển hoặc khoảng cách an toàn, chỉ các mốc liên quan mới được thêm.
@@ -491,7 +492,7 @@ không đạt được bị loại ngay. AMO kết hợp tiếp tục chọn ph�
 theo kích thước miền: từng cặp cho tập rất nhỏ, tuần tự hoặc chỉ huy cho tập lớn hơn.
 
 \begin{resultbox}{Điểm rút ra từ Train MaxSAT--DDD}
-Trên các bài toán của bản thảo \textcite{kieu2026train}, hiệu quả thay đổi theo
+Trong nghiên cứu của \textcite{kieu2026train}, hiệu quả thay đổi theo
 dạng hàm độ trễ: \MaxSAT nổi bật với chi phí bậc thang và làm tròn, còn MIP cạnh
 tranh hơn với chi phí liên tục. Giá trị thiết kế của DDD nằm ở khả năng chỉ mở
 rộng miền tại nơi nghiệm hạn chế thực sự thiếu thông tin.

@@ -20,9 +20,6 @@ if [[ ! -s "${pdf_source}" ]]; then
   exit 1
 fi
 
-# Ensure HTML book edition is generated
-python3 "${script_dir}/generate-html-book.py"
-
 if [[ "${site_output}" != "${repo_root}/_site" || "${site_output}" == "/" ]]; then
   printf 'Refusing to prepare unexpected path: %s\n' "${site_output}" >&2
   exit 1
@@ -44,13 +41,22 @@ mkdir -p "${site_output}/downloads"
 cp -R "${site_source}/." "${site_output}/"
 cp "${pdf_source}" "${site_output}/downloads/sat-book.pdf"
 cp "${pdf_source}" "${site_output}/downloads/sat-book-v${version}.pdf"
+python3 "${script_dir}/generate-html-book.py" "${site_output}/read.html"
+python3 "${script_dir}/package-book-source.py" \
+  "${site_output}/downloads/sat-book-tex.zip"
 
 (
   cd "${site_output}/downloads"
   if command -v sha256sum >/dev/null 2>&1; then
-    sha256sum "sat-book.pdf" "sat-book-v${version}.pdf" > SHA256SUMS
+    sha256sum \
+      "sat-book.pdf" \
+      "sat-book-v${version}.pdf" \
+      "sat-book-tex.zip" > SHA256SUMS
   elif command -v shasum >/dev/null 2>&1; then
-    shasum -a 256 "sat-book.pdf" "sat-book-v${version}.pdf" > SHA256SUMS
+    shasum -a 256 \
+      "sat-book.pdf" \
+      "sat-book-v${version}.pdf" \
+      "sat-book-tex.zip" > SHA256SUMS
   else
     printf '%s\n' 'Neither sha256sum nor shasum is available.' >&2
     exit 1

@@ -24,18 +24,18 @@ chuỗi
   \rightarrow\text{phần cứng}.
 \]
 Thay bất kỳ mắt xích nào cũng có thể đổi thứ hạng. Vì vậy kết luận cần nêu rõ
-\emph{quần thể} (\emph{population}) mà nó hướng đến: một họ bài toán thử, một
+\emph{population} (quần thể mà kết luận hướng đến): một họ bài toán thử, một
 miền tham số, một bộ giải hay một danh mục bộ giải. Cần phân biệt
-\emph{hiệu lực nội tại} (\emph{internal validity})---hiệu ứng thật sự do yếu tố
-đang xét---với \emph{hiệu lực khái quát} (\emph{external validity})---hiệu ứng
-có còn giữ ngoài tập kiểm chuẩn hay không.
+\emph{internal validity} (hiệu lực nội tại: hiệu ứng thật sự do yếu tố
+đang xét) với \emph{external validity} (hiệu lực khái quát: hiệu ứng
+có còn giữ ngoài tập kiểm chuẩn hay không).
 
 Trong nghiên cứu phép mã hóa, ba loại bằng chứng bổ sung nhau:
 \begin{itemize}
   \item \textbf{bằng chứng cơ chế}: công thức đếm, vết lan truyền và xung đột
         nhỏ giải thích vì sao hiệu ứng xuất hiện;
-  \item \textbf{bằng chứng có kiểm soát}: thí nghiệm bóc tách
-        (\emph{ablation}) giữ cố định các yếu tố khác;
+  \item \textbf{bằng chứng có kiểm soát}: \emph{ablation}
+        (thí nghiệm bóc tách) giữ cố định các yếu tố khác;
   \item \textbf{bằng chứng so sánh}: đánh giá trên nhiều họ bài toán và nhiều
         bộ giải để kiểm tra độ bền của kết luận.
 \end{itemize}
@@ -75,13 +75,16 @@ Một ma trận điển hình gồm:
   \times
   \text{bài toán thử}
   \times
-  \text{hạt giống}.
+  \text{random seed}.
 \]
+Ở đây \emph{random seed} (hạt giống ngẫu nhiên) là giá trị khởi tạo bộ sinh
+số giả ngẫu nhiên; giữ lại giá trị này giúp tái lập đúng chuỗi lựa chọn ngẫu
+nhiên của một lần chạy.
 Không nhất thiết chạy tích Descartes đầy đủ. Có thể dùng hai giai đoạn:
 \begin{enumerate}
   \item \textbf{sàng lọc}: chọn vài bộ giải đại diện và miền tham số rộng;
   \item \textbf{xác nhận}: giữ các cấu hình có triển vọng, tăng số bài toán
-        thử và số hạt giống.
+        thử và số hạt giống ngẫu nhiên.
 \end{enumerate}
 
 Mọi cấu hình phải dùng cùng ngữ nghĩa và bộ kiểm tra. Nếu một bộ mã hóa có tiền
@@ -116,7 +119,7 @@ quan quá mức. Một quy trình đơn giản:
   \item chia bộ kiểm chuẩn thành tập tinh chỉnh và tập đánh giá;
   \item khóa cấu hình sau khi tinh chỉnh;
   \item chỉ dùng tập đánh giá cho kết luận cuối;
-  \item nếu dữ liệu ít, dùng kiểm định chéo (\emph{cross-validation}) theo họ
+  \item nếu dữ liệu ít, dùng \emph{cross-validation} (kiểm định chéo) theo họ
         thay vì chia ngẫu nhiên từng bài toán.
 \end{enumerate}
 
@@ -148,17 +151,17 @@ giúp giải thích cơ chế tạo ra thời gian chạy quan sát được:
   \text{bộ nhớ/biến}.
 \]
 
-\subsection{Thời gian chạy có kiểm duyệt}
+\subsection{Right-censored runtime: thời gian chạy có kiểm duyệt}
 
 Khi một lần chạy hết thời hạn, ta chỉ biết thời gian cần thiết lớn hơn giới hạn;
-dữ liệu như vậy được gọi là \emph{kiểm duyệt phải} (\emph{right-censored}).
+dữ liệu như vậy được gọi là \emph{right-censored} (kiểm duyệt phải).
 Vì vậy, thống kê thời gian chạy phải tính cả bài đã giải và bài hết thời hạn
 bằng một trong các cách:
 \begin{itemize}
   \item số bài giải được tại một giới hạn thời gian cố định;
   \item PAR-2 hoặc PAR-10, tức thời gian trung bình có phạt khi hết thời hạn;
-  \item biểu đồ xương rồng (\emph{cactus plot});
-  \item hồ sơ hiệu năng (\emph{performance profile});
+  \item \emph{cactus plot} (biểu đồ xương rồng);
+  \item \emph{performance profile} (hồ sơ hiệu năng);
   \item thời gian đạt mục tiêu cho bài toán tối ưu.
 \end{itemize}
 
@@ -209,9 +212,10 @@ Trung bình chỉ trên bài đã giải sẽ cho đối chứng \(3.5\) giây v
 \begin{tikzpicture}[satfig,x=18mm,y=11mm]
   \draw[->,thick,Ink] (0,0)--(5.4,0) node[right,satlabel] {\(\tau\)};
   \draw[->,thick,Ink] (0,0)--(0,3.5) node[above,satlabel] {\(\rho_s(\tau)\)};
-  \foreach \y/\lab in {1/0.33,2/0.67,3/1.00}
-    \draw[Rule] (0,\y)--(5,\y)
-      node[left=2pt,satlabel]{\lab};
+  \foreach \y/\lab in {1/0.33,2/0.67,3/1.00}{
+    \draw[Rule] (0,\y)--(5,\y);
+    \node[left=4pt,satlabel] at (0,\y) {\lab};
+  }
   \draw[very thick,Blue]
     (0.5,0)--(0.5,1)--(1.2,1)--(1.2,2)--(3.8,2)--(3.8,3)--(5,3);
   \draw[very thick,Teal]
@@ -278,7 +282,7 @@ chạy hết thời hạn của một cấu hình.}
 
 \section{SAT và UNSAT là hai chế độ khác nhau}
 
-Các bài toán SAT cần tìm một nghiệm chứng; các bài toán UNSAT cần đóng toàn bộ
+Các bài toán SAT cần tìm một nghiệm làm chứng; các bài toán UNSAT cần đóng toàn bộ
 không gian tìm kiếm. Một phép mã hóa có thể mạnh ở SAT nhưng yếu ở UNSAT hoặc
 ngược lại.
 Bảng kết quả nên tách:
@@ -290,16 +294,18 @@ Trong tối ưu, các lần gọi bộ giải gần giá trị tối ưu thườ
 thái: mô hình tại cận khả thi và \UNSAT tại cận tốt hơn. Vì thế, hồ sơ theo
 toàn bộ dãy cận chứa nhiều thông tin hơn thời gian chạy cuối cùng.
 
-\section{Nhiều hạt giống và biến thiên}
+\section{Random seed và biến thiên giữa các lần chạy}
 
-CDCL có yếu tố ngẫu nhiên trong phá hòa và tìm kiếm. Với bài toán khó, cần chạy
-nhiều hạt giống và báo trung vị, các phân vị hoặc khoảng tin cậy. So sánh ghép
-cặp phải dùng cùng bài toán, cùng chỉ số hạt giống và cùng giới hạn thời gian,
-bộ nhớ.
+\emph{Random seed}, được gọi là hạt giống ngẫu nhiên sau lần giới thiệu đầu,
+không phải dữ liệu của bài toán; nó là số khởi tạo bộ sinh số giả ngẫu nhiên
+của thuật toán. CDCL có yếu tố ngẫu nhiên trong phá hòa và tìm kiếm. Với bài
+toán khó, cần chạy nhiều hạt giống ngẫu nhiên và báo trung vị, các phân vị hoặc
+khoảng tin cậy. So sánh ghép cặp phải dùng cùng bài toán, cùng chỉ số hạt giống
+ngẫu nhiên và cùng giới hạn thời gian, bộ nhớ.
 
-Nếu bộ mã hóa là tất định nhưng bộ giải có yếu tố ngẫu nhiên, hạt giống thuộc
-về bộ giải. Nếu bộ sinh dùng thứ tự ngẫu nhiên, cần tách hạt giống của bộ sinh
-khỏi hạt giống của bộ giải.
+Nếu bộ mã hóa là tất định nhưng bộ giải có yếu tố ngẫu nhiên, hạt giống ngẫu
+nhiên thuộc về bộ giải. Nếu bộ sinh dùng thứ tự ngẫu nhiên, cần tách hạt giống
+ngẫu nhiên của bộ sinh khỏi hạt giống ngẫu nhiên của bộ giải.
 
 \section{So sánh ghép cặp và độ lớn hiệu ứng}
 
@@ -307,10 +313,10 @@ Mỗi bài toán thử tạo một cặp quan sát tự nhiên giữa hai bộ m
 thời gian chạy thường lệch và có dữ liệu hết thời hạn, chỉ báo trung bình và
 một kiểm định trên các lần chạy độc lập là chưa phù hợp. Nên báo đồng thời:
 \begin{itemize}
-  \item số lần thắng/hòa/thua trên cùng bài toán và cùng hạt giống;
+  \item số lần thắng/hòa/thua trên cùng bài toán và cùng hạt giống ngẫu nhiên;
   \item trung vị của lôgarit hệ số tăng tốc
         \(\log(t_{\mathrm{base}}/t_{\mathrm{new}})\);
-  \item khoảng bất định bằng lấy mẫu lại bootstrap theo \emph{họ}, không chỉ
+  \item khoảng bất định bằng \emph{bootstrap} (lấy mẫu lại) theo \emph{họ}, không chỉ
         theo từng bài toán;
   \item chênh lệch số bài giải được tại nhiều mốc thời gian.
 \end{itemize}
@@ -355,7 +361,7 @@ hơn việc chỉ chạy các bài toán kiểm chuẩn lớn.
 
 \section{Gói tái lập và khả năng truy vết}
 
-Một gói phần mềm--dữ liệu tái lập (\emph{artifact}) tối thiểu gồm:
+\emph{Artifact} (gói phần mềm--dữ liệu tái lập) tối thiểu gồm:
 \begin{itemize}
   \item mã nguồn và mã định danh bản sửa đổi chính xác;
   \item bản kê bài toán thử và mã kiểm tra toàn vẹn;
@@ -385,26 +391,25 @@ Gói tái lập tạo một đường đi kiểm tra được từ phát biểu 
 \label{fig:claim-artifact-chain}
 \end{figure}
 
-Số liệu thực nghiệm trong một khảo cứu được gắn với ba tầng bằng chứng:
+Số liệu thực nghiệm có thể được kiểm tra ở ba tầng:
 \begin{enumerate}
-  \item \textbf{được tác giả nguồn báo cáo}: giữ đúng tập bài toán thử, giới
-        hạn thời gian và cấu hình đối chứng;
-  \item \textbf{đối chiếu được từ gói tái lập}: có đủ mã nguồn, nhật ký và dữ
-        liệu để tái tạo bảng;
-  \item \textbf{được tái lập độc lập}: chạy lại bằng môi trường do người tổng
-        hợp kiểm soát.
+  \item \textbf{báo cáo}: bài viết mô tả tập bài toán thử, giới hạn thời gian
+        và các cấu hình đối chứng;
+  \item \textbf{tái tạo}: mã nguồn, nhật ký và dữ liệu cho phép dựng lại các
+        bảng và biểu đồ;
+  \item \textbf{tái lập độc lập}: một môi trường khác thực hiện lại thí
+        nghiệm theo cùng thiết kế.
 \end{enumerate}
-Mỗi hộp kết quả trong sách ghi công trình nguồn và phạm vi thí nghiệm; khi hồ
-sơ có gói tái lập, đường dẫn mã nguồn, nhật ký và dữ liệu được quản lý trong sổ
-nguồn. Ba tầng này tạo lộ trình nâng một kết quả đã công bố thành một kết quả
-tái lập độc lập.
+Tầng báo cáo hỗ trợ việc diễn giải kết quả; tầng tái tạo kiểm tra đường đi từ
+nhật ký đến bảng; tầng tái lập độc lập đánh giá độ bền khi môi trường thực thi
+thay đổi.
 
 \section{Mẫu quy trình thực nghiệm}
 
 \begin{summarybox}
 \textbf{Câu hỏi.} Mô-đun nào được đánh giá?\\
 \textbf{Giả thuyết.} Kỳ vọng tác động lên kích thước, sức lan truyền hay thời gian chạy?\\
-\textbf{Yếu tố.} Bộ mã hóa, bộ giải, đặc trưng, họ bài toán, hạt giống.\\
+\textbf{Yếu tố.} Bộ mã hóa, bộ giải, đặc trưng, họ bài toán, hạt giống ngẫu nhiên.\\
 \textbf{Biến kiểm soát.} Ngữ nghĩa, bộ kiểm tra, cận, tiền xử lý, phần cứng.\\
 \textbf{Thước đo.} Kích thước, thời gian dựng, bộ đếm tìm kiếm, số bài giải được/PAR/hồ sơ.\\
 \textbf{Kiểm đúng.} Kiểm thử vét cạn, kiểm thử vi sai và bộ kiểm tra mô hình.\\
@@ -417,7 +422,7 @@ tái lập độc lập.
   \item Đánh giá thực nghiệm bắt đầu từ một câu hỏi, không bắt đầu từ một bảng cấu hình.
   \item Tách tinh chỉnh khỏi đánh giá và phân tầng theo họ bài toán.
   \item Báo cả kích thước, bộ đếm tìm kiếm và thời gian chạy có dữ liệu hết hạn.
-  \item Tách SAT/UNSAT và dùng nhiều hạt giống ở vùng khó.
+  \item Tách SAT/UNSAT và dùng nhiều hạt giống ngẫu nhiên ở vùng khó.
   \item Bộ kiểm tra mô hình là điều kiện trước của mọi bảng hiệu năng.
 \end{enumerate}
 

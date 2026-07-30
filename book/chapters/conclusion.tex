@@ -1,4 +1,4 @@
-\chapter{Kết luận và chương trình nghiên cứu}
+\chapter{Kết luận và hướng nghiên cứu}
 \index{encoding!lựa chọn}
 \index{bằng chứng thực nghiệm}
 \index{giới hạn phương pháp}
@@ -19,7 +19,7 @@ trình lựa chọn có thể dùng lại gồm bốn lớp.
 Trước khi đếm biến và mệnh đề, phải viết đặc tả cho biến chính, biến phụ, bộ
 giải mã và hàm mục tiêu. Tính đúng, tính đầy đủ theo phép chiếu và khả năng dùng
 literal phụ ở mô-đun khác là ba yêu cầu khác nhau. Một biến Tseitin chỉ được
-xem như ngưỡng, biến chứng hay trạng thái khi các mệnh đề thật sự bảo đảm ngữ
+xem như ngưỡng, biến làm chứng hay trạng thái khi các mệnh đề thật sự bảo đảm ngữ
 nghĩa đó.
 
 \paragraph{Lớp cấu trúc.}
@@ -43,25 +43,23 @@ Tối ưu chỉ được chứng nhận khi cận trên từ một nghiệm kh�
 lệ, thường là một kết quả
 \UNSAT ở cận kế tiếp.
 
-\section{Bản đồ đóng góp và bằng chứng hiện có}
+\section{Tổng hợp các nghiên cứu tình huống}
 
-Bảng~\ref{tab:reported-evidence-map} gom các số liệu đã được trích trong sách.
-Mỗi hàng giữ nguyên thiết kế thí nghiệm của nguồn và làm rõ cơ chế mã hóa
-được kết quả đó hỗ trợ.
+Bảng~\ref{tab:reported-evidence-map} tổng hợp thiết kế đánh giá, kết quả và cơ
+chế mã hóa nổi bật của các nghiên cứu tình huống.
 
 \begin{longtable}{@{}
 >{\raggedright\arraybackslash}p{.19\textwidth}
 >{\raggedright\arraybackslash}p{.23\textwidth}
 >{\raggedright\arraybackslash}p{.39\textwidth}@{}}
-\caption{Bản đồ các nghiên cứu tình huống và bằng chứng được công trình nguồn
-báo cáo.}
+\caption{Tổng hợp các nghiên cứu tình huống.}
 \label{tab:reported-evidence-map}\\
 \toprule
-Mô-đun/bài toán & Phạm vi nguồn & Kết quả chính\\
+Mô-đun/bài toán & Thiết kế đánh giá & Kết quả chính\\
 \midrule
 \endfirsthead
 \toprule
-Mô-đun/bài toán & Phạm vi nguồn & Kết quả chính\\
+Mô-đun/bài toán & Thiết kế đánh giá & Kết quả chính\\
 \midrule
 \endhead
 SCL/SCAMO và Anti-Bandwidth &
@@ -108,11 +106,6 @@ kiến trúc lọc miền, nén khoảng cấm và đếm số tần số khác 
 \bottomrule
 \end{longtable}
 
-Các số liệu được giữ cùng tập bài toán, bộ giải và giới hạn thời gian của từng
-công trình. Phép đối chiếu giữa các hàng tập trung vào cơ chế biểu diễn và đặc
-trưng của bài toán; Chương 4 cung cấp quy trình cho một bộ kiểm chuẩn hợp nhất
-về thời gian chạy.
-
 \section{Miền hiệu quả và điểm chuyển thiết kế}
 
 \paragraph{Bộ đếm dùng chung và Ladder AMK.}
@@ -144,21 +137,7 @@ tự hai chiều. Miền rời rạc dùng ánh xạ phần tử trước/sau; m
 bổ sung một cặp biên. Nhất quán cung tạo nhiều giá trị nhất trước SAT khi miền
 lớn hoặc đồ thị ràng buộc đủ dày.
 
-\section{Mức bằng chứng và lộ trình tái lập}
-
-Sổ nguồn ghi cho từng công trình trạng thái công bố, bộ giải, phần cứng, giới
-hạn thời gian, bộ kiểm chuẩn và mức sẵn có của mã nguồn/dữ liệu. Nhờ đó, mỗi
-kết quả trong sách liên kết được với quy trình đã tạo ra nó. Các công trình đã có gói tái lập tạo tầng bằng
-chứng đối chiếu được; các công trình còn ở trạng thái bản thảo hoặc phản biện
-được cập nhật khi có phiên bản chính thức.
-
-Vòng tái lập tiếp theo dùng chung bộ phân tích nhật ký, bộ kiểm tra, các cận,
-ảnh máy và phiên bản bộ giải; đồng thời xuất CNF, nhật ký từng lần chạy, mô hình
-đã giải mã và chứng minh cho các cận \UNSAT. Ma trận thiết kế thống nhất khi đó
-cho phép báo hồ sơ hiệu năng, biểu đồ xương rồng, PAR-2 và độ biến thiên qua hạt
-giống như Chương 4 đề xuất.
-
-\section{Chương trình nghiên cứu tiếp theo}
+\section{Hướng nghiên cứu tiếp theo}
 
 \begin{enumerate}
   \item \textbf{Lựa chọn bộ mã hóa theo bài toán.} Xây bộ chọn có thể giải thích

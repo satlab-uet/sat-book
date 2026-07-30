@@ -1,6 +1,7 @@
 \chapter{Bộ công cụ ràng buộc đếm và giả Boolean}
-\chapterlead{Ràng buộc đếm (\emph{cardinality constraint}) giới hạn số literal
-đúng trong một tập; ràng buộc giả Boolean (\emph{pseudo-Boolean}) mở rộng nó
+\chapterlead{\emph{Cardinality constraint} (ràng buộc đếm) giới hạn số literal
+đúng trong một tập; \emph{pseudo-Boolean constraint} (ràng buộc giả Boolean)
+mở rộng nó
 bằng các trọng số nguyên. Hai lớp này xuất hiện trong ràng buộc gán, sức chứa,
 chuỗi, đối xứng và hàm mục tiêu. Không có một bộ mã hóa tốt nhất cho mọi miền;
 cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách bộ giải thay cận.}
@@ -17,13 +18,14 @@ cần chọn theo \(n\), ngưỡng \(k\), các đầu ra cần đọc và cách 
 Các phép mã hóa ràng buộc đếm không phát triển theo một chuỗi trong đó bộ mã
 hóa mới thay thế hoàn toàn bộ mã hóa cũ. Mỗi họ giải quyết một kiểu đánh đổi:
 \begin{enumerate}
-  \item mã hóa từng cặp (\emph{pairwise}) và các phép phân rã AMO ưu tiên
+  \item \emph{pairwise encoding} (mã hóa từng cặp) và các phép phân rã AMO ưu tiên
         phát hiện xung đột trực tiếp;
-  \item bộ đếm tuần tự (\emph{sequential counter}) vật hóa tổng trên từng tiền tố;
-  \item cây tổng (\emph{totalizer}) vật hóa tổng theo cấu trúc cây;
-  \item mạng sắp xếp/lựa chọn (\emph{sorting/selection network}) ưu tiên cấu
+  \item \emph{sequential counter} (bộ đếm tuần tự) vật hóa tổng trên từng tiền tố;
+  \item \emph{totalizer} (cây tổng) vật hóa tổng theo cấu trúc cây;
+  \item \emph{sorting/selection network} (mạng sắp xếp/lựa chọn) ưu tiên cấu
         trúc đều và độ sâu nhỏ;
-  \item biểu đồ quyết định nhị phân (BDD) hợp nhất các trạng thái tổng tương đương;
+  \item \emph{binary decision diagram} (biểu đồ quyết định nhị phân, BDD)
+        hợp nhất các trạng thái tổng tương đương;
   \item cây tổng tổng quát và các biến thể PB xử lý trọng số;
   \item danh mục phương pháp hoặc bộ chọn đã học chọn phép mã hóa theo đặc
         trưng của bài toán thử.
@@ -38,7 +40,9 @@ tính giữa ba lựa chọn đó.
 
 \section{Các dạng ràng buộc}
 
-Với \(X=\set{x_1,\ldots,x_n}\):
+Với \(X=\set{x_1,\ldots,x_n}\), ba tên tiếng Anh lần lượt là
+\emph{at-most-\(k\)} (nhiều nhất \(k\), AMK), \emph{at-least-\(k\)}
+(ít nhất \(k\), ALK) và \emph{exactly-\(k\)} (đúng \(k\), EXK):
 \[
   \operatorname{AMK}(X,k):\quad \sum_{i=1}^{n}x_i\le k,
 \]
@@ -48,8 +52,9 @@ Với \(X=\set{x_1,\ldots,x_n}\):
 \[
   \operatorname{EXK}(X,k):\quad \sum_{i=1}^{n}x_i=k.
 \]
-AMO là AMK với \(k=1\); ALO là một mệnh đề dài
-\(x_1\lor\cdots\lor x_n\); EXO là AMO kết hợp ALO.
+\emph{At-most-one} (nhiều nhất một, AMO) là AMK với \(k=1\);
+\emph{at-least-one} (ít nhất một, ALO) là một mệnh đề dài
+\(x_1\lor\cdots\lor x_n\); \emph{exactly-one} (đúng một, EXO) là AMO kết hợp ALO.
 
 Đối ngẫu hữu ích:
 \[
@@ -61,7 +66,7 @@ Tuy nhiên, đối ngẫu có thể đổi ngưỡng từ nhỏ sang lớn. Vì 
 mã hóa trực tiếp ALK và mã hóa AMK trên các literal phủ định phụ thuộc vào
 \(k\) và những đầu ra đã có.
 
-\section{Ràng buộc nhiều nhất một (AMO)}
+\section{At-most-one (AMO): ràng buộc nhiều nhất một}
 
 \subsection{Mã hóa từng cặp}
 
@@ -89,8 +94,8 @@ tuyến tính theo \(n\) \parencite{sinz2005cardinality}.
 
 \subsection{Mã hóa tích và mã hóa chỉ huy}
 
-Mã hóa tích (\emph{product encoding}) đặt biến vào ma trận rồi dùng AMO theo
-hàng và cột. Mã hóa chỉ huy (\emph{commander encoding}) chia biến thành nhóm,
+\emph{Product encoding} (mã hóa tích) đặt biến vào ma trận rồi dùng AMO theo
+hàng và cột. \emph{Commander encoding} (mã hóa chỉ huy) chia biến thành nhóm,
 tạo một biến đại diện cho mỗi nhóm rồi mã hóa AMO trên các đại diện. Hai cách
 này tạo tính cục bộ theo khối và phù hợp với miền vừa hoặc lớn
 \parencite{chen2010amo}.
@@ -221,9 +226,6 @@ Cây tổng cân bằng tạo tính cục bộ theo cây; kích thước có th�
       child {node[satbox] {\(x_3\)}}
       child {node[satbox] {\(x_4\)}}};
   \node[satlabel,right=11mm of r] {\(r_j=1\iff\sum_i x_i\ge j\)};
-  \draw[decorate,decoration={brace,amplitude=4pt},Ink]
-    ([xshift=-7mm]a.west)--([xshift=7mm]b.east)
-    node[midway,above=6pt,satlabel]{ghép hai vectơ đơn phân};
 \end{tikzpicture}
 \caption{Cây tổng cân bằng: mỗi nút trả về các ngưỡng của tổng trong cây con.}
 \label{fig:totalizer-tree}
@@ -270,7 +272,7 @@ sâu suy diễn thấp hơn và các đầu ra toàn cục rõ ràng.
 
 \section{Mã hóa bằng BDD}
 
-Biểu đồ quyết định nhị phân (\emph{binary decision diagram}, BDD) biểu diễn
+\emph{Binary decision diagram} (biểu đồ quyết định nhị phân, BDD) biểu diễn
 trạng thái tổng tích lũy. Nút ở mức \(i\) và trạng thái \(s\) phân nhánh theo
 \(x_i\). Các trạng thái vượt \(k\) đi vào nút kết thúc sai. Một biến phụ cho
 mỗi nút BDD cùng các mệnh đề liên kết theo hai cung tạo thành phép mã hóa
@@ -322,7 +324,7 @@ trọng hơn vài phần trăm kích thước ở một cận duy nhất.
 
 \subsection{Cây tổng tổng quát}
 
-Cây tổng tổng quát (\emph{generalized totalizer}) thay vectơ đơn phân liên tiếp
+\emph{Generalized totalizer} (cây tổng tổng quát) thay vectơ đơn phân liên tiếp
 bằng tập các tổng có thể đạt tại mỗi nút. Khi ghép hai nút có tập tổng \(A,B\),
 nút cha giữ các giá trị
 \[
@@ -338,7 +340,8 @@ ghép các lá có thể tạo số trạng thái trung gian rất khác nhau.
 Trong nhiều mô hình, các hạng tử của ràng buộc PB đến từ một biến miền hữu hạn:
 trong mỗi nhóm, nhiều nhất một literal có thể đúng. Nếu trải phẳng mọi hạng tử
 như các biến độc lập, bộ mã hóa sẽ bỏ mất thông tin này. Các phép mã hóa
-PB(AMO) đưa nhóm AMO trực tiếp vào biểu đồ quyết định đa trị (MDD), cây tổng
+PB(AMO) đưa nhóm AMO trực tiếp vào \emph{multi-valued decision diagram}
+(biểu đồ quyết định đa trị, MDD), cây tổng
 tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo môđun
 \parencite{bofill2022pbamo}. Hai lợi ích có thể xuất hiện:
 \begin{itemize}
@@ -347,8 +350,8 @@ tổng quát, bộ đếm tuần tự có trọng số hoặc cây tổng theo m
   \item lan truyền dùng được cả cận PB lẫn tính loại trừ lẫn nhau trong nhóm.
 \end{itemize}
 
-Đây là một ví dụ tổng quát của \emph{phép mã hóa có xét cấu trúc}
-(\emph{structure-aware encoding}): trước khi chọn bộ mã hóa cho một biểu thức
+Đây là một ví dụ tổng quát của \emph{structure-aware encoding}
+(phép mã hóa có xét cấu trúc): trước khi chọn bộ mã hóa cho một biểu thức
 tuyến tính, cần giữ nguồn gốc cấu trúc của các hạng tử thay vì chỉ truyền vào
 mảng hệ số.
 
@@ -356,8 +359,8 @@ mảng hệ số.
 
 Quy tắc ``\(k\) nhỏ thì dùng bộ đếm tuần tự, nhiều cận thì dùng cây tổng'' là
 một đối chứng hữu ích, nhưng chưa bao quát tương tác giữa hệ số, nhóm AMO, độ
-rộng miền và bộ giải. Nghiên cứu về lựa chọn thuật toán
-(\emph{algorithm selection}) đã dùng các đặc trưng của ràng buộc và bài toán
+rộng miền và bộ giải. Nghiên cứu về \emph{algorithm selection}
+(lựa chọn thuật toán) đã dùng các đặc trưng của ràng buộc và bài toán
 thử để chọn giữa nhiều phép mã hóa SAT, kể cả trên những lớp bài toán chưa xuất
 hiện trong dữ liệu huấn luyện \parencite{ulrich2022selection}. Kết quả này thay
 đổi cách xây dựng thư viện bộ mã hóa: mỗi mô-đun cần công bố đủ siêu dữ liệu để

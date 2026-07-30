@@ -2,23 +2,25 @@
 
 from __future__ import annotations
 
-import re
+import hashlib
 import html
+import re
+import sys
 from pathlib import Path
 
 CHAPTER_FILES = [
-    ("ch01-foundations.tex", "Chương 1", "SAT và MaxSAT như một nền tảng giải chính xác"),
-    ("ch02-quality.tex", "Chương 2", "Thế nào là một phép mã hóa SAT tốt?"),
-    ("ch03-cardinality.tex", "Chương 3", "Bộ công cụ ràng buộc đếm và giả Boolean"),
-    ("ch04-experiments.tex", "Chương 4", "Thiết kế thực nghiệm cho phép mã hóa SAT"),
-    ("ch05-shared-counters.tex", "Chương 5", "Bộ đếm dùng chung cho các cửa sổ chồng lấn"),
-    ("ch06-adaptive-counter.tex", "Chương 6", "Thanh ghi đếm thích nghi cho ràng buộc đúng K"),
-    ("ch07-symmetry-channeling.tex", "Chương 7", "Đối xứng, biến quan hệ và liên kết biểu diễn"),
-    ("ch08-scheduling.tex", "Chương 8", "Lập lịch và cân bằng dây chuyền"),
-    ("ch09-packing.tex", "Chương 9", "Đóng gói và cắt hai chiều"),
-    ("ch10-bandwidth.tex", "Chương 10", "Bandwidth, antibandwidth và tô đa màu"),
-    ("ch11-labeling.tex", "Chương 11", "Gán nhãn và phân bổ tần số"),
-    ("conclusion.tex", "Chương 12", "Kết luận và chương trình nghiên cứu"),
+    "ch01-foundations.tex",
+    "ch02-quality.tex",
+    "ch03-cardinality.tex",
+    "ch04-experiments.tex",
+    "ch05-shared-counters.tex",
+    "ch06-adaptive-counter.tex",
+    "ch07-symmetry-channeling.tex",
+    "ch08-scheduling.tex",
+    "ch09-packing.tex",
+    "ch10-bandwidth.tex",
+    "ch11-labeling.tex",
+    "conclusion.tex",
 ]
 
 FIGURE_MAP = {
@@ -35,6 +37,45 @@ FIGURE_MAP = {
 }
 
 BIB_MAP = {}
+
+
+def book_source_digest(repo_root: Path) -> str:
+    book_dir = repo_root / "book"
+    source_paths = sorted(
+        path
+        for path in book_dir.rglob("*")
+        if path.is_file() and path.suffix in {".tex", ".sty", ".lbx", ".bib"}
+    )
+    if not source_paths:
+        raise FileNotFoundError(f"No LaTeX source found in {book_dir}")
+
+    digest = hashlib.sha256()
+    for source_path in source_paths:
+        relative_path = source_path.relative_to(repo_root).as_posix()
+        digest.update(relative_path.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(source_path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def extract_braced_command(text: str, command: str) -> str:
+    match = re.search(rf"\\{re.escape(command)}\s*\{{", text)
+    if not match:
+        raise ValueError(f"Missing \\{command}{{...}} command")
+
+    opening_brace = match.end() - 1
+    depth = 0
+    for index in range(opening_brace, len(text)):
+        character = text[index]
+        if character == "{" and (index == 0 or text[index - 1] != "\\"):
+            depth += 1
+        elif character == "}" and (index == 0 or text[index - 1] != "\\"):
+            depth -= 1
+            if depth == 0:
+                return text[opening_brace + 1 : index].strip()
+    raise ValueError(f"Unclosed argument for \\{command}")
+
 
 def load_bib_entries(repo_root: Path):
     bib_file = repo_root / "book" / "references.bib"
@@ -437,6 +478,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#102536">
+    <meta name="sat-book-source-sha256" content="__SOURCE_SHA256__">
     <title>Đọc trực tuyến | Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
@@ -813,6 +855,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <nav class="nav">
             <a href="./">Trang chủ</a>
             <a href="./downloads/sat-book.pdf">Bản PDF (104 trang)</a>
+            <a href="./downloads/sat-book-tex.zip">Mã nguồn LaTeX</a>
           </nav>
           <div class="nav-actions">
             <div class="lang-switch">
@@ -854,21 +897,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </html>
 """
 
-def build_reader_html(repo_root: Path):
+def build_reader_html(repo_root: Path, output_path: Path):
     load_bib_entries(repo_root)
     chapters_dir = repo_root / "book" / "chapters"
-    site_dir = repo_root / "site"
-    output_path = site_dir / "read.html"
     
     chapters_html = []
     toc_links = []
     
-    for idx, (filename, num_str, title_str) in enumerate(CHAPTER_FILES, 1):
+    for idx, filename in enumerate(CHAPTER_FILES, 1):
         file_path = chapters_dir / filename
         if not file_path.exists():
-            continue
+            raise FileNotFoundError(f"Missing chapter source: {file_path}")
             
         raw_text = file_path.read_text(encoding="utf-8")
+        num_str = f"Chương {idx}"
+        title_str = clean_inline(extract_braced_command(raw_text, "chapter"))
         parsed_body = clean_latex_document(raw_text)
         
         chap_id = f"chap-{idx}"
@@ -899,10 +942,18 @@ def build_reader_html(repo_root: Path):
         '''
         chapters_html.append(chap_html)
         
-    full_html = HTML_TEMPLATE.replace("__TOC_LINKS__", "".join(toc_links)).replace("__CHAPTERS_HTML__", "".join(chapters_html))
+    full_html = (
+        HTML_TEMPLATE
+        .replace("__SOURCE_SHA256__", book_source_digest(repo_root))
+        .replace("__TOC_LINKS__", "".join(toc_links))
+        .replace("__CHAPTERS_HTML__", "".join(chapters_html))
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(full_html, encoding="utf-8")
     print(f"[✓] Generated clean HTML reader edition at: {output_path}")
 
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parent.parent
-    build_reader_html(repo_root)
+    default_output = repo_root / "_site" / "read.html"
+    output_path = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else default_output
+    build_reader_html(repo_root, output_path)

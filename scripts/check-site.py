@@ -75,10 +75,10 @@ def local_target(
     if not path_text:
         return page_path, fragment
 
-    if path_text.startswith("/satlab/"):
-        path_text = path_text.removeprefix("/satlab/")
+    if path_text.startswith("/sat-book/"):
+        path_text = path_text.removeprefix("/sat-book/")
         target = site_root / path_text
-    elif path_text == "/satlab":
+    elif path_text == "/sat-book":
         target = site_root
     elif path_text.startswith("/"):
         return None, fragment
@@ -189,7 +189,7 @@ def main() -> int:
             for element in sitemap.findall(".//sm:loc", namespace)
             if element.text
         ]
-        expected_location = "https://satlab-uet.github.io/satlab/"
+        expected_location = "https://satlab-uet.github.io/sat-book/"
         if expected_location not in locations:
             errors.append(
                 f"{sitemap_path}: missing canonical URL {expected_location}"

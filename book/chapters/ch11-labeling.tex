@@ -1,8 +1,10 @@
 \chapter{Gán nhãn và phân bổ tần số}
-\chapterlead{Gán nhãn radio, gán nhãn an toàn \(k\) và phân bổ tần số cùng chia
-sẻ một mô-đun: một lựa chọn chính xác tạo ra một khoảng cấm trên miền của
-đối tượng khác. Sự khác nhau nằm ở cách tạo khoảng cấm và cách định nghĩa hàm
-mục tiêu.}
+\chapterlead{\emph{Radio labeling} (gán nhãn radio),
+\emph{\(k\)-safe labeling} (gán nhãn an toàn \(k\)) và
+\emph{frequency assignment} (phân bổ tần số) cùng chia sẻ một mô-đun: một lựa
+chọn chính xác tạo ra \emph{forbidden interval} (khoảng cấm) trên miền của đối
+tượng khác. Sự khác nhau nằm ở cách tạo khoảng cấm và cách định nghĩa hàm mục
+tiêu.}
 
 \index{radio labeling}\index{k-safe labeling}
 \index{frequency assignment}\index{forbidden interval}
@@ -158,7 +160,7 @@ gán nhãn an toàn \(k\) và MO-FAP khác nhau ở hàm này, không khác nhau
 \cref{lem:boundary}.
 \end{keyidea}
 
-\section[Gán nhãn radio k]{Gán nhãn radio \(k\)}
+\section[Radio k-labeling]{Radio \(k\)-labeling: gán nhãn radio \(k\)}
 
 \subsection{Mô hình}
 
@@ -294,17 +296,17 @@ gán nhãn đơn ánh; nó không phải tô màu đồ thị chuẩn. Biến th
 một mô hình khác.
 \end{designrule}
 
-\subsection{Mã hóa trực tiếp, thứ tự xuôi và thứ tự ngược}
+\subsection{Direct, forward order và reverse order encoding}
 
-\paragraph{Mã hóa trực tiếp (DE).}
+\paragraph{Direct Encoding (mã hóa trực tiếp, DE).}
 \(K_{v,\ell}\) nói \(L_v=\ell\). Ràng buộc đúng một theo đỉnh và AMO theo nhãn
 thực hiện phép gán đơn ánh. Mỗi cạnh cấm các cặp nhãn cách dưới \(k\).
 
-\paragraph{Mã hóa thứ tự xuôi (FE).}
+\paragraph{Forward Order Encoding (mã hóa thứ tự xuôi, FE).}
 \(X_{v,j}=1\iff L_v\ge j\). Giá trị chính xác xuất hiện ở điểm chuyển và kích
 hoạt hai biên của khoảng \([j-k+1,j+k-1]\).
 
-\paragraph{Mã hóa thứ tự ngược (RE).}
+\paragraph{Reverse Order Encoding (mã hóa thứ tự ngược, RE).}
 \(X_{v,j}=1\iff L_v\le j\). Ngữ nghĩa đối xứng với FE; hướng của chuỗi thứ tự
 và các literal cận được đảo.
 
@@ -361,7 +363,7 @@ một ngưỡng ``tần số lớn nhất không vượt \(7\)''.
 
 Với cặp \((v,w)\), một giá trị \(a\in D_v\) phải có ít nhất một giá trị hỗ trợ
 \(b\in D_w\) thỏa khoảng cách yêu cầu. Nếu không có, \(a\) bị loại. Quá trình
-lặp đến điểm bất động:
+lặp đến \emph{fixpoint} (điểm bất động, tức không còn giá trị nào bị loại):
 \[
   D_v\leftarrow
   \set{a\in D_v\mid
@@ -421,8 +423,8 @@ POSE vì thế loại sự phụ thuộc vào số giá trị nằm bên trong k
       \fi
     \fi
   }
-  \draw[Gold,decorate,decoration={brace,amplitude=4pt}] (1.55,-.55)--(3.45,-.55)
-    node[midway,below=5pt,satlabel,text=Gold]
+  \draw[Gold,decorate,decoration={brace,amplitude=4pt}] (1.55,-.85)--(3.45,-.85)
+    node[midway,below=4pt,satlabel,text=Gold]
       {bị cấm bởi \(f_v=7,d=4\)};
   \node[satlabel,align=left] at (7.4,.5)
     {\(\lambda_w=2\) tại giá trị \(5\)\\
@@ -499,7 +501,7 @@ nên đồng nhất ``số giá trị nhỏ nhất'' với ``độ trải nhỏ 
 Đối với độ trải gán nhãn, MIP dùng biến nhãn nguyên và hướng nhị phân cho trị
 tuyệt đối; CP dùng ràng buộc khác nhau và khoảng cách; các phép dựng lý thuyết
 đồ thị cho cận hoặc nghiệm trên từng họ đồ thị. Đối với FAP, MIP/sinh cột, tối
-ưu ràng buộc, tìm kiếm cục bộ và tìm kiếm kiêng kỵ (\emph{tabu}) là các đối
+ưu ràng buộc, tìm kiếm cục bộ và \emph{tabu search} (tìm kiếm kiêng kỵ) là các đối
 chứng đã được phát triển lâu
 dài \parencite{aardal2007frequency}. Một đánh giá SAT
 có giá trị nên phân biệt:
@@ -530,7 +532,7 @@ Bộ kiểm tra khả thi đọc trực tiếp nghiệm:
 Bộ kiểm tra không đọc các biến thứ tự phụ. Điều này giữ nó nhỏ và độc lập với
 phép mã hóa.
 
-Chứng nhận tối ưu gồm một nghiệm chứng tại cận trên và bằng chứng cận dưới:
+Chứng nhận tối ưu gồm một nghiệm làm chứng tại cận trên và bằng chứng cận dưới:
 \UNSAT ở độ trải/số giá trị kề trước, hoặc một cận dưới toán học bằng cận trên.
 Với các giả định tăng dần, có thể vật hóa các giả định cuối thành mệnh đề đơn
 vị để tạo một \CNF độc lập cho bộ kiểm tra chứng minh.

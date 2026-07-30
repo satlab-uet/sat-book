@@ -12,7 +12,7 @@ hàng. Thanh ghi thích nghi chỉ tạo những trạng thái đếm có thể 
 
 \section{Ràng buộc đúng \texorpdfstring{\(K\)}{K} trong không gian thiết kế}
 
-Ràng buộc đúng \(K\) (\emph{Exactly-\(K\)}) có nhiều cách phân rã đúng:
+\emph{Exactly-\(K\)} (ràng buộc đúng \(K\)) có nhiều cách phân rã đúng:
 \[
   \sum X=K
   \iff
@@ -59,7 +59,7 @@ Một bộ đếm tuần tự có thể dành \(k\) cột cho mọi tiền tố.
 \(i\) biến đầu tiên, tổng không thể lớn hơn \(i\). Các ô \(j>i\) vì thế không
 mang trạng thái hợp lệ.
 
-Bộ đếm tuần tự mới (\emph{New Sequential Counter}, NSC) dùng thanh ghi tam giác
+\emph{New Sequential Counter} (bộ đếm tuần tự mới, NSC) dùng thanh ghi tam giác
 \[
   R_{i,j}=1
   \quad\Longleftrightarrow\quad
@@ -272,7 +272,7 @@ ràng buộc và hàm mục tiêu.
 
 \subsection{Từ thiết kế tổ hợp đến mô hình SAT}
 
-Bài toán xếp nhóm người chơi golf (\emph{Social Golfer}) vừa là bài toán lập
+\emph{Social Golfer} (bài toán xếp nhóm người chơi golf) vừa là bài toán lập
 lịch vừa là bài toán thiết kế tổ hợp. Ba
 nguồn khó đan xen với nhau: ràng buộc đúng kích thước nhóm, cấm lặp cặp người
 chơi và một nhóm đối xứng lớn do hoán vị tuần, nhóm, người. Vì vậy, hiệu quả
@@ -342,19 +342,17 @@ một ràng buộc đúng \(2\); tuần đầu có thể được cố định l
 \begin{resultbox}{Kết quả trên 66 bài toán Social Golfer}
 Trong thí nghiệm của \textcite{kieu2026golfer}, cấu hình dùng NSC giải được
 56/66 bài toán; các cấu hình ADDER, BDD và CARD cùng giải được 54, còn
-BINOMIAL giải được 32. NSC không luôn nhanh nhất trên từng bài toán, nhưng có
-số lần hết thời hạn thấp nhất trong so sánh này. Kết quả làm rõ lợi ích của
-việc cân bằng số biến, số mệnh đề và cấu trúc lan truyền.
+BINOMIAL giải được 32. NSC có số lần hết thời hạn thấp nhất; thứ hạng trên từng
+bài toán thay đổi theo cấu trúc của công thức. Kết quả làm rõ lợi ích của việc
+cân bằng số biến, số mệnh đề và cấu trúc lan truyền.
 \end{resultbox}
 
-\subsection{Đọc kết quả đúng phạm vi}
+\subsection{Phân tích kết quả}
 
-Nghiên cứu tình huống này hỗ trợ hai kết luận: mô hình ba chỉ số tránh đối xứng
-vị trí, và trạng thái tuần tự tam giác là một lựa chọn cạnh tranh cho ràng buộc
-EXK về kích thước nhóm trong cấu hình đã thử. Điều này không có nghĩa NSC luôn
-tốt hơn cây tổng, BDD hay mạng đếm trên mọi ràng buộc đúng \(K\). Một khảo sát
-tiếp theo có giá trị nên giữ nguyên mô hình SGP rồi chỉ thay mô-đun kích thước
-nhóm, đồng thời phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UNSAT.
+Mô hình ba chỉ số loại đối xứng vị trí, còn trạng thái tuần tự tam giác cung
+cấp một phép mã hóa EXK cạnh tranh cho ràng buộc kích thước nhóm. Có thể đo
+riêng tác động của NSC bằng cách giữ cố định mô hình SGP, chỉ thay mô-đun kích
+thước nhóm, phân tầng theo \(p\), \(g\), \(w\) và tách các bài SAT/UNSAT.
 
 \section{Cài đặt và kiểm thử}
 

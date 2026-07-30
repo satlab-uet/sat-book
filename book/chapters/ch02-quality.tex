@@ -26,16 +26,16 @@ Tiêu chuẩn cơ bản là tương đương theo phép chiếu:
 \]
 Hai chiều có tên riêng:
 \begin{itemize}
-  \item \textbf{tính đúng} (soundness): mọi mô hình thỏa của \(F\) chiếu thành
+  \item \textbf{soundness (tính đúng)}: mọi mô hình thỏa của \(F\) chiếu thành
         nghiệm của \(\mathcal C\);
-  \item \textbf{tính đầy đủ} (completeness): mọi nghiệm của \(\mathcal C\) mở
+  \item \textbf{completeness (tính đầy đủ)}: mọi nghiệm của \(\mathcal C\) mở
         rộng được thành mô hình thỏa của \(F\).
 \end{itemize}
 
 Tính đúng thường được chứng minh bằng cách lấy một mô hình \CNF và giải mã.
 Tính đầy đủ thường được chứng minh bằng cách xây biến phụ từ một nghiệm miền.
-Với bộ đếm, cách xây tự nhiên là đặt thanh ghi ngưỡng đúng theo tổng tiền tố
-thật.
+Với bộ đếm, cách xây tự nhiên là đặt \emph{register} (thanh ghi ngưỡng, tức
+biến phụ lưu một mức đếm) đúng theo tổng tiền tố thật.
 
 \begin{proposition}[Mẫu chứng minh bằng phép chiếu]
 Giả sử bộ giải mã \(D\) ánh mọi mô hình thỏa của \(F\) thành nghiệm của
@@ -54,21 +54,21 @@ Trước khi so hai bộ mã hóa, cần xác định chúng có cùng ``từ v�
 không. Với biến miền hữu hạn \(v\in D=\set{d_1,\ldots,d_m}\), bốn họ thường
 gặp là:
 \begin{description}[style=nextline]
-  \item[Mã hóa trực tiếp (direct encoding)]
+  \item[Direct encoding (mã hóa trực tiếp)]
   \(x_{v,a}\) mang nghĩa \(v=a\). Ràng buộc miền cần đúng-một; xung đột giữa
   hai giá trị được viết trực tiếp.
 
-  \item[Mã hóa hỗ trợ (support encoding)]
+  \item[Support encoding (mã hóa hỗ trợ)]
   Mỗi lựa chọn \(v=a\) kéo theo một phép tuyển các giá trị hỗ trợ của biến bên
   kia. Cách này thường phản ánh nhất quán cung tốt nhưng các mệnh đề hỗ trợ có
   thể dài.
 
-  \item[Mã hóa thứ tự (order encoding)]
+  \item[Order encoding (mã hóa thứ tự)]
   \(o_{v,t}\) mang nghĩa \(v\ge t\) hoặc \(v\le t\). Bất đẳng thức, khoảng và
   quan hệ trước--sau trở thành phép kéo theo giữa các ngưỡng
   \parencite{tamura2009csp}.
 
-  \item[Mã hóa lôgarit/nhị phân (log/binary encoding)]
+  \item[Log/binary encoding (mã hóa lôgarit/nhị phân)]
   Giá trị dùng \(\lceil\log_2m\rceil\) bit. Số biến nhỏ, nhưng một giá trị hoặc
   khoảng thường không còn là một literal đơn; lan truyền miền có thể đi qua
   mạch sâu hơn.
@@ -133,7 +133,7 @@ có \(u\ge2,v\le3\). Đổi lại, giá trị chính xác của \(v\) chỉ xu�
 của chuỗi.
 \end{workedexample}
 
-\section{Đặc tả ngữ nghĩa của biến phụ}
+\section{Contract: đặc tả ngữ nghĩa của biến phụ}
 
 Một thanh ghi \(r_{i,j}\) có thể được định nghĩa theo ba mức:
 \begin{center}
@@ -153,10 +153,10 @@ Cả hai cực tính đều có ngữ nghĩa\\
 \end{tabularx}
 \end{center}
 
-Một mô-đun nối dùng \(\neg r_{i,j}\) như mệnh đề ``tổng dưới \(j\)''
-phải có chiều cần. Nếu bộ đếm chỉ cung cấp chiều đủ, bộ nối đó không đúng
-dù khi đứng riêng hai công thức vẫn có thể \emph{đồng khả thỏa}
-(tức cùng có nghiệm hoặc cùng vô nghiệm).
+Một \emph{connector} (bộ nối giữa các mô-đun) dùng \(\neg r_{i,j}\) như mệnh
+đề ``tổng dưới \(j\)'' phải có chiều cần. Nếu bộ đếm chỉ cung cấp chiều đủ,
+bộ nối đó không đúng dù khi đứng riêng hai công thức vẫn có thể
+\emph{equisatisfiable} (đồng khả thỏa, tức cùng có nghiệm hoặc cùng vô nghiệm).
 
 \begin{designrule}{Quy tắc ghép mô-đun}
 Trước khi nối hai mô-đun, đối chiếu cực tính mà bên sử dụng cần với chiều đặc
@@ -208,9 +208,10 @@ Bộ sinh nên tự xuất thống kê và so với công thức lý thuyết tr
 nhỏ. Đây là một kiểm thử đơn vị cho phép đếm, đồng thời phát hiện mệnh đề bị lặp hoặc
 thanh ghi vô dụng.
 
-\section{Lan truyền đơn vị}
+\section{Unit propagation: lan truyền đơn vị}
 
-Cho phép gán bộ phận \(A\). Lan truyền đơn vị (UP) lặp việc thỏa một mệnh đề
+Cho phép gán bộ phận \(A\). \emph{Unit propagation} (lan truyền đơn vị, UP)
+lặp việc thỏa một mệnh đề
 đơn vị cho
 đến điểm cố định hoặc xung đột. Có ba mức phát biểu thường gặp:
 
@@ -219,18 +220,18 @@ Cho phép gán bộ phận \(A\). Lan truyền đơn vị (UP) lặp việc th�
   Nếu \(A\) không mở rộng được thành nghiệm của \(\mathcal C\), UP trên
   \(F\land A\) tạo xung đột.
 
-  \item[Đầy đủ bác bỏ bằng lan truyền đơn vị (URC)]
+  \item[Unit-refutation completeness (URC)]
   Mọi phép gán làm \(F\) không thỏa được đều bị UP chứng minh bất khả thỏa
-  trên toàn bộ biến. Tính chất này thường được gọi là
-  \emph{unit-refutation completeness}.
+  trên toàn bộ biến; sách gọi tính chất này là \emph{đầy đủ bác bỏ bằng lan
+  truyền đơn vị}.
 
-  \item[Đầy đủ lan truyền (PC)]
+  \item[Propagation completeness (PC)]
   Mọi literal bị \(F\land A\) kéo theo trong phạm vi quan sát đều được UP suy
-  ra, hoặc UP chứng minh bất khả thỏa.
+  ra, hoặc UP chứng minh bất khả thỏa; đây là \emph{đầy đủ lan truyền}.
 \end{description}
 
-Trong một phép mã hóa miền hữu hạn, \emph{nhất quán cung tổng quát}
-(generalized arc consistency, GAC) loại mọi giá trị không còn giá trị hỗ trợ.
+Trong một phép mã hóa miền hữu hạn, \emph{generalized arc consistency}
+(nhất quán cung tổng quát, GAC) loại mọi giá trị không còn giá trị hỗ trợ.
 Phát biểu GAC luôn đi cùng cách Boolean hóa miền và tập literal đại diện cho
 giá trị.
 
@@ -276,8 +277,8 @@ sánh tập trung vào phần suy luận được chuyển sang học mệnh đ�
 \begin{keyidea}{Mặt Pareto của phép mã hóa}
 Một bộ mã hóa được định vị trên bốn trục: kích thước, sức lan truyền, chi phí
 xây dựng và khả năng tăng dần. Điểm Pareto là điểm mà cải thiện thêm một trục
-sẽ đánh đổi ít nhất một trục khác. Bộ kiểm chuẩn đo vị trí thực nghiệm
-của từng thiết kế trên mặt Pareto này.
+sẽ đánh đổi ít nhất một trục khác. \emph{Benchmark} (bộ kiểm chuẩn) đo vị trí
+thực nghiệm của từng thiết kế trên mặt Pareto này.
 \end{keyidea}
 
 \section{Mức độ phù hợp với bộ giải}
@@ -327,7 +328,8 @@ Phát biểu & Bằng chứng lý thuyết & Bằng chứng thực nghiệm\\
 Mã hóa đúng & Chứng minh hai chiều & Kiểm thử vét cạn/vi sai trên miền nhỏ\\
 Mã hóa nhỏ hơn & Công thức đếm & Kích thước \CNF thực tế\\
 Lan truyền mạnh hơn & Bổ đề UP/PC/GAC & Bộ đếm lan truyền/xung đột\\
-Nhanh hơn & Phân tích cơ chế & Bộ kiểm chuẩn, nhiều hạt giống, hồ sơ hiệu năng\\
+Nhanh hơn & Phân tích cơ chế & Bộ kiểm chuẩn, nhiều \emph{random seed}
+(hạt giống ngẫu nhiên), \emph{performance profile} (hồ sơ hiệu năng)\\
 Chứng nhận tối ưu & Định lý về cận & Nghiệm và chứng minh ở hai cận kề\\
 \bottomrule
 \end{tabularx}
@@ -344,7 +346,8 @@ quan sát thực nghiệm.
   \item Chứng minh tính đúng và tính đầy đủ theo phép chiếu.
   \item Đếm biến, mệnh đề, literal và độ rộng mệnh đề theo đúng biến thể.
   \item Phân tích một số suy luận cốt lõi của lan truyền đơn vị (UP).
-  \item Xây dựng bộ đối chiếu nhỏ (\emph{oracle}) để so sánh tập nghiệm sau phép chiếu.
+  \item Xây dựng \emph{oracle} (bộ đối chiếu nhỏ trên miền đã biết) để so sánh
+        tập nghiệm sau phép chiếu.
   \item Đánh giá trên bộ kiểm chuẩn theo quy trình của Chương 4.
   \item Kiểm tra khả năng kết hợp mô-đun và giải tăng dần.
 \end{enumerate}
