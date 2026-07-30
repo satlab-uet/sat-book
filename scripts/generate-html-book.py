@@ -31,51 +31,202 @@ FIGURE_MAP = {
     "ch08": ("fig_ch08.webp", "Hình 8.2 · Cửa sổ ALSC tái sử dụng trong lập lịch"),
     "ch09": ("fig_ch09.webp", "Hình 9.2 · Bố trí nguyên & Quan hệ tách trong Đóng gói 2D"),
     "ch10": ("fig_ch10.webp", "Hình 10.1 · Cặp nhãn bị cấm và bài toán Antibandwidth"),
-    "ch11": ("fig_ch11.webp", "Hình 11.2 · Gán nhãn radio khả thi và nén khoảng cấm"),
+    "ch11": ("fig_ch11.webp", "Hình 11.2 · Gán nhãn radio khảthi và nén khoảng cấm"),
 }
 
-def clean_latex(text: str) -> str:
-    # Comments
-    text = re.sub(r'(?<!\\)%.*', '', text)
-    
-    # Index entries
-    text = re.sub(r'\\index\{[^}]+\}', '', text)
-    
-    # Text formatting
+BIB_MAP = {}
+
+def load_bib_entries(repo_root: Path):
+    bib_file = repo_root / "book" / "references.bib"
+    if not bib_file.exists():
+        return
+    content = bib_file.read_text(encoding="utf-8")
+    entries = re.findall(r'@\w+\{([^,]+),\s*(.*?)\n\}', content, re.DOTALL)
+    for key, body in entries:
+        key = key.strip()
+        author_m = re.search(r'author\s*=\s*[\{"]([^"\}]+)[\}"]', body, re.IGNORECASE)
+        year_m = re.search(r'year\s*=\s*[\{"]?(\d{4})[\}"]?', body, re.IGNORECASE)
+        year = year_m.group(1) if year_m else ""
+        if author_m:
+            authors_raw = author_m.group(1).split(" and ")
+            first_author = authors_raw[0].split(",")[0].strip()
+            if len(authors_raw) > 2:
+                citation_text = f"{first_author} et al., {year}"
+            elif len(authors_raw) == 2:
+                second_author = authors_raw[1].split(",")[0].strip()
+                citation_text = f"{first_author} & {second_author}, {year}"
+            else:
+                citation_text = f"{first_author}, {year}"
+        else:
+            citation_text = year or key
+        BIB_MAP[key] = citation_text
+
+def format_citations(text: str) -> str:
+    def replace_cite(m):
+        keys = [k.strip() for k in m.group(1).split(",")]
+        formatted = []
+        for k in keys:
+            if k in BIB_MAP:
+                formatted.append(BIB_MAP[k])
+            else:
+                formatted.append(k)
+        return f'<span class="cite">({"; ".join(formatted)})</span>'
+    return re.sub(r'\\parencite\{([^}]+)\}', replace_cite, text)
+
+def clean_inline(text: str) -> str:
     text = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', text)
     text = re.sub(r'\\textbf\{([^}]+)\}', r'<strong>\1</strong>', text)
     text = re.sub(r'\\CNF', 'CNF', text)
     text = re.sub(r'\\SAT', 'SAT', text)
     text = re.sub(r'\\MaxSAT', 'MaxSAT', text)
     text = re.sub(r'\\PySAT', 'PySAT', text)
+    text = re.sub(r'\\sffamily', '', text)
+    text = re.sub(r'\\bfseries', '', text)
+    text = text.replace("``", "“").replace("''", "”")
+    text = format_citations(text)
+    return text.strip()
+
+def parse_tables(text: str) -> str:
+    def replace_center_table(match):
+        block = match.group(1)
+        
+        # Caption
+        cap_match = re.search(r'\\captionof\{table\}\{([^}]+)\}', block)
+        caption_html = ""
+        if cap_match:
+            caption_text = clean_inline(cap_match.group(1))
+            caption_html = f'<div class="reader-table-caption">Bảng: {caption_text}</div>'
+            
+        # Extract tabularx/tabular
+        tab_match = re.search(r'\\begin\{(?:tabularx|tabular)\}(?:\{[^}]+\})*(.*?)\\end\{(?:tabularx|tabular)\}', block, re.DOTALL)
+        if not tab_match:
+            return ""
+            
+        tab_content = tab_match.group(1)
+        # Remove LaTeX table rules
+        tab_content = re.sub(r'\\(top|mid|bottom)rule', '', tab_content)
+        tab_content = re.sub(r'\\label\{[^}]+\}', '', tab_content)
+        
+        rows = [r.strip() for r in tab_content.split(r'\\') if r.strip()]
+        if not rows:
+            return ""
+            
+        header_row = rows[0]
+        body_rows = rows[1:]
+        
+        header_cells = [clean_inline(c.strip()) for c in header_row.split('&')]
+        th_html = "".join(f'<th>{c}</th>' for c in header_cells)
+        
+        tr_body_html = []
+        for r in body_rows:
+            cells = [clean_inline(c.strip()) for c in r.split('&')]
+            if any(cells):
+                tds = "".join(f'<td>{c}</td>' for c in cells)
+                tr_body_html.append(f'<tr>{tds}</tr>')
+                
+        table_html = f'''
+        <div class="reader-table-wrapper">
+          {caption_html}
+          <table class="reader-table">
+            <thead><tr>{th_html}</tr></thead>
+            <tbody>{"".join(tr_body_html)}</tbody>
+          </table>
+        </div>
+        '''
+        return table_html
+
+    # Match \begin{center} ... \end{center}
+    text = re.sub(r'\\begin\{center\}(.*?)\\end\{center\}', replace_center_table, text, flags=re.DOTALL)
+    return text
+
+def parse_flowdiagrams(text: str) -> str:
+    def replace_flow(m):
+        p1 = clean_inline(m.group(1))
+        p2 = clean_inline(m.group(2))
+        p3 = clean_inline(m.group(3))
+        p4 = clean_inline(m.group(4))
+        p5 = clean_inline(m.group(5))
+        return f'''
+        <div class="reader-flow-diagram">
+          <div class="flow-box">{p1}</div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-box">{p2}</div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-box highlight">{p3}</div>
+          <div class="flow-branches">
+            <div class="flow-subbox">↙ {p4}</div>
+            <div class="flow-subbox">↘ {p5}</div>
+          </div>
+        </div>
+        '''
+    pattern = r'\\flowdiagram\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}\s*\{([^}]+)\}\{([^}]+)\}'
+    return re.sub(pattern, replace_flow, text)
+
+def parse_lists(text: str) -> str:
+    def replace_enum(m):
+        content = m.group(1)
+        items = [clean_inline(it.strip()) for it in content.split(r'\item') if it.strip()]
+        rendered = "".join(f'<li>{it}</li>' for it in items)
+        return f'<ol class="reader-list">{rendered}</ol>'
+
+    def replace_item(m):
+        content = m.group(1)
+        items = [clean_inline(it.strip()) for it in content.split(r'\item') if it.strip()]
+        rendered = "".join(f'<li>{it}</li>' for it in items)
+        return f'<ul class="reader-list">{rendered}</ul>'
+
+    text = re.sub(r'\\begin\{enumerate\}(.*?)\\end\{enumerate\}', replace_enum, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}', replace_item, text, flags=re.DOTALL)
+    return text
+
+def clean_latex_document(text: str) -> str:
+    # Comments & Index
+    text = re.sub(r'(?<!\\)%.*', '', text)
+    text = re.sub(r'\\index\{[^}]+\}', '', text)
+    text = re.sub(r'\\label\{[^}]+\}', '', text)
     
-    # Citations & refs
-    text = re.sub(r'\\parencite\{([^}]+)\}', r'<span class="cite">[\1]</span>', text)
-    text = re.sub(r'\\ref\{([^}]+)\}', r'<span class="ref">[\1]</span>', text)
+    # Remove TikZ environments if raw
+    text = re.sub(r'\\begin\{tikzpicture\}(.*?)\\end\{tikzpicture\}', '', text, flags=re.DOTALL)
     
-    # Sections (use h3 for sections, h4 for subsections)
-    text = re.sub(r'\\section\{([^}]+)\}', r'</p><h3 class="reader-h2">\1</h3><p>', text)
-    text = re.sub(r'\\subsection\{([^}]+)\}', r'</p><h4 class="reader-h3">\1</h4><p>', text)
+    # Flow diagrams
+    text = parse_flowdiagrams(text)
+    
+    # Tables
+    text = parse_tables(text)
+    
+    # Lists
+    text = parse_lists(text)
+    
+    # Chapter lead
     text = re.sub(r'\\chapterlead\{([^}]+)\}', r'<div class="chapter-lead">\1</div>', text)
     text = re.sub(r'\\chapter\{([^}]+)\}', '', text)
     
-    # Environments
-    text = text.replace('\\begin{enumerate}', '</p><ol class="reader-list"><li>')
-    text = text.replace('\\end{enumerate}', '</li></ol><p>')
-    text = text.replace('\\begin{itemize}', '</p><ul class="reader-list"><li>')
-    text = text.replace('\\end{itemize}', '</li></ul><p>')
-    text = text.replace('\\item', '</li><li>')
-    text = text.replace('<li></li>', '')
+    # Headings
+    text = re.sub(r'\\section\{([^}]+)\}', r'<h3 class="reader-h2">\1</h3>', text)
+    text = re.sub(r'\\subsection\{([^}]+)\}', r'<h4 class="reader-h3">\1</h4>', text)
     
-    # Paragraphs
-    text = re.sub(r'\n\s*\n', '</p><p>', text)
+    # Inline formatting & quotes
+    text = clean_inline(text)
     
-    # Cleanup empty p tags
-    text = re.sub(r'<p>\s*</p>', '', text)
+    # Convert math delimiters for KaTeX
+    text = re.sub(r'\\\[(.*?)\\\]', r'\[\1\]', text, flags=re.DOTALL)
     
-    return text.strip()
+    # Paragraphs: split by double newlines, but preserve existing HTML tags
+    paragraphs = []
+    blocks = re.split(r'\n\s*\n', text)
+    for b in blocks:
+        b = b.strip()
+        if not b:
+            continue
+        if b.startswith('<h3') or b.startswith('<h4') or b.startswith('<div') or b.startswith('<ol') or b.startswith('<ul') or b.startswith('<table'):
+            paragraphs.append(b)
+        else:
+            paragraphs.append(f'<p>{b}</p>')
+            
+    return "\n".join(paragraphs)
 
 def build_reader_html(repo_root: Path):
+    load_bib_entries(repo_root)
     chapters_dir = repo_root / "book" / "chapters"
     site_dir = repo_root / "site"
     output_path = site_dir / "read.html"
@@ -89,12 +240,11 @@ def build_reader_html(repo_root: Path):
             continue
             
         raw_text = file_path.read_text(encoding="utf-8")
-        parsed_body = clean_latex(raw_text)
+        parsed_body = clean_latex_document(raw_text)
         
         chap_id = f"chap-{idx}"
         toc_links.append(f'<a href="#{chap_id}" class="toc-link"><span class="toc-num">{num_str}</span><span class="toc-name">{title_str}</span></a>')
         
-        # Check figure embedding
         fig_code = ""
         prefix = filename.split('-')[0]
         if prefix in FIGURE_MAP:
@@ -113,7 +263,7 @@ def build_reader_html(repo_root: Path):
             <h2 class="reader-chap-title">{title_str}</h2>
           </header>
           <div class="reader-chap-body">
-            <p>{parsed_body}</p>
+            {parsed_body}
             {fig_code}
           </div>
         </article>
@@ -274,7 +424,94 @@ def build_reader_html(repo_root: Path):
         margin: 16px 0 24px 24px;
         color: var(--color-ink-800);
         font-size: 1.02rem;
-        line-height: 1.7;
+        line-height: 1.75;
+      }}
+      .reader-list li {{
+        margin-bottom: 8px;
+      }}
+      /* Table styling */
+      .reader-table-wrapper {{
+        margin: 28px 0;
+        overflow-x: auto;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background: #ffffff;
+      }}
+      .reader-table-caption {{
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--color-ink-800);
+        padding: 12px 16px;
+        background: var(--bg-page);
+        border-bottom: 1px solid var(--border-color);
+      }}
+      .reader-table {{
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        text-align: left;
+      }}
+      .reader-table th {{
+        background: #f1f5f9;
+        color: var(--color-ink-900);
+        font-weight: 700;
+        padding: 10px 14px;
+        border-bottom: 2px solid var(--border-color);
+      }}
+      .reader-table td {{
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--color-ink-800);
+        line-height: 1.5;
+      }}
+      .reader-table tr:last-child td {{
+        border-bottom: none;
+      }}
+      /* Flow diagram styling */
+      .reader-flow-diagram {{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 28px 0;
+        padding: 18px 22px;
+        background: #f8fafc;
+        border: 1px solid var(--color-brand-border);
+        border-radius: var(--radius-md);
+      }}
+      .flow-box {{
+        background: #ffffff;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--color-ink-900);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      }}
+      .flow-box.highlight {{
+        background: var(--color-brand-light);
+        border-color: var(--color-brand-border);
+        color: var(--color-brand-primary);
+      }}
+      .flow-arrow {{
+        color: var(--color-brand-primary);
+        font-size: 1.1rem;
+        font-weight: 700;
+      }}
+      .flow-branches {{
+        display: flex;
+        gap: 12px;
+        width: 100%;
+        margin-top: 6px;
+      }}
+      .flow-subbox {{
+        font-size: 0.85rem;
+        color: var(--color-ink-600);
+        background: #ffffff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
       }}
       .reader-figure-card {{
         margin: 32px 0;
@@ -296,8 +533,8 @@ def build_reader_html(repo_root: Path):
         margin-top: 12px;
         font-weight: 600;
       }}
-      .cite, .ref {{
-        font-size: 0.85rem;
+      .cite {{
+        font-size: 0.9rem;
         color: var(--color-brand-primary);
         font-weight: 600;
       }}
@@ -359,7 +596,7 @@ def build_reader_html(repo_root: Path):
 </html>
 '''
     output_path.write_text(full_html, encoding="utf-8")
-    print(f"[✓] Generated HTML reader edition at: {output_path}")
+    print(f"[✓] Generated clean HTML reader edition at: {output_path}")
 
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parent.parent
