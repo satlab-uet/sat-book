@@ -561,7 +561,6 @@ def build_reader_html(repo_root: Path):
         <nav class="nav">
           <a href="./">Trang chủ</a>
           <a href="./downloads/sat-book.pdf">Bản PDF (106 trang)</a>
-          <a href="https://github.com/satlab-uet/sat-book" target="_blank" rel="noreferrer">GitHub ↗</a>
         </nav>
       </div>
     </header>
