@@ -71,50 +71,162 @@ def format_citations(text: str) -> str:
             else:
                 formatted.append(k)
         return f'<span class="cite">({"; ".join(formatted)})</span>'
-    return re.sub(r'\\parencite\{([^}]+)\}', replace_cite, text)
+    return re.sub(r'\\(?:parencite|textcite|cite)\{([^}]+)\}', replace_cite, text)
 
 def clean_inline(text: str) -> str:
+    text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     text = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', text)
     text = re.sub(r'\\textbf\{([^}]+)\}', r'<strong>\1</strong>', text)
-    text = re.sub(r'\\CNF', 'CNF', text)
-    text = re.sub(r'\\SAT', 'SAT', text)
-    text = re.sub(r'\\MaxSAT', 'MaxSAT', text)
-    text = re.sub(r'\\PySAT', 'PySAT', text)
-    text = re.sub(r'\\sffamily', '', text)
-    text = re.sub(r'\\bfseries', '', text)
+    text = re.sub(r'\\texttt\{([^}]+)\}', r'<code>\1</code>', text)
+    text = re.sub(r'\\textsc\{([^}]+)\}', r'<span class="small-caps">\1</span>', text)
+    
+    # Custom TeX Macros
+    text = re.sub(r'\\UNSAT\b', 'UNSAT', text)
+    text = re.sub(r'\\SAT\b', 'SAT', text)
+    text = re.sub(r'\\OPT\b', 'OPT', text)
+    text = re.sub(r'\\BKS\b', 'BKS', text)
+    text = re.sub(r'\\CNF\b', 'CNF', text)
+    text = re.sub(r'\\MaxSAT\b', 'MaxSAT', text)
+    text = re.sub(r'\\AMK\b', 'AMK', text)
+    text = re.sub(r'\\ExactlyOne\b', 'ExactlyOne', text)
+    text = re.sub(r'\\PySAT\b', 'PySAT', text)
+    
+    # Formatting & Spacing Macros
+    text = re.sub(r'\\qquad\b', ' ', text)
+    text = re.sub(r'\\quad\b', ' ', text)
+    text = re.sub(r'\\sffamily\b', '', text)
+    text = re.sub(r'\\bfseries\b', '', text)
+    text = re.sub(r'\\centering\b', '', text)
+    text = re.sub(r'\\raggedright\b', '', text)
+    text = re.sub(r'\\arraybackslash\b', '', text)
+    text = re.sub(r'\\endfirsthead\b', '', text)
+    text = re.sub(r'\\endhead\b', '', text)
+    text = re.sub(r'\\small\b', '', text)
+    text = re.sub(r'\\minipage\{[^}]*\}', '', text)
+    
+    # References & Equations
+    text = re.sub(r'\\cref\{([^}]+)\}', r'(xem mục \1)', text)
+    text = re.sub(r'\\ref\{([^}]+)\}', r'(xem hình \1)', text)
+    text = re.sub(r'\\eqref\{([^}]+)\}', r'(công thức \1)', text)
+    text = re.sub(r'\\set\{([^}]+)\}', r'\{\1\}', text)
+    text = re.sub(r'\\card\{([^}]+)\}', r'|\1|', text)
+
     text = text.replace("``", "“").replace("''", "”")
     text = format_citations(text)
     return text.strip()
 
+def parse_callouts(text: str) -> str:
+    callout_types = [
+        ("designrule", "design-rule", "💡 Nguyên lý Thiết kế"),
+        ("workedexample", "worked-example", "📝 Ví dụ Thực thi"),
+        ("keyidea", "key-idea", "🔑 Ý tưởng Cốt lõi"),
+        ("summarybox", "summary-box", "📌 Tổng kết Bài học"),
+        ("resultbox", "result-box", "📊 Kết quả Thực nghiệm"),
+    ]
+    for env_name, css_class, default_title in callout_types:
+        pattern = r'\\begin\{' + env_name + r'\}\s*(?:\[([^\]]*)\]|\{([^}]*)\})?(.*?)\\end\{' + env_name + r'\}'
+        def replace_callout(m):
+            raw_title = m.group(1) or m.group(2) or ""
+            title = clean_inline(raw_title.strip()) if raw_title.strip() else default_title
+            body = clean_inline(m.group(3).strip())
+            return f'''
+            <div class="reader-callout {css_class}">
+              <div class="callout-header"><strong>{title}</strong></div>
+              <div class="callout-body">{body}</div>
+            </div>
+            '''
+        text = re.sub(pattern, replace_callout, text, flags=re.DOTALL)
+    return text
+
+def parse_theorems(text: str) -> str:
+    theorem_types = [
+        ("theorem", "theorem-box", "Định lý"),
+        ("lemma", "lemma-box", "Bổ đề"),
+        ("proposition", "proposition-box", "Mệnh đề"),
+        ("example", "example-box", "Ví dụ minh họa"),
+    ]
+    for env_name, css_class, label_prefix in theorem_types:
+        pattern = r'\\begin\{' + env_name + r'\}\s*(?:\[([^\]]*)\]|\{([^}]*)\})?(.*?)\\end\{' + env_name + r'\}'
+        def replace_thm(m):
+            raw_title = m.group(1) or m.group(2) or ""
+            title_text = f" ({clean_inline(raw_title.strip())})" if raw_title.strip() else ""
+            body = clean_inline(m.group(3).strip())
+            return f'''
+            <div class="reader-callout {css_class}">
+              <div class="callout-header"><strong>{label_prefix}{title_text}</strong></div>
+              <div class="callout-body">{body}</div>
+            </div>
+            '''
+        text = re.sub(pattern, replace_thm, text, flags=re.DOTALL)
+
+    # Proof environment
+    def replace_proof(m):
+        body = clean_inline(m.group(1).strip())
+        return f'''
+        <div class="reader-proof">
+          <em>Chứng minh.</em> {body} <span class="proof-qedsymbol">■</span>
+        </div>
+        '''
+    text = re.sub(r'\\begin\{proof\}(.*?)\\end\{proof\}', replace_proof, text, flags=re.DOTALL)
+    return text
+
+def parse_algorithms(text: str) -> str:
+    def replace_algo(m):
+        block = m.group(1)
+        cap_match = re.search(r'\\caption\{([^}]+)\}', block)
+        title = clean_inline(cap_match.group(1)) if cap_match else "Thuật toán"
+        
+        clean_body = re.sub(r'\\begin\{minipage\}\{[^}]*\}', '', block)
+        clean_body = re.sub(r'\\end\{minipage\}', '', clean_body)
+        clean_body = re.sub(r'\\caption\{[^}]+\}', '', clean_body)
+        clean_body = clean_inline(clean_body)
+
+        return f'''
+        <div class="reader-algorithm-box">
+          <div class="algo-header">⚙️ <strong>{title}</strong></div>
+          <div class="algo-body">{clean_body}</div>
+        </div>
+        '''
+    text = re.sub(r'\\begin\{algorithm\}(?:\[[^\]]*\])?(.*?)\\end\{algorithm\}', replace_algo, text, flags=re.DOTALL)
+    return text
+
+def parse_figures(text: str) -> str:
+    def replace_figure(m):
+        block = m.group(1)
+        cap_match = re.search(r'\\caption\{([^}]+)\}', block)
+        if cap_match:
+            cap_text = clean_inline(cap_match.group(1))
+            return f'<div class="reader-inline-caption"><em>Hình: {cap_text}</em></div>'
+        return ""
+    text = re.sub(r'\\begin\{figure\*?\}(?:\[[^\]]*\])?(.*?)\\end\{figure\*?\}', replace_figure, text, flags=re.DOTALL)
+    return text
+
 def parse_tables(text: str) -> str:
-    def replace_center_table(match):
+    def replace_table_block(match):
         block = match.group(1)
         
-        # Caption
-        cap_match = re.search(r'\\captionof\{table\}\{([^}]+)\}', block)
+        cap_match = re.search(r'\\caption(?:of\{table\})?\{([^}]+)\}', block)
         caption_html = ""
         if cap_match:
             caption_text = clean_inline(cap_match.group(1))
             caption_html = f'<div class="reader-table-caption">Bảng: {caption_text}</div>'
             
-        # Extract tabularx/tabular content
-        tab_match = re.search(r'\\begin\{(?:tabularx|tabular)\}(.*?)\\end\{(?:tabularx|tabular)\}', block, re.DOTALL)
+        tab_match = re.search(r'\\begin\{(?:tabularx|tabular|longtable)\}(.*?)\\end\{(?:tabularx|tabular|longtable)\}', block, re.DOTALL)
         if not tab_match:
             return ""
             
         tab_content = tab_match.group(1).strip()
         
-        # Strip preamble up to \toprule or \hline if present
         if r'\toprule' in tab_content:
             tab_content = tab_content.split(r'\toprule', 1)[1]
         elif r'\hline' in tab_content:
             tab_content = tab_content.split(r'\hline', 1)[1]
         else:
-            # Strip leading argument braces {...}
             tab_content = re.sub(r'^(?:\{[^{}]*\}|\s+)+', '', tab_content).strip()
             
         tab_content = re.sub(r'\\(top|mid|bottom)rule', '', tab_content)
         tab_content = re.sub(r'\\label\{[^}]+\}', '', tab_content)
+        tab_content = re.sub(r'\\caption\{[^}]+\}', '', tab_content)
         
         rows = [r.strip() for r in tab_content.split(r'\\') if r.strip()]
         if not rows:
@@ -144,7 +256,8 @@ def parse_tables(text: str) -> str:
         '''
         return table_html
 
-    text = re.sub(r'\\begin\{center\}(.*?)\\end\{center\}', replace_center_table, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{(?:center|table)\}(.*?)\\end\{(?:center|table)\}', replace_table_block, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{longtable\}(.*?)\\end\{longtable\}', replace_table_block, text, flags=re.DOTALL)
     return text
 
 def parse_flowdiagrams(text: str) -> str:
@@ -167,8 +280,8 @@ def parse_flowdiagrams(text: str) -> str:
           </div>
         </div>
         '''
-    pattern = r'\\flowdiagram\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}\s*\{([^}]+)\}\{([^}]+)\}'
-    return re.sub(pattern, replace_flow, text)
+    pattern = r'\\flowdiagram\s*\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}'
+    return re.sub(pattern, replace_flow, text, flags=re.DOTALL)
 
 def parse_lists(text: str) -> str:
     def replace_enum(m):
@@ -183,41 +296,79 @@ def parse_lists(text: str) -> str:
         rendered = "".join(f'<li>{it}</li>' for it in items)
         return f'<ul class="reader-list">{rendered}</ul>'
 
-    text = re.sub(r'\\begin\{enumerate\}(.*?)\\end\{enumerate\}', replace_enum, text, flags=re.DOTALL)
-    text = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}', replace_item, text, flags=re.DOTALL)
+    def replace_desc(m):
+        content = m.group(1)
+        raw_items = [it.strip() for it in content.split(r'\item') if it.strip()]
+        rendered = []
+        for it in raw_items:
+            key_m = re.match(r'^\[([^\]]+)\](.*)$', it, re.DOTALL)
+            if key_m:
+                dt_text = clean_inline(key_m.group(1).strip())
+                dd_text = clean_inline(key_m.group(2).strip())
+                rendered.append(f'<dt><strong>{dt_text}</strong></dt><dd>{dd_text}</dd>')
+            else:
+                rendered.append(f'<dd>{clean_inline(it)}</dd>')
+        return f'<dl class="reader-dl">{"".join(rendered)}</dl>'
+
+    text = re.sub(r'\\begin\{enumerate\}(?:\[[^\]]*\])?(.*?)\\end\{enumerate\}', replace_enum, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{itemize\}(?:\[[^\]]*\])?(.*?)\\end\{itemize\}', replace_item, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{description\}(?:\[[^\]]*\])?(.*?)\\end\{description\}', replace_desc, text, flags=re.DOTALL)
+    return text
+
+def parse_headings(text: str) -> str:
+    def replace_sec(m):
+        body = m.group(1)
+        return f'<h3 class="reader-h2">{clean_inline(body.strip())}</h3>'
+
+    def replace_subsec(m):
+        body = m.group(1)
+        return f'<h4 class="reader-h3">{clean_inline(body.strip())}</h4>'
+
+    text = re.sub(r'\\section\*?(?:\[[^\]]*\])?\{([^}]+)\}', replace_sec, text)
+    text = re.sub(r'\\subsection\*?(?:\[[^\]]*\])?\{([^}]+)\}', replace_subsec, text)
+    text = re.sub(r'\\paragraph\*?\{([^}]+)\}', r'<strong>\1</strong>', text)
+    return text
+
+def parse_math_blocks(text: str) -> str:
+    def wrap_equation(m):
+        body = m.group(1).strip()
+        return f'\\[\n{body}\n\\]'
+
+    text = re.sub(r'\\begin\{equation\}(.*?)\\end\{equation\}', wrap_equation, text, flags=re.DOTALL)
+    text = re.sub(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}', wrap_equation, text, flags=re.DOTALL)
     return text
 
 def clean_latex_document(text: str) -> str:
-    # Comments & Index
+    # Comments & Index & Labels
     text = re.sub(r'(?<!\\)%.*', '', text)
     text = re.sub(r'\\index\{[^}]+\}', '', text)
     text = re.sub(r'\\label\{[^}]+\}', '', text)
+    text = re.sub(r'\\texorpdfstring\{([^}]+)\}\{[^}]*\}', r'\1', text)
     
     # Remove TikZ environments if raw
     text = re.sub(r'\\begin\{tikzpicture\}(.*?)\\end\{tikzpicture\}', '', text, flags=re.DOTALL)
     
-    # Flow diagrams
-    text = parse_flowdiagrams(text)
-    
-    # Tables
-    text = parse_tables(text)
-    
-    # Lists
-    text = parse_lists(text)
-    
-    # Chapter lead
-    text = re.sub(r'\\chapterlead\{([^}]+)\}', r'<div class="chapter-lead">\1</div>', text)
+    # Chapter lead & Headings
+    text = re.sub(r'\\chapterlead\{((?:[^{}]|\{[^{}]*\})*)\}', r'<div class="chapter-lead">\1</div>', text)
     text = re.sub(r'\\chapter\{([^}]+)\}', '', text)
+    text = parse_headings(text)
     
-    # Headings
-    text = re.sub(r'\\section\{([^}]+)\}', r'<h3 class="reader-h2">\1</h3>', text)
-    text = re.sub(r'\\subsection\{([^}]+)\}', r'<h4 class="reader-h3">\1</h4>', text)
+    # Math environments (equation, align*)
+    text = parse_math_blocks(text)
+    
+    # Custom Callouts & Theorems
+    text = parse_callouts(text)
+    text = parse_theorems(text)
+    text = parse_algorithms(text)
+    text = parse_figures(text)
+    
+    # Flow diagrams & Tables & Lists
+    text = parse_flowdiagrams(text)
+    text = parse_tables(text)
+    text = parse_lists(text)
     
     # Inline formatting & quotes
     text = clean_inline(text)
-    
-    # Convert math delimiters for KaTeX
-    text = re.sub(r'\\\[(.*?)\\\]', r'\[\1\]', text, flags=re.DOTALL)
     
     # Paragraphs: split by double newlines, wrap non-block items in <p>
     paragraphs = []
@@ -226,7 +377,7 @@ def clean_latex_document(text: str) -> str:
         b = b.strip()
         if not b:
             continue
-        if any(b.startswith(tag) for tag in ['<h2', '<h3', '<h4', '<div', '<ol', '<ul', '<table']):
+        if any(b.startswith(tag) for tag in ['<h2', '<h3', '<h4', '<div', '<ol', '<ul', '<dl', '<table', '\\[']):
             paragraphs.append(b)
         else:
             paragraphs.append(f'<p>{b}</p>')
@@ -322,7 +473,7 @@ def build_reader_html(repo_root: Path):
         color: var(--color-ink-900);
         margin-bottom: 14px;
         padding-bottom: 8px;
-        border-bottom: 2px solid var(--color-brand-light);
+        border-bottom: 2px solid var(--color-brand-200);
         text-transform: uppercase;
         letter-spacing: 0.04em;
       }}
@@ -341,15 +492,15 @@ def build_reader_html(repo_root: Path):
         transition: all 0.15s ease;
       }}
       .toc-link:hover {{
-        background: var(--color-brand-light);
-        color: var(--color-brand-primary);
+        background: var(--color-brand-50);
+        color: var(--color-brand-600);
         text-decoration: none;
       }}
       .toc-num {{
         font-family: var(--font-mono);
         font-size: 0.75rem;
         font-weight: 700;
-        color: var(--color-brand-primary);
+        color: var(--color-brand-600);
       }}
       .toc-name {{
         font-weight: 600;
@@ -370,7 +521,7 @@ def build_reader_html(repo_root: Path):
         color: var(--color-ink-900);
         margin-bottom: 32px;
         padding-bottom: 20px;
-        border-bottom: 2px solid var(--color-brand-light);
+        border-bottom: 2px solid var(--color-brand-200);
       }}
       .reader-chapter-article {{
         margin-bottom: 64px;
@@ -386,8 +537,8 @@ def build_reader_html(repo_root: Path):
         font-family: var(--font-mono);
         font-size: 0.82rem;
         font-weight: 700;
-        color: var(--color-brand-primary);
-        background: var(--color-brand-light);
+        color: var(--color-brand-600);
+        background: var(--color-brand-50);
         padding: 4px 12px;
         border-radius: 20px;
       }}
@@ -403,7 +554,7 @@ def build_reader_html(repo_root: Path):
         font-size: 1.12rem;
         color: var(--color-ink-700);
         background: #f8fafc;
-        border-left: 4px solid var(--color-brand-primary);
+        border-left: 4px solid var(--color-brand-600);
         padding: 16px 20px;
         border-radius: 0 var(--radius-md) var(--radius-md) 0;
         margin-bottom: 28px;
@@ -436,6 +587,114 @@ def build_reader_html(repo_root: Path):
       }}
       .reader-list li {{
         margin-bottom: 8px;
+      }}
+      .reader-dl {{
+        margin: 20px 0;
+        background: #f8fafc;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 18px 24px;
+      }}
+      .reader-dl dt {{
+        color: var(--color-brand-600);
+        font-weight: 700;
+        margin-top: 12px;
+        font-size: 1.02rem;
+      }}
+      .reader-dl dt:first-child {{
+        margin-top: 0;
+      }}
+      .reader-dl dd {{
+        margin-left: 0;
+        color: var(--color-ink-800);
+        line-height: 1.65;
+        margin-bottom: 8px;
+      }}
+      /* Callout styling */
+      .reader-callout {{
+        margin: 28px 0;
+        padding: 20px 24px;
+        border-radius: var(--radius-md);
+        background: #ffffff;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-xs);
+      }}
+      .callout-header {{
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        color: var(--color-ink-900);
+      }}
+      .callout-body {{
+        font-size: 0.98rem;
+        line-height: 1.65;
+        color: var(--color-ink-800);
+      }}
+      .reader-callout.worked-example {{
+        border-left: 5px solid #3b82f6;
+        background: #f0f9ff;
+      }}
+      .reader-callout.design-rule {{
+        border-left: 5px solid #10b981;
+        background: #ecfdf5;
+      }}
+      .reader-callout.key-idea {{
+        border-left: 5px solid #f59e0b;
+        background: #fffbeb;
+      }}
+      .reader-callout.summary-box {{
+        border-left: 5px solid #8b5cf6;
+        background: #f5f3ff;
+      }}
+      .reader-callout.result-box {{
+        border-left: 5px solid #06b6d4;
+        background: #ecfeff;
+      }}
+      .reader-callout.theorem-box {{
+        border-left: 5px solid #1e3a8a;
+        background: #f8fafc;
+      }}
+      .reader-callout.lemma-box {{
+        border-left: 5px solid #6366f1;
+        background: #f5f3ff;
+      }}
+      .reader-callout.proposition-box {{
+        border-left: 5px solid #0284c7;
+        background: #f0f9ff;
+      }}
+      .reader-callout.example-box {{
+        border-left: 5px solid #059669;
+        background: #ecfdf5;
+      }}
+      .reader-proof {{
+        margin: 20px 0;
+        padding: 16px 20px;
+        background: #f8fafc;
+        border-left: 3px solid var(--color-ink-500);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        font-size: 0.98rem;
+      }}
+      .proof-qedsymbol {{
+        float: right;
+        color: var(--color-ink-500);
+      }}
+      .reader-algorithm-box {{
+        margin: 28px 0;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background: #f8fafc;
+        overflow: hidden;
+      }}
+      .algo-header {{
+        background: #e2e8f0;
+        padding: 12px 18px;
+        font-size: 0.98rem;
+        color: var(--color-ink-900);
+        border-bottom: 1px solid var(--border-color);
+      }}
+      .algo-body {{
+        padding: 18px;
+        font-size: 0.95rem;
+        line-height: 1.65;
       }}
       /* Table styling */
       .reader-table-wrapper {{
@@ -484,7 +743,7 @@ def build_reader_html(repo_root: Path):
         margin: 28px 0;
         padding: 18px 22px;
         background: #f8fafc;
-        border: 1px solid var(--color-brand-border);
+        border: 1px solid var(--color-brand-200);
         border-radius: var(--radius-md);
       }}
       .flow-box {{
@@ -498,12 +757,12 @@ def build_reader_html(repo_root: Path):
         box-shadow: 0 1px 3px rgba(0,0,0,0.04);
       }}
       .flow-box.highlight {{
-        background: var(--color-brand-light);
-        border-color: var(--color-brand-border);
-        color: var(--color-brand-primary);
+        background: var(--color-brand-50);
+        border-color: var(--color-brand-200);
+        color: var(--color-brand-600);
       }}
       .flow-arrow {{
-        color: var(--color-brand-primary);
+        color: var(--color-brand-600);
         font-size: 1.1rem;
         font-weight: 700;
       }}
@@ -541,9 +800,15 @@ def build_reader_html(repo_root: Path):
         margin-top: 12px;
         font-weight: 600;
       }}
+      .reader-inline-caption {{
+        font-size: 0.92rem;
+        color: var(--color-ink-600);
+        margin: 16px 0;
+        text-align: center;
+      }}
       .cite {{
         font-size: 0.9rem;
-        color: var(--color-brand-primary);
+        color: var(--color-brand-600);
         font-weight: 600;
       }}
       @media (max-width: 860px) {{
