@@ -1,40 +1,42 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#102536">
     <meta
       name="description"
-      content="SATLab — Phòng nghiên cứu Biểu diễn SAT và Tối ưu hóa Tổ hợp, Trường Đại học Công nghệ, ĐHQGHN (UET-VNU)."
+      content="SATLab UET — Satisfiability, Reasoning and Combinatorial Optimization Research Group at VNU University of Engineering and Technology (UET-VNU)."
     >
     
     <!-- OpenGraph Metadata -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="SATLab — Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp | UET-VNU">
+    <meta property="og:title" content="SATLab UET — Satisfiability & Combinatorial Optimization Research Group">
     <meta
       property="og:description"
-      content="Nghiên cứu chuyên sâu về phép mã hóa SAT/MaxSAT/PB, thuật toán giải chính xác cho bài toán lập lịch, đóng gói 2D, gán nhãn đồ thị và cân bằng dây chuyền."
+      content="High-confidence research in SAT/MaxSAT/PB encodings, exact decision solvers for industrial scheduling, 2D packing, graph labeling, and formal verification."
     >
     <meta
       property="og:image"
       content="https://satlab-uet.github.io/satlab/assets/images/og-card.png"
     >
 
-    <title>SATLab — Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp | UET-VNU</title>
+    <title>SATLab UET — Satisfiability, Reasoning & Optimization Research Group</title>
 
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/">
 
     <!-- Schema.org JSON-LD Metadata -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "ResearchOrganization",
-        "name": "SATLab — SAT & Combinatorial Optimization Research Group",
+        "name": "SATLab UET — SAT & Combinatorial Optimization Research Group",
         "alternateName": "SATLab UET-VNU",
         "url": "https://satlab-uet.github.io/satlab/",
         "logo": "https://satlab-uet.github.io/satlab/assets/images/satlab.png",
@@ -42,64 +44,32 @@
           "@type": "EducationalOrganization",
           "name": "VNU University of Engineering and Technology (UET-VNU)"
         },
-        "description": "Phòng nghiên cứu Biểu diễn SAT và Tối ưu hóa Tổ hợp tại Trường Đại học Công nghệ, ĐHQGHN."
+        "description": "Research group specializing in propositional satisfiability, constraint encodings, and combinatorial optimization at UET-VNU."
       }
     </script>
-
-    <style>
-      .stat-counter-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 16px;
-        margin: 28px 0;
-      }
-      .stat-card {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 16px 20px;
-        box-shadow: var(--shadow-xs);
-      }
-      .stat-num {
-        font-family: var(--font-display);
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: var(--color-brand-600);
-        line-height: 1.1;
-      }
-      .stat-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--color-ink-600);
-        margin-top: 4px;
-      }
-      .recruitment-card {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
-        color: #ffffff;
-        border-radius: var(--radius-lg);
-        padding: 40px;
-        box-shadow: var(--shadow-lg);
-        margin-top: 60px;
-      }
-      .recruitment-card h3 {
-        font-family: var(--font-display);
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #ffffff;
-        margin: 0 0 12px;
-      }
-      .recruitment-card p {
-        color: #cbd5e1;
-        font-size: 1.05rem;
-        margin-bottom: 24px;
-        line-height: 1.65;
-      }
-    </style>
   </head>
   <body>
-    <!-- Top Announcement Bar -->
+    <!-- Institution Strip (Design Doc 8.1.1) -->
+    <div class="institution-strip">
+      <div class="shell institution-inner">
+        <div class="institution-title">
+          <span class="institution-badge">UET - VNU</span>
+          <span>VNU University of Engineering and Technology</span>
+        </div>
+        <div class="institution-actions">
+          <div class="lang-switch">
+            <a href="./" class="active">EN</a>
+            <span>|</span>
+            <a href="./vi/">VI</a>
+          </div>
+          <a href="./search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Search</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Announcement Banner -->
     <div class="top-banner">
-      🎉 SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="./publications.html">Xem tất cả công bố ↗</a>
+      🎉 SATLab paper on Cyclic Antibandwidth accepted in Computational Optimization and Applications (Q1 ISI)! <a href="./publications.html">View Publications ↗</a>
     </div>
 
     <!-- Header Navbar -->
@@ -110,17 +80,18 @@
           <span class="brand-title">SATLab</span>
         </a>
         <nav class="nav">
-          <a href="./" class="active">Trang chủ</a>
-          <a href="./about.html">Giới thiệu</a>
-          <a href="./research.html">Nghiên cứu</a>
-          <a href="./publications.html">Công bố</a>
-          <a href="./people.html">Nhân sự</a>
-          <a href="./read.html">Sách Chuyên khảo ↗</a>
+          <a href="./" class="active">Home</a>
+          <a href="./research.html">Research</a>
+          <a href="./publications.html">Publications</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./people.html">People</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./join.html">Join Us</a>
         </nav>
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Design Doc 8.1.3) -->
     <section class="hero" id="ve-satlab">
       <div class="shell hero-grid">
         <div>
@@ -128,55 +99,38 @@
             <span class="pill-dot"></span>
             SATLAB · UET - VNU HANOI
           </div>
-          <h1>Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp</h1>
+          <h1>Satisfiability, Automated Reasoning & Optimization</h1>
           <p class="hero-subtitle">
-            Nghiên cứu chuyên sâu về lý thuyết phép mã hóa SAT/MaxSAT/Pseudo-Boolean, thiết kế bộ giải chính xác (Exact Solvers) ứng dụng trong Lập lịch công nghiệp, Đóng gói 2D, Gán nhãn đồ thị và Kiểm chứng phần mềm.
+            Advancing the theory and engineering of SAT/MaxSAT/Pseudo-Boolean encodings, exact decision solvers, and verified algorithms for industrial scheduling, 2D packing, graph labeling, and software verification.
           </p>
 
-          <div class="stat-counter-grid">
-            <div class="stat-card">
-              <div class="stat-num">15+</div>
-              <div class="stat-label">Công trình Q1/Q2/Q3 & Hội nghị Rank B</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">10+</div>
-              <div class="stat-label">Bài toán Tối ưu hóa Thực tế</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">104</div>
-              <div class="stat-label">Trang Sách Chuyên khảo Chuẩn</div>
-            </div>
-          </div>
-
           <div class="hero-meta-card">
-            <p class="hero-authors">
-              <strong>Thành viên chủ chốt:</strong> Tô Văn Khánh, Kiều Văn Tuyên, Trương Xuân Hiếu, Vũ Thanh Hương, Đào Xuân Nghĩa, Nguyễn Kim Trung Đức
+            <p style="margin: 0; font-size: 0.95rem; color: var(--color-ink-800);">
+              <strong>Key Members:</strong> Dr. To Van Khanh, Kieu Van Tuyen, Truong Xuan Hieu, Vu Thanh Huong, Dao Xuan Nghia, Nguyen Kim Trung Duc
             </p>
-            <div class="hero-affiliation">
-              Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)
+            <div style="font-size: 0.88rem; color: var(--color-ink-650); margin-top: 6px;">
+              VNU University of Engineering and Technology (UET-VNU)
             </div>
           </div>
 
           <div class="hero-actions">
+            <a class="btn btn-primary" href="./research.html">
+              Explore Research ↓
+            </a>
+            <a class="btn btn-outline" href="./publications.html">
+              View Publications ↗
+            </a>
             <a class="btn btn-primary-html" href="./read.html">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 1 3-3h7z"/></svg>
-              📖 Đọc Sách Chuyên khảo (Online) ↗
-            </a>
-            <a class="btn btn-primary" href="./downloads/sat-book.pdf">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
-              Tải PDF Sách (104 trang)
-            </a>
-            <a class="btn btn-outline" href="./research.html">
-              Khám phá Nghiên cứu ↓
+              📖 SAT Book (Online Edition) ↗
             </a>
           </div>
         </div>
 
         <div class="cover-wrapper">
-          <a href="./read.html" title="Đọc bản sách HTML trực tuyến">
+          <a href="./read.html" title="Read SAT Book Online">
             <img
               src="./assets/images/book-cover.webp"
-              alt="Bìa sách Biểu diễn SAT tối ưu cho các bài toán tối ưu hóa tổ hợp"
+              alt="SAT Book Monograph Cover"
               class="book-cover-img"
             >
           </a>
@@ -184,145 +138,96 @@
       </div>
     </section>
 
-    <!-- Latest News & Highlights Stream -->
-    <section class="features-section" style="background: #ffffff; border-bottom: 1px solid var(--border-color);">
-      <div class="shell">
-        <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 32px;">
-          <div class="section-tag">LAB HIGHLIGHTS & NEWS</div>
-          <h2 class="section-title">Tin tức & Sự kiện Nổi bật</h2>
-        </div>
-
-        <div class="news-list">
-          <div class="news-card">
-            <div class="news-date">JULY 2026</div>
-            <div class="news-content">
-              <h3>Công bố bài báo Q1 ISI trên Computational Optimization and Applications</h3>
-              <p>Nghiên cứu "Solving Cyclic Antibandwidth Problem by SAT" của tác giả Trương Xuân Hiếu và Tô Văn Khánh chính thức được nhận đăng trên Tạp chí Computational Optimization and Applications (Q1 ISI).</p>
-            </div>
-          </div>
-
-          <div class="news-card">
-            <div class="news-date">JUNE 2026</div>
-            <div class="news-content">
-              <h3>Hoàn thành Chuyên khảo 104 trang về Biểu diễn SAT Tối ưu</h3>
-              <p>SATLab xuất bản ấn phẩm chuyên khảo 104 trang đúc kết 12 chương lý thuyết và kỹ nghệ công nghệ phần mềm chuyển đổi SAT/MaxSAT cho tối ưu hóa tổ hợp.</p>
-            </div>
-          </div>
-
-          <div class="news-card">
-            <div class="news-date">MAY 2026</div>
-            <div class="news-content">
-              <h3>Báo cáo được chấp nhận tại CITA 2026 & ISCIT 2025</h3>
-              <p>Cụm công trình gán nhãn k-Safe Labeling và Sequence Constraints của nhóm nghiên cứu trẻ sinh viên K67/K68 đã được chấp nhận báo cáo tại các Hội nghị Quốc tế.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Core Research Directions Section -->
+    <!-- Research Themes Section (Design Doc 8.1.4) -->
     <section class="features-section" id="huong-nghien-cuu">
       <div class="shell" id="cong-trinh">
         <div class="section-header">
           <div class="section-tag">RESEARCH DOMAINS</div>
-          <h2 class="section-title">Các hướng nghiên cứu trọng tâm</h2>
+          <h2 class="section-title">Core Research Themes</h2>
           <p class="section-desc">
-            SATLab phát triển hệ thống biểu diễn và thuật toán giải tối ưu có khả năng vượt trội so với các công cụ thương mại MIP/CPLEX/Gurobi trên nhiều bài toán thực tế.
+            We build specialized SAT encodings and exact solver pipelines that outperform standard commercial MIP/CPLEX/Gurobi solvers on hard combinatorial optimization problems.
           </p>
         </div>
 
         <div class="features-grid">
           <div class="feature-card">
             <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="23" y2="23"/></svg>
             </div>
-            <h3>Cơ chế Mã hóa & Bộ giải (Encoding & Solvers)</h3>
-            <p>Phát triển bộ đếm tuần tự thích nghi (New Sequential Counter - NSC), mã hóa ràng buộc đếm Cardinality, Pseudo-Boolean (PB), AMO/AMK/ALK dạng bậc thang và hệ sinh thái thư viện SCLib.</p>
+            <h3>Encodings & Solver Architecture</h3>
+            <p>New Sequential Counter (NSC), Cardinality constraints (AMO/AMK/ALK), Pseudo-Boolean (PB) encodings, and the SCLib solver ecosystem.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
-            <h3>Lập lịch & Cân bằng Dây chuyền (Scheduling & ALB)</h3>
-            <p>Tối ưu đỉnh công suất (Power Peak Minimization) trong dây chuyền sản xuất (SALB, UALBP), lập lịch Job-Shop (JSSP/FJSSP), lập lịch tàu hỏa (Train Rescheduling via MaxSAT-DDD) và RCPSP.</p>
+            <h3>Scheduling & Line Balancing</h3>
+            <p>Power Peak Minimization in Assembly Line Balancing (SALB, UALBP), Job-Shop Scheduling (JSSP/FJSSP), and Train Rescheduling via MaxSAT-DDD.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
             </div>
-            <h3>Đóng gói 2D & Tối ưu Không gian (2D Packing & Cutting)</h3>
-            <p>Phương pháp SAT/MaxSAT giải chính xác bài toán đóng gói dải chữ nhật 2D (Strip Packing), 2D Bin Packing và cắt cuộn nguyên liệu (Cutting Stock Problem).</p>
+            <h3>2D Packing & Cutting Optimization</h3>
+            <p>Exact SAT/MaxSAT models for 2D Strip Packing, 2D Bin Packing, and Cutting Stock Problems with non-overlapping constraints.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             </div>
-            <h3>Gán nhãn Đồ thị & Phân bổ Tần số (Graph Labeling & FAP)</h3>
-            <p>Mã hóa SAT giải tối ưu bài toán Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling, k-Safe Labeling và Phân bổ tần số mạng vô tuyến (MO-FAP).</p>
+            <h3>Graph Labeling & Frequency Assignment</h3>
+            <p>SAT-based exact algorithms for Antibandwidth, Cyclic Antibandwidth, Bandwidth Multicoloring, Radio-k Labeling, and k-Safe Labeling.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Flagship Monograph Section -->
-    <section class="toc-section" id="sach-chuyen-khao">
+    <!-- Flagship Monograph Section (Design Doc 8.1.5) -->
+    <section class="features-section" id="sach-chuyen-khao" style="background: #ffffff; border-bottom: 1px solid var(--color-border);">
       <div class="shell">
         <div class="section-header">
-          <div class="section-tag">FLAGSHIP PUBLICATION</div>
-          <h2 class="section-title">Sách Chuyên khảo của SATLab</h2>
+          <div class="section-tag">FLAGSHIP MONOGRAPH</div>
+          <h2 class="section-title">SAT Book Monograph</h2>
           <p class="section-desc">
-            Ấn phẩm 104 trang đúc kết toàn bộ lý thuyết và thực tiễn kỹ nghệ công nghệ phần mềm mã hóa SAT tối ưu cho các bài toán tối ưu hóa tổ hợp.
+            A comprehensive 104-page academic monograph synthesizing theoretical foundations and software engineering practices for optimal SAT encodings.
           </p>
         </div>
 
-        <div class="toc-grid">
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 01</span>
-            <h3>SAT và MaxSAT như một nền tảng giải chính xác</h3>
-            <p>Bốn lớp thuật toán, quy trình CDCL và mối tương quan giữa mã hóa và giải mã.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 02</span>
-            <h3>Thế nào là một phép mã hóa SAT tốt?</h3>
-            <p>Đặc tả ngữ nghĩa contract, lan truyền đơn vị, mặt Pareto và ma trận phát biểu.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 03</span>
-            <h3>Bộ công cụ ràng buộc đếm và giả Boolean</h3>
-            <p>AMO, AMK, ALK, bộ đếm tuần tự NSC, cây tổng cân bằng và mạng sắp xếp.</p>
-          </div>
-
-          <div class="toc-item">
-            <span class="toc-number">CHƯƠNG 04</span>
-            <h3>Thiết kế thực nghiệm cho phép mã hóa SAT</h3>
-            <p>Ma trận cấu hình, biểu đồ xương rồng, profile bậc thang và chuỗi truy vết.</p>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 40px;">
-          <a class="btn btn-primary-html" href="./read.html">
-            📖 Đọc toàn văn 12 Chương trực tuyến (HTML Reader) ↗
-          </a>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 24px;">
+          <a class="btn btn-primary-html" href="./read.html">📖 Read Online HTML Edition (12 Chapters) ↗</a>
+          <a class="btn btn-primary" href="./downloads/sat-book.pdf">📥 Download PDF Monograph (104 Pages)</a>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Join CTA Section (Design Doc 8.1.9) -->
+    <section class="features-section" style="background: var(--color-ink-950); color: #ffffff;">
+      <div class="shell" style="text-align: center; max-width: 800px;">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: #ffffff; margin-bottom: 16px;">Interested in Joining SATLab?</h2>
+        <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 28px;">
+          We welcome motivated undergraduate, master, and PhD students with strong backgrounds in algorithms, discrete mathematics, and software development.
+        </p>
+        <a class="btn btn-primary" href="./join.html" style="background: #ffffff; color: var(--color-ink-950) !important;">View Openings & Student Opportunities ↗</a>
+      </div>
+    </section>
+
+    <!-- Footer (Design Doc 8.1.11) -->
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
-          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <div class="footer-brand">SATLab UET — Research Group</div>
+          <p>VNU University of Engineering and Technology (UET-VNU)</p>
           <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
-          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
+          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
+          <a href="./read.html" class="btn btn-outline" style="margin-left: 12px;">📖 Read SAT Book ↗</a>
         </div>
       </div>
     </footer>

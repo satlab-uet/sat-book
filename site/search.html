@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102536">
+    <meta name="description" content="Search SATLab — Full-text search index across research domains, publications, projects, people, and resources.">
+    <title>Search | SATLab UET</title>
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="./assets/css/main.css">
+  </head>
+  <body>
+    <!-- Institution Strip -->
+    <div class="institution-strip">
+      <div class="shell institution-inner">
+        <div class="institution-title">
+          <span class="institution-badge">UET - VNU</span>
+          <span>VNU University of Engineering and Technology</span>
+        </div>
+        <div class="institution-actions">
+          <div class="lang-switch">
+            <a href="./search.html" class="active">EN</a>
+            <span>|</span>
+            <a href="./vi/search.html">VI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./">
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
+          <span class="brand-title">SATLab</span>
+        </a>
+        <nav class="nav">
+          <a href="./">Home</a>
+          <a href="./research.html">Research</a>
+          <a href="./publications.html">Publications</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./people.html">People</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./join.html">Join Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell" style="padding: 40px 0 80px; max-width: 800px;">
+      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 20px;">Search SATLab</h1>
+      <input type="text" id="global-search-input" class="search-box" style="max-width: 100%; font-size: 1.1rem; padding: 14px 20px;" placeholder="Type keywords (e.g. SAT, scheduling, packing, Hieu)..." autofocus>
+
+      <div id="search-results-output" style="margin-top: 32px;">
+        <p style="color: var(--color-ink-650);">Type a keyword above to search across publications, research themes, projects, and people.</p>
+      </div>
+    </main>
+
+    <script>
+      var searchIndex = [
+        { title: "Encodings & Solver Architecture", type: "Research Domain", url: "./research.html", text: "New Sequential Counter NSC AMO AMK ALK Pseudo-Boolean SCLib" },
+        { title: "Scheduling & Line Balancing", type: "Research Domain", url: "./research.html", text: "Power Peak Minimization Assembly Line Balancing SALBP JSSP MaxSAT-DDD" },
+        { title: "2D Packing & Cutting Optimization", type: "Research Domain", url: "./research.html", text: "2D Strip Packing Bin Packing Cutting Stock spatial decomposition" },
+        { title: "Graph Labeling & Frequency Assignment", type: "Research Domain", url: "./research.html", text: "Antibandwidth Cyclic Antibandwidth Radio-k Labeling MO-FAP" },
+        { title: "Solving Cyclic Antibandwidth Problem by SAT", type: "Publication", url: "./publications.html", text: "Truong Xuan Hieu To Van Khanh COAP Springer 2026 Q1 ISI" },
+        { title: "Compact SAT Encodings for Power Peak Minimization", type: "Publication", url: "./publications.html", text: "Kieu Van Tuyen To Van Khanh JCO 2025 Q2 Scopus" },
+        { title: "SAT Book Monograph", type: "Resource", url: "./read.html", text: "104 pages 12 chapters monograph online reader edition" },
+        { title: "Dr. To Van Khanh", type: "Person", url: "./people.html", text: "Lab Leader Head of SATLab UET" },
+        { title: "Kieu Van Tuyen", type: "Person", url: "./people.html", text: "PhD Candidate Researcher Scheduling Strip Packing" },
+        { title: "Truong Xuan Hieu", type: "Person", url: "./people.html", text: "Researcher Antibandwidth SCLib" }
+      ];
+
+      document.getElementById('global-search-input').addEventListener('keyup', function() {
+        var query = this.value.toLowerCase().trim();
+        var out = document.getElementById('search-results-output');
+        if (!query) {
+          out.innerHTML = '<p style="color: var(--color-ink-650);">Type a keyword above to search across publications, research themes, projects, and people.</p>';
+          return;
+        }
+
+        var matches = searchIndex.filter(item => (item.title + " " + item.type + " " + item.text).toLowerCase().includes(query));
+
+        if (matches.length === 0) {
+          out.innerHTML = '<p style="color: var(--color-ink-650);">No matching results found for "<strong>' + query + '</strong>".</p>';
+          return;
+        }
+
+        var htmlOut = '<div style="display: flex; flex-direction: column; gap: 16px;">';
+        matches.forEach(m => {
+          htmlOut += '<article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 18px 24px;">' +
+            '<span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">' + m.type + '</span>' +
+            '<h3 style="margin: 4px 0 6px; font-size: 1.1rem;"><a href="' + m.url + '">' + m.title + ' ↗</a></h3>' +
+            '<p style="margin: 0; font-size: 0.9rem; color: var(--color-ink-650);">' + m.text + '</p>' +
+            '</article>';
+        });
+        htmlOut += '</div>';
+        out.innerHTML = htmlOut;
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">SATLab UET — Research Group</div>
+          <p>© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

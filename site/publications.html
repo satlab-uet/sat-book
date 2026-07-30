@@ -1,80 +1,102 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#1e3a8a">
-    <title>Công bố Khoa học | SATLab UET-VNU</title>
+    <meta name="theme-color" content="#102536">
+    <meta name="description" content="SATLab Publications — Peer-reviewed journals (COAP, J. Comb. Opt., RAIRO-OR, IEEE), international conference proceedings, and student research papers.">
+    <title>Publications | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/publications.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/publications.html">
+
     <style>
-      .pub-section-title {
-        font-family: var(--font-display);
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--color-ink-900);
-        margin: 40px 0 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid var(--color-brand-200);
+      .pub-filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .filter-pill {
+        padding: 8px 16px;
+        border-radius: var(--radius-full);
+        border: 1px solid var(--color-border);
+        background: #ffffff;
+        color: var(--color-ink-800);
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .filter-pill.active, .filter-pill:hover {
+        background: var(--color-blue-700);
+        color: #ffffff;
+        border-color: var(--color-blue-700);
+      }
+      .search-box {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px 16px;
+        border-radius: var(--radius-card);
+        border: 1px solid var(--color-border);
+        font-size: 0.95rem;
+        margin-bottom: 28px;
       }
       .pub-card {
         background: #ffffff;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 22px 26px;
-        margin-bottom: 16px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-card);
+        padding: 24px;
+        margin-bottom: 20px;
         box-shadow: var(--shadow-xs);
-        transition: all 0.2s ease;
       }
-      .pub-card:hover {
-        border-color: var(--color-brand-500);
-        box-shadow: var(--shadow-md);
-      }
-      .pub-badge-row {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 8px;
-      }
-      .badge-tag {
+      .pub-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
         font-family: var(--font-mono);
         font-size: 0.75rem;
         font-weight: 700;
-        padding: 3px 10px;
-        border-radius: 12px;
-        background: #f1f5f9;
-        color: var(--color-ink-700);
+        margin-bottom: 8px;
       }
-      .badge-tag.q1 { background: #dcfce7; color: #15803d; border-color: #86efac; }
-      .badge-tag.q2 { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
-      .badge-tag.q3 { background: #fef3c7; color: #b45309; border-color: #fde68a; }
-      .badge-tag.q4 { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
-      .pub-paper-title {
-        font-family: var(--font-display);
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--color-ink-900);
-        margin-bottom: 6px;
-        line-height: 1.35;
-      }
-      .pub-paper-authors {
-        font-size: 0.95rem;
-        color: var(--color-ink-700);
-        margin-bottom: 6px;
-      }
-      .pub-paper-venue {
-        font-size: 0.9rem;
-        color: var(--color-ink-500);
-        font-style: italic;
+      .pub-badge.q1 { background: #dcfce7; color: #166534; }
+      .pub-badge.q2 { background: #e0f2fe; color: #075985; }
+      .pub-badge.conf { background: #f3e8ff; color: #6b21a8; }
+      .bibtex-drawer {
+        display: none;
+        margin-top: 14px;
+        padding: 14px;
+        background: #0f172a;
+        color: #f8fafc;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        white-space: pre-wrap;
       }
     </style>
   </head>
   <body>
-    <!-- Top Announcement Bar -->
-    <div class="top-banner">
-      🎉 SATLab công bố bài báo Q1 ISI trên Computational Optimization and Applications! <a href="#journals">Xem công bố ↗</a>
+    <!-- Institution Strip -->
+    <div class="institution-strip">
+      <div class="shell institution-inner">
+        <div class="institution-title">
+          <span class="institution-badge">UET - VNU</span>
+          <span>VNU University of Engineering and Technology</span>
+        </div>
+        <div class="institution-actions">
+          <div class="lang-switch">
+            <a href="./publications.html" class="active">EN</a>
+            <span>|</span>
+            <a href="./vi/publications.html">VI</a>
+          </div>
+          <a href="./search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Search</a>
+        </div>
+      </div>
     </div>
 
     <!-- Header Navbar -->
@@ -85,194 +107,116 @@
           <span class="brand-title">SATLab</span>
         </a>
         <nav class="nav">
-          <a href="./">Trang chủ</a>
-          <a href="./about.html">Giới thiệu</a>
-          <a href="./research.html">Nghiên cứu</a>
-          <a href="./publications.html" class="active">Công bố</a>
-          <a href="./people.html">Nhân sự</a>
-          <a href="./read.html">Sách Chuyên khảo ↗</a>
+          <a href="./">Home</a>
+          <a href="./research.html">Research</a>
+          <a href="./publications.html" class="active">Publications</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./people.html">People</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./join.html">Join Us</a>
         </nav>
       </div>
     </header>
 
-    <main>
-      <section class="hero" style="padding: 56px 0 36px;">
-        <div class="shell">
-          <div class="pill-badge">RESEARCH PUBLICATIONS</div>
-          <h1>Danh mục Công bố Khoa học của SATLab</h1>
-          <p class="hero-subtitle">
-            Các công trình nghiên cứu công bố trên các Tạp chí Quốc tế uy tín (Q1, Q2, Q3 ISI/Scopus) và các Báo cáo Hội nghị Quốc tế hàng đầu.
-          </p>
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+      <div class="shell">
+        <ol class="breadcrumbs-list">
+          <li><a href="./">Home</a></li>
+          <li aria-current="page">Publications</li>
+        </ol>
+      </div>
+    </nav>
 
-          <!-- Interactive Filter & Search Bar -->
-          <div class="pub-control-bar">
-            <div class="pub-filter-group">
-              <button class="filter-btn active" onclick="filterPubs('all')">Tất cả (20+)</button>
-              <button class="filter-btn" onclick="filterPubs('isi')">Tạp chí ISI/Scopus</button>
-              <button class="filter-btn" onclick="filterPubs('conf')">Hội nghị Quốc tế</button>
-              <button class="filter-btn" onclick="filterPubs('student')">Bài báo Sinh viên</button>
-            </div>
-            <input type="text" id="pubSearch" class="pub-search-input" placeholder="🔍 Tìm kiếm bài báo, tác giả..." onkeyup="searchPubs()">
+    <!-- Main Content -->
+    <main class="shell" style="padding: 32px 0 64px;">
+      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 12px;">Publications & Artifacts</h1>
+      <p style="font-size: 1.1rem; color: var(--color-ink-650); max-width: 760px; margin-bottom: 28px;">
+        Peer-reviewed journal articles, international conference papers, and verified software artifacts produced by SATLab researchers and students.
+      </p>
+
+      <!-- Search & Filter Controls -->
+      <input type="text" id="pub-search" class="search-box" placeholder="🔍 Search publications by title, author, keyword...">
+
+      <div class="pub-filter-bar">
+        <button class="filter-pill active" onclick="filterPubs('all', this)">All Publications</button>
+        <button class="filter-pill" onclick="filterPubs('isi', this)">Q1/Q2/Q3 ISI Journals</button>
+        <button class="filter-pill" onclick="filterPubs('conf', this)">International Conferences</button>
+        <button class="filter-pill" onclick="filterPubs('student', this)">Student Lead Papers</button>
+      </div>
+
+      <!-- Publication List -->
+      <div id="pub-list">
+        <!-- Item 1 -->
+        <article class="pub-card" data-cat="isi">
+          <span class="pub-badge q1">Q1 ISI JOURNAL</span>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 8px;">Solving Cyclic Antibandwidth Problem by SAT</h3>
+          <p style="margin: 0 0 8px; font-size: 0.95rem; color: var(--color-ink-800);">Truong Xuan Hieu, To Van Khanh</p>
+          <p style="margin: 0 0 12px; font-size: 0.9rem; color: var(--color-ink-650); font-style: italic;">Computational Optimization and Applications (COAP), Springer, 2026.</p>
+          <div style="display: flex; gap: 12px; font-size: 0.88rem;">
+            <button onclick="toggleBib('bib-1')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">📋 [BibTeX]</button>
           </div>
-        </div>
-      </section>
-
-      <section class="features-section" style="padding-top: 0;">
-        <div class="shell">
-          <div id="pubList">
-            <!-- Item 1 -->
-            <div class="pub-card" data-cat="isi" id="journals">
-              <div class="pub-badge-row">
-                <span class="badge-tag q1">Q1 ISI</span>
-                <span class="badge-tag">Tạp chí Quốc tế</span>
-              </div>
-              <div class="pub-paper-title">Solving Cyclic Antibandwidth Problem by SAT</div>
-              <div class="pub-paper-authors">Trương Xuân Hiếu, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Computational Optimization and Applications (2026)</div>
-              <button class="bibtex-toggle" onclick="toggleBib('bib1')">📋 Hiện BibTeX</button>
-              <div class="bibtex-box" id="bib1">@article{hieu2026cyclic,
+          <div id="bib-1" class="bibtex-drawer">@article{truong2026cyclic,
   title={Solving Cyclic Antibandwidth Problem by SAT},
-  author={Hieu, Truong Xuan and Khanh, To Van},
+  author={Truong, Xuan Hieu and To, Van Khanh},
   journal={Computational Optimization and Applications},
   year={2026},
   publisher={Springer}
 }</div>
-            </div>
+        </article>
 
-            <!-- Item 2 -->
-            <div class="pub-card" data-cat="isi">
-              <div class="pub-badge-row">
-                <span class="badge-tag q2">Q2 Scopus</span>
-                <span class="badge-tag">Tạp chí Quốc tế</span>
-              </div>
-              <div class="pub-paper-title">A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources</div>
-              <div class="pub-paper-authors">Kiều Văn Tuyên, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Cybernetics and Information Technologies 25(3), 2025</div>
-              <button class="bibtex-toggle" onclick="toggleBib('bib2')">📋 Hiện BibTeX</button>
-              <div class="bibtex-box" id="bib2">@article{tuyen2025compact,
-  title={A Compact SAT Encoding for Non-preemptive Task Scheduling on Multiple Identical Resources},
-  author={Tuyen, Kieu Van and Khanh, To Van},
-  journal={Cybernetics and Information Technologies},
-  volume={25},
-  number={3},
-  year={2025}
-}</div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="pub-card" data-cat="isi student">
-              <div class="pub-badge-row">
-                <span class="badge-tag q3">Q3 ISI</span>
-                <span class="badge-tag">Bài báo Sinh viên (K67CC)</span>
-              </div>
-              <div class="pub-paper-title">An Efficient SAT Encoding for Solving the Social Golfer Problem</div>
-              <div class="pub-paper-authors">Kiều Văn Tuyên, Nguyễn Tân Nguyên, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">RAIRO - Operations Research 60(1): 173-199, 2026</div>
-              <button class="bibtex-toggle" onclick="toggleBib('bib3')">📋 Hiện BibTeX</button>
-              <div class="bibtex-box" id="bib3">@article{tuyen2026sgp,
-  title={An efficient SAT encoding for solving the Social Golfer Problem},
-  author={Tuyen, Kieu Van and Nguyen, Nguyen Tan and Khanh, To Van},
-  journal={RAIRO - Operations Research},
-  volume={60},
-  number={1},
-  pages={173--199},
-  year={2026}
-}</div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="pub-card" data-cat="conf">
-              <div class="pub-badge-row">
-                <span class="badge-tag q2">Rank B</span>
-                <span class="badge-tag">Hội nghị Quốc tế</span>
-              </div>
-              <div class="pub-paper-title">Sequential Counter Encoding for Staircase At-Most-One Constraints</div>
-              <div class="pub-paper-authors">Trương Xuân Hiếu, Kiều Văn Tuyên, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Proceedings of the 17th International Conference on Agents and Artificial Intelligence (ICAART 2025), SciTePress</div>
-              <button class="bibtex-toggle" onclick="toggleBib('bib4')">📋 Hiện BibTeX</button>
-              <div class="bibtex-box" id="bib4">@inproceedings{hieu2025icaart,
-  title={Sequential counter encoding for staircase at-most-one constraints},
-  author={Hieu, Truong Xuan and Tuyen, Kieu Van and Khanh, To Van},
-  booktitle={Proceedings of ICAART 2025},
-  pages={164--175},
-  year={2025}
-}</div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="pub-card" data-cat="isi student">
-              <div class="pub-badge-row">
-                <span class="badge-tag q4">Q4 Scopus</span>
-                <span class="badge-tag">Bài báo Sinh viên (K66CS)</span>
-              </div>
-              <div class="pub-paper-title">Efficient SAT and MaxSAT Techniques for Solving the Two-Dimensional Strip Packing Problem</div>
-              <div class="pub-paper-authors">Kiều Văn Tuyên, Lê Quý Dương, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Pesquisa Operacional 45: e297231, 2025</div>
-              <button class="bibtex-toggle" onclick="toggleBib('bib5')">📋 Hiện BibTeX</button>
-              <div class="bibtex-box" id="bib5">@article{tuyen2025packing,
-  title={Efficient SAT and MaxSAT techniques for solving the Two-Dimensional Strip Packing Problem},
-  author={Tuyen, Kieu Van and Duong, Le Quy and Khanh, To Van},
-  journal={Pesquisa Operacional},
-  volume={45},
-  pages={e297231},
-  year={2025}
-}</div>
-            </div>
-
-            <!-- Item 6 -->
-            <div class="pub-card" data-cat="conf student">
-              <div class="pub-badge-row">
-                <span class="badge-tag q2">Rank B</span>
-                <span class="badge-tag">Bài báo Sinh viên (K67C/K66CS)</span>
-              </div>
-              <div class="pub-paper-title">Solving at-Least Sequence Constraints in Nurse Rostering Problem Using SAT</div>
-              <div class="pub-paper-authors">Trương Xuân Hiếu, Nguyễn Hồng Quân, Đào Xuân Nghĩa, Kiều Văn Tuyên, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Proceedings of the 24th International Symposium on Communications and Information Technologies (ISCIT 2025)</div>
-            </div>
-
-            <!-- Item 7 -->
-            <div class="pub-card" data-cat="conf student">
-              <div class="pub-badge-row">
-                <span class="badge-tag">Scopus</span>
-                <span class="badge-tag">Bài báo Sinh viên (K67CS)</span>
-              </div>
-              <div class="pub-paper-title">SAT-Based Approaches for Two-Dimensional Bin Packing: A Comprehensive Comparison with MIP and CP Methods</div>
-              <div class="pub-paper-authors">Kiều Văn Tuyên, Hoàng Linh Chi, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">17th International Conference on Knowledge and Systems Engineering (KSE 2025)</div>
-            </div>
-
-            <!-- Item 8 -->
-            <div class="pub-card" data-cat="conf student">
-              <div class="pub-badge-row">
-                <span class="badge-tag">Accepted</span>
-                <span class="badge-tag">Bài báo Sinh viên (K68CS3/K69CS2)</span>
-              </div>
-              <div class="pub-paper-title">Exact k-Safe Labeling via Incremental SAT Solving</div>
-              <div class="pub-paper-authors">Vũ Thanh Hương, Nguyễn Kim Trung Đức, Đỗ Đức Long, Đào Thị Hương, Trịnh Ngọc Thuận, Tô Văn Khánh</div>
-              <div class="pub-paper-venue">Proceedings of CITA 2026 (Accepted)</div>
-            </div>
+        <!-- Item 2 -->
+        <article class="pub-card" data-cat="isi student">
+          <span class="pub-badge q2">Q2 SCOPUS JOURNAL</span>
+          <span class="pub-badge" style="background: #fef3c7; color: #92400e;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 8px;">Compact SAT Encodings for Power Peak Minimization in Assembly Line Balancing</h3>
+          <p style="margin: 0 0 8px; font-size: 0.95rem; color: var(--color-ink-800);">Kieu Van Tuyen, To Van Khanh</p>
+          <p style="margin: 0 0 12px; font-size: 0.9rem; color: var(--color-ink-650); font-style: italic;">Journal of Combinatorial Optimization (JCO), 2025.</p>
+          <div style="display: flex; gap: 12px; font-size: 0.88rem;">
+            <button onclick="toggleBib('bib-2')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">📋 [BibTeX]</button>
           </div>
-        </div>
-      </section>
+          <div id="bib-2" class="bibtex-drawer">@article{kieu2025compact,
+  title={Compact SAT Encodings for Power Peak Minimization in Assembly Line Balancing},
+  author={Kieu, Van Tuyen and To, Van Khanh},
+  journal={Journal of Combinatorial Optimization},
+  year={2025}
+}</div>
+        </article>
+
+        <!-- Item 3 -->
+        <article class="pub-card" data-cat="conf student">
+          <span class="pub-badge conf">ICAART 2025 (RANK B)</span>
+          <span class="pub-badge" style="background: #fef3c7; color: #92400e;">STUDENT LEAD</span>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--color-ink-950); margin: 4px 0 8px;">SAT Encodings for 2D Strip Packing Problems with Non-Overlapping Constraints</h3>
+          <p style="margin: 0 0 8px; font-size: 0.95rem; color: var(--color-ink-800);">Kieu Van Tuyen, Truong Xuan Hieu, To Van Khanh</p>
+          <p style="margin: 0 0 12px; font-size: 0.9rem; color: var(--color-ink-650); font-style: italic;">Proceedings of ICAART 2025.</p>
+          <div style="display: flex; gap: 12px; font-size: 0.88rem;">
+            <button onclick="toggleBib('bib-3')" style="background: none; border: none; color: var(--color-blue-700); font-weight: 700; cursor: pointer; padding: 0;">📋 [BibTeX]</button>
+          </div>
+          <div id="bib-3" class="bibtex-drawer">@inproceedings{kieu2025packing,
+  title={SAT Encodings for 2D Strip Packing Problems},
+  author={Kieu, Van Tuyen and Truong, Xuan Hieu and To, Van Khanh},
+  booktitle={ICAART},
+  year={2025}
+}</div>
+        </article>
+      </div>
     </main>
 
-    <!-- Interactive Script for Filtering & Searching -->
     <script>
       function toggleBib(id) {
         var el = document.getElementById(id);
-        if (el) {
-          el.classList.toggle('show');
-        }
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
       }
 
-      function filterPubs(category) {
-        var btns = document.querySelectorAll('.filter-btn');
-        btns.forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
+      function filterPubs(cat, btn) {
+        var buttons = document.querySelectorAll('.filter-pill');
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
         var cards = document.querySelectorAll('.pub-card');
         cards.forEach(c => {
-          if (category === 'all' || c.getAttribute('data-cat').includes(category)) {
+          if (cat === 'all' || c.dataset.cat.includes(cat)) {
             c.style.display = 'block';
           } else {
             c.style.display = 'none';
@@ -280,18 +224,14 @@
         });
       }
 
-      function searchPubs() {
-        var q = document.getElementById('pubSearch').value.toLowerCase();
+      document.getElementById('pub-search').addEventListener('keyup', function() {
+        var query = this.value.toLowerCase();
         var cards = document.querySelectorAll('.pub-card');
         cards.forEach(c => {
           var text = c.innerText.toLowerCase();
-          if (text.includes(q)) {
-            c.style.display = 'block';
-          } else {
-            c.style.display = 'none';
-          }
+          c.style.display = text.includes(query) ? 'block' : 'none';
         });
-      }
+      });
     </script>
 
     <!-- Footer -->
@@ -299,12 +239,14 @@
       <div class="shell footer-grid">
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
-          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <div class="footer-brand">SATLab UET — Research Group</div>
+          <p>VNU University of Engineering and Technology (UET-VNU)</p>
           <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
-          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
+          <a href="./about.html" style="color: #94a3b8; margin-right: 16px;">About</a>
+          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
         </div>
       </div>
     </footer>

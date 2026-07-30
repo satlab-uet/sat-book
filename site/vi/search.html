@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102536">
+    <meta name="description" content="Tìm kiếm thông tin tại SATLab UET — Hướng nghiên cứu, bài báo, dự án, nhân sự và tài nguyên.">
+    <title>Tìm kiếm | SATLab UET</title>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../assets/css/main.css">
+  </head>
+  <body>
+    <!-- Institution Strip -->
+    <div class="institution-strip">
+      <div class="shell institution-inner">
+        <div class="institution-title">
+          <span class="institution-badge">UET - VNU</span>
+          <span>Trường Đại học Công nghệ — ĐHQGHN</span>
+        </div>
+        <div class="institution-actions">
+          <div class="lang-switch">
+            <a href="../search.html">EN</a>
+            <span>|</span>
+            <a href="./search.html" class="active">VI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="./">
+          <img src="../assets/images/satlab.png" alt="SATLab Logo" class="brand-logo-img">
+          <span class="brand-title">SATLab</span>
+        </a>
+        <nav class="nav">
+          <a href="./">Trang chủ</a>
+          <a href="./research.html">Nghiên cứu</a>
+          <a href="./publications.html">Công bố</a>
+          <a href="./projects.html">Dự án</a>
+          <a href="./people.html">Nhân sự</a>
+          <a href="./resources.html">Tài nguyên</a>
+          <a href="./join.html">Cơ hội tham gia</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell" style="padding: 40px 0 80px; max-width: 800px;">
+      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 20px;">Tìm kiếm thông tin</h1>
+      <input type="text" id="global-search-input-vi" class="search-box" style="max-width: 100%; font-size: 1.1rem; padding: 14px 20px;" placeholder="Nhập từ khóa (ví dụ: SAT, lập lịch, đóng gói, Tuyên)..." autofocus>
+
+      <div id="search-results-output-vi" style="margin-top: 32px;">
+        <p style="color: var(--color-ink-650);">Nhập từ khóa ở trên để tìm kiếm bài báo, hướng nghiên cứu, dự án và nhân sự.</p>
+      </div>
+    </main>
+
+    <script>
+      var searchIndexVi = [
+        { title: "Cơ chế Mã hóa & Bộ giải", type: "Hướng nghiên cứu", url: "./research.html", text: "New Sequential Counter NSC AMO AMK ALK Pseudo-Boolean SCLib" },
+        { title: "Lập lịch & Cân bằng Dây chuyền", type: "Hướng nghiên cứu", url: "./research.html", text: "Tối ưu đỉnh công suất SALBP JSSP MaxSAT-DDD" },
+        { title: "Đóng gói 2D & Tối ưu Không gian", type: "Hướng nghiên cứu", url: "./research.html", text: "2D Strip Packing Bin Packing Cutting Stock" },
+        { title: "Gán nhãn Đồ thị & Phân bổ Tần số", type: "Hướng nghiên cứu", url: "./research.html", text: "Antibandwidth Cyclic Antibandwidth Radio-k Labeling MO-FAP" },
+        { title: "Solving Cyclic Antibandwidth Problem by SAT", type: "Bài báo khoa học", url: "./publications.html", text: "Trương Xuân Hiếu Tô Văn Khánh COAP Springer 2026 Q1 ISI" },
+        { title: "Compact SAT Encodings for Power Peak Minimization", type: "Bài báo khoa học", url: "./publications.html", text: "Kiều Văn Tuyên Tô Văn Khánh JCO 2025 Q2 Scopus" },
+        { title: "Sách Chuyên khảo SAT Book", type: "Tài nguyên", url: "../read.html", text: "104 trang 12 chương sách chuyên khảo đọc trực tuyến" },
+        { title: "TS. Tô Văn Khánh", type: "Nhân sự", url: "./people.html", text: "Trưởng nhóm SATLab UET" },
+        { title: "Kiều Văn Tuyên", type: "Nhân sự", url: "./people.html", text: "Nghiên cứu sinh Lập lịch Đóng gói 2D" },
+        { title: "Trương Xuân Hiếu", type: "Nhân sự", url: "./people.html", text: "Nghiên cứu viên Antibandwidth SCLib" }
+      ];
+
+      document.getElementById('global-search-input-vi').addEventListener('keyup', function() {
+        var query = this.value.toLowerCase().trim();
+        var out = document.getElementById('search-results-output-vi');
+        if (!query) {
+          out.innerHTML = '<p style="color: var(--color-ink-650);">Nhập từ khóa ở trên để tìm kiếm bài báo, hướng nghiên cứu, dự án và nhân sự.</p>';
+          return;
+        }
+
+        var matches = searchIndexVi.filter(item => (item.title + " " + item.type + " " + item.text).toLowerCase().includes(query));
+
+        if (matches.length === 0) {
+          out.innerHTML = '<p style="color: var(--color-ink-650);">Không tìm thấy kết quả nào phù hợp với "<strong>' + query + '</strong>".</p>';
+          return;
+        }
+
+        var htmlOut = '<div style="display: flex; flex-direction: column; gap: 16px;">';
+        matches.forEach(m => {
+          htmlOut += '<article style="background: #ffffff; border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 18px 24px;">' +
+            '<span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--color-blue-700); text-transform: uppercase;">' + m.type + '</span>' +
+            '<h3 style="margin: 4px 0 6px; font-size: 1.1rem;"><a href="' + m.url + '">' + m.title + ' ↗</a></h3>' +
+            '<p style="margin: 0; font-size: 0.9rem; color: var(--color-ink-650);">' + m.text + '</p>' +
+            '</article>';
+        });
+        htmlOut += '</div>';
+        out.innerHTML = htmlOut;
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <img src="../assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
+          <div class="footer-brand">SATLab UET — Phòng nghiên cứu Biểu diễn SAT</div>
+          <p>© 2026 SATLab UET. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

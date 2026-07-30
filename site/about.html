@@ -1,17 +1,38 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#1e3a8a">
-    <title>Giới thiệu SATLab | Phòng nghiên cứu Biểu diễn SAT & Tối ưu hóa Tổ hợp</title>
+    <meta name="theme-color" content="#102536">
+    <meta name="description" content="About SATLab UET — Satisfiability & Combinatorial Optimization Research Group at VNU University of Engineering and Technology.">
+    <title>About SATLab | SATLab UET</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="alternate" hreflang="en" href="https://satlab-uet.github.io/satlab/about.html">
+    <link rel="alternate" hreflang="vi" href="https://satlab-uet.github.io/satlab/vi/about.html">
   </head>
   <body>
+    <!-- Institution Strip -->
+    <div class="institution-strip">
+      <div class="shell institution-inner">
+        <div class="institution-title">
+          <span class="institution-badge">UET - VNU</span>
+          <span>VNU University of Engineering and Technology</span>
+        </div>
+        <div class="institution-actions">
+          <div class="lang-switch">
+            <a href="./about.html" class="active">EN</a>
+            <span>|</span>
+            <a href="./vi/about.html">VI</a>
+          </div>
+          <a href="./search.html" style="color: #cbd5e1; font-size: 0.82rem;">🔍 Search</a>
+        </div>
+      </div>
+    </div>
+
     <!-- Header Navbar -->
     <header class="site-header">
       <div class="shell header-inner">
@@ -20,63 +41,54 @@
           <span class="brand-title">SATLab</span>
         </a>
         <nav class="nav">
-          <a href="./">Trang chủ</a>
-          <a href="./about.html" class="active">Giới thiệu</a>
-          <a href="./research.html">Nghiên cứu</a>
-          <a href="./publications.html">Công bố</a>
-          <a href="./people.html">Nhân sự</a>
-          <a href="./read.html">Sách Chuyên khảo ↗</a>
+          <a href="./">Home</a>
+          <a href="./research.html">Research</a>
+          <a href="./publications.html">Publications</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./people.html">People</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./join.html">Join Us</a>
         </nav>
       </div>
     </header>
 
-    <main>
-      <section class="hero" style="padding: 56px 0 40px;">
-        <div class="shell">
-          <div class="pill-badge">ABOUT SATLAB</div>
-          <h1>Giới thiệu Phòng nghiên cứu SATLab</h1>
-          <p class="hero-subtitle">
-            SATLab (SAT & Combinatorial Optimization Research Group) thuộc Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU), chuyên nghiên cứu lý thuyết biểu diễn logic mệnh đề và phát triển các thuật toán giải chính xác cho các bài toán tối ưu hóa tổ hợp phức tạp.
-          </p>
-        </div>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumbs-nav" aria-label="Breadcrumb">
+      <div class="shell">
+        <ol class="breadcrumbs-list">
+          <li><a href="./">Home</a></li>
+          <li aria-current="page">About</li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="shell" style="padding: 32px 0 64px; max-width: 800px;">
+      <h1 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-ink-950); margin-bottom: 16px;">About SATLab UET</h1>
+      <p style="font-size: 1.15rem; color: var(--color-ink-800); line-height: 1.7; margin-bottom: 32px;">
+        SATLab is a specialized academic research group focused on Propositional Satisfiability (SAT), MaxSAT, Pseudo-Boolean encodings, and exact decision algorithms for hard combinatorial optimization problems at VNU University of Engineering and Technology (UET-VNU).
+      </p>
+
+      <section style="margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); margin-bottom: 12px;">Institutional Affiliation</h2>
+        <p style="font-size: 1.05rem; color: var(--color-ink-650); line-height: 1.7;">
+          SATLab is affiliated with the Faculty of Information Technology, VNU University of Engineering and Technology (UET-VNU), Hanoi, Vietnam.
+        </p>
       </section>
 
-      <section class="features-section">
-        <div class="shell">
-          <div class="section-header" style="text-align: left; max-width: 100%;">
-            <div class="section-tag">MISSION & VISION</div>
-            <h2 class="section-title">Sứ mệnh và Tầm nhìn</h2>
-            <p class="section-desc" style="max-width: 840px;">
-              Tối ưu hóa tổ hợp là trái tim của nhiều hệ thống AI, công nghiệp sản xuất, logistics và an ninh mạng. SATLab tiên phong xây dựng nền tảng giải chính xác quy mô lớn dựa trên SAT/MaxSAT, vượt qua ranh giới của các bộ giải thương mại MIP/CPLEX truyền thống.
-            </p>
-          </div>
+      <section style="margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); margin-bottom: 12px;">Open Science & Reproducibility Principles</h2>
+        <p style="font-size: 1.05rem; color: var(--color-ink-650); line-height: 1.7;">
+          We adhere to strict open science standards: all publications are accompanied by open-source code repositories, verified benchmarks, and reproducible solver configurations whenever licensing permits.
+        </p>
+      </section>
 
-          <div class="features-grid" style="margin-top: 40px;">
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              </div>
-              <h3>Ba trụ cột Hội tụ</h3>
-              <p>Nghiên cứu của SATLab hội tụ 3 truyền thống: <em>Lập luận mệnh đề (Propositional Reasoning)</em>, <em>Lập trình ràng buộc (Constraint Programming)</em> và <em>Tối ưu hóa toán học (Mathematical Optimization)</em>.</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              </div>
-              <h3>Kỹ nghệ Phần mềm Độc lập</h3>
-              <p>Phát triển hệ sinh thái thư viện SCLib và công cụ kiểm thử tự động, cam kết ứng dụng phương pháp kỹ nghệ phần mềm bài bản trong mọi nghiên cứu thuật toán.</p>
-            </div>
-
-            <div class="feature-card">
-              <div class="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <h3>Đào tạo & Lifelong Learning</h3>
-              <p>Môi trường nghiên cứu năng động cho Sinh viên cử nhân, Học viên cao học và Nghiên cứu sinh rèn luyện tư duy học tập suốt đời (Lifelong Learning) để làm chủ kỷ nguyên AI.</p>
-            </div>
-          </div>
-        </div>
+      <section>
+        <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink-950); margin-bottom: 12px;">Contact & Location</h2>
+        <p style="font-size: 1.05rem; color: var(--color-ink-650); line-height: 1.7;">
+          <strong>Address:</strong> E3 Building, 144 Xuan Thuy Road, Cau Giay District, Hanoi, Vietnam.<br>
+          <strong>Email:</strong> <code>khanhtv@vnu.edu.vn</code>
+        </p>
       </section>
     </main>
 
@@ -85,12 +97,13 @@
       <div class="shell footer-grid">
         <div>
           <img src="./assets/images/satlab.png" alt="SATLab Logo" class="footer-logo">
-          <div class="footer-brand">SATLab — SAT & Combinatorial Optimization Research Group</div>
-          <p>Trường Đại học Công nghệ — Đại học Quốc gia Hà Nội (UET-VNU)</p>
+          <div class="footer-brand">SATLab UET — Research Group</div>
+          <p>VNU University of Engineering and Technology (UET-VNU)</p>
           <p style="margin-top: 6px; font-size: 0.88rem;">© 2026 SATLab UET. All rights reserved.</p>
         </div>
         <div>
-          <a href="./read.html" class="btn btn-outline">📖 Đọc Sách HTML ↗</a>
+          <a href="./accessibility.html" style="color: #94a3b8; margin-right: 16px;">Accessibility</a>
+          <a href="./privacy.html" style="color: #94a3b8; margin-right: 16px;">Privacy</a>
         </div>
       </div>
     </footer>

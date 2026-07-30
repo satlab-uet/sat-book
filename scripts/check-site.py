@@ -110,8 +110,8 @@ def main() -> int:
         parser.feed(html_path.read_text(encoding="utf-8"))
         parsed_pages[html_path.resolve()] = parser
 
-        if parser.lang != "vi":
-            errors.append(f"{html_path}: expected html lang='vi'")
+        if parser.lang not in ("vi", "en"):
+            errors.append(f"{html_path}: expected html lang='en' or lang='vi'")
         if parser.h1_count != 1:
             errors.append(f"{html_path}: expected one h1, found {parser.h1_count}")
         if not parser.has_title:
