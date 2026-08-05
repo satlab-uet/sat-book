@@ -59,7 +59,7 @@ BMCP & Nhiều màu/đỉnh & Cận ô màu/nhu cầu & MIP, tìm kiếm cục b
 \section{Phân loại trước khi biểu diễn}
 
 \begin{center}
-\captionof{table}{Phân biệt ngữ nghĩa của ABP, CABP, BCP và BMCP.}
+\captionof{table}{Phân biệt ngữ nghĩa của ABP, CABP, No-hole Anti-\(k\)-labeling, BCP và BMCP.}
 \label{tab:distance-semantics}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries\sffamily}p{.24\textwidth}YYY@{}}
 \toprule
@@ -69,6 +69,8 @@ Antibandwidth & Hoán vị \(1,\ldots,n\) &
 \(\card{f(u)-f(v)}\ge k\) & Tối đa \(k\)\\
 Antibandwidth tuần hoàn & Hoán vị trên vòng &
 \(D_c(f(u),f(v))\ge k\) & Tối đa \(k\)\\
+No-hole Anti-\(k\)-labeling & Ánh xạ toàn ánh \(\set{1,\ldots,k}\) (\(k<n\)) &
+\(\card{\psi(u)-\psi(v)}\ge w\) và \(\sum_i x_{ij}\ge 1\) & Tối đa \(w\)\\
 Tô màu theo bandwidth & Một màu mỗi đỉnh &
 \(\card{c(u)-c(v)}\ge d_{uv}\) & Tối thiểu độ trải\\
 Tô đa màu theo bandwidth & \(w(u)\) màu mỗi đỉnh &
@@ -265,6 +267,119 @@ và khai thác cửa sổ tuần hoàn cùng đối xứng của vòng. Một t�
 chuẩn bị cho SAT Competition 2026 \parencite{truong2026competition}; về mặt
 thiết kế, giá trị của bộ này là tách bài toán tối ưu thành chuỗi bài toán
 \SAT/\UNSAT có cận \(k\) rõ ràng.
+\end{resultbox}
+
+\section{Bài toán No-hole Anti-\(k\)-labeling và nén khoảng cấm bằng biến tiền tố}
+
+\index{No-hole Anti-k-labeling}\index{anti-k-labeling}
+\index{prefix variables}\index{forbidden interval}
+
+\subsection{Bài toán gán nhãn phi song ánh và điều kiện toàn ánh}
+
+Trong quản lý phổ tần số và tài nguyên mạng không dây, số lượng kênh truyền dẫn khả thi \(k\) thường nhỏ hơn đáng kể so với số lượng trạm phát sóng \(n = \card{V}\) (\(k < n\)) do các giới hạn về mặt pháp lý và kỹ thuật. Bối cảnh này dẫn tới bài toán \emph{Anti-\(k\)-labeling} \parencite{guan2019anti}, một mở rộng phi song ánh tự nhiên của bài toán Antibandwidth cổ điển (nơi \(k=n\)). Khi \(k < n\), phép gán nhãn không còn là một hoán vị mà trở thành một phép phân hoạch các đỉnh vào các lớp nhãn.
+
+Biến thể \emph{No-hole Anti-\(k\)-labeling} \parencite{wang2021anti,hai2026nohole} yêu cầu hàm gán nhãn \(\psi: V \to \set{1,\ldots,k}\) phải là một phép ánh xạ \emph{toàn ánh} (\emph{surjective mapping}), tức là mọi nhãn trong tập \(\set{1,\ldots,k}\) đều phải được gán cho ít nhất một đỉnh (không có nhãn trống/lỗ hổng). Mục tiêu của bài toán là tìm hàm gán nhãn \(\psi\) sao cho khoảng cách giữa hai đỉnh kề nhau là lớn nhất:
+\begin{equation}
+  \lambda_k^{nh}(G) = \max_{\psi} \min_{(u,v)\in E} \card{\psi(u) - \psi(v)}.
+  \label{eq:nohole-objective}
+\end{equation}
+
+Mô hình quy hoạch tuyến tính số nguyên (ILP) cho bài toán quyết định ``liệu có tồn tại phép gán nhãn toàn ánh thỏa mãn khoảng cách tối thiểu \(w\) không'' sử dụng các biến nhị phân \(x_{ij} = 1 \iff \psi(i) = j\):
+\begin{align}
+  \sum_{j=1}^k x_{ij} &= 1 && \forall i\in\set{1,\ldots,n}, \label{eq:nohole-ilp-vertex}\\
+  \sum_{i=1}^n x_{ij} &\ge 1 && \forall j\in\set{1,\ldots,k}, \label{eq:nohole-ilp-nohole}\\
+  x_{uj} + \sum_{j'=\max(1, j-w+1)}^{\min(k, j+w-1)} x_{vj'} &\le 1 && \forall (u,v)\in E, j\in\set{1,\ldots,k}. \label{eq:nohole-ilp-distance}
+\end{align}
+Ràng buộc~\eqref{eq:nohole-ilp-vertex} bảo đảm mỗi đỉnh nhận đúng một nhãn; Ràng buộc~\eqref{eq:nohole-ilp-nohole} bảo đảm tính toàn ánh (\emph{no-hole}); và Ràng buộc~\eqref{eq:nohole-ilp-distance} cấm hai đỉnh kề nhau nhận các nhãn thuộc khoảng cấm \((j-w, j+w)\).
+
+\subsection{Từ bùng nổ mệnh đề từng cặp đến mã hóa khoảng bằng biến tiền tố}
+
+Chuyển trực tiếp Ràng buộc khoảng cách~\eqref{eq:nohole-ilp-distance} sang \CNF bằng phép mã hóa từng cặp (Direct Encoding - DE) sinh ra họ mệnh đề xung đột:
+\begin{equation}
+  \neg x_{ui} \lor \neg x_{vj} \qquad \forall (u,v)\in E, i\in\set{1,\dots,k}, j\in [\max(1,i-w+1),\min(k,i-w-1)].
+  \label{eq:nohole-direct-cnf}
+\end{equation}
+Số lượng mệnh đề của DE phát triển theo cấp số \(O(\card{E}\cdot k\cdot w)\). Khi khoảng cách mục tiêu \(w\) tăng lên, số mệnh đề khoảng cách bùng nổ mạnh mẽ, gây tắc nghẽn bộ nhớ và làm suy giảm hiệu năng của bộ giải SAT.
+
+Để giải quyết triệt để nút thắt này, phép mã hóa \mbox{\textnormal{\textsc{PSE}}} (\emph{Proposed SAT Encoding}) \parencite{hai2026nohole} giới thiệu các biến phụ tiền tố \(l_{ij} \in \set{0,1}\) với ngữ nghĩa:
+\[
+  l_{ij} = 1 \iff \psi(i) \le j \iff \exists k' \le j : x_{ik'} = 1.
+\]
+Tính đơn điệu tự nhiên của biến tiền tố đòi hỏi \(l_{ij} \to l_{i(j+1)}\) cho mọi \(j < k\). Hệ thống mệnh đề liên kết biến gán gốc \(x_{ij}\) và biến tiền tố \(l_{ij}\) được định nghĩa bởi:
+\begin{align}
+  x_{ij} &\to l_{ij} && \forall i\in\set{1,\ldots,n}, j\in\set{1,\ldots,k}, \label{eq:nohole-link-1}\\
+  l_{ij} &\to l_{i(j+1)} && \forall i\in\set{1,\ldots,n}, j\in\set{1,\ldots,k-1}, \label{eq:nohole-link-2}\\
+  \neg x_{i1} &\to \neg l_{i1} && \forall i\in\set{1,\ldots,n}, \label{eq:nohole-link-3}\\
+  (\neg x_{ij} \land \neg l_{i(j-1)}) &\to \neg l_{ij} && \forall i\in\set{1,\ldots,n}, j\in\set{2,\ldots,k}, \label{eq:nohole-link-4}\\
+  x_{ij} &\to \neg l_{i(j-1)} && \forall i\in\set{1,\ldots,n}, j\in\set{2,\ldots,k}. \label{eq:nohole-link-5}
+\end{align}
+
+Nhờ cấu trúc biến tiền tố, toàn bộ khoảng cấm \((j-w, j+w)\) giữa hai đỉnh kề nhau \((u,v)\in E\) được nén lại chỉ trong **đúng một mệnh đề kéo theo đơn duy nhất**:
+\begin{equation}
+  x_{uj} \to \left( l_{v, \max(1, j-w)} \lor \neg l_{v, \min(k, j+w-1)} \right) \qquad \forall (u,v)\in E, j\in\set{1,\ldots,k}.
+  \label{eq:nohole-prefix-distance}
+\end{equation}
+Mệnh đề~\eqref{eq:nohole-prefix-distance} khẳng định rằng: nếu đỉnh \(u\) nhận nhãn \(j\), thì đỉnh kề \(v\) bắt buộc phải nhận nhãn nhỏ hơn/bằng \(j-w\) (thỏa mãn literal \(l_{v, \max(1,j-w)}\)) hoặc phải nhận nhãn lớn hơn \(j+w-1\) (thỏa mãn literal \(\neg l_{v, \min(k,j+w-1)}\)). Điều này tự động loại bỏ tất cả các nhãn nằm trong khoảng cấm \([j-w+1, j+w-1]\) mà không cần liệt kê từng cặp nhãn vi phạm.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
+  %--- Direct Encoding ---
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (0,3.5) {(a) Phép mã hóa từng cặp (Direct Encoding)};
+  \node[anchor=east,font=\rmfamily\small] at (0.6,2.1) {$x_{u,3}=1 \implies$};
+  \foreach \j/\v/\c in {1/1/PaleTeal, 2/2/PaleGold, 3/3/PaleGold, 4/4/PaleGold, 5/5/PaleTeal} {
+    \draw[satbox,fill=\c] (0.8+\j*1.1, 1.75) rectangle +(0.8,0.7);
+    \node[font=\rmfamily\small] at (0.8+\j*1.1+0.4, 2.1) {$\v$};
+  }
+  \node[anchor=west,font=\rmfamily\small,text=Gold!80!black] at (0.8, 0.8) {Liệt kê 3 mệnh đề cấm độc lập: $\neg x_{v,2}$, $\neg x_{v,3}$, $\neg x_{v,4}$};
+
+  %--- Separator ---
+  \draw[Rule,thick] (7.2,0.1)--(7.2,3.6);
+
+  %--- Proposed Prefix Encoding ---
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (7.8,3.5) {(b) Phép mã hóa tiền tố khoảng cấm (PSE)};
+  \node[anchor=east,font=\rmfamily\small] at (8.4,2.1) {$x_{u,3}=1 \implies$};
+  
+  \draw[satbox,fill=PaleTeal,draw=Teal,thick] (8.6,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (9.0,2.1) {$1$};
+  \node[anchor=south,font=\rmfamily\small,text=Teal] at (9.0,2.55) {$l_{v,1}=1$};
+
+  \draw[satbox,fill=SoftGray,dashed] (9.6,1.75) rectangle +(3.0,0.7);
+  \node[font=\rmfamily\small,text=black!60] at (11.1,2.1) {Khoảng cấm $[2, 4]$};
+
+  \draw[satbox,fill=PaleTeal,draw=Teal,thick] (12.8,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (13.2,2.1) {$5$};
+  \node[anchor=south,font=\rmfamily\small,text=Teal] at (13.2,2.55) {$\neg l_{v,4}=1$};
+
+  \node[anchor=west,font=\rmfamily\small,text=Teal] at (8.6,0.8) {Một mệnh đề đơn duy nhất: $x_{u,3} \to (l_{v,1} \lor \neg l_{v,4})$};
+\end{tikzpicture}
+\caption{So sánh cơ chế nén khoảng cấm khi $k=5, w=2$: (a) Phép mã hóa từng cặp liệt kê $O(w)$ mệnh đề; (b) Phép mã hóa tiền tố PSE loại toàn bộ khoảng cấm bằng một mệnh đề kéo theo duy nhất.}
+\label{fig:nohole-prefix-interval}
+\end{figure}
+
+\begin{proposition}[Độ phức tạp và tính đúng đắn của PSE]
+\label{prop:nohole-pse-complexity}
+Phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} biểu diễn chính xác bài toán No-hole Anti-\(k\)-labeling. Tổng số biến nhị phân là \(2nk\), tổng số mệnh đề khoảng cách là \(2\card{E}k\), và các mệnh đề liên kết là \(n(4k-2)\). Phép mã hóa hoàn toàn triệt tiêu sự phụ thuộc của số mệnh đề vào tham số khoảng cách mục tiêu \(w\).
+\end{proposition}
+
+\begin{proof}
+Mỗi đỉnh \(i\) có \(k\) biến gán gốc \(x_{ij}\) và \(k\) biến tiền tố \(l_{ij}\), tổng cộng \(2nk\) biến. Các Mệnh đề~\eqref{eq:nohole-link-1}--\eqref{eq:nohole-link-5} bảo đảm ngữ nghĩa \(l_{ij} = \sum_{k'\le j}x_{ik'}\) và ép buộc đỉnh \(i\) nhận đúng một nhãn mà không cần thêm các mệnh đề \textsc{ExactlyOne} bổ sung. Mệnh đề khoảng cách~\eqref{eq:nohole-prefix-distance} chỉ tạo ra 2 mệnh đề cho mỗi cặp cạnh định hướng và nhãn \(j\), cho tổng số \(2\card{E}k\) mệnh đề.
+\end{proof}
+
+\subsection{Phá vỡ đối xứng phản xạ và kết quả thực nghiệm}
+
+Không gian nghiệm của bài toán No-hole Anti-\(k\)-labeling chứa đối xứng phản xạ: nếu \(\psi(v)\) là một nghiệm hợp lệ, thì nghiệm đối xứng \(\psi'(v) = k + 1 - \psi(v)\) cũng hợp lệ và giữ nguyên khoảng cách \(\card{\psi'(u) - \psi'(v)} = \card{\psi(u) - \psi(v)}\) \parencite{hai2026nohole}. Để phá vỡ đối xứng này và thu hẹp không gian tìm kiếm, phép biểu diễn cố định một đỉnh chốt \(p\) (thường chọn đỉnh có chỉ số 0) thuộc nửa dưới miền nhãn:
+\begin{equation}
+  \bigwedge_{i=\lceil k/2 \rceil + 1}^k \neg x_{pi}.
+  \label{eq:nohole-symmetry-breaking}
+\end{equation}
+
+\begin{resultbox}{Kết quả tiêu biểu cho No-hole Anti-\(k\)-labeling}
+Trên 23 bộ dữ liệu chuẩn Harwell--Boeing \parencite{hai2026nohole}:
+\begin{itemize}
+  \item Phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} kết hợp với bộ giải song song PAINLESS giải thành công \textbf{100\% các bài toán}, vượt trội hoàn toàn so với mô hình \mbox{\textnormal{\textsc{DE}}} (bị bùng nổ mệnh đề và không tìm được nghiệm khả thi trên 3 bài toán lớn U, V, X trong thời gian 1800 giây).
+  \item So với các công cụ thương mại hàng đầu đại diện cho MIP (Gurobi, CPLEX) và CP (CPLEX CP)---vốn hoàn toàn thất bại không tìm được bất kỳ nghiệm khả thi nào trên 8 bài toán quy mô lớn từ M đến X---phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} cải thiện trung bình \textbf{19\%} chất lượng nghiệm mục tiêu và giảm trên \textbf{82\%} thời gian chạy trên các bài toán giải được.
+\end{itemize}
 \end{resultbox}
 
 \section{Tô màu theo bandwidth}
