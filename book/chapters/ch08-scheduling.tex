@@ -38,12 +38,12 @@ trong lập lịch nhân viên thành các mệnh đề mềm
 \toprule
 Mô hình & Trạng thái thời gian & Cơ chế tài nguyên & Cận chủ đạo\\
 \midrule
-SAT theo mốc thời gian & Mốc rời rạc & Xung đột/ràng buộc đếm & UNSAT theo chân trời\\
+SAT theo mốc thời gian & Mốc rời rạc & Xung đột/ràng buộc đếm & UNSAT theo khung thời gian\\
 SAT thứ tự & Ngưỡng thời gian & Quan hệ + cận dịch chuyển & Học mệnh đề\\
 MaxSAT/PB & Như SAT + literal chi phí & Cứng/mềm hoặc PB & Lõi/cận chi phí\\
 SMT & Biến nguyên/thực & Phép tuyển + lý thuyết & Lan truyền lý thuyết\\
 CP/LCG & Miền và khoảng & Bộ lan truyền toàn cục & Lọc miền + mệnh đề\\
-MIP & Biến nhị phân/liên tục & Bất đẳng thức tuyến tính & Thư giãn quy hoạch tuyến tính\\
+MIP & Biến nhị phân/liên tục & Bất đẳng thức tuyến tính & Nới lỏng quy hoạch tuyến tính\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -433,7 +433,7 @@ Từ Công thức~\eqref{eq:b2b-sparse-suffix}, biến phụ \(q_{i,c}\) đúng 
 \[
   f_{p,t} \leftrightarrow y_{p,t} \land \neg P_{p,t-1}.
 \]
-Gọi \(\theta_{p,k}\) là biến mệnh đề đại diện cho điều kiện \(I_p(S)\ge k\). Mối liên hệ giữa mốc đầu và mốc cuối được mã hóa chính xác bằng:
+Gọi \(\theta_{p,k}\) là biến mệnh đề đại diện cho điều kiện \(I_p(S)\ge k\). Mối liên hệ giữa mốc đầu và mốc cuối được biểu diễn chính xác bằng:
 \begin{equation}
   f_{p,t} \rightarrow \left(\theta_{p,k} \leftrightarrow R_{p, t + \card{M_p} + k - 1}\right)
   \qquad \forall t\in T, 1\le k\le U_p,
@@ -537,7 +537,7 @@ Với tàu \(i\) và tài nguyên \(r\) trên tuyến cố định, đặt \(t^{
   t^{i,q}\ge t^{i,r}+\ell_i^r,
 \]
 trong khi hai tàu chia sẻ tài nguyên phải chọn một trong hai thứ tự an toàn.
-Nếu dựng toàn bộ miền thời gian đến chân trời \(H\), số biến theo mốc thời gian có thể
+Nếu dựng toàn bộ miền thời gian đến khung thời gian \(H\), số biến theo mốc thời gian có thể
 rất lớn.
 
 \emph{Dynamic Discretization Discovery} (khám phá rời rạc hóa động, DDD) khởi
@@ -574,7 +574,7 @@ vào SAT, thay vì chỉ thay phép biểu diễn của một ràng buộc.
 \begin{enumerate}
   \item Với vòng \(r\), sinh hoặc cập nhật mô hình hạn chế trên
   \(\Lambda^r\), giải tối ưu và ghi cận dưới \(L_r\).
-  \item Nếu mô hình hạn chế vô nghiệm và là một phép thư giãn hợp lệ của mô hình
+  \item Nếu mô hình hạn chế vô nghiệm và là một mô hình nới lỏng hợp lệ của mô hình
   đầy đủ, kết luận mô hình đầy đủ vô nghiệm.
   \item Giải mã nghiệm. Bộ kiểm tra xác nhận một lịch đầy đủ có chi phí \(U_r\) nếu
   khả thi; đồng thời, khi lịch chưa khả thi hoặc \(L_r<U_r\), thuật toán phải trả về một
@@ -607,7 +607,7 @@ tăng nghiêm ngặt trong một tập hữu hạn, số lần tinh chỉnh bị
 phí của một nghiệm đầy đủ được bộ kiểm tra xác nhận, nên cả hai bằng giá trị
 tối ưu. Nếu đến \(\Lambda^\star\), mô hình hạn chế chính là mô hình đầy đủ; bộ giải quyết định
 tối ưu hoặc vô nghiệm. Kết luận vô nghiệm sớm chỉ hợp lệ dưới giả thiết
-thư giãn ở (ii).
+nới lỏng ở (ii).
 \end{proof}
 
 \paragraph{Biên hội tụ và chiến lược tinh chỉnh.}
@@ -640,7 +640,7 @@ tập mốc đầy đủ---xác định đồng thời tính đúng và tốc đ
     node[midway,right,satlabel]{thêm mốc \(8\)};
 \end{tikzpicture}
 \caption{DDD chỉ thêm mốc tại nơi nghiệm của mô hình hạn chế thiếu thông tin.
-Lưới không được làm dày đồng loạt trên toàn chân trời thời gian.}
+Lưới không được làm dày đồng loạt trên toàn bộ khung thời gian.}
 \label{fig:ddd-refinement}
 \end{figure}
 
@@ -667,7 +667,7 @@ khó nhất của mô hình:
         chỉ quyết định thứ tự hoặc chế độ \parencite{bofill2020rcpsp}.
   \item Chọn CP khi tích lũy/không chồng lấn là ràng buộc toàn cục tự nhiên và
         lan truyền miền có thể khai thác trực tiếp.
-  \item Chọn MIP khi hàm mục tiêu tuyến tính mạnh và phép thư giãn cung cấp cận tốt.
+  \item Chọn MIP khi hàm mục tiêu tuyến tính mạnh và mô hình nới lỏng cung cấp cận tốt.
 \end{itemize}
 
 Phương pháp kết hợp nên được thiết kế như một phân chia nhiệm vụ suy diễn: mô-đun
@@ -678,13 +678,13 @@ một kiến trúc kết hợp.
 \subsection{Một cây quyết định theo cấu trúc}
 
 \begin{enumerate}
-  \item Nếu chân trời nhỏ và mỗi tác vụ có ít giá trị bắt đầu, SAT/MaxSAT theo
+  \item Nếu khung thời gian nhỏ và mỗi tác vụ có ít giá trị bắt đầu, SAT/MaxSAT theo
         mốc thời gian là đối chứng minh bạch.
-  \item Nếu chân trời lớn nhưng các ràng buộc trước--sau/sai phân dày, thử mã
+  \item Nếu khung thời gian lớn nhưng các ràng buộc trước--sau/sai phân dày, thử mã
         hóa thứ tự, SMT hoặc LCG trước khi mở toàn bộ trục thời gian.
   \item Nếu tài nguyên tích lũy là nút thắt và có suy luận năng lượng mạnh,
         CP/LCG có ưu thế cấu trúc mà xung đột từng cặp khó thay thế.
-  \item Nếu hàm mục tiêu/phép thư giãn tuyến tính tạo cận mạnh, MIP là đối
+  \item Nếu hàm mục tiêu/mô hình nới lỏng tuyến tính tạo cận mạnh, MIP là đối
         chứng bắt buộc; SAT chỉ có lợi khi phép tuyển Boolean hoặc đối xứng chi phối.
   \item Nếu chỉ một phần nhỏ mốc thời gian quan trọng, xét DDD/tinh chỉnh và
         chứng minh rõ tính hợp lệ của cận dưới.

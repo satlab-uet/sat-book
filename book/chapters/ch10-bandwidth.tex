@@ -292,16 +292,16 @@ Mô hình quy hoạch tuyến tính số nguyên (ILP) cho bài toán quyết đ
 \end{align}
 Ràng buộc~\eqref{eq:nohole-ilp-vertex} bảo đảm mỗi đỉnh nhận đúng một nhãn; Ràng buộc~\eqref{eq:nohole-ilp-nohole} bảo đảm tính toàn ánh (\emph{no-hole}); và Ràng buộc~\eqref{eq:nohole-ilp-distance} cấm hai đỉnh kề nhau nhận các nhãn thuộc khoảng cấm \((j-w, j+w)\).
 
-\subsection{Từ bùng nổ mệnh đề từng cặp đến mã hóa khoảng bằng biến tiền tố}
+\subsection{Từ bùng nổ mệnh đề từng cặp đến biểu diễn khoảng bằng biến tiền tố}
 
-Chuyển trực tiếp Ràng buộc khoảng cách~\eqref{eq:nohole-ilp-distance} sang \CNF bằng phép mã hóa từng cặp (Direct Encoding - DE) sinh ra họ mệnh đề xung đột:
+Chuyển trực tiếp Ràng buộc khoảng cách~\eqref{eq:nohole-ilp-distance} sang \CNF bằng phép biểu diễn từng cặp (Direct Encoding - DE) sinh ra họ mệnh đề xung đột:
 \begin{equation}
   \neg x_{ui} \lor \neg x_{vj} \qquad \forall (u,v)\in E, i\in\set{1,\dots,k}, j\in [\max(1,i-w+1),\min(k,i-w-1)].
   \label{eq:nohole-direct-cnf}
 \end{equation}
 Số lượng mệnh đề của DE phát triển theo cấp số \(O(\card{E}\cdot k\cdot w)\). Khi khoảng cách mục tiêu \(w\) tăng lên, số mệnh đề khoảng cách bùng nổ mạnh mẽ, gây tắc nghẽn bộ nhớ và làm suy giảm hiệu năng của bộ giải SAT.
 
-Để giải quyết triệt để nút thắt này, phép mã hóa \mbox{\textnormal{\textsc{PSE}}} (\emph{Proposed SAT Encoding}) \parencite{hai2026nohole} giới thiệu các biến phụ tiền tố \(l_{ij} \in \set{0,1}\) với ngữ nghĩa:
+Để giải quyết triệt để nút thắt này, phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} (\emph{Proposed SAT Encoding}) \parencite{hai2026nohole} giới thiệu các biến phụ tiền tố \(l_{ij} \in \set{0,1}\) với ngữ nghĩa:
 \[
   l_{ij} = 1 \iff \psi(i) \le j \iff \exists k' \le j : x_{ik'} = 1.
 \]
@@ -325,7 +325,7 @@ Mệnh đề~\eqref{eq:nohole-prefix-distance} khẳng định rằng: nếu đ�
 \centering
 \begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
   %--- Direct Encoding ---
-  \node[anchor=west,font=\rmfamily\bfseries\small] at (0,3.5) {(a) Phép mã hóa từng cặp (Direct Encoding)};
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (0,3.5) {(a) Phép biểu diễn từng cặp (Direct Encoding)};
   \node[anchor=east,font=\rmfamily\small] at (0.6,2.1) {$x_{u,3}=1 \implies$};
   \foreach \j/\v/\c in {1/1/PaleTeal, 2/2/PaleGold, 3/3/PaleGold, 4/4/PaleGold, 5/5/PaleTeal} {
     \draw[satbox,fill=\c] (0.8+\j*1.1, 1.75) rectangle +(0.8,0.7);
@@ -337,7 +337,7 @@ Mệnh đề~\eqref{eq:nohole-prefix-distance} khẳng định rằng: nếu đ�
   \draw[Rule,thick] (7.2,0.1)--(7.2,3.6);
 
   %--- Proposed Prefix Encoding ---
-  \node[anchor=west,font=\rmfamily\bfseries\small] at (7.8,3.5) {(b) Phép mã hóa tiền tố khoảng cấm (PSE)};
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (7.8,3.5) {(b) Phép biểu diễn tiền tố khoảng cấm (PSE)};
   \node[anchor=east,font=\rmfamily\small] at (8.4,2.1) {$x_{u,3}=1 \implies$};
   
   \draw[satbox,fill=PaleTeal,draw=Teal,thick] (8.6,1.75) rectangle +(0.8,0.7);
@@ -353,13 +353,13 @@ Mệnh đề~\eqref{eq:nohole-prefix-distance} khẳng định rằng: nếu đ�
 
   \node[anchor=west,font=\rmfamily\small,text=Teal] at (8.6,0.8) {Một mệnh đề đơn duy nhất: $x_{u,3} \to (l_{v,1} \lor \neg l_{v,4})$};
 \end{tikzpicture}
-\caption{So sánh cơ chế nén khoảng cấm khi $k=5, w=2$: (a) Phép mã hóa từng cặp liệt kê $O(w)$ mệnh đề; (b) Phép mã hóa tiền tố PSE loại toàn bộ khoảng cấm bằng một mệnh đề kéo theo duy nhất.}
+\caption{So sánh cơ chế nén khoảng cấm khi $k=5, w=2$: (a) Phép biểu diễn từng cặp liệt kê $O(w)$ mệnh đề; (b) Phép biểu diễn tiền tố PSE loại toàn bộ khoảng cấm bằng một mệnh đề kéo theo duy nhất.}
 \label{fig:nohole-prefix-interval}
 \end{figure}
 
 \begin{proposition}[Độ phức tạp và tính đúng đắn của PSE]
 \label{prop:nohole-pse-complexity}
-Phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} biểu diễn chính xác bài toán No-hole Anti-\(k\)-labeling. Tổng số biến nhị phân là \(2nk\), tổng số mệnh đề khoảng cách là \(2\card{E}k\), và các mệnh đề liên kết là \(n(4k-2)\). Phép mã hóa hoàn toàn triệt tiêu sự phụ thuộc của số mệnh đề vào tham số khoảng cách mục tiêu \(w\).
+Phép biểu diễn \mbox{\textnormal{\textsc{PSE}}} biểu diễn chính xác bài toán No-hole Anti-\(k\)-labeling. Tổng số biến nhị phân là \(2nk\), tổng số mệnh đề khoảng cách là \(2\card{E}k\), và các mệnh đề liên kết là \(n(4k-2)\). Phép biểu diễn hoàn toàn triệt tiêu sự phụ thuộc của số mệnh đề vào tham số khoảng cách mục tiêu \(w\).
 \end{proposition}
 
 \begin{proof}
