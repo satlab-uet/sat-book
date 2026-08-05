@@ -56,9 +56,10 @@ hay hàm mục tiêu tuyến tính.
 
 \section{Kiến trúc chung của mô hình thời gian}
 
-Các bài toán trong chương có bề mặt khác nhau: phân ca điều dưỡng, xếp tác vụ
-trên các máy đồng nhất, cân bằng dây chuyền theo đỉnh công suất và điều chỉnh
-lịch tàu. Tuy nhiên, phép biểu diễn của chúng đều có thể tách thành bốn lớp:
+Các bài toán trong chương có bề mặt khác nhau: xếp tác vụ không ngắt
+trên các máy đồng nhất, phân ca điều dưỡng, lập lịch cuộc họp B2B với cân bằng thời
+gian chờ, cân bằng dây chuyền theo đỉnh công suất và điều chỉnh lịch tàu. Tuy
+nhiên, phép biểu diễn của chúng đều có thể tách thành bốn lớp:
 \begin{enumerate}
   \item \textbf{gán}: tác vụ, người hoặc chuyến tàu sử dụng tài nguyên nào;
   \item \textbf{thời gian/thứ tự}: thời điểm bắt đầu, kết thúc hoặc thứ tự trước--sau;
@@ -301,6 +302,155 @@ ALSCE giải toàn bộ tập thử trong nghiên cứu của
 \textcite{truong2025nurse}; bài toán lớn nhất được báo cáo ở mức
 \(26{,}01\) giây. Kết quả này minh họa hiệu quả của kỹ thuật chia sẻ thanh ghi giữa
 các cửa sổ chồng lấn.
+\end{resultbox}
+
+\section{Lập lịch cuộc họp B2B với cân bằng thời gian chờ}
+
+\index{B2B meeting scheduling}\index{idle-time balancing}
+\index{SparseSuffix}\index{domain filtering}
+
+\subsection{Bài toán B2B và mục tiêu khoảng thời gian chờ}
+
+Bài toán lập lịch cuộc họp doanh nghiệp (Business-to-Business Meeting Scheduling Problem, B2B) xếp lịch cho tập các cuộc họp đối tác \(M\) vào tập mốc thời gian rời rạc \(T=\set{1,\ldots,h}\) và \(K\) phòng họp/địa điểm dùng chung \parencite{pesant2015b2b,bofill2022b2b}. Mỗi cuộc họp \(m\in M\) được thực hiện bởi đúng hai đại biểu, ký hiệu \(\pi(m)\subseteq P\) với \(\card{\pi(m)}=2\), và có miền mốc khởi tạo \(D_m^0\subseteq T\) tương ứng với phiên làm việc, mốc cố định và mốc cấm của hai đại biểu. Đặt \(E\subseteq M\times M\) là tập các cung thứ tự tiên quyết giữa các cuộc họp. Một lịch xếp \(S: M\to T\) là hợp lệ nếu \(S(m)\in D_m^0\) và thỏa mãn các điều kiện:
+\begin{align}
+  S(m) &\ne S(m') && \forall m,m'\in M, m\ne m': \pi(m)\cap\pi(m')\ne\emptyset, \label{eq:b2b-participant}\\
+  \card{\set{m\in M \suchthat S(m)=t}} &\le K && \forall t\in T, \label{eq:b2b-capacity}\\
+  S(i) &< S(j) && \forall (i,j)\in E. \label{eq:b2b-precedence}
+\end{align}
+
+Với mỗi đại biểu \(p\in P\), đặt \(M_p = \set{m\in M \suchthat p\in\pi(m)}\) là tập cuộc họp của đại biểu đó. Đặt \(P^\star = \set{p\in P \suchthat \card{M_p}\ge 2}\) là tập các đại biểu có ít nhất hai cuộc họp. Đối với \(p\in P^\star\), mốc bận đầu tiên \(F_p(S)\) và mốc bận cuối cùng \(L_p(S)\) trong lịch \(S\) được xác định bởi:
+\[
+  F_p(S) = \min_{m\in M_p} S(m), \qquad L_p(S) = \max_{m\in M_p} S(m).
+\]
+Do các cuộc họp của đại biểu \(p\) không chồng lấn, số mốc thời gian trống nằm hoàn toàn giữa mốc đầu và mốc cuối---gọi là \emph{thời gian chờ nội bộ} (internal idle slots)---được tính bằng:
+\begin{equation}
+  I_p(S) =
+  \begin{cases}
+    L_p(S) - F_p(S) + 1 - \card{M_p}, & p\in P^\star,\\
+    0, & \card{M_p}\le 1.
+  \end{cases}
+  \label{eq:b2b-internal-idle}
+\end{equation}
+Khác với mô hình truyền thống đếm tổng số nhóm nghỉ (\emph{break groups}) \parencite{bofill2022b2b}, chỉ số \(I_p(S)\) phân biệt rõ khoảng chờ dài (như chờ 5 mốc) với khoảng chờ ngắn (chờ 1 mốc). Hàm mục tiêu tối ưu hóa khoảng thời gian chờ nội bộ giữa các đại biểu:
+\begin{equation}
+  \Delta_I(S) = \max_{p\in P^\star} I_p(S) - \min_{p\in P^\star} I_p(S).
+  \label{eq:b2b-idle-range}
+\end{equation}
+Mục tiêu này hướng tới sự cân bằng công bằng về thời gian chờ giữa các đại biểu, lấy cảm hứng từ các chuẩn cân bằng tải trong bài toán BACP \parencite{chiarandini2012}. Tổng thời gian chờ \(I_\Sigma(S)=\sum_{p\in P}I_p(S)\) được báo cáo như một chỉ số bổ trợ.
+
+\subsection{Tiền xử lý bảo toàn nghiệm và lọc miền}
+
+Trước khi sinh công thức \CNF, thuật toán lọc miền \parencite{nguyen2026compactsatmaxsatencodings} thu hẹp miền mốc của từng cuộc họp bằng cách áp dụng lặp cho đến điểm bất động ba quy tắc lọc:
+\begin{enumerate}
+  \item \textbf{Cận thứ tự tiên quyết}: Với mỗi quan hệ \((i,j,d)\) trong tập quan hệ \(\mathcal R_f\in\set{\mathcal R_E, \mathcal R_{E^\star}}\) (trong đó \(\mathcal R_E = \set{(i,j,1) \suchthat (i,j)\in E}\) và \(\mathcal R_{E^\star}\) là bao đóng bắc cầu gán khoảng cách đường đi dài nhất \(\ell_{ij}\)), loại \(t\in D_i\) nếu \(t+d > \max D_j\), và loại \(u\in D_j\) nếu \(\min D_i+d > u\).
+  \item \textbf{Nhất quán ghép cặp đại biểu}: Với mỗi đại biểu \(p\), dựng đồ thị hai phía giữa \(M_p\) và miền mốc khả thi. Sử dụng thuật toán lọc \textsc{AllDifferent} dựa trên ghép cặp cực đại \parencite{regin1994alldiff} để xóa phân gán cuộc họp--mốc nào không thuộc bất kỳ ghép cặp hoàn hảo nào của \(M_p\).
+  \item \textbf{Mốc bão hòa}: Nếu mốc \(t\) đã bị ép chọn bởi đúng \(K\) cuộc họp cố định, loại mốc \(t\) khỏi miền của tất cả cuộc họp còn lại.
+\end{enumerate}
+
+\begin{proposition}[Tính bảo toàn nghiệm của lọc miền B2B]
+\label{prop:b2b-domain-preservation}
+Thuật toán lọc miền dừng sau số bước hữu hạn, loại bỏ duy nhất các giá trị không thể thuộc bất kỳ lịch hợp lệ nào, bảo toàn trọn vẹn tập nghiệm khả thi, và chỉ thông báo vô nghiệm khi bài toán thực sự không có nghiệm.
+\end{proposition}
+
+\begin{proof}
+Mỗi bước loại giá trị đều dựa trên các điều kiện cần về tính khả thi: vi phạm cận thứ tự tiên quyết, không có hỗ trợ trong ghép cặp đại biểu, hoặc vượt quá sức chứa địa điểm \(K\). Vì miền ban đầu là hữu hạn, quá trình xóa giá trị phải dừng sau tối đa \(\sum_{m}\card{D_m^0}\) bước.
+\end{proof}
+
+Phép biểu diễn \mbox{\textsc{Reduced}} áp dụng biến gán \(x_{m,t}\) chỉ trên miền mốc đã lọc \(A_m = D_m\), thay vì miền đầy đủ \(A_m = T\) của mô hình gốc \mbox{\textsc{ORG-MaxSAT}} \parencite{bofill2022b2b}.
+
+\subsection{Biểu diễn thứ tự tiên quyết bằng hậu tố thưa chia sẻ (\textsc{SparseSuffix})}
+
+Xét quan hệ tiên quyết \((i,j,d)\in\mathcal R_g\). Biểu diễn từng cặp (\mbox{\textnormal{\textsc{Pairwise}}}) thêm các mệnh đề nhị phân \(\neg x_{i,t}\lor\neg x_{j,u}\) với mọi \(t\in A_i, u\in A_j\) thỏa \(t+d>u\), có thể phát sinh \(O(\card{A_i}\card{A_j})\) mệnh đề cho một quan hệ.
+
+Phép biểu diễn hậu tố thưa (\mbox{\textnormal{\textsc{SparseSuffix}}}) \parencite{nguyen2026compactsatmaxsatencodings} chỉ khởi tạo biến phụ tại các điểm cắt nội bộ thực sự xuất hiện trong miền tiền nhiệm. Với miền đã sắp thứ tự \(A_i = (a_{i,0},\ldots,a_{i,n_i-1})\), giả sử các điểm cắt xuất hiện là \(c_1 < c_2 < \cdots < c_s\). Đặt \(c_{s+1}=n_i\) và \(q_{i,n_i}=\bot\), biến đại diện hậu tố được định nghĩa quy nạp:
+\begin{align}
+  c(i,j,u) &= \min\set{r\in\set{0,\ldots,n_i-1} \suchthat a_{i,r} > u - d}, \notag\\
+  q_{i,c_\ell} &\leftrightarrow \left(\bigvee_{r=c_\ell}^{c_{\ell+1}-1} x_{i,a_{i,r}}\right) \lor q_{i,c_{\ell+1}}, \label{eq:b2b-sparse-suffix}\\
+  x_{j,u} &\rightarrow \neg q_{i,c(i,j,u)}. \label{eq:b2b-suffix-link}
+\end{align}
+Khi hai quan hệ tiên quyết cùng dẫn đến một điểm cắt \(c\) trên miền \(A_i\), biến hậu tố \(q_{i,c}\) được tái sử dụng hoàn toàn.
+
+\begin{proposition}[Tương đương của SparseSuffix]
+\label{prop:b2b-suffix-equivalence}
+Phép biểu diễn \mbox{\textnormal{\textsc{SparseSuffix}}} và phép biểu diễn từng cặp \mbox{\textnormal{\textsc{Pairwise}}} mô tả chính xác cùng một tập phân gán cuộc họp--mốc thời gian.
+\end{proposition}
+
+\begin{proof}
+Từ Công thức~\eqref{eq:b2b-sparse-suffix}, biến phụ \(q_{i,c}\) đúng khi và chỉ khi cuộc họp \(i\) được gán cho mốc có chỉ số ít nhất là \(c\). Mệnh đề kéo theo~\eqref{eq:b2b-suffix-link} do đó loại bỏ chính xác các cặp mốc \((t,u)\) vi phạm điều kiện \(t+d \le u\).
+\end{proof}
+
+\begin{figure}[tb]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
+  \node[anchor=west] at (0,3.6) {(a) Điểm cắt miền tiền nhiệm};
+  \node[anchor=east] at (0.8,2.4) {$A_i$};
+  \foreach \x/\v in {1/1,2/3,3/4,4/7} {
+    \draw[satbox] (\x*1.1,2.1) rectangle +(0.95,0.65);
+    \node at (\x*1.1+0.475,2.425) {$\v$};
+  }
+  \draw[Gold,dashed,very thick] (2.72,1.95)--(2.72,2.85);
+  \node[Gold,anchor=south,font=\rmfamily\bfseries\footnotesize] at (2.72,2.85) {$c=2$};
+  \node[anchor=west] at (4.8,2.4) {$x_{j,4}$};
+  \node[anchor=west] at (0.8,1.2) {$\neg x_{j,4} \lor \neg q_{i,2}$};
+  \node[anchor=west] at (0.8,0.5) {$q_{i,2} = x_{i,4} \lor x_{i,7}$};
+\end{tikzpicture}
+\end{subfigure}%
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
+  \node[anchor=west] at (0,3.6) {(b) Đánh giá ngưỡng chờ nội bộ};
+  \node[anchor=east] at (0.8,2.4) {mốc};
+  \foreach \x/\v in {1/3,2/4,3/5,4/6} {
+    \draw[satbox] (\x*1.1,2.1) rectangle +(0.95,0.65);
+    \node at (\x*1.1+0.475,2.425) {$\v$};
+  }
+  \fill[Blue!80] (1.1+0.2,2.25) rectangle +(0.55,0.35);
+  \fill[Blue!80] (3.3+0.2,2.25) rectangle +(0.55,0.35);
+  \node[anchor=south,font=\rmfamily\footnotesize] at (1.1+0.475,2.8) {$f_{p,3}$};
+  \node[anchor=south,font=\rmfamily\footnotesize] at (3.3+0.475,2.8) {$R_{p,5}$};
+  \draw[satdim] (1.1+0.475,1.75)--(3.3+0.475,1.75);
+  \node[anchor=north,font=\rmfamily\footnotesize] at (2.2+0.475,1.7) {$\card{M_p}=2 \Rightarrow I_p \ge 1$};
+\end{tikzpicture}
+\end{subfigure}
+\caption{Kỹ thuật biểu diễn trong B2B: (a) Biến hậu tố thưa \mbox{\textnormal{\textsc{SparseSuffix}}} tại điểm cắt $c=2$; (b) Xác định ngưỡng thời gian chờ nội bộ từ mốc bắt đầu và mốc kết thúc.}
+\label{fig:b2b-encoding-ideas}
+\end{figure}
+
+\subsection{Mã hóa ngưỡng thời gian chờ từ nhịp hoạt động}
+
+Để xác định \(I_p(S)\), gọi \(y_{p,t}\leftrightarrow\bigvee_{m\in M_p: t\in A_m}x_{m,t}\) là biến chỉ báo đại biểu \(p\) bận tại mốc \(t\). Định nghĩa biến tích lũy tiền tố \(P_{p,t}\leftrightarrow P_{p,t-1}\lor y_{p,t}\) và hậu tố \(R_{p,t}\leftrightarrow y_{p,t}\lor R_{p,t+1}\). Mốc bắt đầu đầu tiên của đại biểu \(p\) được nhận diện bằng:
+\[
+  f_{p,t} \leftrightarrow y_{p,t} \land \neg P_{p,t-1}.
+\]
+Gọi \(\theta_{p,k}\) là biến mệnh đề đại diện cho điều kiện \(I_p(S)\ge k\). Mối liên hệ giữa mốc đầu và mốc cuối được mã hóa chính xác bằng:
+\begin{equation}
+  f_{p,t} \rightarrow \left(\theta_{p,k} \leftrightarrow R_{p, t + \card{M_p} + k - 1}\right)
+  \qquad \forall t\in T, 1\le k\le U_p,
+  \label{eq:b2b-span-threshold}
+\end{equation}
+trong đó \(U_p\) là cận trên hợp lệ của thời gian chờ đối với đại biểu \(p\).
+
+Cuối cùng, với \(U=\max_{p\in P^\star} U_p\) và \(1\le k\le U\), biểu diễn định nghĩa biến ngưỡng cực đại \(\Theta_k^{\max}\leftrightarrow\bigvee_{p\in P^\star}\theta_{p,k}\), cực tiểu \(\Theta_k^{\min}\leftrightarrow\bigwedge_{p\in P^\star}\theta_{p,k}\), và biến mức chênh lệch:
+\begin{equation}
+  g_k \leftrightarrow \Theta_k^{\max} \land \neg \Theta_k^{\min}, \qquad \text{với } \sum_{k=1}^U g_k = \Delta_I(S).
+  \label{eq:b2b-range-sum}
+\end{equation}
+
+\subsection{Phương pháp giải và kết quả thực nghiệm}
+
+Phép biểu diễn B2B thu gọn được đánh giá thực nghiệm rộng rãi trên 126 bộ dữ liệu chuẩn chính thức (\emph{All-126}) và 100 bộ dữ liệu biến đổi mật độ thứ tự (\emph{Stress-100}) \parencite{nguyen2026compactsatmaxsatencodings}. Thử nghiệm so sánh ba phương pháp tối ưu dựa trên công thức SAT/MaxSAT (UWrMaxSAT, \textsc{Non-Incremental SAT}, và \textsc{Incremental SAT} sử dụng Totalizer kết hợp giả định assumption) với các công cụ thương mại hàng đầu đại diện cho MIP (Gurobi, CPLEX) và CP (CP Optimizer).
+
+\begin{resultbox}{Kết quả tiêu biểu cho B2B Meeting Scheduling}
+Trên tập dữ liệu chuẩn \emph{All-126}:
+\begin{itemize}
+  \item Phép biểu diễn thu gọn giảm trung vị \textbf{40.3\%} số mệnh đề, \textbf{55.9\%} dung lượng bộ nhớ đỉnh và \textbf{14.0\%} tổng thời gian chạy so với mô hình \mbox{\textsc{ORG-MaxSAT}} công bố \parencite{bofill2022b2b}.
+  \item Riêng bước lọc miền (\mbox{\textsc{Reduced}}) đóng góp giảm \textbf{24.1\%} số biến gán và \textbf{16.2\%} số mệnh đề.
+  \item Biểu diễn hậu tố \mbox{\textnormal{\textsc{SparseSuffix}}} kết hợp với bao đóng bắc cầu \mbox{\textnormal{\textsc{Closure-}}\ensuremath{E^\star}} giúp giảm số mệnh đề đến \textbf{5.5\%} ở các mức mật độ thứ tự cao.
+  \item Cả ba phương pháp SAT và MaxSAT đều giải thành công 100\% các bài toán chính thức với thời gian trung vị vượt trội Gurobi MIP (\(0.521\) giây); trong đó \mbox{\textnormal{\textsc{Incremental SAT}}} đạt thời gian trung vị nhanh nhất (\textbf{0.227} giây).
+\end{itemize}
 \end{resultbox}
 
 \section{Peak power: công suất đỉnh trong cân bằng dây chuyền}
