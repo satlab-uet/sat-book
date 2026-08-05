@@ -381,40 +381,48 @@ Từ Công thức~\eqref{eq:b2b-sparse-suffix}, biến phụ \(q_{i,c}\) đúng 
 
 \begin{figure}[tb]
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
-\centering
 \begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
-  \node[anchor=west] at (0,3.6) {(a) Điểm cắt miền tiền nhiệm};
-  \node[anchor=east] at (0.8,2.4) {$A_i$};
-  \foreach \x/\v in {1/1,2/3,3/4,4/7} {
-    \draw[satbox] (\x*1.1,2.1) rectangle +(0.95,0.65);
-    \node at (\x*1.1+0.475,2.425) {$\v$};
+  %--- Diagram (a): Predecessor-domain cut ---
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (0,3.5) {(a) Điểm cắt miền tiền nhiệm};
+  \node[anchor=east,font=\rmfamily\small] at (0.6,2.1) {$A_i$};
+  
+  \foreach \x/\v in {0.8/1, 1.8/3, 2.8/4, 3.8/7} {
+    \draw[satbox] (\x,1.75) rectangle +(0.8,0.7);
+    \node[font=\rmfamily\small] at (\x+0.4,2.1) {$\v$};
   }
-  \draw[Gold,dashed,very thick] (2.72,1.95)--(2.72,2.85);
-  \node[Gold,anchor=south,font=\rmfamily\bfseries\footnotesize] at (2.72,2.85) {$c=2$};
-  \node[anchor=west] at (4.8,2.4) {$x_{j,4}$};
-  \node[anchor=west] at (0.8,1.2) {$\neg x_{j,4} \lor \neg q_{i,2}$};
-  \node[anchor=west] at (0.8,0.5) {$q_{i,2} = x_{i,4} \lor x_{i,7}$};
+  
+  \draw[Gold,dashed,very thick] (2.7,1.5)--(2.7,2.7);
+  \node[Gold,anchor=south,font=\rmfamily\bfseries\small] at (2.7,2.7) {$c=2$};
+  
+  \node[anchor=west,font=\rmfamily\small] at (4.8,2.1) {$x_{j,4}$};
+  \node[anchor=west,font=\rmfamily\small] at (0.8,1.0) {$\neg x_{j,4} \lor \neg q_{i,2}$};
+  \node[anchor=west,font=\rmfamily\small] at (0.8,0.3) {$q_{i,2} \leftrightarrow x_{i,4} \lor x_{i,7}$};
+
+  %--- Separator ---
+  \draw[Rule,thick] (6.5,0.1)--(6.5,3.6);
+
+  %--- Diagram (b): Schedule span & idle-time threshold ---
+  \node[anchor=west,font=\rmfamily\bfseries\small] at (7.2,3.5) {(b) Đánh giá ngưỡng chờ nội bộ};
+  \node[anchor=east,font=\rmfamily\small] at (7.8,2.1) {mốc};
+  
+  \draw[satbox,fill=PaleBlue,draw=Blue,thick] (8.0,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (8.4,2.1) {$3$};
+  
+  \draw[satbox,fill=SoftGray] (9.0,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (9.4,2.1) {$4$};
+  
+  \draw[satbox,fill=PaleBlue,draw=Blue,thick] (10.0,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (10.4,2.1) {$5$};
+  
+  \draw[satbox,fill=SoftGray] (11.0,1.75) rectangle +(0.8,0.7);
+  \node[font=\rmfamily\small] at (11.4,2.1) {$6$};
+  
+  \node[anchor=south,font=\rmfamily\small,text=Blue] at (8.4,2.55) {$f_{p,3}=1$};
+  \node[anchor=south,font=\rmfamily\small,text=Blue] at (10.4,2.55) {$R_{p,5}=1$};
+  
+  \draw[satdim] (8.4,1.4)--(10.4,1.4);
+  \node[anchor=north,font=\rmfamily\small] at (9.4,1.35) {$\card{M_p}=2 \implies I_p \ge 1$};
 \end{tikzpicture}
-\end{subfigure}%
-\hfill
-\begin{subfigure}[b]{0.48\textwidth}
-\centering
-\begin{tikzpicture}[satfig,x=8.5mm,y=7.5mm]
-  \node[anchor=west] at (0,3.6) {(b) Đánh giá ngưỡng chờ nội bộ};
-  \node[anchor=east] at (0.8,2.4) {mốc};
-  \foreach \x/\v in {1/3,2/4,3/5,4/6} {
-    \draw[satbox] (\x*1.1,2.1) rectangle +(0.95,0.65);
-    \node at (\x*1.1+0.475,2.425) {$\v$};
-  }
-  \fill[Blue!80] (1.1+0.2,2.25) rectangle +(0.55,0.35);
-  \fill[Blue!80] (3.3+0.2,2.25) rectangle +(0.55,0.35);
-  \node[anchor=south,font=\rmfamily\footnotesize] at (1.1+0.475,2.8) {$f_{p,3}$};
-  \node[anchor=south,font=\rmfamily\footnotesize] at (3.3+0.475,2.8) {$R_{p,5}$};
-  \draw[satdim] (1.1+0.475,1.75)--(3.3+0.475,1.75);
-  \node[anchor=north,font=\rmfamily\footnotesize] at (2.2+0.475,1.7) {$\card{M_p}=2 \Rightarrow I_p \ge 1$};
-\end{tikzpicture}
-\end{subfigure}
 \caption{Kỹ thuật biểu diễn trong B2B: (a) Biến hậu tố thưa \mbox{\textnormal{\textsc{SparseSuffix}}} tại điểm cắt $c=2$; (b) Xác định ngưỡng thời gian chờ nội bộ từ mốc bắt đầu và mốc kết thúc.}
 \label{fig:b2b-encoding-ideas}
 \end{figure}
